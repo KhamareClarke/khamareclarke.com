@@ -13,43 +13,47 @@ const PACKAGE_CATEGORIES = [
     icon: "💻",
     tiers: [
       {
-        tier: "Starter",
-        price: "£750",
-        originalPrice: "£1,200",
+        // TODO: "one-off" period label and note text ("Fully credited against your first month if you continue.") require a new JSX element in the card template. Add a `period` and `note` field to the tier rendering in PricingSection.jsx, then wire these fields.
+        // TODO: CTA text per card ("Get Your Audit" for this card vs "Get Started" for others) requires conditional rendering in the card template. Add a `cta` field to the tier data and reference it in the CTAButton children.
+        tier: "AI Visibility Audit",
+        price: "£495",
+        originalPrice: null,
         mostPopular: false,
         deliverables: [
-          "High-converting landing page or micro-site build",
-          "Mobile-responsive design that works on all devices",
-          "Basic SEO setup to rank on Google from day 1",
-          "Analytics setup to track every visitor and conversion"
+          "Full technical SEO audit of your site",
+          "AI Visibility score: ChatGPT, Gemini, Perplexity",
+          "Local search and Google Business Profile review",
+          "45-minute call with a prioritised action plan"
         ],
-        caption: "Perfect for entrepreneurs who need a professional online presence that generates leads without breaking the bank.",
+        caption: null,
       },
       {
-        tier: "Growth",
-        price: "£2,500",
-        originalPrice: "£3,500",
+        // TODO: Anchor line ("One new job a month covers this. My last trades client got 30+ calls in two weeks.") requires a new JSX element in the card template. Add an `anchor` field and render it above the deliverables list.
+        tier: "Local Dominance",
+        price: "£1,250",
+        originalPrice: null,
         mostPopular: true,
         deliverables: [
-          "Multi-page conversion website designed to convert visitors",
-          "Advanced SEO strategy to dominate your local market",
-          "Lead capture and CRM integration automation",
-          "Real-time analytics dashboard to track your growth"
+          "Local SEO and Google Business Profile management",
+          "AI search optimisation: ChatGPT, Gemini, Perplexity",
+          "Content and on-page work every month",
+          "Monthly plain-English report: rankings, calls, enquiries"
         ],
-        caption: "Ideal for businesses ready to scale their digital presence and consistently generate qualified leads.",
+        caption: null,
       },
       {
-        tier: "Empire",
-        price: "£5,000",
-        originalPrice: "£7,500",
+        // TODO: Anchor line ("Rankings bring the calls. This makes sure none are missed.") requires a new JSX element in the card template. See above anchor field TODO.
+        tier: "Rank + Respond",
+        price: "£2,500",
+        originalPrice: null,
         mostPopular: false,
         deliverables: [
-          "Custom web application or mobile app platform",
-          "Complete marketing automation system that works 24/7",
-          "Advanced analytics and AI-powered reporting",
-          "API integrations to connect all your business tools"
+          "Everything in Local Dominance",
+          "AI lead response: enquiries answered in minutes, 24/7",
+          "Website tuned for speed, Core Web Vitals, bookings",
+          "Quarterly strategy session"
         ],
-        caption: "Built for established businesses ready to dominate their industry with technology that gives them an unfair advantage.",
+        caption: null,
       }
     ]
   },
@@ -186,7 +190,7 @@ const PACKAGE_CATEGORIES = [
         mostPopular: false,
         deliverables: [
           "Enterprise AI workforce team (10+ AI agents)",
-          "Complete business transformation with AI",
+          "Complete business automation with AI",
           "Dedicated AI strategist and technical support",
           "Custom AI innovation and R&D development"
         ],
@@ -207,13 +211,13 @@ const PricingSection = () => {
         <div className="text-center mb-10">
           <span className="inline-block border border-[#f1cb32] text-[#f1cb32] text-xs font-bold px-4 py-1 rounded-full tracking-widest uppercase bg-black/30 shadow-sm mb-6">PACKAGES</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">
-            <span className="text-2xl sm:text-3xl mr-2">💸</span>
+            <span className="text-2xl sm:text-3xl mr-2"></span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f1cb32] to-[#ff8c00]">
-              Pick Your Growth Path
+              Transparent Pricing. No Retainer Traps.
             </span>
           </h2>
           <p className="text-[#ADB7BE] text-base md:text-lg max-w-2xl mx-auto mb-8">
-            Three categories. Three tiers each. Built for real ROI.
+            Rolling monthly. Cancel anytime. No 12-month lock-ins.
           </p>
         </div>
 
@@ -260,7 +264,7 @@ const PricingSection = () => {
 
               <div className="flex items-center gap-2 mb-2">
                 <span className={`text-2xl md:text-3xl ${tier.mostPopular ? 'text-[#f1cb32]' : 'text-[#bfa24e]'}`}>
-                  {tier.tier === 'Starter' ? '🚀' : tier.tier === 'Growth' ? '🔥' : '👑'}
+                  {''}
                 </span>
                 <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-white drop-shadow-gold">{tier.tier}</h3>
               </div>

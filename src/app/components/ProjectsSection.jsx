@@ -27,9 +27,9 @@ const caseStudiesData = [
     liveUrl: "https://myapproved.com",
     details: "This case study covers the full workflow for MyApproved.com: from initial client pain points, through custom GPT-powered agent build, CRM integration, and measurable business results (40% more leads booked). Includes tech stack, timeline, and business impact.",
     metrics: [
-      { icon: "💼", label: "Leads Booked", value: "+40%" },
-      { icon: "⏱️", label: "Time Saved", value: "20+ hrs/mo" },
-      { icon: "💰", label: "ROI", value: "3x" }
+      { icon: "", label: "Leads Booked", value: "+40%" },
+      { icon: "", label: "Time Saved", value: "20+ hrs/mo" },
+      { icon: "", label: "ROI", value: "3x" }
     ]
   },
   {
@@ -42,9 +42,9 @@ const caseStudiesData = [
     liveUrl: "https://owniwtms.com",
     details: "End-to-end build of a modern e-commerce platform and mobile app for Omni WTMS with React, Stripe, and a custom admin dashboard. Automated product syncing and order management. Results: 2x online sales, 70% less manual admin work.",
     metrics: [
-      { icon: "🛒", label: "Online Sales", value: "2x" },
-      { icon: "📱", label: "Mobile Users", value: "+120%" },
-      { icon: "⏳", label: "Manual Admin", value: "-70%" }
+      { icon: "", label: "Online Sales", value: "2x" },
+      { icon: "", label: "Mobile Users", value: "+120%" },
+      { icon: "", label: "Manual Admin", value: "-70%" }
     ]
   },
   {
@@ -57,9 +57,9 @@ const caseStudiesData = [
     liveUrl: "https://identimarketing.com",
     details: "Audit, redesign, and relaunch of all paid ads, landing pages, and CRM automations for IdentI Marketing. Used analytics to optimize every step. Result: 2x return on ad spend, 30% lower cost per acquisition.",
     metrics: [
-      { icon: "📈", label: "ROAS", value: "2x" },
-      { icon: "💸", label: "Cost per Acquisition", value: "-30%" },
-      { icon: "🎯", label: "Conversion Rate", value: "+25%" }
+      { icon: "", label: "ROAS", value: "2x" },
+      { icon: "", label: "Cost per Acquisition", value: "-30%" },
+      { icon: "", label: "Conversion Rate", value: "+25%" }
     ]
   },
   {
@@ -72,9 +72,9 @@ const caseStudiesData = [
     liveUrl: "https://seoinforce.com",
     details: "Complete SEO overhaul including technical SEO, content strategy, and link building for SEO Inforce. Implemented advanced analytics and tracking. Results: 300% traffic increase, first-page rankings for 50+ keywords.",
     metrics: [
-      { icon: "📊", label: "Traffic Growth", value: "+300%" },
-      { icon: "🎯", label: "Keywords Ranked", value: "50+" },
-      { icon: "🏆", label: "Page 1 Rankings", value: "85%" }
+      { icon: "", label: "Traffic Growth", value: "+300%" },
+      { icon: "", label: "Keywords Ranked", value: "50+" },
+      { icon: "", label: "Page 1 Rankings", value: "85%" }
     ]
   },
   {
@@ -87,9 +87,9 @@ const caseStudiesData = [
     liveUrl: "https://fliprepublic.com",
     details: "Custom real estate investment platform with advanced property analytics, deal pipeline management, and investor portal. Integrated with MLS data and financial modeling tools.",
     metrics: [
-      { icon: "🏠", label: "Properties Tracked", value: "500+" },
-      { icon: "💼", label: "Active Investors", value: "200+" },
-      { icon: "📈", label: "Deals Closed", value: "+150%" }
+      { icon: "", label: "Properties Tracked", value: "500+" },
+      { icon: "", label: "Active Investors", value: "200+" },
+      { icon: "", label: "Deals Closed", value: "+150%" }
     ]
   },
   {
@@ -102,24 +102,23 @@ const caseStudiesData = [
     liveUrl: "https://adsstarter.com",
     details: "Multi-channel performance marketing campaign across Google, Facebook, and LinkedIn. Implemented advanced tracking, A/B testing, and conversion optimization strategies.",
     metrics: [
-      { icon: "💰", label: "ROI", value: "5x" },
-      { icon: "📈", label: "Ad Spend Scaled", value: "+400%" },
-      { icon: "🎯", label: "Conversion Rate", value: "+65%" }
+      { icon: "", label: "ROI", value: "5x" },
+      { icon: "", label: "Ad Spend Scaled", value: "+400%" },
+      { icon: "", label: "Conversion Rate", value: "+65%" }
     ]
   },
   {
     id: 7,
-    company: "Upgrade Roofs",
-    title: "Home Services Website & Booking System",
-    description: "Created a modern website with integrated booking system for Upgrade Roofs, streamlining customer inquiries and project scheduling.",
+    company: "Upgrade Roofing",
+    title: "Local SEO for Roofing Contractor",
+    description: "538% growth in Google Business Profile interactions in 90 days, with 30+ qualified calls booked in the first two weeks.",
     image: "/images/case-studies/upgraderoofs.jpg",
-    tag: ["All", "Web"],
+    tag: ["All", "SEO"],
     liveUrl: "https://upgraderoofs.co.uk",
-    details: "Modern website with integrated booking system, quote calculator, and customer portal. Automated scheduling and follow-up workflows.",
+    details: "Full local SEO campaign for a UK roofing contractor: Google Business Profile optimisation, on-page SEO, and AI search visibility. Results achieved within the first 90 days.",
     metrics: [
-      { icon: "📅", label: "Bookings", value: "+180%" },
-      { icon: "⏱️", label: "Response Time", value: "-75%" },
-      { icon: "⭐", label: "Customer Satisfaction", value: "4.9/5" }
+      { icon: "", label: "GBP interactions in 90 days", value: "+538%" },
+      { icon: "", label: "Qualified calls in first 2 weeks", value: "30+" }
     ]
   },
   {
@@ -132,9 +131,9 @@ const caseStudiesData = [
     liveUrl: "https://leveragejournal.com",
     details: "Custom CMS and publishing platform with editorial workflows, subscriber management, and monetization features. Built with Next.js and headless CMS.",
     metrics: [
-      { icon: "📰", label: "Articles Published", value: "1000+" },
-      { icon: "👥", label: "Subscribers", value: "+250%" },
-      { icon: "💵", label: "Revenue", value: "+300%" }
+      { icon: "", label: "Articles Published", value: "1000+" },
+      { icon: "", label: "Subscribers", value: "+250%" },
+      { icon: "", label: "Revenue", value: "+300%" }
     ]
   },
   {
@@ -147,24 +146,22 @@ const caseStudiesData = [
     liveUrl: "https://alkhemmy.com",
     details: "AI-powered business intelligence platform with real-time analytics, predictive modeling, and automated reporting. Integrated with existing data sources.",
     metrics: [
-      { icon: "🤖", label: "AI Accuracy", value: "94%" },
-      { icon: "⚡", label: "Insights Speed", value: "10x faster" },
-      { icon: "💡", label: "Decisions Improved", value: "+85%" }
+      { icon: "", label: "AI Accuracy", value: "94%" },
+      { icon: "", label: "Insights Speed", value: "10x faster" },
+      { icon: "", label: "Decisions Improved", value: "+85%" }
     ]
   },
   {
     id: 10,
-    company: "UAE Private Investor",
-    title: "Investment Portal & Dashboard",
-    description: "Built a secure investment portal for UAE Private Investor with portfolio tracking, deal flow management, and investor communications.",
+    company: "City Plaza Abu Dhabi",
+    title: "Local SEO for Hotel",
+    description: "20 qualified enquiries per day sustained over 6 months through local SEO, Google Business Profile management, and AI search optimisation.",
     image: "/images/case-studies/uaeprivateinvestor.jpg",
-    tag: ["All", "Web"],
-    liveUrl: "https://uaeprivateinvestor.com",
-    details: "Secure investment portal with portfolio tracking, deal flow management, document vault, and investor communications. Bank-level security implementation.",
+    tag: ["All", "SEO"],
+    liveUrl: "#",
+    details: "Local SEO and AI search visibility campaign for City Plaza Abu Dhabi. Sustained 20 qualified enquiries per day over a 6-month period via Google Business Profile, on-page SEO, and Perplexity/ChatGPT optimisation.",
     metrics: [
-      { icon: "💼", label: "Portfolio Value", value: "$50M+" },
-      { icon: "🔒", label: "Security Score", value: "A+" },
-      { icon: "📊", label: "Active Deals", value: "100+" }
+      { icon: "", label: "Qualified enquiries/day sustained over 6 months", value: "20" }
     ]
   },
   {
@@ -177,9 +174,9 @@ const caseStudiesData = [
     liveUrl: "https://leverageacademy.org",
     details: "Full-featured e-learning platform with course creation tools, student management, progress tracking, and automated certification. Integrated payment processing.",
     metrics: [
-      { icon: "🎓", label: "Students Enrolled", value: "5000+" },
-      { icon: "📚", label: "Courses", value: "150+" },
-      { icon: "✅", label: "Completion Rate", value: "78%" }
+      { icon: "", label: "Students Enrolled", value: "5000+" },
+      { icon: "", label: "Courses", value: "150+" },
+      { icon: "", label: "Completion Rate", value: "78%" }
     ]
   },
   {
@@ -192,9 +189,9 @@ const caseStudiesData = [
     liveUrl: "https://inboker.com",
     details: "AI-powered chatbot and automation suite with natural language processing, multi-channel support, and CRM integration. Handles 80% of customer inquiries automatically.",
     metrics: [
-      { icon: "🤖", label: "Automation Rate", value: "80%" },
-      { icon: "⏱️", label: "Response Time", value: "< 1 min" },
-      { icon: "😊", label: "Satisfaction", value: "92%" }
+      { icon: "", label: "Automation Rate", value: "80%" },
+      { icon: "", label: "Response Time", value: "< 1 min" },
+      { icon: "", label: "Satisfaction", value: "92%" }
     ]
   },
 ];
@@ -204,7 +201,7 @@ const ProjectsSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardsToShow, setCardsToShow] = useState(3);
-  const [tag, setTag] = useState("All");
+  const [tag, setTag] = useState("SEO");
 
   const filteredCaseStudies = caseStudiesData.filter((caseStudy) =>
     tag === "All" || caseStudy.tag.includes(tag)
@@ -294,7 +291,7 @@ const ProjectsSection = () => {
             </span>
             <span className="text-white"> For Real Businesses</span>
           </h2>
-          <p className="text-[#ADB7BE] text-center mt-5 text-sm md:text-base max-w-2xl">See how I've helped business owners unlock massive growth through AI-driven solutions and marketing automation systems.</p>
+          <p className="text-[#ADB7BE] text-center mt-5 text-sm md:text-base max-w-2xl">Results from real UK businesses. Rankings, calls, and enquiries, documented below.</p>
         </div>
 
         {/* Slider Container */}
@@ -380,7 +377,7 @@ const ProjectsSection = () => {
               }
             }}
             eventLabel="projects_contact_cta"
-            caption="Designed for businesses that want systems with proven outcomes — not experiments."
+            caption={null}
           >
             Book Your Free Strategy Call
           </CTAButton>

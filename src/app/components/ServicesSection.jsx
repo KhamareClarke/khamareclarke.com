@@ -5,21 +5,25 @@ import { FaArrowRight } from "react-icons/fa";
 import BookingButton from './BookingButton';
 import CTAButton from './CTAButton';
 
+// TODO: Each card below requires a visible "chip" badge (e.g. "538% visibility growth"). Adding a chip element requires a new JSX element inside the card — a structural change outside the copy-edit scope. Implement chip in ServicesSection card template, then wire up the chip field from this data.
 const services = [
   {
-    title: "AI Workforce",
-    description: "AI employees that scale and generate revenue around the clock - your 24/7/365 growth team.",
-    icon: "👥",
+    title: "SEO + AI Visibility",
+    description: "Rank on Google, get recommended in ChatGPT, Gemini and Perplexity.",
+    icon: "",
+    chip: "538% visibility growth",
   },
   {
-    title: "Web & App Development", 
-    description: "Platforms built to convert and scale without friction - engineered for market domination.",
-    icon: "💻",
+    title: "AI Lead Response",
+    description: "Every enquiry answered in minutes, 24/7, so rankings become booked jobs.",
+    icon: "",
+    chip: "20 enquiries/day at peak",
   },
   {
-    title: "Digital Marketing",
-    description: "Funnels, paid ads, and SEO that turn traffic into pipeline and fuel exponential growth.",
-    icon: "📈",
+    title: "Platforms Built to Rank",
+    description: "Fast, Core Web Vitals compliant, engineered to convert from day one.",
+    icon: "",
+    chip: "Core Web Vitals: pass",
   },
 ];
 
@@ -134,7 +138,7 @@ const ServicesSection = () => {
         >
           <div className="bg-gradient-to-r from-[#1a1a1a]/80 to-[#232323]/80 backdrop-blur-sm border border-[#ffb700]/20 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Ready to Transform Your Business?
+              Ready to Rank Your Business?
             </h3>
             <p className="text-[#ADB7BE] text-lg mb-8 max-w-2xl mx-auto">
               Book a free strategy call and discover how AI can automate your operations, scale your revenue, and give you the competitive edge.
@@ -154,7 +158,6 @@ const ServicesSection = () => {
             </BookingButton>
             
             <p className="text-[#ADB7BE] text-sm mt-4">
-              🚀 Designed for businesses ready to install growth systems that compound
             </p>
           </div>
         </motion.div>

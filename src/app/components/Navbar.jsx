@@ -90,7 +90,7 @@ const Navbar = () => {
                 <NavLink href={link.path} title={link.title} active={activeSection === link.path.replace('#','')} />
                 {link.badge && (
                   <span className="absolute -top-5 -right-3 bg-gradient-to-r from-[#ff3c00] via-[#ff8c00] to-[#ff3c00] text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full animate-pulse shadow-md whitespace-nowrap">
-                    🔥 {link.badge} 🔥
+                    {link.badge}
                     <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-red-500/50 to-transparent blur-sm"></div>
                   </span>
                 )}

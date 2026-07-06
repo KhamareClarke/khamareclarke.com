@@ -78,7 +78,7 @@ const EmailSection = () => {
             </h2>
           </div>
           <p className="text-[#ADB7BE] text-lg max-w-2xl mx-auto">
-            Book your <span className="text-[#ffb700] font-semibold">FREE AI strategy call</span> and discover how custom AI can unlock predictable, scalable growth for your business - fast.
+            30 minutes. I audit your current SEO live, show you what is holding your rankings back, and send a prioritised action list within 24 hours, whether you hire me or not.
           </p>
         </motion.div>
 
@@ -95,9 +95,9 @@ const EmailSection = () => {
             {/* Benefits */}
             <div className="space-y-4">
               {[
-                { icon: "🎯", title: "100% tailored to your goals", desc: "Custom AI solutions designed specifically for your business needs" },
-                { icon: "🤝", title: "No obligation, no hard sell", desc: "Honest consultation focused on finding the right fit" },
-                { icon: "⚡", title: "24hr response guarantee", desc: "Quick turnaround so you can move fast on opportunities" }
+                { icon: "", title: "100% tailored to your goals", desc: "Custom SEO solutions designed specifically for your business" },
+                { icon: "", title: "Honest, no-pressure consultation", desc: "Focused on finding the right fit for your business" },
+                { icon: "", title: "24hr response guarantee", desc: "Quick turnaround so you can move fast on opportunities" }
               ].map((benefit, index) => (
                 <div key={index} className="flex gap-4 p-5 bg-gradient-to-br from-[#181818]/80 to-[#232323]/90 border border-[#ffb700]/20 rounded-xl hover:border-[#ffb700]/40 transition-all duration-300">
                   <div className="text-2xl flex-shrink-0">{benefit.icon}</div>
@@ -119,15 +119,14 @@ const EmailSection = () => {
                 </div>
                 <div>
                   <p className="text-white text-base italic mb-3">
-                    "Our revenue grew 40% in 6 months after integrating custom AI workflows. The process was seamless and ROI was instant."
                   </p>
-                  <span className="text-[#ffb700] font-semibold text-sm">- Satisfied Client</span>
+                  <span className="text-[#ffb700] font-semibold text-sm"></span>
                 </div>
               </div>
             </div>
             
             <div className="text-center lg:text-left">
-              <p className="text-[#ffb700] font-semibold text-lg">Let's discuss how AI can transform your business - forever.</p>
+              <p className="text-[#ffb700] font-semibold text-lg">Let's discuss how SEO and AI can build results for your business.</p>
             </div>
           </motion.div>
           
@@ -232,8 +231,8 @@ const EmailSection = () => {
                     className="group relative inline-flex items-center justify-center w-full py-4 px-6 text-lg font-black text-black bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] rounded-2xl shadow-xl hover:shadow-[#fdbd18]/50 transform hover:scale-[1.02] transition-all duration-300 border-2 border-[#fdbd18] overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center gap-2">
-                      <span>🚀</span>
-                      <span>GET STARTED - 24HR RESPONSE</span>
+                      <span></span>
+                      <span>Book Your Free SEO Strategy Call</span>
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </button>
@@ -243,7 +242,7 @@ const EmailSection = () => {
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                       </svg>
-                      Stop grinding. Start automating. Scale smarter, not harder.
+                      Not ready for a call? Start with the £495 AI Visibility Audit.
                     </p>
                   </div>
                 </form>

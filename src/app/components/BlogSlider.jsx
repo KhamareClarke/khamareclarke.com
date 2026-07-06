@@ -5,9 +5,9 @@ import CTAButton from "./CTAButton";
 
 // Map categories to emojis
 const categoryEmojis = {
-  'AI Automation': '🤖',
-  'Web & App Development': '💻',
-  'Advanced Analytics': '📊'
+  'AI Automation': '',
+  'Web & App Development': '',
+  'Advanced Analytics': ''
 };
 
 const blogPosts = [
@@ -34,9 +34,9 @@ const blogPosts = [
     image: "/images/blog/automate.png"
   },
   {
-    title: "Unlocking Growth with Advanced Analytics",
+    title: "Driving Growth with Advanced Analytics",
     slug: "advanced-analytics-growth",
-    excerpt: "Discover how I leverage advanced analytics and data-driven strategies to help UK businesses make smarter decisions, optimize operations, and drive measurable growth.",
+    excerpt: "Discover how advanced analytics and data-driven strategies help UK businesses make smarter decisions, optimise operations, and drive measurable growth.",
     category: "Advanced Analytics",
     image: "/images/blog/unlock.png"
   }
@@ -168,10 +168,10 @@ export default function BlogSlider() {
                       {/* Benefits Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                         {[
-                          { icon: "🤖", text: "7 proven AI workflows (save 20+ hours/week)" },
-                          { icon: "🚀", text: "Client acquisition systems" },
-                          { icon: "📈", text: "Revenue-boosting automations" },
-                          { icon: "💡", text: "UK business case studies" }
+                          { icon: "", text: "7 proven AI workflows (save 20+ hours/week)" },
+                          { icon: "", text: "Client acquisition systems" },
+                          { icon: "", text: "Revenue-boosting automations" },
+                          { icon: "", text: "UK business case studies" }
                         ].map((benefit, index) => (
                           <div key={index} className="flex items-start gap-3 bg-[#1a1a1a]/30 rounded-lg p-3">
                             <div className="text-lg flex-shrink-0">{benefit.icon}</div>
@@ -195,7 +195,7 @@ export default function BlogSlider() {
                           <span>100% Secure</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <span>🔒 No Spam</span>
+                          <span>No Spam</span>
                         </div>
                       </div>
                     </div>
@@ -220,13 +220,13 @@ export default function BlogSlider() {
                         <h4 className="text-base font-bold text-black mb-3 text-center">What's Inside:</h4>
                         <div className="space-y-2">
                           {[
-                            "📚 50+ Page Playbook",
-                            "🛠️ 12 AI Templates", 
-                            "🎥 Video Guides",
-                            "🎁 Bonus Resources"
+                            "50+ Page Playbook",
+                            "12 AI Templates",
+                            "Video Guides",
+                            "Bonus Resources"
                           ].map((item, index) => (
                             <div key={index} className="flex items-center gap-2">
-                              <span className="text-green-600 text-xs">✓</span>
+                              <span className="text-green-600 text-xs">+</span>
                               <span className="text-black text-xs font-medium">{item}</span>
                             </div>
                           ))}
@@ -260,7 +260,7 @@ export default function BlogSlider() {
                       </form>
                       
                       <p className="text-white/70 text-xs text-center mt-3">
-                        🔒 100% secure. No spam.
+                        100% secure. No spam.
                       </p>
                     </div>
                   </div>

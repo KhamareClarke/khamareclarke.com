@@ -15,33 +15,35 @@ const AnimatedNumbers = dynamic(
 
 const achievementsList = [
   {
-    icon: "🏢",
-    metric: "Businesses Automated",
-    value: "50",
-    postfix: "+",
-    color: "#3B82F6", // Blue
-  },
-  {
-    icon: "💰",
-    metric: "Revenue Unlocked",
-    value: "12,000,000",
-    prefix: "£",
-    postfix: "+",
-    color: "#10B981", // Green
-  },
-  {
-    icon: "🤖",
-    metric: "AI Workforce Deployed",
-    value: "120",
-    postfix: "+",
-    color: "#8B5CF6", // Purple
-  },
-  {
-    icon: "⭐",
-    metric: "Client Retention Rate",
-    value: "100",
+    icon: "",
+    metric: "Google visibility growth",
+    value: "538",
     postfix: "%",
-    color: "#F59E0B", // Amber
+    color: "#3B82F6",
+  },
+  {
+    icon: "",
+    metric: "Qualified leads in 60 days",
+    value: "5",
+    prefix: "",
+    postfix: "X",
+    color: "#10B981",
+  },
+  {
+    icon: "",
+    metric: "Enquiries at peak",
+    value: "20",
+    postfix: "/day",
+    color: "#8B5CF6",
+  },
+  {
+    icon: "",
+    // TODO: CountUpNumber only handles numeric values; "MSc" renders as NaN until CountUpNumber.jsx is updated to support static string display.
+    metric: "Artificial Intelligence, Keele",
+    value: "MSc",
+    prefix: "",
+    postfix: "",
+    color: "#F59E0B",
   },
 ];
 
@@ -92,7 +94,7 @@ const AchievementsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          Real metrics from real businesses that trusted us to transform their operations with AI.
+          Real metrics from real businesses. Results documented below.
         </motion.p>
       </div>
 
@@ -165,7 +167,7 @@ const AchievementsSection = () => {
         <CTAButton
           icon="bolt"
           eventLabel="achievements_book_strategy_call"
-          caption="Designed for teams ready to turn momentum into a repeatable system."
+          caption={null}
         >
           Book Your Free Strategy Call
         </CTAButton>

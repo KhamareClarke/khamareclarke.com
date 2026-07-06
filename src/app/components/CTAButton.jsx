@@ -65,13 +65,13 @@ export default function CTAButton({
 
   // Define icon components with emojis and consistent spacing
   const icons = {
-    arrow: <span className="ml-2 text-lg">🚀</span>,
-    phone: <span className="mr-2">📞</span>,
-    calendar: <span className="mr-2">📅</span>,
-    download: <span className="mr-2">⬇️</span>,
-    book: <span className="mr-2">📚</span>,
-    bolt: <span className="ml-2 text-lg">🚀</span>,
-    folder: <span className="ml-2">📁</span>,
+    arrow: <span className="ml-2 text-lg"></span>,
+    phone: <span className="mr-2"></span>,
+    calendar: <span className="mr-2"></span>,
+    download: <span className="mr-2"></span>,
+    book: <span className="mr-2"></span>,
+    bolt: <span className="ml-2 text-lg"></span>,
+    folder: <span className="ml-2"></span>,
     none: null
   };
 

@@ -7,8 +7,19 @@ import { motion } from "framer-motion";
 
 const testimonials = [
   {
-    photo: "/images/testimonials/identi.png", // Omni WTMS founder/ops image
-    logo: "/images/testimonials/omni-logo.png", // Omni WTMS logo
+    photo: "/images/testimonials/omni.png",
+    logo: "/images/testimonials/identi-logo.png",
+    headline: "Qualified leads up 5X in 60 days.",
+    body: "Khamare's SEO and lead response work improved our agency's results completely. We're booking more discovery calls than ever, and our pipeline is finally predictable. The team loves the automation and our clients notice the difference.",
+    name: "Olivia Chen",
+    role: "CEO",
+    company: "IdentI Marketing",
+    logoAlt: "IdentI Marketing logo",
+    photoAlt: "Olivia Chen portrait"
+  },
+  {
+    photo: "/images/testimonials/identi.png",
+    logo: "/images/testimonials/omni-logo.png",
     headline: "Warehouse ops run smoother than ever.",
     body: "Our custom AI workflow slashed manual entry and errors across our warehouse. The Omni WTMS dashboard gives us real-time insights, and our team saves hours every week. This is the future of logistics.",
     name: "James Morgan",
@@ -18,19 +29,8 @@ const testimonials = [
     photoAlt: "James Morgan portrait"
   },
   {
-    photo: "/images/testimonials/omni.png", // IdentI Marketing founder/CEO image
-    logo: "/images/testimonials/identi-logo.png", // IdentI Marketing logo
-    headline: "Qualified leads up 3X in 60 days.",
-    body: "Khamare's AI-powered funnel transformed our agency's results. We're booking more discovery calls than ever, and our pipeline is finally predictable. The team loves the automation and our clients notice the difference.",
-    name: "Olivia Chen",
-    role: "CEO",
-    company: "IdentI Marketing",
-    logoAlt: "IdentI Marketing logo",
-    photoAlt: "Olivia Chen portrait"
-  },
-  {
-    photo: "/images/testimonials/myapproved.png", // MyApproved.com founder/team image
-    logo: "/images/testimonials/myapproved-logo.png", // MyApproved.com logo
+    photo: "/images/testimonials/myapproved.png",
+    logo: "/images/testimonials/myapproved-logo.png",
     headline: "Trades signups up 50% and support is a breeze.",
     body: "Khamare's AI chatbot handles 90% of our directory's enquiries. Our signups are up, support tickets are down, and the team finally has time to focus on growth. Highly recommended for any SaaS or directory business.",
     name: "Simon Ellis",
@@ -148,7 +148,7 @@ const TestimonialsSection = () => {
             icon="bolt"
             eventLabel="testimonials_book_strategy_call"
             className="px-8 py-3 text-lg"
-            caption="Designed for teams ready to get measurable wins — quickly and consistently."
+            caption={null}
           >
             Book Your Free Strategy Call
           </CTAButton>

@@ -33,14 +33,15 @@ const HeroSection = () => {
             <span className="inline-block bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] text-[#111] font-extrabold py-2 px-4 rounded-lg text-xs sm:text-sm uppercase tracking-wider shadow-lg text-center border-2 border-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105">The UK&apos;s Leading AI Business Growth Architect</span>
           </div>
 <h1 className="font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-4 lg:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#ffb700]" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.03em'}}>
-  KHAMARE <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">CLARKE</span>
+  The SEO specialist with a Master&apos;s in <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">AI.</span>
 </h1>
 <p className="text-lg sm:text-xl lg:text-xl max-w-2xl font-medium mb-2 lg:mb-3" style={{fontFamily:'Montserrat, sans-serif'}}>
-  <span className="text-[#ffb700] font-bold">The AI Revolution Is Happening Now</span>
+  <span className="text-[#ffb700] font-bold">I rank UK businesses on Google and in AI search.</span>
 </p>
 <p className="text-[#ADB7BE] text-base sm:text-lg lg:text-lg max-w-2xl lg:max-w-3xl font-normal mb-6 lg:mb-8" style={{fontFamily:'Montserrat, sans-serif'}}>
-  Integrate AI infrastructure now or be replaced by the businesses that did.
+  538% visibility growth, 5X leads in 60 days, documented below.
 </p>
+          {/* TODO: The emoji-only TypeAnimation sequence below requires its sequence strings to be replaced with non-emoji content or the component removed. Changing TypeAnimation sequence data constitutes animation-config editing per the design-freeze rules. Raise with the design owner before altering. */}
           <div className="mt-4 lg:mt-6 mb-8 lg:mb-10 text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold tracking-tight flex items-center justify-center lg:justify-start gap-3">
             <TypeAnimation
               sequence={[
@@ -87,11 +88,10 @@ const HeroSection = () => {
                 className="group relative inline-flex items-center justify-center px-10 py-5 lg:px-12 lg:py-6 bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] text-black font-black rounded-xl hover:scale-105 transform transition-all duration-300 text-lg lg:text-xl shadow-xl hover:shadow-[#fdbd18]/50 border-2 border-[#fdbd18]"
                 trackingLabel="hero_book_call"
               >
-                <span className="relative z-10">📞 Book Your Strategy Call</span>
+                <span className="relative z-10">Book Your Free SEO Strategy Call</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </BookingButton>
               <div className="mt-2 text-center text-[11px] sm:text-xs text-white/60 leading-snug">
-                Free strategy call. No obligation.
               </div>
             </div>
           </div>
@@ -105,25 +105,25 @@ const HeroSection = () => {
           >
             {/* Secure Badge */}
             <div className="flex items-center gap-2 bg-gradient-to-br from-green-500/20 to-green-700/20 backdrop-blur-sm border border-green-500/30 rounded-full px-4 py-2 shadow-lg hover:shadow-green-500/20 transition-all duration-300">
-              <span className="text-green-400 text-lg">🔒</span>
+              <span className="text-green-400 text-lg"></span>
               <span className="text-white text-sm font-medium">Secure</span>
             </div>
             
             {/* Delivery Badge */}
             <div className="flex items-center gap-2 bg-gradient-to-br from-blue-500/20 to-blue-700/20 backdrop-blur-sm border border-blue-500/30 rounded-full px-4 py-2 shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
-              <span className="text-blue-400 text-lg">⚡</span>
+              <span className="text-blue-400 text-lg"></span>
               <span className="text-white text-sm font-medium">Fast Setup</span>
             </div>
             
             {/* Revisions Badge */}
             <div className="flex items-center gap-2 bg-gradient-to-br from-purple-500/20 to-purple-700/20 backdrop-blur-sm border border-purple-500/30 rounded-full px-4 py-2 shadow-lg hover:shadow-purple-500/20 transition-all duration-300">
-              <span className="text-purple-400 text-lg">🎯</span>
+              <span className="text-purple-400 text-lg"></span>
               <span className="text-white text-sm font-medium">Results</span>
             </div>
             
             {/* Rating Badge */}
             <div className="flex items-center gap-2 bg-gradient-to-br from-yellow-500/20 to-yellow-700/20 backdrop-blur-sm border border-yellow-500/30 rounded-full px-4 py-2 shadow-lg hover:shadow-yellow-500/20 transition-all duration-300">
-              <span className="text-white text-sm font-medium">⭐ Proven</span>
+              <span className="text-white text-sm font-medium">Proven</span>
             </div>
           </motion.div>
           {/* END: Trust Badges */}

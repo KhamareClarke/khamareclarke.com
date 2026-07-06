@@ -27,15 +27,15 @@ const TAB_DATA = [
     content: (
       <div className="flex flex-col gap-4">
         <div className="flex items-start gap-3">
-          <span className="text-2xl">🎓</span>
+          <span className="text-2xl"></span>
           <span><span className="font-bold text-[#ffb700]">BSc (Hons), Software Engineering</span> – Building technical foundations for scalable platforms.</span>
         </div>
         <div className="flex items-start gap-3">
-          <span className="text-2xl">🎓</span>
+          <span className="text-2xl"></span>
           <span><span className="font-bold text-[#ffb700]">BSc (Hons), Digital Marketing</span> – Expertise in growth & customer acquisition.</span>
         </div>
         <div className="flex items-start gap-3">
-          <span className="text-2xl">🎓</span>
+          <span className="text-2xl"></span>
           <span><span className="font-bold text-[#ffb700]">MSc, Computer Science with Artificial Intelligence</span> – Advanced AI applications for real-world business.</span>
         </div>
       </div>
@@ -47,27 +47,27 @@ const TAB_DATA = [
     content: (
       <div className="flex flex-col gap-4">
         <div className="flex items-start gap-3">
-          <span className="text-2xl">✅</span>
+          <span className="text-2xl"></span>
           <span><span className="font-bold text-[#ffb700]">Level 4 Diploma</span> – Software Engineering</span>
         </div>
         <div className="flex items-start gap-3">
-          <span className="text-2xl">✅</span>
+          <span className="text-2xl"></span>
           <span><span className="font-bold text-[#ffb700]">Level 4 Diploma</span> – Digital Marketing</span>
         </div>
         <div className="flex items-start gap-3">
-          <span className="text-2xl">✅</span>
+          <span className="text-2xl"></span>
           <span><span className="font-bold text-[#ffb700]">Level 4 Diploma</span> – Cyber Security</span>
         </div>
         <div className="flex items-start gap-3">
-          <span className="text-2xl">✅</span>
+          <span className="text-2xl"></span>
           <span><span className="font-bold text-[#ffb700]">Certified Google Ads & Analytics Specialist</span></span>
         </div>
         <div className="flex items-start gap-3">
-          <span className="text-2xl">✅</span>
+          <span className="text-2xl"></span>
           <span><span className="font-bold text-[#ffb700]">AI & Machine Learning Certifications</span> (Project-Based)</span>
         </div>
         <div className="flex items-start gap-3">
-          <span className="text-2xl">✅</span>
+          <span className="text-2xl"></span>
           <span><span className="font-bold text-[#ffb700]">Professional Development</span> – SaaS Product Management (Ongoing)</span>
         </div>
       </div>
@@ -118,7 +118,7 @@ const AboutSection = () => {
               Khamare Clarke
             </span>
             <br />
-            <span className="text-white">does not sell services.</span>
+            <span className="text-white">ranks UK businesses on Google.</span>
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] via-[#ff8c00] to-[#ffb700] animate-pulse">
               He builds leverage.
@@ -131,7 +131,7 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Integrate AI or be wiped out by businesses that have. This is happening now.
+            Ten years building and ranking UK businesses. I write the code, run the campaigns, and stay until the numbers move.
           </motion.p>
         </div>
 
@@ -174,7 +174,7 @@ const AboutSection = () => {
             {/* Description */}
             <div className="space-y-4 mb-8">
               <p className="text-base md:text-lg text-[#ADB7BE] leading-relaxed">
-                For over a decade he's built AI infrastructure behind the UK's most ambitious growth systems. Not as a consultant. As the person who builds, deploys, and stays until results are undeniable.
+                Ten years building and ranking UK businesses. I write the code, run the campaigns, and stay until the numbers move.
               </p>
             </div>
 
@@ -189,12 +189,12 @@ const AboutSection = () => {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
-                  { icon: "👥", title: "AI Workforce", desc: "AI employees that scale and generate revenue around the clock" },
-                  { icon: "💻", title: "Web and App Development", desc: "Platforms built to convert and scale without friction" },
-                  { icon: "📈", title: "Digital Marketing", desc: "Funnels, paid ads, and SEO that turn traffic into pipeline" },
-                  { icon: "🎯", title: "CRM Systems", desc: "Lead scoring and booking flows that close deals automatically" },
-                  { icon: "📊", title: "Analytics", desc: "Dashboards that turn data into decisions that move the business forward" },
-                  { icon: "🚀", title: "Growth Consulting", desc: "The strategy and systems to dominate your market" }
+                  { icon: "", title: "AI Workforce", desc: "AI employees that scale and generate revenue around the clock" },
+                  { icon: "", title: "Web and App Development", desc: "Platforms built to convert and scale without friction" },
+                  { icon: "", title: "Digital Marketing", desc: "Funnels, paid ads, and SEO that turn traffic into pipeline" },
+                  { icon: "", title: "CRM Systems", desc: "Lead scoring and booking flows that close deals automatically" },
+                  { icon: "", title: "Analytics", desc: "Dashboards that turn data into decisions that move the business forward" },
+                  { icon: "", title: "Growth Consulting", desc: "The strategy and systems to dominate your market" }
                 ].map((item, index) => (
                   <div
                     key={index}
@@ -224,7 +224,7 @@ const AboutSection = () => {
             className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#ffb700] to-[#ff8c00] text-black font-black rounded-xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-[#ffb700]/50 border-2 border-[#ffb700]"
             icon="bolt"
             eventLabel="about_lets_talk_leverage"
-            caption="Designed for founders ready to build a premium, scalable foundation."
+            caption={null}
           >
             <span className="relative z-10 flex items-center gap-2">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

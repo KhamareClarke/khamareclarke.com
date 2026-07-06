@@ -9,8 +9,8 @@ import ConditionalChatBot from './components/ConditionalChatBot'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Khamare Clarke | AI Automation, Web & App Development, Digital Marketing UK',
-  description: 'Transform your UK business with AI automation, custom web & app development, and data-driven digital marketing. Proven track record: £12M+ revenue generated, 3X lead increases. Book your free strategy call today.',
+  title: "Khamare Clarke | The SEO Specialist with a Master's in AI",
+  description: "I rank UK businesses on Google and in AI search. MSc Artificial Intelligence, Keele University. Documented client results.",
   keywords: 'AI automation UK, web development London, app development UK, digital marketing specialist, business automation, lead generation, AI chatbots, custom software development, UK business growth',
   verification: {
     google: 'your-google-verification-code-here'
@@ -31,8 +31,8 @@ export const metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Khamare Clarke | AI Automation, Web & App Development, Digital Marketing UK',
-    description: 'Transform your UK business with AI automation, custom web & app development, and data-driven digital marketing. Proven track record: £12M+ revenue generated, 3X lead increases.',
+    title: "Khamare Clarke | The SEO Specialist with a Master's in AI",
+    description: "I rank UK businesses on Google and in AI search. MSc Artificial Intelligence, Keele University. Documented client results.",
     type: 'website',
     url: 'https://khamareclarke.com',
     siteName: 'Khamare Clarke',
@@ -49,8 +49,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Khamare Clarke | AI Automation, Web & App Development, Digital Marketing UK',
-    description: 'Transform your UK business with AI automation, custom web & app development, and data-driven digital marketing. £12M+ revenue generated. Book your free strategy call.',
+    title: "Khamare Clarke | The SEO Specialist with a Master's in AI",
+    description: "I rank UK businesses on Google and in AI search. MSc Artificial Intelligence, Keele University. Documented client results.",
     creator: '@khamareclarke',
     images: ['/images/about-image.png'],
   },

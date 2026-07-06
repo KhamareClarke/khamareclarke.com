@@ -20,7 +20,7 @@ const Footer = () => {
               <span className="text-[#ffb700] text-sm font-bold uppercase tracking-wider">About</span>
             </div>
             <p className="text-white/80 mb-4">
-              I build custom AI-powered systems that deliver measurable results and automate your business processes.
+              SEO engineered by an AI specialist. Tested on live accounts before it reaches yours.
             </p>
             {/* START: Windsurf optimisation */}
             <div className="flex gap-4 mt-6">
@@ -119,7 +119,7 @@ const Footer = () => {
               <p className="text-white/60 text-sm">© {new Date().getFullYear()} Khamare Clarke. All rights reserved.</p>
               {/* START: Unified Branding */}
               <p className="text-white/50 text-xs mt-1">
-                <span className="text-[#fdbd18] font-semibold">Khamare Clarke</span> - AI Business Growth Specialist
+                <span className="text-[#fdbd18] font-semibold">Khamare Clarke</span> - SEO Specialist | MSc Artificial Intelligence, Keele University
               </p>
               {/* END: Unified Branding */}
             </div>
