@@ -1,0 +1,19 @@
+{
+  "allowed_paths": [],
+  "allowed_commands": [],
+  "workspace_root": "",
+  "project_paths": {
+    "myapproved": "../myapproved.com",
+    "khamareclarke": ".",
+    "zeroclaw": "../zeroclaw",
+    "omniwtms": "../omniwtms.com",
+    "leverageacademy": "../LeverageAcademy.com",
+    "fliprepublic": "../FlipRepublic.com",
+    "leveragejournal": "../leveragejournel",
+    "inboker": "../inboker.com",
+    "identitymarketing": "../Identimarketing.com",
+    "adstarter": "../AdsStarter.com",
+    "seoinforce": "../Seoinforce.com",
+    "alkemmy": "../alkemmy.com"
+  }
+}

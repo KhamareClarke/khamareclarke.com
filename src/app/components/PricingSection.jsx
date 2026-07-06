@@ -1,0 +1,308 @@
+'use client';
+
+import React, { useState } from "react";
+import { FaCheckCircle } from "react-icons/fa";
+import { motion } from "framer-motion";
+import CTAButton from "./CTAButton";
+
+const PACKAGE_CATEGORIES = [
+  {
+    id: "digital-infrastructure",
+    label: "Web & App Development",
+    description: "High-converting websites, mobile apps, and custom platforms built for growth and scale.",
+    icon: "💻",
+    tiers: [
+      {
+        tier: "Starter",
+        price: "£750",
+        originalPrice: "£1,200",
+        mostPopular: false,
+        deliverables: [
+          "High-converting landing page or micro-site build",
+          "Mobile-responsive design that works on all devices",
+          "Basic SEO setup to rank on Google from day 1",
+          "Analytics setup to track every visitor and conversion"
+        ],
+        caption: "Perfect for entrepreneurs who need a professional online presence that generates leads without breaking the bank.",
+      },
+      {
+        tier: "Growth",
+        price: "£2,500",
+        originalPrice: "£3,500",
+        mostPopular: true,
+        deliverables: [
+          "Multi-page conversion website designed to convert visitors",
+          "Advanced SEO strategy to dominate your local market",
+          "Lead capture and CRM integration automation",
+          "Real-time analytics dashboard to track your growth"
+        ],
+        caption: "Ideal for businesses ready to scale their digital presence and consistently generate qualified leads.",
+      },
+      {
+        tier: "Empire",
+        price: "£5,000",
+        originalPrice: "£7,500",
+        mostPopular: false,
+        deliverables: [
+          "Custom web application or mobile app platform",
+          "Complete marketing automation system that works 24/7",
+          "Advanced analytics and AI-powered reporting",
+          "API integrations to connect all your business tools"
+        ],
+        caption: "Built for established businesses ready to dominate their industry with technology that gives them an unfair advantage.",
+      }
+    ]
+  },
+  {
+    id: "growth-systems",
+    label: "SEO & Digital Marketing",
+    description: "SEO, paid traffic, lead generation, and funnel systems engineered for measurable growth.",
+    icon: "📈",
+    tiers: [
+      {
+        tier: "Starter",
+        price: "£1,000/mo",
+        originalPrice: "£1,500/mo",
+        mostPopular: false,
+        deliverables: [
+          "SEO strategy to get you on page 1 of Google",
+          "Targeted paid ads that generate immediate leads",
+          "Automated email sequences that nurture prospects",
+          "Monthly growth reports showing clear ROI"
+        ],
+        caption: "Perfect for businesses that need consistent lead flow without the marketing overwhelm.",
+      },
+      {
+        tier: "Growth",
+        price: "£2,500/mo",
+        originalPrice: "£3,500/mo",
+        mostPopular: true,
+        deliverables: [
+          "Comprehensive SEO that drives organic traffic daily",
+          "Multi-channel ad campaigns across Google, Facebook, LinkedIn",
+          "Advanced lead scoring and automated follow-up systems",
+          "Conversion rate optimization to maximize every click"
+        ],
+        caption: "Designed for businesses ready to scale their customer acquisition and dominate their market.",
+      },
+      {
+        tier: "Empire",
+        price: "£5,000/mo",
+        originalPrice: "£7,000/mo",
+        mostPopular: false,
+        deliverables: [
+          "Full-scale growth system across all marketing channels",
+          "Advanced attribution tracking to know exactly what works",
+          "Strategic consulting to identify new growth opportunities",
+          "Custom dashboards for real-time business intelligence"
+        ],
+        caption: "Built for market leaders who want predictable, scalable growth systems that work while they sleep.",
+      }
+    ]
+  },
+  {
+    id: "ai-workforce",
+    label: "AI Workforce Solutions",
+    description: "Custom AI agents and automation systems that work 24/7 to grow your business.",
+    icon: "🤖",
+    tiers: [
+      {
+        tier: "Starter",
+        price: "£1,500",
+        originalPrice: "£2,500",
+        mostPopular: false,
+        deliverables: [
+          "AI customer service agent that handles inquiries 24/7",
+          "Automated lead qualification and scheduling system",
+          "Basic workflow automation for repetitive tasks",
+          "Integration with your existing CRM and tools"
+        ],
+        caption: "Perfect for businesses ready to replace manual tasks with AI workforce that never sleeps.",
+      },
+      {
+        tier: "Growth",
+        price: "£3,500",
+        originalPrice: "£5,000",
+        mostPopular: true,
+        deliverables: [
+          "Multi-agent AI workforce for sales, support, and marketing",
+          "Advanced lead generation and nurturing automation",
+          "Intelligent workflow automation across all departments",
+          "Custom AI training on your business processes and data"
+        ],
+        caption: "Ideal for businesses ready to deploy a complete AI workforce that drives growth 24/7.",
+      },
+      {
+        tier: "Empire",
+        price: "£7,500",
+        originalPrice: "£10,000",
+        mostPopular: false,
+        deliverables: [
+          "Enterprise AI workforce with custom-built agents",
+          "Complete business automation across all operations",
+          "Predictive analytics and AI-driven decision making",
+          "Ongoing AI workforce optimization and expansion"
+        ],
+        caption: "Built for market leaders ready to replace entire departments with intelligent AI workforce.",
+      }
+    ]
+  },
+  {
+    id: "ai-workforce-as-a-service",
+    label: "AI Workforce as a Service",
+    description: "Complete AI workforce deployment and management for businesses that want to scale with AI.",
+    icon: "🚀",
+    tiers: [
+      {
+        tier: "Starter",
+        price: "£2,000/mo",
+        originalPrice: "£3,000/mo",
+        mostPopular: false,
+        deliverables: [
+          "Dedicated AI workforce team (2-3 AI agents)",
+          "24/7 AI customer service and lead generation",
+          "Monthly AI performance optimization",
+          "Complete AI workforce management and support"
+        ],
+        caption: "Perfect for businesses that want a fully managed AI workforce without the technical overhead.",
+      },
+      {
+        tier: "Growth",
+        price: "£5,000/mo",
+        originalPrice: "£7,500/mo",
+        mostPopular: true,
+        deliverables: [
+          "Advanced AI workforce team (5-7 AI agents)",
+          "Multi-department AI automation and integration",
+          "Weekly AI strategy and optimization sessions",
+          "Custom AI development and continuous improvement"
+        ],
+        caption: "Ideal for businesses ready to scale operations with a comprehensive AI workforce solution.",
+      },
+      {
+        tier: "Empire",
+        price: "£10,000/mo",
+        originalPrice: "£15,000/mo",
+        mostPopular: false,
+        deliverables: [
+          "Enterprise AI workforce team (10+ AI agents)",
+          "Complete business transformation with AI",
+          "Dedicated AI strategist and technical support",
+          "Custom AI innovation and R&D development"
+        ],
+        caption: "Built for enterprises ready to revolutionize their entire business with a fully managed AI workforce.",
+      }
+    ]
+  }
+];
+
+const PricingSection = () => {
+  const [activeCategory, setActiveCategory] = useState(0);
+  
+  const currentCategory = PACKAGE_CATEGORIES[activeCategory];
+
+  return (
+    <section id="pricing" className="text-white py-12 md:py-20 lg:py-24">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="text-center mb-10">
+          <span className="inline-block border border-[#f1cb32] text-[#f1cb32] text-xs font-bold px-4 py-1 rounded-full tracking-widest uppercase bg-black/30 shadow-sm mb-6">PACKAGES</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">
+            <span className="text-2xl sm:text-3xl mr-2">💸</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f1cb32] to-[#ff8c00]">
+              Pick Your Growth Path
+            </span>
+          </h2>
+          <p className="text-[#ADB7BE] text-base md:text-lg max-w-2xl mx-auto mb-8">
+            Three categories. Three tiers each. Built for real ROI.
+          </p>
+        </div>
+
+        {/* Category Description */}
+        <motion.div
+          key={activeCategory}
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <p className="text-[#ADB7BE] max-w-2xl mx-auto text-base md:text-lg">{currentCategory.description}</p>
+        </motion.div>
+
+        {/* 3 Tiers Side-by-Side */}
+        <motion.div
+          key={`category-${activeCategory}`}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {currentCategory.tiers.map((tier, i) => (
+            <motion.div
+              key={tier.tier}
+              className={`relative bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black border-2 rounded-xl p-6 md:p-8 flex flex-col focus:outline-none focus:ring-2 focus:ring-[#f1cb32] transition-all duration-300 overflow-visible hover:scale-[1.02] ${
+                tier.mostPopular
+                  ? 'border-[#f1cb32] shadow-2xl shadow-[#f1cb32]/25 bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-black md:scale-105 z-10'
+                  : 'border-[#f1cb32]/35'
+              }`}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+            >
+              {tier.mostPopular && (
+                <motion.span
+                  className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#f1cb32] text-[#222] text-xs font-extrabold px-4 py-1 rounded-full shadow-lg tracking-wide uppercase z-30 border-2 border-[#fff] whitespace-nowrap"
+                  animate={{ scale: [1, 1.08, 1] }}
+                  transition={{ duration: 1.3, repeat: Infinity, repeatType: 'loop', delay: 0.6 }}
+                >
+                  Best Value
+                </motion.span>
+              )}
+
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`text-2xl md:text-3xl ${tier.mostPopular ? 'text-[#f1cb32]' : 'text-[#bfa24e]'}`}>
+                  {tier.tier === 'Starter' ? '🚀' : tier.tier === 'Growth' ? '🔥' : '👑'}
+                </span>
+                <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-white drop-shadow-gold">{tier.tier}</h3>
+              </div>
+              <div className="mb-4 md:mb-6">
+                {tier.originalPrice && (
+                  <div className="text-sm md:text-base text-white/40 line-through mb-1">{tier.originalPrice}</div>
+                )}
+                <div className="text-2xl md:text-3xl font-black text-[#f1cb32] tracking-tight drop-shadow-gold">{tier.price}</div>
+              </div>
+
+              <ul className="mb-6 md:mb-8 space-y-3 md:space-y-4 font-light flex-grow">
+                {tier.deliverables.map((deliverable, j) => (
+                  <li key={j} className="flex items-start text-sm md:text-base text-white/90 gap-2">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-[#f1cb32]/10 border border-[#f1cb32] flex-shrink-0 mt-0.5">
+                      <FaCheckCircle className="text-[#f1cb32] text-xs" />
+                    </span>
+                    <span>{deliverable}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <motion.div
+                className="mt-auto"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.2 + i * 0.1 }}
+              >
+                <CTAButton
+                  href="#contact"
+                  className="w-full text-center py-4 text-lg font-bold"
+                  eventLabel={`pricing_${currentCategory.id}_${tier.tier.toLowerCase()}_cta`}
+                  caption={tier.caption}
+                >
+                  Get Started
+                </CTAButton>
+              </motion.div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+export default PricingSection;

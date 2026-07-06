@@ -1,0 +1,46 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="lionGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+    </radialGradient>
+    <radialGradient id="maneGradient" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" style="stop-color:#FFE55C;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#D4A017;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Lion mane (outer) -->
+  <circle cx="32" cy="32" r="30" fill="url(#maneGradient)" opacity="0.9"/>
+  
+  <!-- Mane details -->
+  <path d="M32 2 L36 8 L44 4 L42 12 L52 10 L48 18 L58 18 L52 26 L60 28 L54 36 L62 40 L54 46 L60 52 L52 54 L56 62 L46 58 L48 66 L38 62 L36 70 L28 66 L26 70 L18 66 L16 58 L6 62 L8 54 L2 52 L8 46 L2 40 L10 36 L4 28 L12 26 L6 18 L16 18 L12 10 L22 12 L20 4 L28 8 Z" fill="url(#maneGradient)" opacity="0.7"/>
+  
+  <!-- Lion face -->
+  <circle cx="32" cy="32" r="18" fill="url(#lionGradient)"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="26" cy="28" rx="2" ry="3" fill="#2C1810"/>
+  <ellipse cx="38" cy="28" rx="2" ry="3" fill="#2C1810"/>
+  <ellipse cx="26" cy="27" rx="0.8" ry="1" fill="#FFFFFF"/>
+  <ellipse cx="38" cy="27" rx="0.8" ry="1" fill="#FFFFFF"/>
+  
+  <!-- Nose -->
+  <path d="M32 34 L30 36 L34 36 Z" fill="#2C1810"/>
+  
+  <!-- Mouth -->
+  <path d="M32 36 Q28 40 24 38" stroke="#2C1810" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M32 36 Q36 40 40 38" stroke="#2C1810" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Whiskers -->
+  <line x1="18" y1="32" x2="22" y2="31" stroke="#2C1810" stroke-width="1" stroke-linecap="round"/>
+  <line x1="18" y1="36" x2="22" y2="36" stroke="#2C1810" stroke-width="1" stroke-linecap="round"/>
+  <line x1="42" y1="31" x2="46" y2="32" stroke="#2C1810" stroke-width="1" stroke-linecap="round"/>
+  <line x1="42" y1="36" x2="46" y2="36" stroke="#2C1810" stroke-width="1" stroke-linecap="round"/>
+  
+  <!-- Inner mane details -->
+  <circle cx="32" cy="32" r="25" fill="none" stroke="url(#maneGradient)" stroke-width="2" opacity="0.5"/>
+  <circle cx="32" cy="32" r="22" fill="none" stroke="url(#maneGradient)" stroke-width="1" opacity="0.3"/>
+</svg>

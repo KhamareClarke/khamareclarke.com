@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\khama\\\\Downloads\\\\khamareclarke.com-main \\(3\\)\\\\khamareclarke.com-main\" -Force)",
+      "Bash(Select-Object Name, FullName, PSIsContainer)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\khama\\\\Downloads\\\\khamareclarke.com-main \\(3\\)\\\\khamareclarke.com-main\" | Select-Object Name, @{Name='Type'; Expression={if\\($_.PSIsContainer\\){'Directory'}else{'File'}}})",
+      "Bash(grep -E \"\\\\.jsx|\\\\.js$\")",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}
