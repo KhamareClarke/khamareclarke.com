@@ -9,16 +9,15 @@ const PACKAGE_CATEGORIES = [
   {
     id: "digital-infrastructure",
     label: "Web & App Development",
-    description: "High-converting websites, mobile apps, and custom platforms built for growth and scale.",
+    description: "",
     icon: "💻",
     tiers: [
       {
-        // TODO: "one-off" period label and note text ("Fully credited against your first month if you continue.") require a new JSX element in the card template. Add a `period` and `note` field to the tier rendering in PricingSection.jsx, then wire these fields.
-        // TODO: CTA text per card ("Get Your Audit" for this card vs "Get Started" for others) requires conditional rendering in the card template. Add a `cta` field to the tier data and reference it in the CTAButton children.
         tier: "AI Visibility Audit",
         price: "£495",
         originalPrice: null,
         mostPopular: false,
+        cta: "Get Your Audit",
         deliverables: [
           "Full technical SEO audit of your site",
           "AI Visibility score: ChatGPT, Gemini, Perplexity",
@@ -28,11 +27,11 @@ const PACKAGE_CATEGORIES = [
         caption: null,
       },
       {
-        // TODO: Anchor line ("One new job a month covers this. My last trades client got 30+ calls in two weeks.") requires a new JSX element in the card template. Add an `anchor` field and render it above the deliverables list.
         tier: "Local Dominance",
         price: "£1,250",
         originalPrice: null,
         mostPopular: true,
+        cta: "Book Your Free SEO Strategy Call",
         deliverables: [
           "Local SEO and Google Business Profile management",
           "AI search optimisation: ChatGPT, Gemini, Perplexity",
@@ -42,11 +41,11 @@ const PACKAGE_CATEGORIES = [
         caption: null,
       },
       {
-        // TODO: Anchor line ("Rankings bring the calls. This makes sure none are missed.") requires a new JSX element in the card template. See above anchor field TODO.
         tier: "Rank + Respond",
         price: "£2,500",
         originalPrice: null,
         mostPopular: false,
+        cta: "Book Your Free SEO Strategy Call",
         deliverables: [
           "Everything in Local Dominance",
           "AI lead response: enquiries answered in minutes, 24/7",
@@ -298,7 +297,7 @@ const PricingSection = () => {
                   eventLabel={`pricing_${currentCategory.id}_${tier.tier.toLowerCase()}_cta`}
                   caption={tier.caption}
                 >
-                  Get Started
+                  {tier.cta || "Get Started"}
                 </CTAButton>
               </motion.div>
             </motion.div>

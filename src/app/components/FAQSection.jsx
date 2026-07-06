@@ -5,24 +5,24 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const FAQ_DATA = [
   {
-    question: "What services do you offer?",
-    answer: "I provide AI automation, web & app development, digital marketing, CRM systems, product development, analytics, UI/UX optimization, and business growth consulting. Every service is tailored to deliver measurable results and real business value.",
+    question: "What does an AI SEO specialist do differently from a standard agency?",
+    answer: "I optimise for Google and AI search engines simultaneously. That means your business gets found in traditional results and in ChatGPT, Gemini, and Perplexity answers. Most agencies do not do this yet.",
   },
   {
-    question: "How do I get started?",
-    answer: "Just fill out the contact form below or book a free strategy call. We’ll discuss your goals, challenges, and how I can help. You’ll receive a personalized roadmap within 24 hours.",
+    question: "How quickly can you start and what does the first week look like?",
+    answer: "I can start within a week of the strategy call. The first week covers a full technical audit, keyword research, and a prioritised action plan delivered in plain English before any work begins.",
   },
   {
-    question: "Do you work with startups or only established businesses?",
-    answer: "I work with both startups and established businesses. Whether you’re launching your first product or scaling an enterprise, I tailor solutions to your needs and growth stage.",
+    question: "Do you only work with large businesses or do SMEs qualify?",
+    answer: "SMEs are the majority of my clients. If you have a local customer base, a trades business, or a service you want to rank in your area, you qualify. Budget starts at £495 for an audit.",
   },
   {
-    question: "What is your process?",
-    answer: "My process starts with a discovery call to understand your needs. Then I create a strategy, implement solutions, and provide ongoing optimization and support. The focus is always on ROI and sustainable growth.",
+    question: "How do you measure success and report back?",
+    answer: "Monthly plain-English reports: rankings, Google Business Profile calls, enquiry volumes, and AI search visibility. No jargon. If numbers are not moving, I tell you why and what changes.",
   },
   {
-    question: "Can you integrate AI into my existing systems?",
-    answer: "Absolutely. I specialize in integrating AI agents, automations, and analytics into your current workflows, CRMs, and platforms-seamlessly and securely, with minimal disruption to your business.",
+    question: "What makes your approach better than hiring a typical SEO agency?",
+    answer: "I combine technical SEO, content, and AI search in one engagement. You get one person accountable for results, not a rotating team. All work is done on live campaigns, not theoretical frameworks.",
   },
 ];
 
@@ -63,7 +63,7 @@ const FAQSection = () => {
               transition={{ duration: 1.1, delay: 0.3 }}
             />
           </h2>
-          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Answers to the most common questions about AI, automation, and business growth for UK companies.</div>
+          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Honest answers about SEO, AI, and what working together actually looks like.</div>
         </div>
         {/* Floating sparkle accent above FAQ list */}
         <motion.span
@@ -119,11 +119,11 @@ const FAQSection = () => {
           transition={{ duration: 0.7, delay: 1.1 }}
           viewport={{ once: true }}
         >
-          <CTAButton 
+          <CTAButton
             icon="bolt"
             eventLabel="faq_book_free_call"
             className="px-8 py-3 text-lg"
-            caption="Designed for decision-makers who want a clear recommendation in one call."
+            caption={null}
           >
             Still Have Questions? Book a Free Call
           </CTAButton>

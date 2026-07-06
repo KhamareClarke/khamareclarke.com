@@ -207,7 +207,6 @@ export default function RootLayout({ children }) {
           ],
           "knowsAbout": [
             "Artificial Intelligence",
-            "Business Automation",
             "Web Development",
             "Digital Marketing",
             "Lead Generation"

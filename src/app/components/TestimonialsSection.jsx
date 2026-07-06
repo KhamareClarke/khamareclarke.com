@@ -48,7 +48,7 @@ function TestimonialCard({ testimonial, index }) {
       tabIndex={0}
       role="group"
       aria-label={`Testimonial from ${testimonial.name}`}
-      initial={{ y: 40, opacity: 0 }}
+      initial={{ y: 40 }}
       whileInView={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, delay: index * 0.25 }}
       whileHover={{ scale: 1.05, boxShadow: '0 0 24px #ffb70055' }}
@@ -105,7 +105,7 @@ const TestimonialsSection = () => {
             </motion.span>
           </motion.span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-2 pb-2 text-[#ffb700] relative inline-block mx-auto">
-            Client Success Stories
+            What Clients Report After Working Together
             <motion.span
               className="absolute inset-x-0 bottom-0 h-1 w-full rounded-full bg-[#ffb700]"
               initial={{ scaleX: 0 }}

@@ -78,8 +78,8 @@ export default function BlogSlider() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center mb-8 mt-2 w-full text-center">
           <span className="bg-transparent border border-[#ffb700] text-[#ffb700] text-xs font-semibold px-4 py-1 rounded-full mb-3 tracking-widest uppercase">RESOURCES</span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">Latest Resources</h2>
-          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Insights, guides, and AI solutions for UK business owners, trades, and SMEs.</div>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">Field Notes From a Working SEO and AI Builder</h2>
+          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Write-ups from live client campaigns.</div>
         </div>
         <div className="relative flex items-center justify-center">
           <button
@@ -161,7 +161,7 @@ export default function BlogSlider() {
                       {/* Value Proposition */}
                       <div className="bg-gradient-to-r from-[#ffb700]/10 to-[#ff8c00]/10 border border-[#ffb700]/20 rounded-xl p-4 mb-6">
                         <p className="text-white text-base md:text-lg font-semibold mb-2">
-                          Get the <span className="text-[#ffb700]">exact AI systems</span> that generated <span className="text-[#ffb700] font-bold">£12M+</span> in revenue
+                          Get the <span className="text-[#ffb700]">exact AI systems</span> used across UK client campaigns
                         </p>
                       </div>
                       

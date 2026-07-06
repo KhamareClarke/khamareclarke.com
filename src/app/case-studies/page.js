@@ -36,7 +36,7 @@ export default function CaseStudiesPage() {
             Real Results from <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">Real Businesses</span>
           </h1>
           <p className="text-xl text-[#ADB7BE] max-w-3xl mx-auto leading-relaxed">
-            See how I've helped UK businesses unlock £12M+ in revenue through AI automation, custom development, and strategic growth systems.
+            Documented results from real UK businesses. SEO, AI search, and lead response, ranked by outcome.
           </p>
         </motion.div>
 
@@ -49,9 +49,9 @@ export default function CaseStudiesPage() {
           viewport={{ once: true }}
         >
           {[
-            { number: "50+", label: "Businesses Automated" },
-            { number: "£12M+", label: "Revenue Unlocked" },
-            { number: "120+", label: "AI Workflows Deployed" },
+            { number: "538%", label: "Visibility Growth" },
+            { number: "5X", label: "Leads in 60 Days" },
+            { number: "20/day", label: "Enquiries at Peak" },
             { number: "100%", label: "Client Retention" }
           ].map((stat, index) => (
             <motion.div

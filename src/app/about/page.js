@@ -88,19 +88,19 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: "🎯",
+                icon: "",
                 title: "Results-Driven",
-                description: "Every project is measured by ROI, not deliverables. I focus on outcomes that move your business forward."
+                description: "Every engagement is measured by rankings, calls, and enquiries. I focus on outcomes that move your business forward."
               },
               {
-                icon: "🚀",
+                icon: "",
                 title: "Proven Track Record",
-                description: "£12M+ in revenue unlocked for clients. 100% retention rate. Real results from real businesses."
+                description: "Documented results from real UK businesses. 100% client retention. Numbers available in the case studies below."
               },
               {
-                icon: "🤝",
+                icon: "",
                 title: "True Partnership",
-                description: "I'm not a vendor-I'm your growth partner. Your success is my success, and I'm invested in your long-term growth."
+                description: "One person accountable for the work, the results, and the reporting. No rotating agency teams."
               }
             ].map((item, index) => (
               <motion.div

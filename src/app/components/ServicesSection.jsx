@@ -42,7 +42,7 @@ const ServicesSection = () => {
         <div className="text-center mb-16">
           <motion.span
             className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-8 tracking-wider uppercase"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
@@ -52,9 +52,9 @@ const ServicesSection = () => {
             OUR SERVICES
           </motion.span>
           
-          <motion.h2 
+          <motion.h2
             className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
@@ -65,13 +65,13 @@ const ServicesSection = () => {
             <span className="text-white">Business Systems</span>
           </motion.h2>
           
-          <motion.p 
+          <motion.p
             className="text-[#ADB7BE] text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Custom engineered AI solutions that turn your business into a <span className="text-[#ffb700] font-semibold">predictable, scalable growth machine</span> working 24/7/365.
+            Every approach tested on live client campaigns before I recommend it.
           </motion.p>
         </div>
 
@@ -81,7 +81,7 @@ const ServicesSection = () => {
             <motion.div
               key={idx}
               className="group relative"
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: idx * 0.2 }}
               whileHover={{ y: -10 }}
@@ -138,10 +138,10 @@ const ServicesSection = () => {
         >
           <div className="bg-gradient-to-r from-[#1a1a1a]/80 to-[#232323]/80 backdrop-blur-sm border border-[#ffb700]/20 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto">
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Ready to Rank Your Business?
+              Not sure which service fits?
             </h3>
             <p className="text-[#ADB7BE] text-lg mb-8 max-w-2xl mx-auto">
-              Book a free strategy call and discover how AI can automate your operations, scale your revenue, and give you the competitive edge.
+              Book a free 30-minute call. I will look at your numbers and tell you exactly which service applies.
             </p>
             
             <BookingButton
@@ -152,7 +152,7 @@ const ServicesSection = () => {
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                Book Your Free Strategy Call
+                Book a Free Call
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#ffb700] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </BookingButton>

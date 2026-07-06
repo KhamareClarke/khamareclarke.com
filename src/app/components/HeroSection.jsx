@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FaLinkedin, FaInstagram, FaFacebook, FaTiktok } from "react-icons/fa";
@@ -29,9 +28,6 @@ const HeroSection = () => {
               <svg width="120" height="80" viewBox="0 0 120 80" fill="none"><ellipse cx="60" cy="40" rx="55" ry="28" fill="#ffb700" opacity="0.12"/><ellipse cx="60" cy="40" rx="40" ry="18" fill="#fff" opacity="0.09"/></svg>
             </motion.span>
           </div>
-          <div className="flex flex-col items-center lg:items-start gap-2 mb-6 mt-0 lg:mt-20">
-            <span className="inline-block bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] text-[#111] font-extrabold py-2 px-4 rounded-lg text-xs sm:text-sm uppercase tracking-wider shadow-lg text-center border-2 border-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105">The UK&apos;s Leading AI Business Growth Architect</span>
-          </div>
 <h1 className="font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-4 lg:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#ffb700]" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.03em'}}>
   The SEO specialist with a Master&apos;s in <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">AI.</span>
 </h1>
@@ -41,41 +37,6 @@ const HeroSection = () => {
 <p className="text-[#ADB7BE] text-base sm:text-lg lg:text-lg max-w-2xl lg:max-w-3xl font-normal mb-6 lg:mb-8" style={{fontFamily:'Montserrat, sans-serif'}}>
   538% visibility growth, 5X leads in 60 days, documented below.
 </p>
-          {/* TODO: The emoji-only TypeAnimation sequence below requires its sequence strings to be replaced with non-emoji content or the component removed. Changing TypeAnimation sequence data constitutes animation-config editing per the design-freeze rules. Raise with the design owner before altering. */}
-          <div className="mt-4 lg:mt-6 mb-8 lg:mb-10 text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold tracking-tight flex items-center justify-center lg:justify-start gap-3">
-            <TypeAnimation
-              sequence={[
-                '👥', 1000,
-                '🔍', 1000,
-                '📢', 1000,
-                '💡', 1000,
-                '📱', 1000,
-                '⚡', 1000,
-                '🎯', 1000,
-                '📈', 1000
-              ]}
-              wrapper="span"
-              speed={50}
-              repeat={Infinity}
-              className="text-3xl"
-            />
-            <TypeAnimation
-              sequence={[
-                'AI Workforce', 1000,
-                'SEO Strategy', 1000,
-                'Paid Ads', 1000,
-                'AI Consulting', 1000,
-                'Digital Marketing', 1000,
-                'Business Automation', 1000,
-                'Lead Generation', 1000,
-                'Revenue Growth', 1000
-              ]}
-              wrapper="span"
-              speed={50}
-              repeat={Infinity}
-              className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]"
-            />
-          </div>
         
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -96,37 +57,6 @@ const HeroSection = () => {
             </div>
           </div>
                   </motion.div>
-          {/* START: Trust Badges */}
-          <motion.div
-            className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6 mt-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.8 }}
-          >
-            {/* Secure Badge */}
-            <div className="flex items-center gap-2 bg-gradient-to-br from-green-500/20 to-green-700/20 backdrop-blur-sm border border-green-500/30 rounded-full px-4 py-2 shadow-lg hover:shadow-green-500/20 transition-all duration-300">
-              <span className="text-green-400 text-lg"></span>
-              <span className="text-white text-sm font-medium">Secure</span>
-            </div>
-            
-            {/* Delivery Badge */}
-            <div className="flex items-center gap-2 bg-gradient-to-br from-blue-500/20 to-blue-700/20 backdrop-blur-sm border border-blue-500/30 rounded-full px-4 py-2 shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
-              <span className="text-blue-400 text-lg"></span>
-              <span className="text-white text-sm font-medium">Fast Setup</span>
-            </div>
-            
-            {/* Revisions Badge */}
-            <div className="flex items-center gap-2 bg-gradient-to-br from-purple-500/20 to-purple-700/20 backdrop-blur-sm border border-purple-500/30 rounded-full px-4 py-2 shadow-lg hover:shadow-purple-500/20 transition-all duration-300">
-              <span className="text-purple-400 text-lg"></span>
-              <span className="text-white text-sm font-medium">Results</span>
-            </div>
-            
-            {/* Rating Badge */}
-            <div className="flex items-center gap-2 bg-gradient-to-br from-yellow-500/20 to-yellow-700/20 backdrop-blur-sm border border-yellow-500/30 rounded-full px-4 py-2 shadow-lg hover:shadow-yellow-500/20 transition-all duration-300">
-              <span className="text-white text-sm font-medium">Proven</span>
-            </div>
-          </motion.div>
-          {/* END: Trust Badges */}
           
           <div className="flex justify-center lg:justify-start space-x-6 mb-8">
             <motion.a

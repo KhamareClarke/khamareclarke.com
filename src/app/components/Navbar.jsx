@@ -105,7 +105,7 @@ const Navbar = () => {
             eventLabel="nav_book_consultation"
             caption="Designed for teams ready to get clarity and move fast."
           >
-            BOOK FREE CONSULTATION
+            BOOK A FREE CALL
           </CTAButton>
         </div>
       </NavbarWrapper>

@@ -1,17 +1,8 @@
 "use client";
 import React from "react";
-import dynamic from "next/dynamic";
 import { FaBriefcase, FaPoundSign, FaRobot, FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
-import CountUpNumber from "./CountUpNumber";
 import CTAButton from "./CTAButton";
-
-const AnimatedNumbers = dynamic(
-  () => {
-    return import("react-animated-numbers");
-  },
-  { ssr: false }
-);
 
 const achievementsList = [
   {
@@ -38,7 +29,6 @@ const achievementsList = [
   },
   {
     icon: "",
-    // TODO: CountUpNumber only handles numeric values; "MSc" renders as NaN until CountUpNumber.jsx is updated to support static string display.
     metric: "Artificial Intelligence, Keele",
     value: "MSc",
     prefix: "",
@@ -47,15 +37,11 @@ const achievementsList = [
   },
 ];
 
-import { useEffect, useState } from "react";
-
 const AchievementsSection = () => {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
   return (
     <motion.div
       className="py-12 md:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 relative"
-      initial={{ opacity: 0, scale: 0.95 }}
+      initial={{ scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.7 }}
       viewport={{ once: true }}
@@ -69,7 +55,7 @@ const AchievementsSection = () => {
       <div className="text-center mb-12">
         <motion.span
           className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-6 tracking-wider uppercase"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
@@ -79,18 +65,18 @@ const AchievementsSection = () => {
           PROVEN RESULTS
         </motion.span>
         
-        <motion.h2 
+        <motion.h2
           className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           Numbers That Matter
         </motion.h2>
         
-        <motion.p 
+        <motion.p
           className="text-[#ADB7BE] text-lg md:text-xl max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
@@ -105,7 +91,7 @@ const AchievementsSection = () => {
             <motion.div
               key={index}
               className="group relative"
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.1 }}
               viewport={{ once: true }}
@@ -132,10 +118,8 @@ const AchievementsSection = () => {
                 
                 {/* Number */}
                 <div className="mb-4">
-                  <div className={`font-black text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00] drop-shadow-lg flex items-baseline justify-center gap-1 whitespace-nowrap ${achievement.value === "12,000,000" ? "text-2xl sm:text-3xl md:text-4xl" : "text-3xl sm:text-4xl md:text-5xl"}`}>
-                    <span>{achievement.prefix}</span>
-                    <CountUpNumber value={achievement.value} />
-                    <span>{achievement.postfix}</span>
+                  <div className="font-black text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00] drop-shadow-lg flex items-baseline justify-center gap-1 whitespace-nowrap text-3xl sm:text-4xl md:text-5xl">
+                    <span>{achievement.prefix}{achievement.value}{achievement.postfix}</span>
                   </div>
                 </div>
                 
@@ -159,7 +143,7 @@ const AchievementsSection = () => {
 
       <motion.div
         className="flex justify-center mt-10"
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, delay: 0.25 }}
         viewport={{ once: true }}

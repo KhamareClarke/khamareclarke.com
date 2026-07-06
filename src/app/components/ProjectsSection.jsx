@@ -280,7 +280,7 @@ const ProjectsSection = () => {
           </motion.span>
           <h2 className="text-4xl md:text-5xl font-extrabold text-center relative mb-4">
             <span className="text-[#ffb700] relative">
-              Real Results
+              Documented Results.
               <motion.span
                 className="absolute left-0 -bottom-1 h-2 w-full rounded-full bg-[#ffb700]"
                 initial={{ scaleX: 0 }}
@@ -289,9 +289,8 @@ const ProjectsSection = () => {
                 style={{ transformOrigin: 'left' }}
               />
             </span>
-            <span className="text-white"> For Real Businesses</span>
           </h2>
-          <p className="text-[#ADB7BE] text-center mt-5 text-sm md:text-base max-w-2xl">Results from real UK businesses. Rankings, calls, and enquiries, documented below.</p>
+          <p className="text-[#ADB7BE] text-center mt-5 text-sm md:text-base max-w-2xl">Real businesses. Documented results. SEO and AI search, ranked by outcome.</p>
         </div>
 
         {/* Slider Container */}
