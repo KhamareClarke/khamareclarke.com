@@ -6,14 +6,14 @@ import CTAButton from "./CTAButton";
 
 const achievementsList = [
   {
-    icon: "",
+    icon: "📈",
     metric: "Google visibility growth",
     value: "538",
     postfix: "%",
     color: "#3B82F6",
   },
   {
-    icon: "",
+    icon: "🎯",
     metric: "Qualified leads in 60 days",
     value: "5",
     prefix: "",
@@ -21,14 +21,14 @@ const achievementsList = [
     color: "#10B981",
   },
   {
-    icon: "",
+    icon: "📞",
     metric: "Enquiries at peak",
     value: "20",
     postfix: "/day",
     color: "#8B5CF6",
   },
   {
-    icon: "",
+    icon: "🎓",
     metric: "Artificial Intelligence, Keele",
     value: "MSc",
     prefix: "",

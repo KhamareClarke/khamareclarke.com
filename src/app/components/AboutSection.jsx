@@ -178,12 +178,12 @@ const AboutSection = () => {
             <div className="bg-gradient-to-br from-[#1a1a1a]/60 to-[#0f0f0f]/60 backdrop-blur-sm border border-[#ffb700]/20 rounded-xl p-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
-                  { icon: "", title: "SEO Audits and Technical Fixes", desc: "Full technical audit with a prioritised fix list" },
-                  { icon: "", title: "Local SEO and Google Business Profile", desc: "Google Business Profile managed for maximum local reach" },
-                  { icon: "", title: "AI Search Visibility (ChatGPT, Gemini, Perplexity)", desc: "Optimised to appear in ChatGPT, Gemini, Perplexity" },
-                  { icon: "", title: "AI Lead Response Systems", desc: "Every enquiry answered in minutes, around the clock" },
-                  { icon: "", title: "High-Performance Websites", desc: "Fast, Core Web Vitals compliant, built to convert" },
-                  { icon: "", title: "Plain-English Reporting", desc: "Monthly update: rankings, calls, enquiries" }
+                  { icon: "🔍", title: "SEO Audits and Technical Fixes", desc: "Full technical audit with a prioritised fix list" },
+                  { icon: "📍", title: "Local SEO and Google Business Profile", desc: "Google Business Profile managed for maximum local reach" },
+                  { icon: "🤖", title: "AI Search Visibility (ChatGPT, Gemini, Perplexity)", desc: "Optimised to appear in ChatGPT, Gemini, Perplexity" },
+                  { icon: "💬", title: "AI Lead Response Systems", desc: "Every enquiry answered in minutes, around the clock" },
+                  { icon: "⚡", title: "High-Performance Websites", desc: "Fast, Core Web Vitals compliant, built to convert" },
+                  { icon: "📊", title: "Plain-English Reporting", desc: "Monthly update: rankings, calls, enquiries" }
                 ].map((item, index) => (
                   <div
                     key={index}

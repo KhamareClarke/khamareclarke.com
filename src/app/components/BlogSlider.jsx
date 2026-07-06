@@ -5,9 +5,9 @@ import CTAButton from "./CTAButton";
 
 // Map categories to emojis
 const categoryEmojis = {
-  'AI Automation': '',
-  'Web & App Development': '',
-  'Advanced Analytics': ''
+  'AI Automation': '🤖',
+  'Web & App Development': '💻',
+  'Advanced Analytics': '📊'
 };
 
 const blogPosts = [

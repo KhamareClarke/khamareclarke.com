@@ -88,17 +88,17 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: "",
+                icon: "🎯",
                 title: "Results-Driven",
                 description: "Every engagement is measured by rankings, calls, and enquiries. I focus on outcomes that move your business forward."
               },
               {
-                icon: "",
+                icon: "🚀",
                 title: "Proven Track Record",
                 description: "Documented results from real UK businesses. 100% client retention. Numbers available in the case studies below."
               },
               {
-                icon: "",
+                icon: "🤝",
                 title: "True Partnership",
                 description: "One person accountable for the work, the results, and the reporting. No rotating agency teams."
               }

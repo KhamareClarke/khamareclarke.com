@@ -31,7 +31,7 @@ const CookieBanner = () => {
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
           <div className="flex-1">
             <h3 className="text-white font-semibold mb-2 text-sm md:text-base">
-              We use cookies to improve your experience
+              🍪 We use cookies to improve your experience
             </h3>
             <p className="text-white/70 text-xs md:text-sm leading-relaxed">
               We use cookies to analyze site traffic, personalize content, and improve our services. 

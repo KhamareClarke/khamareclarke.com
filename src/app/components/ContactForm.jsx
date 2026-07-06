@@ -259,7 +259,7 @@ const ContactForm = ({ isOpen, onClose, type = 'contact' }) => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                Message sent successfully. Khamare will get back to you soon.
+                ✅ Message sent successfully. Khamare will get back to you soon.
               </motion.div>
             )}
 
@@ -269,7 +269,7 @@ const ContactForm = ({ isOpen, onClose, type = 'contact' }) => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                Failed to send message. Please try again.
+                ❌ Failed to send message. Please try again.
               </motion.div>
             )}
           </form>

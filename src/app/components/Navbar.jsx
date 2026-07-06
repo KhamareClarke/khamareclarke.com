@@ -23,7 +23,7 @@ const navLinks = [
   {
     title: "Business Bundle",
     path: "/business-bundle",
-    badge: "Special Offer",
+    badge: "🔥 Special Offer",
   },
   {
     title: "Case Studies",
