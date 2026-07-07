@@ -17,59 +17,57 @@ const HeroSection = () => {
           transition={{ duration: 0.5 }}
           className="lg:col-span-7 text-center lg:text-left order-2 lg:order-1"
         >
-          {/* Badge */}
-          <motion.div
-            className="mb-6 flex justify-center lg:justify-start"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          {/* Badge — static, always visible */}
+          <div className="mb-6 flex justify-center lg:justify-start">
             <span className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-[11px] sm:text-xs font-bold px-5 py-2.5 rounded-full tracking-wider uppercase">
               THE SEO SPECIALIST WITH A MASTER&apos;S IN AI
             </span>
-          </motion.div>
+          </div>
 
           <h1 className="font-extrabold text-5xl sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl leading-tight mb-4 lg:mb-5 text-white" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.03em'}}>
             Khamare Clarke
           </h1>
 
-          <p className="text-xl sm:text-2xl lg:text-xl max-w-xl font-medium mb-8 lg:mb-10 text-[#ADB7BE]" style={{fontFamily:'Montserrat, sans-serif'}}>
+          <p className="text-xl sm:text-2xl lg:text-xl max-w-xl font-medium mb-4 lg:mb-5 text-[#ADB7BE]" style={{fontFamily:'Montserrat, sans-serif'}}>
             UK businesses that rank higher, earn more, and run leaner.
           </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.5 }}
-          >
-            <div className="flex flex-col items-center lg:items-start mb-8">
-              <BookingButton
-                className="group relative inline-flex items-center justify-center px-10 py-5 lg:px-12 lg:py-6 bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] text-black font-black rounded-xl hover:scale-105 transform transition-all duration-300 text-lg lg:text-xl shadow-xl hover:shadow-[#fdbd18]/50 border-2 border-[#fdbd18]"
-                trackingLabel="hero_book_call"
-              >
-                <span className="relative z-10">Book Free Call</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </BookingButton>
-              <div className="mt-2 text-center lg:text-left text-[11px] sm:text-xs text-white/50 leading-snug">
-                30 min strategy, zero obligation
-              </div>
-            </div>
+          <p className="text-base lg:text-lg max-w-xl text-[#ADB7BE]/80 mb-8 lg:mb-10 leading-relaxed" style={{fontFamily:'Montserrat, sans-serif'}}>
+            I rank UK businesses with SEO backed by AI systems built in production. I write the code, run the campaigns, and build the systems that convert the traffic.
+          </p>
 
-            {/* Trust icons */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4 mb-8">
-              {[
-                { icon: "🔒", label: "Ranked or Refunded" },
-                { icon: "⚡", label: "Results in 60 Days" },
-                { icon: "🔍", label: "No Black Box" },
-                { icon: "⭐", label: "Guaranteed Outcomes" },
-              ].map((item, i) => (
-                <div key={i} className="flex flex-col items-center lg:items-start gap-1">
-                  <span className="text-xl">{item.icon}</span>
-                  <span className="text-white text-xs font-semibold leading-snug text-center lg:text-left">{item.label}</span>
-                </div>
-              ))}
+          <div className="flex flex-col items-center lg:items-start mb-8">
+            <BookingButton
+              className="group relative inline-flex items-center justify-center px-10 py-5 lg:px-12 lg:py-6 bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] text-black font-black rounded-xl hover:scale-105 transform transition-all duration-300 text-lg lg:text-xl shadow-xl hover:shadow-[#fdbd18]/50 border-2 border-[#fdbd18]"
+              trackingLabel="hero_book_call"
+            >
+              <span className="relative z-10">Book Free Call</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </BookingButton>
+            <p className="mt-2 text-center lg:text-left text-[11px] sm:text-xs text-white/50 leading-snug">
+              30-minute strategy call. No obligation.
+            </p>
+          </div>
+
+          {/* Trust icons — static, no animation dependency */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4 mb-8">
+            <div className="flex flex-col items-center lg:items-start gap-1">
+              <span className="text-xl">🔒</span>
+              <span className="text-white text-xs font-semibold leading-snug text-center lg:text-left">Ranked or Refunded</span>
             </div>
-          </motion.div>
+            <div className="flex flex-col items-center lg:items-start gap-1">
+              <span className="text-xl">⚡</span>
+              <span className="text-white text-xs font-semibold leading-snug text-center lg:text-left">Results in 60 Days</span>
+            </div>
+            <div className="flex flex-col items-center lg:items-start gap-1">
+              <span className="text-xl">🔍</span>
+              <span className="text-white text-xs font-semibold leading-snug text-center lg:text-left">No Black Box</span>
+            </div>
+            <div className="flex flex-col items-center lg:items-start gap-1">
+              <span className="text-xl">⭐</span>
+              <span className="text-white text-xs font-semibold leading-snug text-center lg:text-left">Guaranteed Outcomes</span>
+            </div>
+          </div>
 
           <div className="flex justify-center lg:justify-start space-x-6 mb-8">
             <motion.a

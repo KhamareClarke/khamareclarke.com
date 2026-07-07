@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: "Khamare Clarke | The SEO Specialist with a Master's in AI",
   description: "I rank UK businesses on Google and in AI search. MSc Artificial Intelligence, Keele University. Documented client results.",
-  keywords: 'AI automation UK, web development London, app development UK, digital marketing specialist, business automation, lead generation, AI chatbots, custom software development, UK business growth',
+  keywords: 'SEO specialist UK, AI search visibility, Google Business Profile optimisation, local SEO UK, AI lead response, digital marketing specialist, UK business growth, Stoke-on-Trent SEO',
   verification: {
     google: 'your-google-verification-code-here'
   },
@@ -99,15 +99,15 @@ export default function RootLayout({ children }) {
             },
             "address": {
               "@type": "PostalAddress",
-              "addressLocality": "London",
-              "addressRegion": "England",
+              "addressLocality": "Stoke-on-Trent",
+              "addressRegion": "Staffordshire",
               "addressCountry": "GB",
               "postalCode": "UK"
             },
             "geo": {
               "@type": "GeoCoordinates",
-              "latitude": "51.5074",
-              "longitude": "-0.1278"
+              "latitude": "53.0027",
+              "longitude": "-2.1794"
             },
             "priceRange": "££-£££",
             "openingHours": "Mo-Fr 09:00-18:00",
@@ -213,10 +213,10 @@ export default function RootLayout({ children }) {
           ],
           "hasOccupation": {
             "@type": "Occupation",
-            "name": "AI Business Growth Specialist",
+            "name": "SEO Specialist",
             "occupationLocation": {
               "@type": "City",
-              "name": "London"
+              "name": "Stoke-on-Trent"
             }
           }
           })
@@ -250,65 +250,6 @@ export default function RootLayout({ children }) {
               "@type": "Question",
               "name": "Can you integrate AI into my existing systems?",
               "acceptedAnswer": { "@type": "Answer", "text": "Absolutely. I specialize in integrating AI agents, automations, and analytics into your current workflows, CRMs, and platforms-seamlessly and securely, with minimal disruption to your business." }
-            }
-          ]
-          })
-        }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          "itemListElement": [
-            {
-              "@type": "Review",
-              "author": {
-                "@type": "Person",
-                "name": "James Morgan"
-              },
-              "reviewRating": {
-                "@type": "Rating",
-                "ratingValue": "5",
-                "bestRating": "5"
-              },
-              "reviewBody": "Our custom AI workflow slashed manual entry and errors across our warehouse. The Omni WTMS dashboard gives us real-time insights, and our team saves hours every week. This is the future of logistics.",
-              "itemReviewed": {
-                "@type": "Service",
-                "name": "AI Automation Services"
-              }
-            },
-            {
-              "@type": "Review",
-              "author": {
-                "@type": "Person",
-                "name": "Olivia Chen"
-              },
-              "reviewRating": {
-                "@type": "Rating",
-                "ratingValue": "5",
-                "bestRating": "5"
-              },
-              "reviewBody": "Khamare's AI-powered funnel transformed our agency's results. We're booking more discovery calls than ever, and our pipeline is finally predictable. Qualified leads up 3X in 60 days.",
-              "itemReviewed": {
-                "@type": "Service",
-                "name": "Digital Marketing & AI Automation"
-              }
-            },
-            {
-              "@type": "Review",
-              "author": {
-                "@type": "Person",
-                "name": "Simon Ellis"
-              },
-              "reviewRating": {
-                "@type": "Rating",
-                "ratingValue": "5",
-                "bestRating": "5"
-              },
-              "reviewBody": "Khamare's AI chatbot handles 90% of our directory's enquiries. Our signups are up 50%, support tickets are down, and the team finally has time to focus on growth.",
-              "itemReviewed": {
-                "@type": "Service",
-                "name": "AI Chatbot Development"
-              }
             }
           ]
           })

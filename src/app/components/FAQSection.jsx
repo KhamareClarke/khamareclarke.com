@@ -123,9 +123,9 @@ const FAQSection = () => {
             icon="bolt"
             eventLabel="faq_book_free_call"
             className="px-8 py-3 text-lg"
-            caption={null}
+            caption="30-minute strategy call. No obligation."
           >
-            Still Have Questions? Book a Free Call
+            Book Free Call
           </CTAButton>
         </motion.div>
       </div>

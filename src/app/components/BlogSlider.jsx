@@ -79,7 +79,7 @@ export default function BlogSlider() {
         <div className="flex flex-col items-center mb-8 mt-2 w-full text-center">
           <span className="bg-transparent border border-[#ffb700] text-[#ffb700] text-xs font-semibold px-4 py-1 rounded-full mb-3 tracking-widest uppercase">RESOURCES</span>
           <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">Field Notes From a Working SEO and AI Builder</h2>
-          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Write-ups from live client campaigns.</div>
+          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Write-ups from live client campaigns. What worked, with the numbers.</div>
         </div>
         <div className="relative flex items-center justify-center">
           <button

@@ -121,14 +121,9 @@ const AboutSection = () => {
             <span className="text-white">SEO backed by AI. Results built in production.</span>
           </motion.h2>
           
-          <motion.p
-            className="text-[#ff8c00] text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed font-semibold"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Ten years building and ranking UK businesses. I write the code, run the campaigns, build the systems.
-          </motion.p>
+          <p className="text-[#ADB7BE] text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+            I build and rank UK businesses using the same systems I sell. I write the code, run the campaigns, and stay until the numbers move.
+          </p>
         </div>
 
         {/* Main Content */}
@@ -167,12 +162,7 @@ const AboutSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            {/* Description */}
-            <div className="space-y-4 mb-8">
-              <p className="text-base md:text-lg text-[#ADB7BE] leading-relaxed">
-                Every recommendation is tested on live client accounts before it reaches yours.
-              </p>
-            </div>
+            {/* Description removed — single paragraph appears in header only */}
 
             {/* What he builds - Compact Grid */}
             <div className="bg-gradient-to-br from-[#1a1a1a]/60 to-[#0f0f0f]/60 backdrop-blur-sm border border-[#ffb700]/20 rounded-xl p-6">

@@ -9,21 +9,21 @@ import CTAButton from './CTAButton';
 const services = [
   {
     title: "AI Visibility Audit",
-    description: "Score your site for ChatGPT, Gemini, and Perplexity visibility. Know exactly where you rank in AI search.",
+    description: "Score your site for ChatGPT, Gemini and Perplexity visibility. Know exactly where you stand in AI search.",
     icon: "🔍",
-    chip: "538% visibility growth",
+    caption: "£495 one-off. Ranked or refunded.",
   },
   {
     title: "Local Dominance",
-    description: "Monthly Google Business Profile optimization, local ranking strategy, and GBP conversion tuning.",
+    description: "Monthly Google Business Profile optimisation, local ranking and conversion tuning.",
     icon: "📍",
-    chip: "20 enquiries/day at peak",
+    caption: "£1,250/mo. 60-day results guarantee.",
   },
   {
     title: "Rank + Respond",
-    description: "SEO + AI lead response automation. Rank the site, then build the system that answers enquiries at scale.",
+    description: "Everything in Local Dominance plus an AI lead response system answering enquiries in minutes, 24/7.",
     icon: "⚡",
-    chip: "Core Web Vitals: pass",
+    caption: "£2,500/mo. Guaranteed lead system.",
   },
 ];
 
@@ -116,7 +116,7 @@ const ServicesSection = () => {
                     href="/onboarding"
                     className="w-full py-3 px-6 text-base font-semibold"
                     eventLabel={`services_${service.title.toLowerCase().replace(/\s+/g, '_')}_cta`}
-                    caption={`Get started with ${service.title.toLowerCase()} services`}
+                    caption={service.caption}
                   >
                     Get Started
                   </CTAButton>

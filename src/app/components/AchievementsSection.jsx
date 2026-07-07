@@ -7,25 +7,27 @@ import CTAButton from "./CTAButton";
 const achievementsList = [
   {
     icon: "📈",
-    metric: "Google Business Profile interactions growth",
-    value: "538",
-    postfix: "%",
+    metric: "Google Business Profile interactions, Upgrade Roofing",
+    value: "538%",
     color: "#3B82F6",
   },
   {
     icon: "🎯",
-    metric: "Leads in 60 days",
-    value: "5",
-    prefix: "",
-    postfix: "X",
+    metric: "Leads in 60 days, City Plaza Abu Dhabi",
+    value: "5X",
     color: "#10B981",
   },
   {
     icon: "📞",
-    metric: "Enquiries per day",
-    value: "~20",
-    postfix: "",
+    metric: "Qualified enquiries at peak, City Plaza Abu Dhabi",
+    value: "~20/day",
     color: "#8B5CF6",
+  },
+  {
+    icon: "🎓",
+    metric: "Artificial Intelligence, Keele (2027)",
+    value: "MSc",
+    color: "#F59E0B",
   },
 ];
 
@@ -77,7 +79,7 @@ const AchievementsSection = () => {
       </div>
 
       {/* Statistics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto mb-12">
         {achievementsList.map((achievement, index) => {
           return (
             <motion.div
@@ -111,7 +113,7 @@ const AchievementsSection = () => {
                 {/* Number */}
                 <div className="mb-4">
                   <div className="font-black text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00] drop-shadow-lg flex items-baseline justify-center gap-1 whitespace-nowrap text-3xl sm:text-4xl md:text-5xl">
-                    <span>{achievement.prefix}{achievement.value}{achievement.postfix}</span>
+                    <span>{achievement.value}</span>
                   </div>
                 </div>
                 

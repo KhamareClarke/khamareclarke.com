@@ -14,10 +14,10 @@ const PACKAGE_CATEGORIES = [
     tiers: [
       {
         tier: "AI Visibility Audit",
-        price: "£495",
+        price: "£495 one-off",
         originalPrice: null,
         mostPopular: false,
-        cta: "Book Your Audit",
+        cta: "Book Free Call",
         deliverables: [
           "Full technical SEO audit of your site",
           "AI Visibility score: ChatGPT, Gemini, Perplexity",
@@ -31,7 +31,7 @@ const PACKAGE_CATEGORIES = [
         price: "£1,250/mo",
         originalPrice: null,
         mostPopular: true,
-        cta: "Start Local Dominance",
+        cta: "Book Free Call",
         deliverables: [
           "Local SEO and Google Business Profile management",
           "AI search optimisation: ChatGPT, Gemini, Perplexity",
@@ -45,7 +45,7 @@ const PACKAGE_CATEGORIES = [
         price: "£2,500/mo",
         originalPrice: null,
         mostPopular: false,
-        cta: "Build Rank + Respond",
+        cta: "Book Free Call",
         deliverables: [
           "Everything in Local Dominance",
           "AI lead response: enquiries answered in minutes, 24/7",
