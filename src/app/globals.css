@@ -148,8 +148,29 @@ a {
   transition: opacity 350ms ease-out, transform 350ms ease-out;
 }
 
+/* Background gradient blob drift — subtle, long-cycle, decorative */
+@keyframes gradient-drift {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.5; }
+  50%       { transform: scale(1.22) translate(3%, -4%); opacity: 0.8; }
+}
+@keyframes gradient-drift-b {
+  0%, 100% { transform: scale(1.1) translate(0, 0); opacity: 0.35; }
+  50%       { transform: scale(0.85) translate(-3%, 4%); opacity: 0.65; }
+}
+@keyframes gradient-drift-c {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+  33%       { transform: scale(1.18) translate(2%, -2%); opacity: 0.55; }
+  66%       { transform: scale(0.92) translate(-2%, 3%); opacity: 0.4; }
+}
+.gradient-blob   { animation: gradient-drift   18s ease-in-out infinite; }
+.gradient-blob-b { animation: gradient-drift-b 22s ease-in-out infinite; }
+.gradient-blob-c { animation: gradient-drift-c 28s ease-in-out infinite; }
+
 /* Prefers-reduced-motion: disable all transitions and animations */
 @media (prefers-reduced-motion: reduce) {
+  .gradient-blob, .gradient-blob-b, .gradient-blob-c {
+    animation: none !important;
+  }
   *,
   *::before,
   *::after {

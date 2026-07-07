@@ -117,7 +117,7 @@ const AchievementsSection = () => {
           eventLabel="achievements_book_strategy_call"
           caption="See what these numbers would look like for your business."
         >
-          Book Free Call
+          Start Ranking Today
         </CTAButton>
       </div>
     </div>

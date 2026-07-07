@@ -17,7 +17,7 @@ const PACKAGE_CATEGORIES = [
         price: "£495 one-off",
         originalPrice: null,
         mostPopular: false,
-        cta: "Book Free Call",
+        cta: "Get My Free SEO Audit",
         deliverables: [
           "Full technical SEO audit of your site",
           "AI Visibility score: ChatGPT, Gemini, Perplexity",
@@ -31,7 +31,7 @@ const PACKAGE_CATEGORIES = [
         price: "£1,250/mo",
         originalPrice: null,
         mostPopular: true,
-        cta: "Book Free Call",
+        cta: "Start Ranking Today",
         deliverables: [
           "Local SEO and Google Business Profile management",
           "AI search optimisation: ChatGPT, Gemini, Perplexity",
@@ -45,7 +45,7 @@ const PACKAGE_CATEGORIES = [
         price: "£2,500/mo",
         originalPrice: null,
         mostPopular: false,
-        cta: "Book Free Call",
+        cta: "Claim My Free Strategy Call",
         deliverables: [
           "Everything in Local Dominance",
           "AI lead response: enquiries answered in minutes, 24/7",

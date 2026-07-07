@@ -46,7 +46,7 @@ const HeroSection = () => {
           </p>
 
           <p className="text-2xl sm:text-3xl font-black text-[#ffb700] mb-6 lg:mb-8 text-center lg:text-left" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.02em'}}>
-            Page 1. Guaranteed.
+            Top of Google. Guaranteed.
           </p>
 
           <div className="flex flex-col items-center lg:items-start mb-8">
@@ -54,7 +54,7 @@ const HeroSection = () => {
               className="group relative inline-flex items-center justify-center px-10 py-5 lg:px-12 lg:py-6 bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] text-black font-black rounded-xl hover:scale-105 transform transition-all duration-300 text-lg lg:text-xl shadow-xl hover:shadow-[#fdbd18]/50 border-2 border-[#fdbd18]"
               trackingLabel="hero_book_call"
             >
-              <span className="relative z-10">Book Free Call</span>
+              <span className="relative z-10">Get My Free SEO Audit</span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </BookingButton>
             <p className="mt-2 text-center lg:text-left text-[11px] sm:text-xs text-white/50 leading-snug">
@@ -140,7 +140,7 @@ const HeroSection = () => {
           transition={{ duration: 0.5 }}
           className="lg:col-span-5 place-self-center order-1 lg:order-2 mt-8 sm:mt-12 lg:mt-0"
         >
-          <div className="relative inline-block mx-auto">
+          <div className="relative inline-block mx-auto lg:-translate-x-8">
             {/* Radial glow behind portrait — pure CSS, decorative */}
             <div
               aria-hidden="true"
@@ -155,7 +155,7 @@ const HeroSection = () => {
             <Image
               src="/images/hero-image.png"
               alt="Khamare Clarke - AI Automation Expert and Business Growth Architect"
-              className="object-contain w-full h-full scale-85 hover:scale-90 transition-transform duration-300"
+              className="object-contain w-full h-full scale-75 hover:scale-[82%] transition-transform duration-300"
               width={550}
               height={550}
               priority

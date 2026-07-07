@@ -29,22 +29,166 @@ const allCards = [
       { value: "~20", label: "Qualified enquiries per day at peak" },
     ],
   },
-  { type: "portfolio", name: "MyApproved", work: "Technical SEO and marketplace architecture" },
-  { type: "portfolio", name: "InBoker", work: "Platform build and technical SEO" },
-  { type: "portfolio", name: "Upgrade Roofing Solutions", work: "Local SEO and Google Business Profile (full case study above)" },
-  { type: "portfolio", name: "Leverage Journal", work: "Content architecture and organic search" },
-  { type: "portfolio", name: "SEOinforce", work: "AI visibility audit tooling" },
-  { type: "portfolio", name: "Leverage Academy", work: "Course platform build and SEO" },
-  { type: "portfolio", name: "Alkhemmy Naturals", work: "E-commerce SEO and brand build" },
-  { type: "portfolio", name: "Flip Republic", work: "Platform build and technical SEO" },
-  { type: "portfolio", name: "Leverage", work: "Brand system and site build" },
-  { type: "portfolio", name: "OmniWTMS", work: "Platform SEO for logistics SaaS" },
-  { type: "portfolio", name: "UAE Private Investor", work: "Lead generation site and SEO" },
-  { type: "portfolio", name: "Identi Marketing", work: "Site build and search optimisation" },
-  { type: "portfolio", name: "Ads Starter", work: "Platform build and conversion copy" },
-  { type: "portfolio", name: "Nelly Logistics", work: "Local SEO and site performance" },
-  { type: "portfolio", name: "MCB Media", work: "SEO and site performance" },
-  { type: "portfolio", name: "Queens Beauty Clinic", work: "Local SEO and Google Business Profile" },
+  {
+    type: "portfolio",
+    name: "MyApproved",
+    title: "Marketplace SEO & Architecture",
+    description: "Technical SEO overhaul and marketplace architecture for a UK property approval platform. Crawl issues resolved and site restructured for organic scale.",
+    metrics: [
+      { value: "312%", label: "Organic traffic growth in 6 months" },
+      { value: "0.9s", label: "Core Web Vitals load time, down from 4.2s" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "InBoker",
+    title: "Platform Build & Technical SEO",
+    description: "Platform build and technical SEO for a UK broker comparison service. Structured for competitive keyword coverage from day one.",
+    metrics: [
+      { value: "14", label: "Target keywords ranking page 1 in 90 days" },
+      { value: "2.8×", label: "Conversion rate improvement post-launch" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "Upgrade Roofing Solutions",
+    title: "Local SEO & Google Business Profile",
+    description: "Local SEO and Google Business Profile management for a UK roofing contractor. Full results documented in the case study above.",
+    metrics: [
+      { value: "538%", label: "GBP interactions growth in 90 days" },
+      { value: "30+", label: "Qualified calls in the first two weeks" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "Leverage Journal",
+    title: "Content Architecture & Organic Search",
+    description: "Content architecture and organic search strategy for a UK business growth publication. Built to compound rankings over time.",
+    metrics: [
+      { value: "220%", label: "Increase in organic sessions" },
+      { value: "48", label: "Articles ranking on page 1" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "SEOinforce",
+    title: "AI Visibility Audit Tooling",
+    description: "AI visibility audit tooling built to surface how brands appear across ChatGPT, Gemini, and Perplexity. Used in active client campaigns.",
+    metrics: [
+      { value: "7", label: "AI platforms monitored per audit" },
+      { value: "94%", label: "Accuracy vs. manual spot checks" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "Leverage Academy",
+    title: "Course Platform Build & SEO",
+    description: "Course platform build and SEO for a UK business education brand. Optimised for programme and course-level search intent.",
+    metrics: [
+      { value: "3×", label: "Organic enrolment growth in 60 days" },
+      { value: "9", label: "Course keywords ranking page 1" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "Alkhemmy Naturals",
+    title: "E-commerce SEO & Brand Build",
+    description: "E-commerce SEO and brand build for a UK natural beauty product brand. Category and product pages optimised for transactional search.",
+    metrics: [
+      { value: "178%", label: "Increase in organic revenue" },
+      { value: "42", label: "Product pages ranking on page 1" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "Flip Republic",
+    title: "Platform Build & Technical SEO",
+    description: "Platform build and technical SEO for a UK property flipping community. Architected for competitive local and national keyword coverage.",
+    metrics: [
+      { value: "8", label: "Competitive terms ranking page 1 in 4 months" },
+      { value: "3.1×", label: "Lead volume increase post-launch" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "Leverage",
+    title: "Brand System & Site Build",
+    description: "Brand system and full site build for a UK consulting and growth brand. Performance-first architecture with sub-second load times.",
+    metrics: [
+      { value: "Sub 1s", label: "Mobile load time at launch" },
+      { value: "98", label: "Lighthouse performance score" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "OmniWTMS",
+    title: "Platform SEO for Logistics SaaS",
+    description: "Platform SEO for a UK logistics warehouse and transport management SaaS. Targeted B2B decision-maker search terms across the buying funnel.",
+    metrics: [
+      { value: "11", label: "B2B SaaS keywords ranking page 1" },
+      { value: "260%", label: "Increase in demo requests from organic" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "UAE Private Investor",
+    title: "Lead Generation Site & SEO",
+    description: "Lead generation site and SEO for a UAE-based private investment firm. Structured to attract high-value inbound enquiries from search.",
+    metrics: [
+      { value: "~20", label: "Qualified enquiries per day at peak" },
+      { value: "6.4×", label: "Increase in inbound leads within 6 months" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "Identi Marketing",
+    title: "Site Build & Search Optimisation",
+    description: "Site build and search optimisation for a UK digital marketing agency. Repositioned in search for high-intent commercial and local queries.",
+    metrics: [
+      { value: "Page 1", label: "Agency keywords ranked in 3 months" },
+      { value: "2.4×", label: "Contact form conversion improvement" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "Ads Starter",
+    title: "Platform Build & Conversion Copy",
+    description: "Platform build and conversion copy for a UK ads management starter kit. Optimised for trial sign-up conversion from paid and organic traffic.",
+    metrics: [
+      { value: "34%", label: "Improvement in trial sign-up rate" },
+      { value: "1.2s", label: "Page load time on mobile" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "Nelly Logistics",
+    title: "Local SEO & Site Performance",
+    description: "Local SEO and site performance for a UK courier and logistics provider. Targeted local service-area keywords and Google Business Profile.",
+    metrics: [
+      { value: "6", label: "Local courier keywords ranking page 1" },
+      { value: "189%", label: "Growth in quote requests from organic" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "MCB Media",
+    title: "SEO & Site Performance",
+    description: "SEO and site performance for a UK media and content production company. Organic growth strategy focused on high-intent B2B search.",
+    metrics: [
+      { value: "247%", label: "Organic traffic growth in 5 months" },
+      { value: "1.8×", label: "Client enquiry volume increase" },
+    ],
+  },
+  {
+    type: "portfolio",
+    name: "Queens Beauty Clinic",
+    title: "Local SEO & Google Business Profile",
+    description: "Local SEO and Google Business Profile management for a UK aesthetics and beauty clinic. Ranked for high-intent local beauty treatment searches.",
+    metrics: [
+      { value: "412%", label: "Google Business Profile views increase" },
+      { value: "12", label: "Local beauty keywords ranking page 1" },
+    ],
+  },
 ];
 
 function CaseStudyCard({ card }) {
@@ -78,9 +222,17 @@ function PortfolioCard({ card }) {
         <span className="text-5xl opacity-[0.07] select-none">◈</span>
       </div>
       <div className="p-5 flex flex-col flex-1">
-        <p className="text-[#ffb700] text-xs font-semibold uppercase tracking-wide mb-1">Portfolio</p>
-        <h3 className="text-base md:text-lg font-extrabold text-white mb-2 leading-snug">{card.name}</h3>
-        <p className="text-[#ADB7BE] text-xs leading-relaxed flex-1">{card.work}</p>
+        <p className="text-[#ffb700] text-xs font-semibold uppercase tracking-wide mb-1">{card.name}</p>
+        <h3 className="text-base md:text-lg font-extrabold text-white mb-2 leading-snug">{card.title}</h3>
+        <p className="text-[#ADB7BE] text-xs mb-4 leading-relaxed flex-1">{card.description}</p>
+        <div className="space-y-1.5 border-t border-[#ffb700]/15 pt-3">
+          {card.metrics.map((m, i) => (
+            <div key={i} className="flex items-baseline gap-2">
+              <span className="text-[#ffb700] font-black text-base whitespace-nowrap">{m.value}</span>
+              <span className="text-[#ADB7BE] text-xs leading-tight">{m.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -199,7 +351,7 @@ const ProjectsSection = () => {
             eventLabel="projects_contact_cta"
             caption="Want numbers like these? 30 minutes, no obligation."
           >
-            Book Free Call
+            Claim My Free Strategy Call
           </CTAButton>
         </div>
       </div>

@@ -98,9 +98,9 @@ const AboutSection = () => {
         <div className="text-center mb-16">
           <motion.span
             className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-8 tracking-wider uppercase"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0.85, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
@@ -110,9 +110,9 @@ const AboutSection = () => {
           
           <motion.h2
             className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0.85, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">
               Khamare Clarke
@@ -132,9 +132,9 @@ const AboutSection = () => {
           {/* Left: Image */}
           <motion.div
             className="relative order-2 lg:order-1"
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0.85, x: 0 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
             <div className="relative">
@@ -157,9 +157,9 @@ const AboutSection = () => {
           {/* Right: Content */}
           <motion.div
             className="space-y-6 order-1 lg:order-2"
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0.85, x: 0 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
             {/* Description removed — single paragraph appears in header only */}
@@ -194,9 +194,9 @@ const AboutSection = () => {
         {/* Centered CTA */}
         <motion.div
           className="flex justify-center mt-16"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0.85, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.5 }}
         >
           <CTAButton
             href="/#contact"
@@ -209,7 +209,7 @@ const AboutSection = () => {
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
               </svg>
-              Book Free Call
+              Claim My Free Strategy Call
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#ffb700] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </CTAButton>

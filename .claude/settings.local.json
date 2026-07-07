@@ -17,7 +17,8 @@
       "Bash(taskkill /PID 16436 /F)",
       "PowerShell(Stop-Process *)",
       "Bash(grep *)",
-      "Bash(echo \"NaN count: $\\(curl -s http://localhost:3000)"
+      "Bash(echo \"NaN count: $\\(curl -s http://localhost:3000)",
+      "Bash(npx next *)"
     ]
   }
 }

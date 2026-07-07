@@ -99,7 +99,7 @@ const FAQSection = () => {
             className="px-8 py-3 text-lg"
             caption="Still got questions? Ask me directly."
           >
-            Book Free Call
+            Get Started Free
           </CTAButton>
         </div>
       </div>
