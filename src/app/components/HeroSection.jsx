@@ -8,7 +8,7 @@ import BookingButton from './BookingButton';
 
 const HeroSection = () => {
   return (
-    <section className="pt-4 pb-8 sm:pt-8 sm:pb-16 lg:pt-4 lg:pb-20 bg-[#111015]">
+    <section className="pt-4 pb-8 sm:pt-8 sm:pb-16 lg:pt-28 lg:pb-20 bg-[#111015]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-center">
         <motion.div
@@ -17,47 +17,60 @@ const HeroSection = () => {
           transition={{ duration: 0.5 }}
           className="lg:col-span-7 text-center lg:text-left order-2 lg:order-1"
         >
-          <div className="mb-4 flex items-center gap-2 relative">
-                        {/* Subtle AI/tech SVG background graphic */}
-            <motion.span
-              className="absolute -z-10 left-[-40px] top-[-30px] pointer-events-none select-none"
-              initial={{ opacity: 0.12 }}
-              animate={{ opacity: [0.12, 0.22, 0.12] }}
-              transition={{ duration: 6, repeat: Infinity, repeatType: "loop" }}
-            >
-              <svg width="120" height="80" viewBox="0 0 120 80" fill="none"><ellipse cx="60" cy="40" rx="55" ry="28" fill="#ffb700" opacity="0.12"/><ellipse cx="60" cy="40" rx="40" ry="18" fill="#fff" opacity="0.09"/></svg>
-            </motion.span>
-          </div>
-<h1 className="font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-4 lg:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#ffb700]" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.03em'}}>
-  The SEO specialist with a Master&apos;s in <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">AI.</span>
-</h1>
-<p className="text-lg sm:text-xl lg:text-xl max-w-2xl font-medium mb-2 lg:mb-3" style={{fontFamily:'Montserrat, sans-serif'}}>
-  <span className="text-[#ffb700] font-bold">I rank UK businesses on Google and in AI search.</span>
-</p>
-<p className="text-[#ADB7BE] text-base sm:text-lg lg:text-lg max-w-2xl lg:max-w-3xl font-normal mb-6 lg:mb-8" style={{fontFamily:'Montserrat, sans-serif'}}>
-  538% visibility growth, 5X leads in 60 days, documented below.
-</p>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.5 }}
-        >
-          <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 w-full sm:w-auto items-center sm:items-start justify-center sm:justify-start">
-            <div className="flex flex-col items-center sm:items-start w-full sm:w-auto">
+          {/* Badge */}
+          <motion.div
+            className="mb-6 flex justify-center lg:justify-start"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-[11px] sm:text-xs font-bold px-5 py-2.5 rounded-full tracking-wider uppercase">
+              THE SEO SPECIALIST WITH A MASTER&apos;S IN AI
+            </span>
+          </motion.div>
+
+          <h1 className="font-extrabold text-5xl sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl leading-tight mb-4 lg:mb-5 text-white" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.03em'}}>
+            Khamare Clarke
+          </h1>
+
+          <p className="text-xl sm:text-2xl lg:text-xl max-w-xl font-medium mb-8 lg:mb-10 text-[#ADB7BE]" style={{fontFamily:'Montserrat, sans-serif'}}>
+            UK businesses that rank higher, earn more, and run leaner.
+          </p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.5 }}
+          >
+            <div className="flex flex-col items-center lg:items-start mb-8">
               <BookingButton
                 className="group relative inline-flex items-center justify-center px-10 py-5 lg:px-12 lg:py-6 bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] text-black font-black rounded-xl hover:scale-105 transform transition-all duration-300 text-lg lg:text-xl shadow-xl hover:shadow-[#fdbd18]/50 border-2 border-[#fdbd18]"
                 trackingLabel="hero_book_call"
               >
-                <span className="relative z-10">Book Your Free SEO Strategy Call</span>
+                <span className="relative z-10">Book Free Call</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </BookingButton>
-              <div className="mt-2 text-center text-[11px] sm:text-xs text-white/60 leading-snug">
+              <div className="mt-2 text-center lg:text-left text-[11px] sm:text-xs text-white/50 leading-snug">
+                30 min strategy, zero obligation
               </div>
             </div>
-          </div>
-                  </motion.div>
-          
+
+            {/* Trust icons */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4 mb-8">
+              {[
+                { icon: "🔒", label: "Ranked or Refunded" },
+                { icon: "⚡", label: "Results in 60 Days" },
+                { icon: "🔍", label: "No Black Box" },
+                { icon: "⭐", label: "Guaranteed Outcomes" },
+              ].map((item, i) => (
+                <div key={i} className="flex flex-col items-center lg:items-start gap-1">
+                  <span className="text-xl">{item.icon}</span>
+                  <span className="text-white text-xs font-semibold leading-snug text-center lg:text-left">{item.label}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
           <div className="flex justify-center lg:justify-start space-x-6 mb-8">
             <motion.a
               href="https://www.linkedin.com/in/khamareclarke"

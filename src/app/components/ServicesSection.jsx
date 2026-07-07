@@ -8,21 +8,21 @@ import CTAButton from './CTAButton';
 // TODO: Each card below requires a visible "chip" badge (e.g. "538% visibility growth"). Adding a chip element requires a new JSX element inside the card — a structural change outside the copy-edit scope. Implement chip in ServicesSection card template, then wire up the chip field from this data.
 const services = [
   {
-    title: "SEO + AI Visibility",
-    description: "Rank on Google, get recommended in ChatGPT, Gemini and Perplexity.",
-    icon: "",
+    title: "AI Visibility Audit",
+    description: "Score your site for ChatGPT, Gemini, and Perplexity visibility. Know exactly where you rank in AI search.",
+    icon: "🔍",
     chip: "538% visibility growth",
   },
   {
-    title: "AI Lead Response",
-    description: "Every enquiry answered in minutes, 24/7, so rankings become booked jobs.",
-    icon: "",
+    title: "Local Dominance",
+    description: "Monthly Google Business Profile optimization, local ranking strategy, and GBP conversion tuning.",
+    icon: "📍",
     chip: "20 enquiries/day at peak",
   },
   {
-    title: "Platforms Built to Rank",
-    description: "Fast, Core Web Vitals compliant, engineered to convert from day one.",
-    icon: "",
+    title: "Rank + Respond",
+    description: "SEO + AI lead response automation. Rank the site, then build the system that answers enquiries at scale.",
+    icon: "⚡",
     chip: "Core Web Vitals: pass",
   },
 ];
@@ -42,7 +42,7 @@ const ServicesSection = () => {
         <div className="text-center mb-16">
           <motion.span
             className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-8 tracking-wider uppercase"
-            initial={{ y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
@@ -54,7 +54,7 @@ const ServicesSection = () => {
           
           <motion.h2
             className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight"
-            initial={{ y: 30 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
@@ -67,7 +67,7 @@ const ServicesSection = () => {
           
           <motion.p
             className="text-[#ADB7BE] text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed"
-            initial={{ y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
@@ -81,7 +81,7 @@ const ServicesSection = () => {
             <motion.div
               key={idx}
               className="group relative"
-              initial={{ y: 50 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: idx * 0.2 }}
               whileHover={{ y: -10 }}
@@ -152,13 +152,12 @@ const ServicesSection = () => {
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                Book a Free Call
+                Book Free Call
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#ffb700] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </BookingButton>
-            
-            <p className="text-[#ADB7BE] text-sm mt-4">
-            </p>
+
+            <p className="text-[#ADB7BE] text-sm mt-3">30 min strategy, zero obligation</p>
           </div>
         </motion.div>
       </div>

@@ -154,14 +154,15 @@ const caseStudiesData = [
   {
     id: 10,
     company: "City Plaza Abu Dhabi",
-    title: "Local SEO for Hotel",
-    description: "20 qualified enquiries per day sustained over 6 months through local SEO, Google Business Profile management, and AI search optimisation.",
+    title: "E-commerce Platform Scaling",
+    description: "Scaled to ~20 qualified enquiries per day through local SEO, Google Business Profile management, and AI search optimisation. 5X leads in 60 days.",
     image: "/images/case-studies/uaeprivateinvestor.jpg",
     tag: ["All", "SEO"],
     liveUrl: "#",
     details: "Local SEO and AI search visibility campaign for City Plaza Abu Dhabi. Sustained 20 qualified enquiries per day over a 6-month period via Google Business Profile, on-page SEO, and Perplexity/ChatGPT optimisation.",
     metrics: [
-      { icon: "", label: "Qualified enquiries/day sustained over 6 months", value: "20" }
+      { icon: "", label: "Qualified enquiries per day", value: "~20" },
+      { icon: "", label: "Leads in 60 days", value: "5X" }
     ]
   },
   {
@@ -236,7 +237,8 @@ const ProjectsSection = () => {
 
   const getVisibleCards = () => {
     const cards = [];
-    for (let i = 0; i < cardsToShow; i++) {
+    const count = Math.min(cardsToShow, filteredCaseStudies.length);
+    for (let i = 0; i < count; i++) {
       const index = (currentIndex + i) % filteredCaseStudies.length;
       cards.push(filteredCaseStudies[index]);
     }
@@ -368,7 +370,7 @@ const ProjectsSection = () => {
           transition={{ duration: 0.7, delay: 1.1 }}
           viewport={{ once: true }}
         >
-          <CTAButton 
+          <CTAButton
             onClick={() => {
               const contactSection = document.getElementById('contact');
               if (contactSection) {
@@ -376,9 +378,9 @@ const ProjectsSection = () => {
               }
             }}
             eventLabel="projects_contact_cta"
-            caption={null}
+            caption="30 min strategy, zero obligation"
           >
-            Book Your Free Strategy Call
+            Book Free Call
           </CTAButton>
         </motion.div>
       </div>

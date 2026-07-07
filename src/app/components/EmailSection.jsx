@@ -67,7 +67,7 @@ const EmailSection = () => {
         {/* Header */}
         <motion.div
           className="text-center mb-12"
-          initial={{ y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
@@ -88,16 +88,16 @@ const EmailSection = () => {
           {/* Left: Benefits & Testimonial */}
           <motion.div
             className="space-y-6"
-            initial={{ x: -30 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
             {/* Benefits */}
             <div className="space-y-4">
               {[
-                { icon: "", title: "100% tailored to your goals", desc: "Custom SEO solutions designed specifically for your business" },
-                { icon: "", title: "Honest, no-pressure consultation", desc: "Focused on finding the right fit for your business" },
-                { icon: "", title: "24hr response guarantee", desc: "Quick turnaround so you can move fast on opportunities" }
+                { icon: "🎯", title: "100% tailored to your goals", desc: "Custom SEO solutions designed specifically for your business" },
+                { icon: "🤝", title: "Honest, no-pressure consultation", desc: "Focused on finding the right fit for your business" },
+                { icon: "⚡", title: "24hr response guarantee", desc: "Quick turnaround so you can move fast on opportunities" }
               ].map((benefit, index) => (
                 <div key={index} className="flex gap-4 p-5 bg-gradient-to-br from-[#181818]/80 to-[#232323]/90 border border-[#ffb700]/20 rounded-xl hover:border-[#ffb700]/40 transition-all duration-300">
                   <div className="text-2xl flex-shrink-0">{benefit.icon}</div>
@@ -133,7 +133,7 @@ const EmailSection = () => {
           {/* Right: Contact Form */}
           <motion.div
             className="bg-gradient-to-br from-[#181818]/80 to-[#232323]/90 border-2 border-[#ffb700]/30 shadow-2xl rounded-2xl p-8"
-            initial={{ x: 30 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
@@ -231,7 +231,7 @@ const EmailSection = () => {
                     className="group relative inline-flex items-center justify-center w-full py-4 px-6 text-lg font-black text-black bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] rounded-2xl shadow-xl hover:shadow-[#fdbd18]/50 transform hover:scale-[1.02] transition-all duration-300 border-2 border-[#fdbd18] overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center gap-2">
-                      <span></span>
+                      <span>📞</span>
                       <span>Book Your Free SEO Strategy Call</span>
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

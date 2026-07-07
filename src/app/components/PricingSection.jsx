@@ -17,42 +17,42 @@ const PACKAGE_CATEGORIES = [
         price: "£495",
         originalPrice: null,
         mostPopular: false,
-        cta: "Get Your Audit",
+        cta: "Book Your Audit",
         deliverables: [
           "Full technical SEO audit of your site",
           "AI Visibility score: ChatGPT, Gemini, Perplexity",
           "Local search and Google Business Profile review",
           "45-minute call with a prioritised action plan"
         ],
-        caption: null,
+        caption: "£495, ranked or refunded",
       },
       {
         tier: "Local Dominance",
-        price: "£1,250",
+        price: "£1,250/mo",
         originalPrice: null,
         mostPopular: true,
-        cta: "Book Your Free SEO Strategy Call",
+        cta: "Start Local Dominance",
         deliverables: [
           "Local SEO and Google Business Profile management",
           "AI search optimisation: ChatGPT, Gemini, Perplexity",
           "Content and on-page work every month",
           "Monthly plain-English report: rankings, calls, enquiries"
         ],
-        caption: null,
+        caption: "£1,250/mo, 60-day guarantee",
       },
       {
         tier: "Rank + Respond",
-        price: "£2,500",
+        price: "£2,500/mo",
         originalPrice: null,
         mostPopular: false,
-        cta: "Book Your Free SEO Strategy Call",
+        cta: "Build Rank + Respond",
         deliverables: [
           "Everything in Local Dominance",
           "AI lead response: enquiries answered in minutes, 24/7",
           "Website tuned for speed, Core Web Vitals, bookings",
           "Quarterly strategy session"
         ],
-        caption: null,
+        caption: "£2,500/mo, guaranteed lead system",
       }
     ]
   },

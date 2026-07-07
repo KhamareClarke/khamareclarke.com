@@ -106,7 +106,7 @@ const Footer = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span className="text-white/80">London, United Kingdom</span>
+                <span className="text-white/80">Stoke-on-Trent, Staffordshire. Serving UK-wide.</span>
               </li>
             </ul>
           </div>
@@ -119,7 +119,7 @@ const Footer = () => {
               <p className="text-white/60 text-sm">© {new Date().getFullYear()} Khamare Clarke. All rights reserved.</p>
               {/* START: Unified Branding */}
               <p className="text-white/50 text-xs mt-1">
-                <span className="text-[#fdbd18] font-semibold">Khamare Clarke</span> - SEO Specialist | MSc Artificial Intelligence, Keele University
+                <span className="text-[#fdbd18] font-semibold">Khamare Clarke</span> - SEO Specialist | MSc Artificial Intelligence, Keele (completing 2027)
               </p>
               {/* END: Unified Branding */}
             </div>

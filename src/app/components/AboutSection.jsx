@@ -98,7 +98,7 @@ const AboutSection = () => {
         <div className="text-center mb-16">
           <motion.span
             className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-8 tracking-wider uppercase"
-            initial={{ y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
@@ -110,7 +110,7 @@ const AboutSection = () => {
           
           <motion.h2
             className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight"
-            initial={{ y: 30 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
@@ -123,11 +123,11 @@ const AboutSection = () => {
           
           <motion.p
             className="text-[#ff8c00] text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed font-semibold"
-            initial={{ y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Ten years building and ranking UK businesses. I write the code, run the campaigns, and stay until the numbers move.
+            Ten years building and ranking UK businesses. I write the code, run the campaigns, build the systems.
           </motion.p>
         </div>
 
@@ -170,7 +170,7 @@ const AboutSection = () => {
             {/* Description */}
             <div className="space-y-4 mb-8">
               <p className="text-base md:text-lg text-[#ADB7BE] leading-relaxed">
-                Ten years building and ranking UK businesses. I write the code, run the campaigns, and stay until the numbers move.
+                Every recommendation is tested on live client accounts before it reaches yours.
               </p>
             </div>
 
@@ -213,13 +213,13 @@ const AboutSection = () => {
             className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#ffb700] to-[#ff8c00] text-black font-black rounded-xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-[#ffb700]/50 border-2 border-[#ffb700]"
             icon="bolt"
             eventLabel="about_lets_talk_leverage"
-            caption={null}
+            caption="30 min strategy, zero obligation"
           >
             <span className="relative z-10 flex items-center gap-2">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
               </svg>
-              Book Your Free SEO Strategy Call
+              Book Free Call
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#ffb700] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </CTAButton>

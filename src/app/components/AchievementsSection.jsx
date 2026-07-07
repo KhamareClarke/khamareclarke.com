@@ -7,14 +7,14 @@ import CTAButton from "./CTAButton";
 const achievementsList = [
   {
     icon: "📈",
-    metric: "Google visibility growth",
+    metric: "Google Business Profile interactions growth",
     value: "538",
     postfix: "%",
     color: "#3B82F6",
   },
   {
     icon: "🎯",
-    metric: "Qualified leads in 60 days",
+    metric: "Leads in 60 days",
     value: "5",
     prefix: "",
     postfix: "X",
@@ -22,18 +22,10 @@ const achievementsList = [
   },
   {
     icon: "📞",
-    metric: "Enquiries at peak",
-    value: "20",
-    postfix: "/day",
-    color: "#8B5CF6",
-  },
-  {
-    icon: "🎓",
-    metric: "Artificial Intelligence, Keele",
-    value: "MSc",
-    prefix: "",
+    metric: "Enquiries per day",
+    value: "~20",
     postfix: "",
-    color: "#F59E0B",
+    color: "#8B5CF6",
   },
 ];
 
@@ -41,7 +33,7 @@ const AchievementsSection = () => {
   return (
     <motion.div
       className="py-12 md:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 relative"
-      initial={{ scale: 0.95 }}
+      initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.7 }}
       viewport={{ once: true }}
@@ -55,7 +47,7 @@ const AchievementsSection = () => {
       <div className="text-center mb-12">
         <motion.span
           className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-6 tracking-wider uppercase"
-          initial={{ y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
@@ -67,7 +59,7 @@ const AchievementsSection = () => {
         
         <motion.h2
           className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]"
-          initial={{ y: 30 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
@@ -76,7 +68,7 @@ const AchievementsSection = () => {
         
         <motion.p
           className="text-[#ADB7BE] text-lg md:text-xl max-w-3xl mx-auto"
-          initial={{ y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
@@ -85,13 +77,13 @@ const AchievementsSection = () => {
       </div>
 
       {/* Statistics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto mb-12">
         {achievementsList.map((achievement, index) => {
           return (
             <motion.div
               key={index}
               className="group relative"
-              initial={{ y: 50 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.1 }}
               viewport={{ once: true }}
@@ -143,7 +135,7 @@ const AchievementsSection = () => {
 
       <motion.div
         className="flex justify-center mt-10"
-        initial={{ scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, delay: 0.25 }}
         viewport={{ once: true }}
@@ -151,9 +143,9 @@ const AchievementsSection = () => {
         <CTAButton
           icon="bolt"
           eventLabel="achievements_book_strategy_call"
-          caption={null}
+          caption="30 min strategy, zero obligation"
         >
-          Book Your Free Strategy Call
+          Book Free Call
         </CTAButton>
       </motion.div>
     </motion.div>

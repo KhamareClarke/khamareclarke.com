@@ -168,10 +168,10 @@ export default function BlogSlider() {
                       {/* Benefits Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                         {[
-                          { icon: "", text: "7 proven AI workflows (save 20+ hours/week)" },
-                          { icon: "", text: "Client acquisition systems" },
-                          { icon: "", text: "Revenue-boosting automations" },
-                          { icon: "", text: "UK business case studies" }
+                          { icon: "✅", text: "7 proven AI workflows (save 20+ hours/week)" },
+                          { icon: "✅", text: "Client acquisition systems" },
+                          { icon: "✅", text: "Revenue-boosting automations" },
+                          { icon: "✅", text: "UK business case studies" }
                         ].map((benefit, index) => (
                           <div key={index} className="flex items-start gap-3 bg-[#1a1a1a]/30 rounded-lg p-3">
                             <div className="text-lg flex-shrink-0">{benefit.icon}</div>
