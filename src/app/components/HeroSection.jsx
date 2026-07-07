@@ -8,8 +8,16 @@ import BookingButton from './BookingButton';
 
 const HeroSection = () => {
   return (
-    <section className="pt-4 pb-8 sm:pt-8 sm:pb-16 lg:pt-28 lg:pb-20 bg-[#111015]">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="pt-4 pb-8 sm:pt-8 sm:pb-16 lg:pt-28 lg:pb-20 bg-[#111015] relative overflow-hidden">
+      {/* Warm radial glow — centred on portrait column, fades left into dark page bg */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 65% 90% at 82% 50%, rgba(255,183,0,0.18) 0%, rgba(255,140,0,0.10) 28%, rgba(255,183,0,0.04) 55%, transparent 75%)',
+        }}
+      />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-center">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -32,8 +40,12 @@ const HeroSection = () => {
             UK businesses that rank higher, earn more, and run leaner.
           </p>
 
-          <p className="text-base lg:text-lg max-w-xl text-[#ADB7BE]/80 mb-8 lg:mb-10 leading-relaxed" style={{fontFamily:'Montserrat, sans-serif'}}>
+          <p className="text-base lg:text-lg max-w-xl text-[#ADB7BE]/80 mb-4 lg:mb-5 leading-relaxed" style={{fontFamily:'Montserrat, sans-serif'}}>
             I rank UK businesses with SEO backed by AI systems built in production. I write the code, run the campaigns, and build the systems that convert the traffic.
+          </p>
+
+          <p className="text-2xl sm:text-3xl font-black text-[#ffb700] mb-6 lg:mb-8 text-center lg:text-left" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.02em'}}>
+            Page 1. Guaranteed.
           </p>
 
           <div className="flex flex-col items-center lg:items-start mb-8">
@@ -133,9 +145,9 @@ const HeroSection = () => {
               aria-hidden="true"
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
               style={{
-                width: '140%',
-                height: '140%',
-                background: 'radial-gradient(circle, rgba(255,183,0,0.08) 0%, rgba(255,183,0,0.03) 45%, transparent 70%)',
+                width: '160%',
+                height: '160%',
+                background: 'radial-gradient(circle, rgba(255,183,0,0.22) 0%, rgba(255,140,0,0.12) 35%, rgba(255,183,0,0.04) 60%, transparent 80%)',
               }}
             />
           <div className="rounded-full w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] lg:w-[450px] lg:h-[450px] xl:w-[550px] xl:h-[550px] relative shadow-2xl border-4 border-[#ffb700]/80 bg-[#111015] flex items-center justify-center ring-4 ring-[#ffb700]/20 mx-auto overflow-hidden hover:ring-[#ffb700]/40 transition-all duration-300">
