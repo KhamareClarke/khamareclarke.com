@@ -270,6 +270,30 @@ export default function AISearchOptimisationPage() {
           </div>
         </section>
 
+        {/* Synonym coverage */}
+        <section className="mt-12" aria-labelledby="synonyms-ai-search">
+          <h2 id="synonyms-ai-search" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
+            AEO specialist, GEO consultant, AI visibility expert: different names for the same emerging discipline
+          </h2>
+          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
+            <p>
+              Answer engine optimisation (AEO) and generative engine optimisation (GEO) are terms that describe the
+              same practice from slightly different angles. AEO focuses on getting a business cited as the answer
+              to a specific question in an AI response. GEO focuses on the broader goal of visibility across
+              generative AI environments. An AEO specialist, GEO consultant, or AI visibility expert is someone who
+              understands how retrieval-augmented generation works, what signals AI crawlers prioritise, and how
+              to structure content and entity data so that a business becomes the source an AI engine reaches for.
+            </p>
+            <p>
+              "Generative search optimisation" is another way to describe this discipline. All of these labels
+              converge on the same technical reality: getting a business into the training data, crawl data, and
+              retrieval index that AI engines use to construct their answers. The technical foundations are the same
+              whether the query lands in ChatGPT, Gemini, Perplexity, or the AI Overviews panel at the top of a
+              Google results page.
+            </p>
+          </div>
+        </section>
+
         {/* Internal links */}
         <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related expertise">
           <p className="text-white font-bold mb-4">Related expertise</p>

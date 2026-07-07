@@ -1,4 +1,7 @@
 import { SERVICES, ALL_LOCATIONS } from '../lib/services-data'
+// GLOSSARY_TERMS is imported lazily so build works before glossary-data.js is written
+let GLOSSARY_TERMS = []
+try { ({ GLOSSARY_TERMS } = require('../lib/glossary-data')) } catch (_) {}
 
 const BASE_URL = 'https://khamareclarke.com'
 const NOW = new Date().toISOString()
@@ -18,6 +21,7 @@ const EXPERTISE_SLUGS = [
   'programmatic-seo',
   'ai-agents',
   'google-ads-api',
+  'ai-consultant',
 ]
 
 export default function sitemap() {
@@ -57,5 +61,15 @@ export default function sitemap() {
     }))
   )
 
-  return [...staticPages, ...serviceHubPages, ...serviceLocationPages]
+  const glossaryPages = [
+    { url: `${BASE_URL}/glossary`, lastModified: NOW, changeFrequency: 'monthly', priority: 0.75 },
+    ...GLOSSARY_TERMS.map(term => ({
+      url: `${BASE_URL}/glossary/${term.slug}`,
+      lastModified: NOW,
+      changeFrequency: 'monthly',
+      priority: 0.65,
+    })),
+  ]
+
+  return [...staticPages, ...serviceHubPages, ...serviceLocationPages, ...glossaryPages]
 }

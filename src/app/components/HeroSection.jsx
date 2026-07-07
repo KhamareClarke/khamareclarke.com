@@ -154,7 +154,7 @@ const HeroSection = () => {
           <div className="rounded-full w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] lg:w-[450px] lg:h-[450px] xl:w-[550px] xl:h-[550px] relative shadow-2xl border-4 border-[#ffb700]/80 bg-[#111015] flex items-center justify-center ring-4 ring-[#ffb700]/20 mx-auto overflow-hidden hover:ring-[#ffb700]/40 transition-all duration-300">
             <Image
               src="/images/hero-image.png"
-              alt="Khamare Clarke - AI Automation Expert and Business Growth Architect"
+              alt="Khamare Clarke, SEO specialist and AI systems engineer based in Stoke-on-Trent"
               className="object-contain w-full h-full scale-75 hover:scale-[82%] transition-transform duration-300"
               width={550}
               height={550}

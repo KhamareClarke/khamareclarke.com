@@ -33,6 +33,10 @@ const navLinks = [
     title: "Blog",
     path: "/blog",
   },
+  {
+    title: "Glossary",
+    path: "/glossary",
+  },
 ];
 
 const Navbar = () => {

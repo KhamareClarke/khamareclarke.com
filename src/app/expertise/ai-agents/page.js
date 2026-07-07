@@ -240,6 +240,30 @@ export default function AIAgentsPage() {
           </div>
         </section>
 
+        {/* Synonym coverage */}
+        <section className="mt-12" aria-labelledby="synonyms-agents">
+          <h2 id="synonyms-agents" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
+            AI systems engineer, automation engineer, AI developer, AI architect: the same discipline with different labels
+          </h2>
+          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
+            <p>
+              The terms AI systems engineer, automation engineer, AI developer, and AI architect describe overlapping
+              roles that differ mainly in emphasis. An AI systems engineer builds and integrates the components of
+              an AI system: the language model, the retrieval layer, the tools, the memory, and the channels through
+              which it communicates. An automation engineer focuses on the workflow logic connecting those components
+              to business processes. An AI developer writes the underlying code. An AI architect designs the overall
+              structure before implementation begins.
+            </p>
+            <p>
+              In practice, a single practitioner working with a small or medium business will cover all of these
+              functions. The label "agentic AI specialist" is increasingly used for people who build multi-step,
+              tool-using AI systems rather than simple chatbots. That is precisely the kind of system built for
+              clients here: agents that reason, act, retrieve information, and integrate with real business workflows,
+              not canned-response bots that fail on the third exchange.
+            </p>
+          </div>
+        </section>
+
         {/* Internal links */}
         <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related expertise">
           <p className="text-white font-bold mb-4">Related expertise</p>
@@ -247,6 +271,7 @@ export default function AIAgentsPage() {
             {[
               { href: "/expertise/seo", label: "SEO specialist — what a specialist does" },
               { href: "/expertise/ai-search-optimisation", label: "AI search optimisation — AEO and GEO" },
+              { href: "/expertise/ai-consultant", label: "AI consultant and AI strategy" },
               { href: "/expertise/programmatic-seo", label: "Programmatic SEO" },
               { href: "/expertise/google-ads-api", label: "Google Ads API" },
               { href: "/about", label: "About Khamare Clarke" },

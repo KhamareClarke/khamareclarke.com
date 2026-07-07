@@ -286,6 +286,30 @@ export default function SEOSpecialistPage() {
           </div>
         </section>
 
+        {/* Synonym coverage */}
+        <section className="mt-12" aria-labelledby="synonyms">
+          <h2 id="synonyms" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
+            SEO consultant, SEO expert, SEO freelancer: what these terms mean in practice
+          </h2>
+          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
+            <p>
+              Businesses searching for an SEO consultant, SEO expert, or SEO freelancer are looking for the same
+              thing: someone accountable, doing the work themselves, with a track record they can verify. The
+              distinction between those labels is mostly one of business structure. A freelancer operates independently.
+              A consultant may work in a more advisory capacity. A specialist implies hands-on technical execution.
+              Khamare Clarke operates as all three: strategic, technical, and directly accountable for every element
+              of the work.
+            </p>
+            <p>
+              The phrase "search engine optimisation specialist" covers the same territory as SEO specialist.
+              The important differentiation is not the label but the scope of work: does the person write the
+              content, fix the code, and update the schema themselves, or do they produce a report and hand it
+              to someone else? The former removes weeks from the feedback loop. That is what "SEO services" should
+              mean in practice: measurable progress, monthly, with one person answerable for the results.
+            </p>
+          </div>
+        </section>
+
         {/* Internal links */}
         <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related expertise">
           <p className="text-white font-bold mb-4">Related expertise</p>
