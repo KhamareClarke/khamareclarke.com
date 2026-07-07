@@ -232,7 +232,7 @@ const EmailSection = () => {
                   >
                     <span className="relative z-10 flex items-center gap-2">
                       <span>📞</span>
-                      <span>Start Ranking Today</span>
+                      <span>Send My Message →</span>
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </button>

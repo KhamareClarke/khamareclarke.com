@@ -351,7 +351,7 @@ const ProjectsSection = () => {
             eventLabel="projects_contact_cta"
             caption="Want numbers like these? 30 minutes, no obligation."
           >
-            Claim My Free Strategy Call
+            Get Found →
           </CTAButton>
         </div>
       </div>

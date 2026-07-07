@@ -14,11 +14,11 @@ const FAQ_DATA = [
   },
   {
     question: "Do you only work with large businesses or do SMEs qualify?",
-    answer: "SMEs are the majority of my clients. If you have a local customer base, a trades business, or a service you want to rank in your area, you qualify. Budget starts at £495 for an audit.",
+    answer: "SMEs are the majority of my clients. If you have a local customer base, a trades business, or a service you want to rank in your area, you qualify. The Get Found tier starts from £495/mo.",
   },
   {
     question: "What does ranked or refunded actually mean?",
-    answer: "If we agree on target outcomes and those are not reached within 60 days, the audit fee (£495) is refunded in full. The guarantee applies to the AI Visibility Audit. Monthly retainer work has different terms, which I will explain on the strategy call.",
+    answer: "We agree ranking targets at the start of every engagement. On the Get Found tier, if those agreed targets are not reached within 60 days, that month's fee is refunded in full. The guarantee applies to agreed target keywords in your local area. Exact terms are confirmed on the strategy call before any payment is taken.",
   },
   {
     question: "How do you measure success and report back?",

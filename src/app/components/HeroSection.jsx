@@ -54,7 +54,7 @@ const HeroSection = () => {
               className="group relative inline-flex items-center justify-center px-10 py-5 lg:px-12 lg:py-6 bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] text-black font-black rounded-xl hover:scale-105 transform transition-all duration-300 text-lg lg:text-xl shadow-xl hover:shadow-[#fdbd18]/50 border-2 border-[#fdbd18]"
               trackingLabel="hero_book_call"
             >
-              <span className="relative z-10">Get My Free SEO Audit</span>
+              <span className="relative z-10">Get Found →</span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </BookingButton>
             <p className="mt-2 text-center lg:text-left text-[11px] sm:text-xs text-white/50 leading-snug">

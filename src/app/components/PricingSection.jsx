@@ -13,46 +13,54 @@ const PACKAGE_CATEGORIES = [
     icon: "💻",
     tiers: [
       {
-        tier: "AI Visibility Audit",
-        price: "£495 one-off",
+        tier: "GET FOUND",
+        price: "from £495/mo",
+        tagline: "The full system, working for a one-person business.",
         originalPrice: null,
         mostPopular: false,
-        cta: "Get My Free SEO Audit",
+        cta: "Get Found →",
         deliverables: [
-          "Full technical SEO audit of your site",
-          "AI Visibility score: ChatGPT, Gemini, Perplexity",
-          "Local search and Google Business Profile review",
-          "45-minute call with a prioritised action plan"
+          "AI receptionist answering every enquiry in minutes, 24/7 — even while you're on the tools",
+          "CRM installed and run for you: every enquiry captured, tracked, followed up automatically",
+          "SEO and AI search (Google, ChatGPT, Gemini, Perplexity): fixes done monthly, done for you",
+          "Google Business Profile managed so it produces calls, not views",
+          "One plain-English update monthly: rankings, calls, enquiries",
+          "The same work that took a roofing firm to 538% profile growth and 30+ calls in two weeks",
         ],
-        caption: "£495, ranked or refunded",
+        caption: "from £495/mo · ranked or refunded",
+        footnote: "Most clients start here. The system grows as your results do.",
       },
       {
-        tier: "Local Dominance",
-        price: "£1,250/mo",
+        tier: "RUN THE AREA",
+        price: "from £1,250/mo",
+        tagline: "The full system, plus the builds that take over your patch.",
         originalPrice: null,
         mostPopular: true,
-        cta: "Start Ranking Today",
+        cta: "Run The Area →",
         deliverables: [
-          "Local SEO and Google Business Profile management",
-          "AI search optimisation: ChatGPT, Gemini, Perplexity",
-          "Content and on-page work every month",
-          "Monthly plain-English report: rankings, calls, enquiries"
+          "Everything in Get Found at 2x the monthly hours",
+          "A new custom website, built to rank and convert — yours to keep",
+          "A page for every service, in every area you cover",
+          "Email campaigns that turn your old enquiry list into booked work",
+          "The same system that scaled a commercial property client to 5X leads in 60 days",
         ],
-        caption: "£1,250/mo, 60-day guarantee",
+        caption: "from £1,250/mo · 6-month initial term while your site is built, then rolling monthly · the site is yours",
       },
       {
-        tier: "Rank + Respond",
-        price: "£2,500/mo",
+        tier: "OWN THE MARKET",
+        price: "from £2,500/mo",
+        tagline: "The full system at maximum firepower. Market number one, on autopilot.",
         originalPrice: null,
         mostPopular: false,
-        cta: "Claim My Free Strategy Call",
+        cta: "Own The Market →",
         deliverables: [
-          "Everything in Local Dominance",
-          "AI lead response: enquiries answered in minutes, 24/7",
-          "Website tuned for speed, Core Web Vitals, bookings",
-          "Quarterly strategy session"
+          "Everything above at 4x the hours, builds and campaigns in parallel",
+          "Google Ads engineered through code and the Ads API — lower cost per lead than agencies clicking buttons",
+          "Custom apps and integrations: quoting tools, booking systems, whatever your operation needs connected",
+          "Quarterly strategy session: what's working, what's next",
+          "The answer is never “that’s not in your package”",
         ],
-        caption: "£2,500/mo, guaranteed lead system",
+        caption: "from £2,500/mo · 6-month initial term, then rolling monthly · guaranteed lead system",
       }
     ]
   },
@@ -231,6 +239,19 @@ const PricingSection = () => {
           <p className="text-[#ADB7BE] max-w-2xl mx-auto text-base md:text-lg">{currentCategory.description}</p>
         </motion.div>
 
+        {/* Not ready link — shown for the main pricing tier only */}
+        {activeCategory === 0 && (
+          <div className="text-center mb-8">
+            <a
+              href="#contact"
+              className="text-[#f1cb32] hover:text-[#ff8c00] transition-colors duration-200 text-sm font-medium underline underline-offset-2"
+            >
+              Not ready? Get your free AI Visibility Score first →
+            </a>
+            <p className="text-[#ADB7BE] text-xs mt-1">Two minutes. Costs nothing.</p>
+          </div>
+        )}
+
         {/* 3 Tiers Side-by-Side */}
         <motion.div
           key={`category-${activeCategory}`}
@@ -257,7 +278,7 @@ const PricingSection = () => {
                   animate={{ scale: [1, 1.08, 1] }}
                   transition={{ duration: 1.3, repeat: Infinity, repeatType: 'loop', delay: 0.6 }}
                 >
-                  Best Value
+                  MOST POPULAR
                 </motion.span>
               )}
 
@@ -272,6 +293,9 @@ const PricingSection = () => {
                   <div className="text-sm md:text-base text-white/40 line-through mb-1">{tier.originalPrice}</div>
                 )}
                 <div className="text-2xl md:text-3xl font-black text-[#f1cb32] tracking-tight drop-shadow-gold">{tier.price}</div>
+                {tier.tagline && (
+                  <p className="text-[#ADB7BE] text-xs mt-1.5 leading-snug">{tier.tagline}</p>
+                )}
               </div>
 
               <ul className="mb-6 md:mb-8 space-y-3 md:space-y-4 font-light flex-grow">
@@ -294,10 +318,20 @@ const PricingSection = () => {
                 >
                   {tier.cta || "Get Started"}
                 </CTAButton>
+                {tier.footnote && (
+                  <p className="text-[#ADB7BE]/70 text-xs text-center mt-3 leading-snug italic">{tier.footnote}</p>
+                )}
               </div>
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Summary line below cards */}
+        {activeCategory === 0 && (
+          <p className="text-center text-[#ADB7BE] text-sm max-w-3xl mx-auto mt-10 leading-relaxed">
+            Every package runs on the same AI system. What scales is build capacity: hours, pages, campaigns, apps. Exact price depends on your size and market — fixed quote within 24 hours of your free call.
+          </p>
+        )}
       </div>
     </section>
   );

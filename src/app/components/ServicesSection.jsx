@@ -8,22 +8,22 @@ import CTAButton from './CTAButton';
 // TODO: Each card below requires a visible "chip" badge (e.g. "538% visibility growth"). Adding a chip element requires a new JSX element inside the card — a structural change outside the copy-edit scope. Implement chip in ServicesSection card template, then wire up the chip field from this data.
 const services = [
   {
-    title: "AI Visibility Audit",
-    description: "Score your site for ChatGPT, Gemini and Perplexity visibility. Know exactly where you stand in AI search.",
+    title: "Get Found",
+    description: "The full system for a one-person business: AI receptionist, CRM, SEO, Google Business Profile, and monthly reporting — all done for you.",
     icon: "🔍",
-    caption: "£495 one-off. Ranked or refunded.",
+    caption: "from £495/mo. Ranked or refunded.",
   },
   {
-    title: "Local Dominance",
-    description: "Monthly Google Business Profile optimisation, local ranking and conversion tuning.",
+    title: "Run The Area",
+    description: "Get Found at 2x the monthly hours, plus a new website built to rank and convert, service and area pages, and email campaigns from your existing enquiry list.",
     icon: "📍",
-    caption: "£1,250/mo. 60-day results guarantee.",
+    caption: "from £1,250/mo. 6-month initial term, then rolling monthly.",
   },
   {
-    title: "Rank + Respond",
-    description: "Everything in Local Dominance plus an AI lead response system answering enquiries in minutes, 24/7.",
+    title: "Own The Market",
+    description: "Maximum firepower: 4x the hours, Google Ads via the Ads API, custom apps and integrations, and a quarterly strategy session.",
     icon: "⚡",
-    caption: "£2,500/mo. Guaranteed lead system.",
+    caption: "from £2,500/mo. 6-month initial term, then rolling monthly.",
   },
 ];
 
@@ -153,7 +153,7 @@ const ServicesSection = () => {
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
-                Get My Free SEO Audit
+                Book a Free Strategy Call
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#ffb700] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </BookingButton>
