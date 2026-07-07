@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import CTAButton from "./CTAButton";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const FAQ_DATA = [
   {
@@ -17,12 +17,12 @@ const FAQ_DATA = [
     answer: "SMEs are the majority of my clients. If you have a local customer base, a trades business, or a service you want to rank in your area, you qualify. Budget starts at £495 for an audit.",
   },
   {
-    question: "How do you measure success and report back?",
-    answer: "Monthly plain-English reports: rankings, Google Business Profile calls, enquiry volumes, and AI search visibility. No jargon. If numbers are not moving, I tell you why and what changes.",
+    question: "What does ranked or refunded actually mean?",
+    answer: "If we agree on target outcomes and those are not reached within 60 days, the audit fee (£495) is refunded in full. The guarantee applies to the AI Visibility Audit. Monthly retainer work has different terms, which I will explain on the strategy call.",
   },
   {
-    question: "What makes your approach better than hiring a typical SEO agency?",
-    answer: "I combine technical SEO, content, and AI search in one engagement. You get one person accountable for results, not a rotating team. All work is done on live campaigns, not theoretical frameworks.",
+    question: "How do you measure success and report back?",
+    answer: "Monthly plain-English reports: rankings, Google Business Profile calls, enquiry volumes, and AI search visibility. No jargon. If numbers are not moving, I tell you why and what changes.",
   },
 ];
 
@@ -65,60 +65,34 @@ const FAQSection = () => {
           </h2>
           <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Honest answers about SEO, AI, and what working together actually looks like.</div>
         </div>
-        {/* Floating sparkle accent above FAQ list */}
-        <motion.span
-          className="flex justify-center mb-3"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.8 }}
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffb700"><circle cx="12" cy="12" r="3"/><g opacity="0.6"><circle cx="4" cy="12" r="1.3"/><circle cx="20" cy="12" r="1.3"/><circle cx="12" cy="4" r="1.3"/><circle cx="12" cy="20" r="1.3"/></g></svg>
-        </motion.span>
         <ul className="space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-14">
           {FAQ_DATA.map((faq, idx) => (
-            <motion.li
-              key={idx}
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: idx * 0.18 }}
-              viewport={{ once: true }}
-            >
+            <li key={idx}>
               <button
                 className="w-full text-left flex justify-between items-center bg-[#1a1a1a]/90 backdrop-blur-sm border-2 border-[#ffb700]/20 hover:border-[#ffb700]/40 px-4 sm:px-6 py-3 sm:py-4 rounded-lg focus:outline-none hover:bg-[#1a1a1a] transition-all duration-300 shadow-lg"
                 onClick={() => toggleFAQ(idx)}
+                aria-expanded={openIndex === idx}
               >
                 <span className="font-semibold text-base sm:text-lg pr-4">{faq.question}</span>
                 <motion.span
-                  className="text-[#ffb700] text-2xl flex items-center"
+                  className="text-[#ffb700] text-2xl flex items-center flex-shrink-0"
                   animate={openIndex === idx ? { rotate: 90, scale: 1.25, filter: 'drop-shadow(0 0 8px #ffb700)' } : { rotate: 0, scale: 1, filter: 'none' }}
                   transition={{ type: 'spring', stiffness: 300 }}
                 >
                   {openIndex === idx ? "-" : "+"}
                 </motion.span>
               </button>
-              <AnimatePresence>
-                {openIndex === idx && (
-                  <motion.div
-                    className="bg-[#0f0f0f]/50 backdrop-blur-sm px-6 pb-4 pt-2 rounded-b-lg text-[#ADB7BE] font-light border-2 border-t-0 border-[#ffb700]/20"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.35 }}
-                  >
-                    {faq.answer}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.li>
+              <div
+                className={`overflow-hidden transition-all duration-300 ${openIndex === idx ? 'max-h-96' : 'max-h-0'}`}
+              >
+                <div className="bg-[#0f0f0f]/50 backdrop-blur-sm px-6 pb-4 pt-2 rounded-b-lg text-[#ADB7BE] font-light border-2 border-t-0 border-[#ffb700]/20">
+                  {faq.answer}
+                </div>
+              </div>
+            </li>
           ))}
         </ul>
-        <motion.div
-          className="flex justify-center mt-12 md:mt-16"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 1.1 }}
-          viewport={{ once: true }}
-        >
+        <div className="flex justify-center mt-12 md:mt-16">
           <CTAButton
             icon="bolt"
             eventLabel="faq_book_free_call"
@@ -127,7 +101,7 @@ const FAQSection = () => {
           >
             Book Free Call
           </CTAButton>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

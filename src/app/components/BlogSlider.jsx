@@ -3,11 +3,16 @@ import React, { useState } from "react";
 import Link from "next/link";
 import CTAButton from "./CTAButton";
 
-// Map categories to emojis
 const categoryEmojis = {
   'AI Automation': '🤖',
   'Web & App Development': '💻',
   'Advanced Analytics': '📊'
+};
+
+const categoryGradients = {
+  'AI Automation': 'from-[#312e81] via-[#1e1b4b] to-[#0f172a]',
+  'Web & App Development': 'from-[#064e3b] via-[#065f46] to-[#0f172a]',
+  'Advanced Analytics': 'from-[#78350f] via-[#92400e] to-[#0f172a]',
 };
 
 const blogPosts = [
@@ -93,11 +98,9 @@ export default function BlogSlider() {
             {postsToShow.map(post => (
               <div key={post.slug} className="group bg-[#1a1a1a]/90 backdrop-blur-sm rounded-2xl overflow-hidden border-2 border-[#ffb700]/20 hover:border-[#ffb700]/40 shadow-2xl hover:scale-[1.03] transition-all duration-300 flex flex-col">
                 <div className="relative">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-48 object-cover rounded-xl mb-4"
-                  />
+                  <div className={`w-full h-48 bg-gradient-to-br ${categoryGradients[post.category] || 'from-[#1a1a1a] to-[#0f172a]'} flex items-center justify-center`}>
+                    <span className="text-5xl opacity-30">{categoryEmojis[post.category] || '📝'}</span>
+                  </div>
                   <span className="absolute top-4 left-4 bg-[#ffb700] text-[#222] text-xs font-bold px-3 py-1 rounded-full shadow flex items-center gap-1">
                     <span>{categoryEmojis[post.category] || '📝'}</span>
                     <span>{post.category}</span>

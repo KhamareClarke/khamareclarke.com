@@ -81,9 +81,6 @@ const ServicesSection = () => {
             <motion.div
               key={idx}
               className="group relative"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: idx * 0.2 }}
               whileHover={{ y: -10 }}
             >
               {/* Card Background with Gradient Border */}
