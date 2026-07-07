@@ -74,11 +74,13 @@ function CaseStudyCard({ card }) {
 function PortfolioCard({ card }) {
   return (
     <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
-      <div className="p-5 flex flex-col flex-1 justify-between">
-        <div>
-          <p className="text-[#ffb700] font-bold text-sm mb-2">{card.name}</p>
-          <p className="text-[#ADB7BE] text-xs leading-relaxed">{card.work}</p>
-        </div>
+      <div className="h-44 w-full flex-shrink-0 bg-gradient-to-br from-[#1c1c1c] via-[#111015] to-[#0a0a0a] flex items-center justify-center border-b border-[#ffb700]/10">
+        <span className="text-5xl opacity-[0.07] select-none">◈</span>
+      </div>
+      <div className="p-5 flex flex-col flex-1">
+        <p className="text-[#ffb700] text-xs font-semibold uppercase tracking-wide mb-1">Portfolio</p>
+        <h3 className="text-base md:text-lg font-extrabold text-white mb-2 leading-snug">{card.name}</h3>
+        <p className="text-[#ADB7BE] text-xs leading-relaxed flex-1">{card.work}</p>
       </div>
     </div>
   );
