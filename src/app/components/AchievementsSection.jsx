@@ -111,7 +111,7 @@ const AchievementsSection = () => {
         <CTAButton
           icon="bolt"
           eventLabel="achievements_book_strategy_call"
-          caption="30 min strategy, zero obligation"
+          caption="See what these numbers would look like for your business."
         >
           Book Free Call
         </CTAButton>

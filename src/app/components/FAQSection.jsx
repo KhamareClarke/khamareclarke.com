@@ -97,7 +97,7 @@ const FAQSection = () => {
             icon="bolt"
             eventLabel="faq_book_free_call"
             className="px-8 py-3 text-lg"
-            caption="30-minute strategy call. No obligation."
+            caption="Still got questions? Ask me directly."
           >
             Book Free Call
           </CTAButton>

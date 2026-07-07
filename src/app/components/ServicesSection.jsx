@@ -154,7 +154,7 @@ const ServicesSection = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#ffb700] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </BookingButton>
 
-            <p className="text-[#ADB7BE] text-sm mt-3">30 min strategy, zero obligation</p>
+            <p className="text-[#ADB7BE] text-sm mt-3">Tell me your situation. I'll tell you which tier fits, or if none do.</p>
           </div>
         </motion.div>
       </div>

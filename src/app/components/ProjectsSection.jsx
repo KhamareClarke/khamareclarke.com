@@ -73,10 +73,12 @@ function CaseStudyCard({ card }) {
 
 function PortfolioCard({ card }) {
   return (
-    <div className="bg-[#181818]/90 border-2 border-[#ffb700]/15 hover:border-[#ffb700]/40 rounded-2xl p-5 h-full flex flex-col justify-between transition-all duration-200">
-      <div>
-        <p className="text-[#ffb700] font-bold text-sm mb-2">{card.name}</p>
-        <p className="text-[#ADB7BE] text-xs leading-relaxed">{card.work}</p>
+    <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 transition-all duration-300 overflow-hidden h-full flex flex-col">
+      <div className="p-5 flex flex-col flex-1 justify-between">
+        <div>
+          <p className="text-[#ffb700] font-bold text-sm mb-2">{card.name}</p>
+          <p className="text-[#ADB7BE] text-xs leading-relaxed">{card.work}</p>
+        </div>
       </div>
     </div>
   );
@@ -193,7 +195,7 @@ const ProjectsSection = () => {
         <div className="flex justify-center mt-10">
           <CTAButton
             eventLabel="projects_contact_cta"
-            caption="30-minute strategy call. No obligation."
+            caption="Want numbers like these? 30 minutes, no obligation."
           >
             Book Free Call
           </CTAButton>
