@@ -34,7 +34,7 @@ const HeroSection = () => {
 
           <h1 className="font-extrabold uppercase leading-none mb-4 lg:mb-5 text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.03em'}}>
             <span className="block text-white">Khamare</span>
-            <span className="block text-[#ffb700]">Clarke</span>
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] via-[#ff8c00] to-[#ffb700]">Clarke</span>
           </h1>
 
           <p className="text-xl sm:text-2xl lg:text-xl max-w-xl font-medium mb-4 lg:mb-5 text-[#ADB7BE]" style={{fontFamily:'Montserrat, sans-serif'}}>
