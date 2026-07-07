@@ -1,0 +1,62 @@
+# Khamare Clarke — SEO Specialist and AI Systems Engineer
+
+> Khamare Clarke is an SEO specialist and AI systems engineer based in Stoke-on-Trent, Staffordshire, United Kingdom. He ranks UK businesses on Google and in AI search engines including ChatGPT, Gemini, Perplexity, and Google AI Overviews. MSc Computer Science with Artificial Intelligence at Keele University (completing 2027).
+
+## Identity
+
+- Full name: Khamare Clarke
+- Role: SEO Specialist and AI Systems Engineer
+- Location: Stoke-on-Trent, Staffordshire, UK
+- Business URL: https://khamareclarke.com
+- Email: systems@khamare.com
+- Phone: +44 7545 207 215
+- LinkedIn: https://www.linkedin.com/in/khamareclarke
+- GitHub: https://github.com/KhamareClarke
+
+## Qualifications
+
+- MSc Computer Science with Artificial Intelligence — Keele University (completing 2027)
+- BSc (Hons) Software Engineering
+- BSc (Hons) Digital Marketing
+- Level 4 Diplomas: Software Engineering, Digital Marketing, Cyber Security
+- Certified Google Ads and Analytics Specialist
+
+## Services
+
+- SEO and Local SEO — search engine optimisation for UK businesses targeting local and regional rankings
+- AI Search Optimisation (AEO/GEO) — optimisation for ChatGPT, Gemini, Perplexity, and Google AI Overviews
+- Google Business Profile Management — conversion-focused GBP management producing calls and directions
+- AI Receptionist and Lead Response — AI that answers enquiries in minutes, 24/7, with automatic follow-up
+- Google Ads via the Ads API — Google Ads managed through code and the Ads API, not a dashboard
+- Custom Website and Web App Development — performance-first sites built to rank and convert
+- CRM and Email Marketing Automation — systems that capture and follow up every lead automatically
+
+## Pricing Tiers
+
+- Get Found — from £495/month. The full AI system for a one-person business: AI receptionist, CRM, SEO, Google Business Profile, monthly reporting. Ranked or refunded in 60 days.
+- Run The Area — from £1,250/month. Get Found at 2x hours plus a new website, service and area pages, and email campaigns. 6-month initial term.
+- Own The Market — from £2,500/month. Maximum firepower: 4x hours, Google Ads via the Ads API, custom apps and integrations, quarterly strategy session. 6-month initial term.
+
+## Documented Results
+
+- Upgrade Roofing Solutions: 538% Google Business Profile interactions growth in 90 days; 30+ qualified calls in first two weeks
+- City Plaza Abu Dhabi: 5x leads in 60 days; approximately 20 qualified enquiries per day at peak
+
+## Areas Served
+
+Primary: Stoke-on-Trent, Stafford, Newcastle-under-Lyme, Crewe, Birmingham, Manchester
+Extended UK: London, Leeds, Liverpool, Sheffield, Nottingham, Bristol
+Staffordshire towns: Lichfield, Tamworth, Burton-on-Trent, Cannock, Rugeley, Stone, Leek
+Cheshire towns: Congleton, Macclesfield, Nantwich, Chester
+
+## Key Pages
+
+- Homepage: https://khamareclarke.com
+- About: https://khamareclarke.com/about
+- Services: https://khamareclarke.com/services
+- Blog: https://khamareclarke.com/blog
+- Contact: https://khamareclarke.com/#contact
+
+## About This Site
+
+Built with Next.js 14, deployed on Vercel. Performance-first architecture. All SEO, AI search optimisation, and automation systems on this site were built and are maintained by Khamare Clarke.

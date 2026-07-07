@@ -17,18 +17,53 @@ const categories = [
 
 const featuredArticles = [
   {
+    title: "They Told You SEO Was Dead. It Didn't Die — It Expanded.",
+    slug: "seo-didnt-die-it-expanded",
+    excerpt: "SEO now covers four layers: Google rankings, AEO, GEO, and programmatic pages. One discipline, bigger territory. What UK businesses must do across all four right now.",
+    category: "SEO Strategy",
+    image: "/images/blog/TradesChatBot.png.png"
+  },
+  {
+    title: "Test It Yourself: Ask ChatGPT Who Does SEO in Your Area.",
+    slug: "test-yourself-chatgpt-seo",
+    excerpt: "Open ChatGPT, Gemini, and Perplexity. Type your service and city. See who appears. This two-minute test reveals your AI visibility score.",
+    category: "AI Search",
+    image: "/images/blog/TradesChatBot.png.png"
+  },
+  {
+    title: "Within Five Years, an AI Agent Will Be as Standard as a Phone Number.",
+    slug: "ai-agent-standard-as-phone-number",
+    excerpt: "Businesses once resisted websites. Then Google profiles. AI agents are the same adoption curve, moving faster. What early adopters gain now vs what late movers will pay.",
+    category: "AI Automation",
+    image: "/images/blog/TradesChatBot.png.png"
+  },
+  {
+    title: "The Real Ceiling on Your WordPress Site (And When It Actually Matters)",
+    slug: "wordpress-real-ceiling",
+    excerpt: "WordPress can rank. But plugin-heavy themed builds hit Core Web Vitals, speed, and programmatic-scale ceilings. Here is exactly when it matters and when it does not.",
+    category: "Platform Limits",
+    image: "/images/blog/SMEs.png.png"
+  },
+  {
+    title: "Shopify Is Built to Sell Products. That's Exactly Why It Struggles at Local SEO.",
+    slug: "shopify-local-seo-limits",
+    excerpt: "Rigid URL architecture, limited page control, canonical issues with faceted nav. A fair technical assessment of where Shopify wins and where it stops.",
+    category: "Platform Limits",
+    image: "/images/blog/SMEs.png.png"
+  },
+  {
+    title: "Wix in 2026: Better Than Its Reputation, Still Behind the Ceiling.",
+    slug: "wix-2026-honest-review",
+    excerpt: "Wix has improved: faster loads, better schema, decent Core Web Vitals on simple sites. It still hits limits on URL structure, programmatic pages, and AI crawling.",
+    category: "Platform Limits",
+    image: "/images/blog/SMEs.png.png"
+  },
+  {
     title: "How AI Chatbots Save UK Trades 20+ Hours a Week",
     slug: "ai-chatbots-save-uk-trades",
     excerpt: "Discover how local trades automate admin, boost lead conversion, and reclaim time using AI chatbots.",
     category: "AI Automation",
     image: "/images/blog/TradesChatBot.png.png"
-  },
-  {
-    title: "ROI-Driven Websites for UK SMEs: What Actually Works?",
-    slug: "roi-websites-uk-smes",
-    excerpt: "A practical guide to building websites that deliver measurable business results for local businesses.",
-    category: "Web & App Development",
-    image: "/images/blog/SMEs.png.png"
   }
 ];
 
@@ -56,7 +91,7 @@ export default function BlogHome() {
               </button>
             ))}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {featuredArticles.map(article => (
               <Link key={article.slug} href={`/blog/${article.slug}`} className="group block bg-[#181818] rounded-xl overflow-hidden border border-[#222] shadow-lg hover:scale-[1.02] transition">
                 <img src={article.image} alt={article.title} className="w-full h-48 object-cover group-hover:opacity-90" />
