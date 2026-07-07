@@ -14,7 +14,7 @@ export const metadata = {
   description: "SEO specialist and AI systems engineer based in Stoke-on-Trent. Ranks UK businesses on Google and in AI search (ChatGPT, Gemini, Perplexity). MSc Artificial Intelligence, Keele University.",
   keywords: 'SEO specialist UK, local SEO Stoke-on-Trent, AI search optimisation, AEO, GEO, Google Business Profile, AI receptionist, Google Ads API, programmatic SEO, Staffordshire SEO',
   verification: {
-    google: 'your-google-verification-code-here'
+    google: 'FOZp3AiubuzQwsGbpopu8OBTtmjxt17FtQ2Lup2ERM4'
   },
   authors: [{ name: 'Khamare Clarke' }],
   creator: 'Khamare Clarke',
