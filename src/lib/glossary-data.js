@@ -289,7 +289,375 @@ export const GLOSSARY_TERMS = [
     relatedTerms: ["on-page-seo", "programmatic-seo"],
   },
 
-  // ─── BATCH 2 PLACEHOLDER (terms 11-20) ───────────────────────────────────
+  // ─── SEO FAMILY continued ─────────────────────────────────────────────────
+
+  {
+    slug: "link-building",
+    title: "Link Building",
+    abbr: null,
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What is Link Building? | Khamare Clarke",
+    metaDescription: "Link building explained: how earning backlinks from other websites builds domain authority and improves search rankings for UK businesses.",
+    h1: "Link Building: How Backlinks Build Search Authority",
+    definition: "Link building is the process of acquiring hyperlinks from other websites to your own, with the goal of increasing the site's authority in the eyes of search engines. Search engines treat links from credible external sites as endorsements, using them as one of the primary signals for determining how authoritative a page is relative to competing pages on the same topic.",
+    whyItMatters: [
+      "Content quality and technical SEO create the conditions for ranking. Backlinks are often what separates two technically comparable sites in competitive search results. A site with more high-quality, relevant backlinks signals to Google that other publishers consider its content worth referencing, which is treated as evidence of authority.",
+      "Link building is slow and cannot be faked sustainably. Schemes that generate large numbers of low-quality links quickly tend to produce short-term gains followed by penalties. Genuine link building -- earning links through useful content, digital PR, and relationship building -- compounds over time and is resistant to algorithm updates because it reflects real editorial judgment.",
+    ],
+    howKhamareApplies: [
+      "Link building here is integrated with content strategy rather than treated as a separate outreach campaign. Useful, specific content (guides, local data, commentary on industry developments) earns links naturally from other sites covering the same topics. For local businesses, links from local business associations, trade bodies, and local news sources carry particular weight for map pack authority.",
+      "The focus is on relevance as well as authority. A link from a roofing trade publication to a roofing contractor's site carries more SEO value than a link from an unrelated high-authority domain. Relevance signals to Google that the link is an editorial choice, not a paid placement or reciprocal exchange.",
+    ],
+    faq: [
+      { q: "How many backlinks does a website need to rank?", a: "There is no target number. What matters is the relative authority of a site compared to the pages it is competing with for a specific term. A local service business competing for local terms may need only a handful of relevant local links to outrank competitors. A national e-commerce site competing with established retailers will need a substantially larger and stronger link profile. The benchmark is always the competition, not an absolute figure." },
+      { q: "What is a no-follow link and does it help SEO?", a: "A no-follow link carries a rel='nofollow' attribute that signals to search engines not to pass authority through it. No-follow links were historically excluded from link building calculations entirely. Google has since indicated that it treats no-follow as a hint rather than a directive, meaning no-follow links from credible sources may still contribute to authority signals. For brand visibility and referral traffic, no-follow links from high-traffic publications remain valuable regardless of their direct SEO impact." },
+      { q: "Is buying links against Google's guidelines?", a: "Yes. Buying links with the intention of influencing search rankings is a violation of Google's spam policies and can result in a manual penalty or algorithmic demotion. This applies to straightforward link purchases, paid guest posts where the link is the product, and link exchange schemes. Legitimate paid placements (advertorials) should be marked with rel='sponsored' to comply with Google's guidelines." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/seo-local-seo",
+    relatedTerms: ["off-page-seo", "citations-nap"],
+  },
+
+  {
+    slug: "core-web-vitals",
+    title: "Core Web Vitals",
+    abbr: null,
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What are Core Web Vitals? | Khamare Clarke",
+    metaDescription: "Core Web Vitals explained: Google's page experience signals (LCP, INP, CLS) and how they affect search rankings for UK websites.",
+    h1: "Core Web Vitals: Google's Page Experience Ranking Signals",
+    definition: "Core Web Vitals are a set of three metrics Google uses to measure the real-world user experience of a web page: Largest Contentful Paint (LCP, measuring load speed), Interaction to Next Paint (INP, measuring responsiveness), and Cumulative Layout Shift (CLS, measuring visual stability). These metrics are incorporated into Google's ranking algorithm as page experience signals.",
+    whyItMatters: [
+      "A page that loads slowly, responds sluggishly to interaction, or shifts its content around as it loads provides a poor user experience. Google's Core Web Vitals give this a measurable form and make page experience a factor in rankings. A site that fails Core Web Vitals assessments is at a disadvantage in competitive results, all else being equal.",
+      "The practical impact is most pronounced on mobile, where Core Web Vitals performance varies most between sites. Mobile search accounts for the majority of searches in most categories. A site that passes Core Web Vitals on desktop but fails on mobile is failing on the version that matters most for search performance.",
+    ],
+    howKhamareApplies: [
+      "Core Web Vitals improvements on client sites typically follow a consistent pattern: LCP improvements through image optimisation and elimination of render-blocking resources; CLS fixes by setting explicit dimensions on images and embeds; INP improvements through reducing main-thread work and deferring non-essential JavaScript. Sites built on Next.js benefit from automatic image optimisation, font loading management, and static generation, which address many of these issues by default.",
+      "Core Web Vitals are measured using field data (from real Chrome users via the Chrome User Experience Report) and lab data (from tools like Lighthouse and PageSpeed Insights). Both matter: field data is what Google uses in rankings, but lab data is more actionable for diagnosis because it shows exactly which resources are causing problems.",
+    ],
+    faq: [
+      { q: "What is Largest Contentful Paint (LCP)?", a: "LCP measures how long it takes for the largest visible element on a page (usually a hero image or heading) to load from the user's perspective. Google's threshold for a good LCP is under 2.5 seconds. Common causes of poor LCP are large unoptimised images, render-blocking scripts that delay content loading, and slow server response times. A good LCP score indicates that users see the main content of a page quickly after navigation." },
+      { q: "Does failing Core Web Vitals mean a page won't rank?", a: "No. Core Web Vitals are one ranking signal among many. A page with poor Core Web Vitals can still rank well if it has strong relevance, authority, and content quality that outweighs the page experience deficit. However, in competitive results where two pages are closely matched on other signals, Core Web Vitals performance can be a tiebreaker. The threshold for concern is when a page is in a competitive vertical and is consistently failing the assessment." },
+      { q: "How do I check my Core Web Vitals scores?", a: "Google Search Console provides a Core Web Vitals report showing field data for your site's URLs, categorised as Good, Needs Improvement, or Poor. PageSpeed Insights provides both lab data (immediate diagnostic) and field data for individual URLs. Google's web.dev/measure tool and Lighthouse (built into Chrome DevTools) provide detailed diagnostic breakdowns. For UK businesses, Search Console is the starting point -- it shows which pages have issues and how widespread the problems are." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/seo-local-seo",
+    relatedTerms: ["technical-seo", "indexing"],
+  },
+
+  {
+    slug: "schema-markup",
+    title: "Schema Markup",
+    abbr: null,
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What is Schema Markup? | Khamare Clarke",
+    metaDescription: "Schema markup explained: the structured data code that tells search engines and AI engines what a page is about, powering rich results and AI citations.",
+    h1: "Schema Markup: Telling Search Engines Exactly What Your Page Is",
+    definition: "Schema markup is code added to a web page, typically in JSON-LD format, that uses a standardised vocabulary (Schema.org) to describe the page's content explicitly to search engines and AI crawlers. It tells a search engine not just that a page contains text about a business, but specifically that it is a LocalBusiness, with a specific address, opening hours, service area, and set of offered services.",
+    whyItMatters: [
+      "Search engines infer a great deal about pages from their content, but explicit structured data removes ambiguity. A page about a roofing business without schema markup requires Google to infer what the business does, where it operates, and who it serves. A page with correctly implemented LocalBusiness, Service, and Person schema tells Google these things precisely, which improves the accuracy of how the page is indexed and increases its eligibility for rich results.",
+      "Schema markup has become increasingly important for AI search visibility. AI engines that cite sources in their answers use structured data to identify what a page is authoritatively about. A business with correct schema markup is more likely to be identified as an authoritative entity on its topic than a business without it, regardless of content quality.",
+    ],
+    howKhamareApplies: [
+      "Schema implementation here covers the full entity stack: Person schema for professional credentials and knowledge areas, ProfessionalService schema for the business, FAQPage schema on all question-and-answer content, DefinedTerm schema on glossary pages, Article schema on blog posts, and BreadcrumbList schema for navigation context. All schema is emitted as JSON-LD in the document head and validated against Google's Rich Results Test.",
+      "The canonical entity IDs (@id fields) are consistent across every page. This is critical: when Google's knowledge graph encounters the same @id on multiple pages, it merges those signals into a single entity record. Inconsistent or missing @id values cause entity signals to fragment across multiple unconnected records, losing the compounding benefit of consistent schema.",
+    ],
+    faq: [
+      { q: "What is the difference between schema markup and structured data?", a: "The terms are often used interchangeably. Structured data is the broader concept: any format for marking up content with machine-readable meaning, including Microdata, RDFa, and JSON-LD. Schema markup specifically refers to the vocabulary defined at Schema.org, which is the standard supported by Google, Bing, and other search engines. In practice, when SEO professionals say 'structured data', they usually mean Schema.org schema markup implemented in JSON-LD." },
+      { q: "Does schema markup directly improve search rankings?", a: "Schema markup does not directly boost rankings as a ranking signal in the way that authority or relevance do. Its benefit is indirect: it improves how Google understands and categorises a page, increases eligibility for rich results (which improve click-through rates from the same position), and strengthens entity signals used in AI search. The ranking benefit comes from better entity understanding and richer search appearances, not from the schema itself being a ranking factor." },
+      { q: "What is JSON-LD and why is it the preferred format for schema?", a: "JSON-LD (JavaScript Object Notation for Linked Data) is a format for embedding structured data in a script tag in the page head, separate from the page's visible HTML. Google recommends JSON-LD because it is easy to implement and update without modifying the page's visible content, and because it can be validated and tested independently. The alternative formats (Microdata and RDFa) embed structured data attributes directly into the HTML, making them harder to maintain and audit." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/seo-local-seo",
+    relatedTerms: ["structured-data", "e-e-a-t"],
+  },
+
+  {
+    slug: "structured-data",
+    title: "Structured Data",
+    abbr: null,
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What is Structured Data? | Khamare Clarke",
+    metaDescription: "Structured data explained: machine-readable page markup that powers rich results, AI citations, and knowledge graph entity signals for UK websites.",
+    h1: "Structured Data: Machine-Readable Signals That Search Engines Act On",
+    definition: "Structured data is a standardised format for providing explicit information about a web page's content to search engines and AI crawlers, using a recognised vocabulary (typically Schema.org) to describe entities, relationships, and attributes in a machine-readable form. It bridges the gap between what a page says in natural language and what a search engine can reliably interpret and act on.",
+    whyItMatters: [
+      "Natural language is ambiguous. The sentence 'Khamare Clarke works in Stoke-on-Trent' tells a human reader where someone is based, but requires inference from a search engine. Structured data makes the same fact explicit: a Person entity, with an address property, with an addressLocality value of 'Stoke-on-Trent'. The search engine does not need to infer -- it reads a fact.",
+      "For AI search engines that construct answers by retrieving and synthesising information from multiple sources, structured data is a primary signal. It tells an AI crawler not just what a page says but what the page is about as an entity: who the author is, what organisation they represent, what services the organisation provides, and what geographic area it serves. Pages with rich structured data are more citable than pages without.",
+    ],
+    howKhamareApplies: [
+      "Every page on this site emits structured data relevant to its content: Person and ProfessionalService schemas on all pages, FAQPage schemas on pages with question-and-answer sections, Article schemas on blog posts, DefinedTerm schemas on glossary pages, and BreadcrumbList schemas for navigation context. The @id fields are canonical and consistent across every page, building a coherent entity record rather than isolated schema blocks.",
+      "For clients, structured data implementation starts with the business entity (LocalBusiness or ProfessionalService), then adds review schema, FAQ schema, and service schema as content supports them. Validation is done via Google's Rich Results Test and Schema.org's validator to confirm there are no errors that would prevent rich result eligibility.",
+    ],
+    faq: [
+      { q: "What are rich results and how does structured data enable them?", a: "Rich results are enhanced search listings that display additional information beyond the standard title and description: star ratings, FAQ dropdowns, event dates, product prices, recipe details. Google generates rich results from structured data when it meets the requirements for a specific rich result type. FAQ schema, for example, enables expandable FAQ sections directly in the search result. Product schema enables price and availability display. Rich results typically receive higher click-through rates than standard listings." },
+      { q: "How does structured data relate to the knowledge graph?", a: "Google's Knowledge Graph is a database of entities and their relationships. Structured data helps Google identify that a specific page or website represents a known entity (a business, a person, a place) and link that entity to others in the graph. Consistent entity markup across a site, using stable @id identifiers, helps Google build a complete and accurate entity record. This is the mechanism through which structured data contributes to AI search visibility: AI engines draw on the knowledge graph and linked entity data when constructing answers." },
+      { q: "Is structured data required for a website to rank?", a: "No. Structured data is not a ranking requirement. Many sites rank well without it. However, it is increasingly important for two reasons: rich result eligibility (which affects click-through rates at a given position) and AI search visibility (where entity signals influence whether a business is cited in generative AI answers). For a business investing in both SEO and AI search optimisation, structured data is a core implementation requirement." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/seo-local-seo",
+    relatedTerms: ["schema-markup", "knowledge-graph"],
+  },
+
+  {
+    slug: "e-e-a-t",
+    title: "E-E-A-T",
+    abbr: null,
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What is E-E-A-T in SEO? | Khamare Clarke",
+    metaDescription: "E-E-A-T explained: Experience, Expertise, Authoritativeness, and Trustworthiness -- Google's quality framework for evaluating content and the people who create it.",
+    h1: "E-E-A-T: The Quality Framework Behind Google's Content Assessments",
+    definition: "E-E-A-T stands for Experience, Expertise, Authoritativeness, and Trustworthiness, the four dimensions Google's quality raters use to assess the quality of content and the credibility of those who produce it. It is not a direct ranking algorithm but a framework that informs how Google's systems are trained to evaluate and weight content quality signals.",
+    whyItMatters: [
+      "Google's quality rater guidelines describe E-E-A-T as the standard against which human reviewers assess search results. These assessments inform the training of Google's ranking systems. Content that demonstrates genuine first-hand experience, comes from a source with verifiable credentials, is cited by authoritative publications, and presents information accurately and transparently tends to rank better than content that lacks these signals.",
+      "The first E, for Experience, was added in 2022 and emphasised that real-world experience with a topic matters alongside formal credentials. A plumber writing about plumbing problems from direct work experience demonstrates a form of authority that a generalist writer researching the same topic does not. For service businesses, E-E-A-T signals are built through author credentials, case studies, client results, and structured entity data that links the business to verifiable real-world information.",
+    ],
+    howKhamareApplies: [
+      "E-E-A-T signals on this site are built through: Person schema with credentials and qualifications, documented client results (named clients, verifiable outcomes), a consistent author attribution across all content, educational credentials (MSc AI at Keele University, BSc Software Engineering, BSc Digital Marketing), and sameAs links in schema connecting the entity to verified social and professional profiles.",
+      "For clients, E-E-A-T strategy means establishing the business as a credible entity: completing and optimising the Google Business Profile with accurate information, building citations across authoritative directories, acquiring links from industry-relevant publications, and structuring author pages with verifiable credentials. These signals compound over time and are resistant to short-term algorithm changes.",
+    ],
+    faq: [
+      { q: "Is E-E-A-T a Google ranking factor?", a: "E-E-A-T is not a single ranking factor that can be measured or given a score. It is a framework that informs how Google's quality systems are designed and trained. Google has confirmed that it uses many signals to assess the dimensions of E-E-A-T, including links, author credentials, business information, and factual accuracy. Improving E-E-A-T signals improves the underlying quality signals that Google's algorithms do directly measure." },
+      { q: "How do you demonstrate E-E-A-T for a local business?", a: "For a local business, E-E-A-T is demonstrated through: a complete, accurate, and well-maintained Google Business Profile; consistent NAP information across the web; client reviews and case studies with verifiable outcomes; schema markup that connects the business to its real-world details; professional credentials and qualifications displayed prominently; and links from local authoritative sources such as trade associations, local news, and business directories." },
+      { q: "Why does the first E (Experience) matter?", a: "The addition of Experience to E-A-T in 2022 reflected Google's recognition that first-hand experience with a topic is a distinct and valuable form of authority. A doctor writing about a medical condition they treat daily has experience that an academic reviewing literature does not. A tradesperson writing about common faults in the systems they work on daily has experience that a content writer researching the same topic cannot replicate. Experience is demonstrated through specificity: concrete details, case studies, and observations that could only come from direct involvement." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/seo-local-seo",
+    relatedTerms: ["structured-data", "link-building"],
+  },
+
+  {
+    slug: "serp",
+    title: "SERP",
+    abbr: "Search Engine Results Page",
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What is a SERP? | Khamare Clarke",
+    metaDescription: "SERP (Search Engine Results Page) explained: the anatomy of a Google results page, from organic listings and map packs to AI Overviews and paid ads.",
+    h1: "SERP: Understanding the Search Engine Results Page",
+    definition: "A SERP (Search Engine Results Page) is the page displayed by a search engine in response to a user's query, containing a ranked list of results from across the web alongside paid advertisements, map packs, rich results, and increasingly, AI-generated answer panels. The composition of a SERP varies by query type, intent, and the search engine's assessment of what format best serves the searcher.",
+    whyItMatters: [
+      "Understanding SERP composition matters because SEO strategy depends on what a SERP looks like for the terms a business wants to rank for. A SERP dominated by a map pack requires local SEO investment. A SERP with an AI Overview requires AEO-focused content strategy. A SERP with mostly editorial content requires content authority building. Targeting without SERP analysis wastes effort on the wrong type of optimisation.",
+      "SERP features have expanded significantly over the past decade. The traditional ten blue links now compete for user attention with maps, knowledge panels, people-also-ask boxes, shopping results, image carousels, video results, and AI Overviews. Each feature draws clicks away from organic listings. Understanding which features appear for a given query determines what a realistic share of the available traffic looks like.",
+    ],
+    howKhamareApplies: [
+      "SERP analysis is the first step in keyword research: before targeting a term, understanding what Google is already showing for it determines what type of page and what type of content is needed to compete. A query where Google shows a map pack needs local SEO work on the GBP. A query where Google shows a featured snippet needs content formatted to answer the question precisely and early.",
+      "SERP tracking is part of monthly reporting: monitoring position changes for target terms, flagging when new SERP features appear for important queries, and identifying opportunities where a new feature type (such as an AI Overview or a people-also-ask box) creates a new route to visibility beyond standard organic listings.",
+    ],
+    faq: [
+      { q: "What is a featured snippet?", a: "A featured snippet is a short answer extracted from a web page and displayed at the top of a SERP, above organic results. Google selects featured snippets from pages it considers most directly answering the query. They typically appear for question-based queries and how-to searches. Winning a featured snippet requires content that answers the question clearly in the first sentence or two, with the page's heading matching the question format." },
+      { q: "How many results does Google show on a SERP?", a: "Google typically shows ten organic results per page, but the actual number of organic listings visible above the fold varies by SERP composition. A SERP with a map pack, a knowledge panel, and several paid ads may show only two or three organic results before the user needs to scroll. This is why position one organic is not always the most visible position on a given SERP, and why map pack visibility can be more valuable than organic position for local queries." },
+      { q: "What is a zero-click search?", a: "A zero-click search is one where the user finds their answer directly on the SERP without clicking through to any website. This happens when Google's featured snippet, knowledge panel, AI Overview, or other SERP feature answers the query completely. Zero-click searches have increased as SERP features have expanded. For businesses, this is relevant for informational queries where the goal is brand visibility rather than direct traffic, and for AI search strategy where being the cited source in an AI answer is the equivalent of a zero-click win." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/seo-local-seo",
+    relatedTerms: ["local-pack", "zero-click-search"],
+  },
+
+  {
+    slug: "google-business-profile-optimisation",
+    title: "Google Business Profile Optimisation",
+    abbr: "GBP",
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What is Google Business Profile Optimisation? | Khamare Clarke",
+    metaDescription: "Google Business Profile optimisation explained: the management work that turns a GBP listing into a lead generation asset for UK local businesses.",
+    h1: "Google Business Profile Optimisation: Turning a Listing Into a Lead Source",
+    definition: "Google Business Profile (GBP) optimisation is the ongoing management of a business's Google listing to maximise its visibility in local search results and map pack rankings, covering profile completeness, category selection, photo management, review strategy, post frequency, and NAP consistency. An optimised GBP listing produces calls and enquiries; an unmanaged one produces views that convert to nothing.",
+    whyItMatters: [
+      "The Google Business Profile is the single most important local SEO asset for most small businesses. It determines whether a business appears in the map pack, controls the information Google shows about the business across Search and Maps, and is the primary source of local customer actions: calls, directions, website visits, and message enquiries. A business with an incomplete or unmanaged GBP is invisible in the searches that matter most.",
+      "GBP optimisation has a measurable, fast impact. A business that completes its profile, selects accurate primary and secondary categories, adds regular photos, and builds a consistent review flow will see map pack impressions and actions increase within weeks. For a local trades business, this is often the fastest route to an increase in inbound calls from qualified local customers.",
+    ],
+    howKhamareApplies: [
+      "GBP management here covers: full profile audit and completion, primary and secondary category optimisation, photo strategy (businesses with more recent, varied photos typically outperform those with few or old photos), review request automation to build consistent review velocity, Google Posts for service and offer announcements, Q&A section management, and service and product catalogue setup where relevant.",
+      "For Upgrade Roofing Solutions, a structured GBP management programme contributed to a 538% increase in Google Business Profile interactions over 90 days, with more than 30 qualified inbound calls in the first two weeks. The GBP was the primary lead channel during that period, producing measurable commercial outcomes within a quarter.",
+    ],
+    faq: [
+      { q: "What is the difference between a Google Business Profile and Google Maps?", a: "Google Business Profile is the management interface businesses use to control how they appear on Google Search and Google Maps. Google Maps is the product users see. When a business manages its GBP, it is updating the information that appears on Maps and in Search results. They are connected systems, not separate ones." },
+      { q: "How many Google reviews does a business need to rank in the map pack?", a: "There is no fixed number. Review volume and recency are ranking signals, but they interact with other factors: proximity to the searcher, category relevance, and profile completeness. A business with 20 recent, relevant reviews can outrank a business with 200 old reviews if the rest of the profile is better optimised. The goal is consistent review velocity -- new reviews arriving regularly -- rather than reaching a specific total." },
+      { q: "How often should a Google Business Profile be updated?", a: "Active management means updating the profile at least monthly: adding new photos, posting updates about services or completed work, responding to all reviews within a few days, and checking that business information remains accurate. Businesses that post regularly and respond to reviews consistently signal to Google that the listing is actively managed, which is one of the factors that influences map pack ranking position." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/google-business-profile",
+    relatedTerms: ["local-seo", "local-pack"],
+  },
+
+  {
+    slug: "local-pack",
+    title: "Local Pack",
+    abbr: null,
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What is the Local Pack? | Khamare Clarke",
+    metaDescription: "The local pack explained: the map block of three business listings at the top of Google search results for local queries, and how to rank in it.",
+    h1: "Local Pack: The Three Listings That Dominate Local Search",
+    definition: "The local pack (sometimes called the map pack or 3-pack) is the block of three business listings displayed with a map at the top of Google search results for queries with local intent, such as searches for tradespeople, restaurants, or professional services in a specific area. Appearing in the local pack puts a business above all organic results, making it one of the highest-value positions in local search.",
+    whyItMatters: [
+      "The local pack appears above organic results and typically captures a large share of clicks for local queries. A business in position one of the local pack will receive more enquiries from that search term than a business in position one of the organic results below it. For local service businesses, local pack visibility is often more valuable than organic rankings.",
+      "The local pack is powered by Google Business Profile data rather than website authority alone. This means a business with a relatively new website can compete for local pack positions if its GBP is well-optimised, its reviews are strong, and its NAP information is consistent across the web. It is a distinct ranking opportunity from organic SEO and requires different work to pursue.",
+    ],
+    howKhamareApplies: [
+      "Local pack ranking work focuses on the three signals Google uses to determine map pack positions: relevance (does the listing match the query?), distance (how close is the business to the searcher?), and prominence (how well-known is the business online?). Relevance is addressed through category selection and profile completeness. Prominence is built through reviews, citations, and links from local sources. Distance cannot be changed but can be compensated for with stronger relevance and prominence signals.",
+      "Tracking local pack positions requires location-specific rank tracking because results vary by the searcher's precise location. A business may rank in the top three for a search made from one street and not appear at all for the same search made from a mile away. Local pack tracking tools grid the service area and report average position across it.",
+    ],
+    faq: [
+      { q: "Why does my business not appear in the local pack?", a: "Common reasons include: the Google Business Profile is incomplete or in a category that does not match the query; NAP information is inconsistent across the web, reducing trust signals; review volume or recency is lower than competitors; the business address is significantly further from the searcher than competing businesses; or the business has not verified its GBP. An audit of the GBP against the profile of businesses currently ranking in the pack will identify the specific gaps." },
+      { q: "Can a business rank in the local pack without a website?", a: "Yes. The local pack is driven primarily by GBP data, not website authority. However, a website is one of the signals Google uses to assess prominence, and a well-optimised website that is consistent with the GBP profile improves map pack rankings over time. A business without a website can rank in the pack but will be at a disadvantage against businesses with both a strong GBP and a relevant website." },
+      { q: "Is the local pack the same as Google Maps?", a: "The local pack and Google Maps draw from the same data source (Google Business Profiles) but are different interfaces. The local pack appears within standard Google search results, showing three listings with a map. Google Maps is a separate application where users can search for businesses by location and browse a fuller set of results. Optimising a GBP improves visibility in both simultaneously." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/google-business-profile",
+    relatedTerms: ["google-business-profile-optimisation", "citations-nap"],
+  },
+
+  {
+    slug: "citations-nap",
+    title: "Citations (NAP)",
+    abbr: "NAP",
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What are Citations and NAP in SEO? | Khamare Clarke",
+    metaDescription: "Citations and NAP consistency explained: how business name, address, and phone number listings across the web affect local search rankings.",
+    h1: "Citations and NAP: The Consistency Signal That Affects Local Rankings",
+    definition: "A citation in local SEO is any online mention of a business's Name, Address, and Phone number (NAP), whether in a directory listing, a review platform, a news article, or any other online source. NAP consistency, meaning these three details are identical across every citation, is a trust signal that search engines use to verify the legitimacy and location of a local business.",
+    whyItMatters: [
+      "Google cross-references NAP information from multiple sources to verify that a business is what it claims to be and is located where it says it is. Inconsistencies, such as an old address on one directory, a different phone number on another, or a slightly different business name format across listings, introduce doubt into this verification process and can suppress local pack rankings.",
+      "Citations also contribute to the prominence signal that Google uses in local pack ranking decisions. A business listed consistently and accurately across a wide range of authoritative directories, trade bodies, and local platforms has stronger prominence signals than a business appearing only on its own website and a handful of listings. Building the right citations is a one-time investment that continues to provide ranking benefit indefinitely.",
+    ],
+    howKhamareApplies: [
+      "Citation work here starts with an audit of existing listings: identifying every place the business appears online, checking for NAP inconsistencies, and prioritising corrections by the authority of each source. The most authoritative sources (Google Business Profile, Bing Places, Apple Maps, Yell, Thomson Local, industry-specific directories) are addressed first.",
+      "New citation building focuses on directories relevant to the business's industry and location. A roofing contractor benefits from citations in trade directories specific to the construction industry as well as general local business directories. Relevance of the directory to the business's sector is a factor in how much each citation contributes to local rankings.",
+    ],
+    faq: [
+      { q: "What is NAP consistency and why does it matter?", a: "NAP consistency means that a business's name, address, and phone number are written identically across every online listing. 'Khamare Clarke Ltd' and 'Khamare Clarke Limited' are technically the same entity but are different strings, which can prevent Google from confidently associating them. Old addresses that remain in directories after a business has moved are a common source of NAP inconsistency. Fixing these is a straightforward local SEO task with a measurable impact on map pack visibility." },
+      { q: "How many citations does a local business need?", a: "The right number depends on the competitive landscape. If the businesses currently ranking in the local pack for your target terms each have 50 citations across relevant directories, you need to match and exceed that baseline. There is no universal target number. Citation work should be benchmarked against local competitors rather than against an abstract figure. Quality and relevance of citations matter as much as quantity." },
+      { q: "What are structured and unstructured citations?", a: "A structured citation is a formal listing on a directory or platform: a Google Business Profile entry, a Yell listing, an entry in a trade directory. It typically includes all three NAP elements in designated fields. An unstructured citation is a mention of the business in content, such as a local news article naming the business and its location, or a blog post referencing it. Both types contribute to local prominence signals, though structured citations on authoritative platforms are generally more impactful." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/seo-local-seo",
+    relatedTerms: ["local-pack", "google-business-profile-optimisation"],
+  },
+
+  {
+    slug: "canonical-urls",
+    title: "Canonical URLs",
+    abbr: null,
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What are Canonical URLs? | Khamare Clarke",
+    metaDescription: "Canonical URLs explained: the rel=canonical tag that tells Google which version of a page is the original, preventing duplicate content issues.",
+    h1: "Canonical URLs: Telling Google Which Page Version to Index",
+    definition: "A canonical URL is the preferred version of a web page, indicated to search engines using a rel='canonical' link element in the page's HTML head. When multiple URLs return the same or very similar content (due to URL parameters, pagination, printer-friendly versions, or deliberate content duplication), the canonical tag tells Google which version to index and consolidate ranking signals to.",
+    whyItMatters: [
+      "Duplicate content is one of the most common and least visible technical SEO problems. A single page may be accessible at multiple URLs: with and without a trailing slash, with www and without, with URL parameters added by tracking tools or sorting functions, through both HTTP and HTTPS. Without canonical tags, Google may index any or all of these versions, splitting the authority signals that should be consolidated on one URL.",
+      "Canonical issues compound at scale. An e-commerce site with 5,000 products and faceted navigation can generate tens of thousands of URL variants for the same content. Each variant competes with the others for index inclusion, consuming crawl budget and diluting ranking signals. Correct canonicalisation consolidates all of this to the intended URLs.",
+    ],
+    howKhamareApplies: [
+      "Canonical tag implementation is reviewed in every technical SEO audit. Common problems found include: canonical tags pointing to 404 pages (the canonical target has been deleted), self-referential canonicals on pages that should be pointing elsewhere, canonical tags absent from paginated pages, and e-commerce sites where filtered page URLs have canonicals pointing to the wrong collection page.",
+      "Every page on this site has a self-referential canonical tag in the metadata, implemented through Next.js's metadata API. This explicitly confirms the intended URL for each page and prevents any accidental duplicate indexing from trailing slash variations or parameter additions.",
+    ],
+    faq: [
+      { q: "What is the difference between a canonical tag and a 301 redirect?", a: "A 301 redirect tells browsers and search engines that a page has permanently moved to a new URL, passing all users and crawlers to the new location. A canonical tag leaves the original URL accessible but tells search engines to treat another URL as the definitive version for indexing purposes. Use a redirect when you want to permanently remove the old URL from use. Use a canonical when you need to keep multiple URLs accessible (for technical or session reasons) but want only one indexed." },
+      { q: "What happens if canonical tags are missing?", a: "Without canonical tags, Google chooses which version of a page to index on its own, often picking based on which URL it crawls first or which has the most internal links pointing to it. This may or may not be the URL the site owner prefers. On sites with clean URL structures and no duplication issues, missing canonicals are low risk. On sites with URL parameter issues, e-commerce filtering, or inconsistent www/non-www configurations, missing canonicals create real indexing problems." },
+      { q: "Do canonical tags transfer PageRank?", a: "Google treats the canonical tag as a consolidation signal: ranking signals (including links) pointing to non-canonical URLs are consolidated to the canonical. This means a canonical tag effectively passes the authority of the non-canonical URL to the canonical one, similar to a redirect. However, the canonical tag is a hint rather than a directive, and Google may choose to ignore it if it believes the canonical choice is incorrect based on other signals." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/seo-local-seo",
+    relatedTerms: ["technical-seo", "crawl-budget"],
+  },
+
+  {
+    slug: "crawl-budget",
+    title: "Crawl Budget",
+    abbr: null,
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What is Crawl Budget? | Khamare Clarke",
+    metaDescription: "Crawl budget explained: how Google allocates crawl resources to websites, and why wasting crawl budget on low-value pages delays indexing of important content.",
+    h1: "Crawl Budget: How Google Decides Which Pages to Crawl and When",
+    definition: "Crawl budget is the number of pages Googlebot will crawl on a website within a given period, determined by the site's crawl capacity (how many requests the server can handle) and crawl demand (how much Google prioritises crawling the site based on its authority and freshness signals). When a site has more pages than its crawl budget covers in a reasonable time, important pages may be crawled infrequently or not at all.",
+    whyItMatters: [
+      "For small sites with a few hundred pages, crawl budget is rarely a limiting factor. For large sites with thousands of pages, particularly e-commerce sites with extensive product catalogues or sites that have generated large numbers of low-value URLs through faceted navigation, crawl budget determines which pages get indexed quickly and which wait. New pages on a large site that wastes crawl budget on low-value URLs may take weeks to be crawled.",
+      "Crawl budget waste is caused by: URL parameters that create thousands of near-identical pages, redirect chains that force Googlebot to follow multiple hops, soft 404 pages that return a 200 status code for non-existent content, and large numbers of low-quality or thin pages. Identifying and eliminating these allows crawl resources to be concentrated on the pages that matter.",
+    ],
+    howKhamareApplies: [
+      "Crawl budget management is particularly relevant for programmatic SEO campaigns that generate large numbers of pages. On this site, 161 service-by-location pages are generated as static HTML at build time, served from a CDN with instant response times and no redirect chains. This makes them easy for Googlebot to crawl efficiently and ensures they are indexed quickly after deployment.",
+      "For clients with crawl budget concerns, the work involves: identifying and removing or consolidating low-value pages, fixing redirect chains, implementing proper handling of URL parameters in robots.txt or canonical tags, and improving server response times so Googlebot can crawl more pages within the same session.",
+    ],
+    faq: [
+      { q: "How do I know if crawl budget is a problem for my site?", a: "Google Search Console's crawl stats report shows how many pages Googlebot crawled per day and the average response time. If the crawl rate is low relative to the total number of pages on the site, or if response times are high, crawl budget may be a limiting factor. The index coverage report shows which pages are indexed and which are discovered but not indexed, which can indicate crawl budget constraints if important pages consistently remain in the 'discovered but not indexed' state." },
+      { q: "Does site speed affect crawl budget?", a: "Yes. Googlebot has a crawl rate limit that is influenced by server response times. A site with slow server responses will be crawled less aggressively to avoid overloading the server. Improving server response times (through CDN use, caching, and server infrastructure improvements) allows Googlebot to crawl more pages per session, effectively increasing the available crawl budget." },
+      { q: "Should I block low-value pages from Googlebot?", a: "In some cases, yes. Pages that provide no value to searchers (admin pages, internal search results pages, low-quality parameter-generated pages) can be blocked via robots.txt or given a no-index tag. This prevents Googlebot from spending crawl resources on these pages and concentrates crawling on the pages that should be indexed. However, blocking pages incorrectly can cause indexing problems for important content, so this work requires careful implementation." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/seo-local-seo",
+    relatedTerms: ["technical-seo", "indexing"],
+  },
+
+  {
+    slug: "indexing",
+    title: "Indexing",
+    abbr: null,
+    family: "seo",
+    badge: "SEO",
+    metaTitle: "What is Indexing in SEO? | Khamare Clarke",
+    metaDescription: "Indexing in SEO explained: how Google discovers, processes, and stores web pages, and why a page must be indexed before it can rank.",
+    h1: "Indexing: How Google Stores Pages Before They Can Rank",
+    definition: "Indexing in SEO is the process by which a search engine discovers, processes, and stores a web page in its database so that the page can be returned in search results. A page that is not in Google's index cannot rank for any search query, regardless of how well it is optimised or how authoritative the site is.",
+    whyItMatters: [
+      "Indexing is a prerequisite for ranking. All other SEO work, whether technical improvements, content optimisation, or link building, produces no results for pages that are not in the index. Pages can fail to be indexed for reasons that are not obvious from normal website use: a robots.txt rule accidentally blocking the page, a no-index meta tag added during development and never removed, a canonical tag pointing to a different URL, or a site architecture that makes the page difficult for Googlebot to discover.",
+      "Understanding indexing status is essential for troubleshooting ranking problems. Before investigating why a page is not ranking, it is worth confirming that the page is indexed. Google Search Console's URL Inspection tool provides a direct answer: whether a page is indexed, when it was last crawled, what version Googlebot saw, and any issues that prevented indexing.",
+    ],
+    howKhamareApplies: [
+      "Indexing status is checked as part of every technical SEO audit and every new page deployment. For programmatic SEO campaigns that generate large numbers of pages simultaneously, Google Search Console is monitored in the weeks after deployment to confirm new pages are being discovered and indexed at the expected rate. Submitting the XML sitemap ensures Google is aware of all URLs that should be indexed.",
+      "Common indexing problems identified in audits include: pages with no-index tags set correctly in development that were never removed before launch; pages excluded from the XML sitemap for historical reasons but now containing important content; pages that are linked from no other page on the site (orphan pages) and are therefore never discovered through crawling; and pages with very thin content that Google chooses not to index based on its quality assessment.",
+    ],
+    faq: [
+      { q: "How do I check if a page is indexed by Google?", a: "The most reliable method is Google Search Console's URL Inspection tool, which shows whether a specific URL is in the index, when it was last crawled, and whether there are any indexing issues. A secondary method is searching Google for site:yourdomain.com/specific-page, though this is less reliable. The URL Inspection tool also allows you to request indexing of a specific URL, which can accelerate the process for important new pages." },
+      { q: "How long does it take for a new page to be indexed?", a: "Indexing time varies from a few hours to several weeks, depending on the site's authority, how frequently Googlebot crawls the site, and how the new page is discovered. Pages linked from high-authority pages on a frequently-crawled site will be indexed much faster than orphan pages on a low-authority site. Submitting the URL via Search Console's URL Inspection tool and ensuring the page is in the XML sitemap are the two actions that most reliably accelerate indexing." },
+      { q: "What is the difference between crawling and indexing?", a: "Crawling is the process of Googlebot visiting a URL and downloading its content. Indexing is the subsequent process of processing that content and deciding whether to store it in the search index. Not every crawled page is indexed: Google may crawl a page and decide not to index it because the content is low-quality, duplicate, or blocked by signals on the page. Conversely, a page that is not crawled cannot be indexed. Crawling is the discovery phase; indexing is the acceptance phase." },
+    ],
+    expertisePage: "/expertise/seo",
+    servicePage: "/services/seo-local-seo",
+    relatedTerms: ["crawl-budget", "technical-seo"],
+  },
+
+  // ─── AI SEARCH FAMILY ─────────────────────────────────────────────────────
+
+  {
+    slug: "answer-engine-optimisation",
+    title: "Answer Engine Optimisation",
+    abbr: "AEO",
+    family: "ai-search",
+    badge: "AI Search",
+    metaTitle: "What is Answer Engine Optimisation (AEO)? | Khamare Clarke",
+    metaDescription: "AEO explained: optimising content to appear as the cited answer in AI search engines like ChatGPT, Gemini, Perplexity, and Google AI Overviews.",
+    h1: "Answer Engine Optimisation (AEO): Getting Cited in AI Search Answers",
+    definition: "Answer Engine Optimisation (AEO) is the practice of structuring content so that AI-powered search engines and assistant platforms select it as the source for answers to specific questions. It differs from traditional SEO in that the goal is not to rank in a list of links but to be cited as the definitive answer to a query by a system that synthesises information from multiple sources.",
+    whyItMatters: [
+      "As a growing proportion of searches are answered by AI systems rather than through lists of links, visibility in those AI answers becomes a commercial priority. A business that is consistently cited as the authoritative source on topics related to its services builds brand recognition in the channel where an increasing number of potential customers are forming their initial impressions and making initial decisions.",
+      "AEO and traditional SEO are not competing strategies -- they are complementary. The content signals that make a page rankable in Google (clear structure, authoritative writing, correct schema markup, entity consistency) are the same signals that make it citable in an AI answer. Investment in AEO-focused content builds traditional search rankings and AI search visibility simultaneously.",
+    ],
+    howKhamareApplies: [
+      "AEO work here covers: structuring content around specific questions with direct, quotable answers in the first sentence; implementing FAQPage schema so AI crawlers can identify question-and-answer pairs; building entity authority through consistent Person and ProfessionalService schema across all pages; and maintaining a llms.txt file that gives AI crawlers a complete, structured overview of the site and the entity it represents.",
+      "The glossary pages on this site are a direct AEO implementation: each page provides a plain-English definition in the first two sentences that an AI engine can quote verbatim as the answer to a 'what is X' query, followed by substantive content that builds the site's authority on the topic for retrieval purposes.",
+    ],
+    faq: [
+      { q: "What is the difference between AEO and SEO?", a: "SEO targets ranking positions in a list of links on a search results page. AEO targets being selected as the cited source in an AI-generated answer, which may not involve a traditional results page at all. The two share technical foundations (content quality, structured data, entity authority) but differ in how success is measured: SEO success is a ranking position, AEO success is a citation in an AI response." },
+      { q: "How do AI search engines decide which sources to cite?", a: "AI search engines use retrieval-augmented generation (RAG) to identify relevant sources for a query and then synthesise those sources into an answer. The selection of sources depends on: the source's established authority on the topic (entity signals), how directly the content answers the specific question, the structure and clarity of the content (well-structured, jargon-free answers are easier to retrieve and quote), and the crawlability of the page for AI-specific crawlers." },
+      { q: "Which AI engines does AEO apply to?", a: "AEO is relevant for any AI system that retrieves and cites web content: ChatGPT with browsing enabled, Perplexity AI, Google Gemini, Google AI Overviews, Microsoft Copilot, and Claude. Each has its own crawl behaviour and retrieval mechanism, but the content and entity signals that make a page citable are consistent across all of them. A page that is well-structured, clearly authoritative, and correctly marked up with schema is well-positioned across all these systems." },
+    ],
+    expertisePage: "/expertise/ai-search-optimisation",
+    servicePage: "/services/ai-search-optimisation",
+    relatedTerms: ["generative-engine-optimisation", "ai-overviews"],
+  },
+
+  // ─── BATCHES 3-6 PLACEHOLDER ──────────────────────────────────────────────
 ];
 
 export const GLOSSARY_BY_SLUG = Object.fromEntries(GLOSSARY_TERMS.map(t => [t.slug, t]));
