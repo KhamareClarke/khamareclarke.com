@@ -28,13 +28,17 @@ export default function Home() {
       <Section className="mt-0 py-ds-4">
         <Container size="main">
           <HeroSection />
+          <hr aria-hidden="true" className="section-sep" />
           <AchievementsSection />
           <AboutSection />
+          <hr aria-hidden="true" className="section-sep" />
           <ServicesSection />
           <ProjectsSection />
           <TestimonialsSection />
+          <hr aria-hidden="true" className="section-sep" />
           <FAQSection />
           <PricingSection />
+          <hr aria-hidden="true" className="section-sep" />
           <BlogSlider />
           <EmailSection />
         </Container>

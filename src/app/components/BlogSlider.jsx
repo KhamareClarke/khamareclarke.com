@@ -96,7 +96,7 @@ export default function BlogSlider() {
           </button>
           <div className={`w-full grid gap-8 mx-auto`} style={{gridTemplateColumns: `repeat(${visible}, minmax(0, 1fr))`, maxWidth: visible === 1 ? '22rem' : visible === 2 ? '48rem' : '72rem'}}>
             {postsToShow.map(post => (
-              <div key={post.slug} className="group bg-[#1a1a1a]/90 backdrop-blur-sm rounded-2xl overflow-hidden border-2 border-[#ffb700]/20 hover:border-[#ffb700]/40 shadow-2xl hover:scale-[1.03] transition-all duration-300 flex flex-col">
+              <div key={post.slug} className="group bg-[#1a1a1a]/90 backdrop-blur-sm rounded-2xl overflow-hidden border-2 border-[#ffb700]/20 hover:border-[#ffb700]/40 shadow-2xl motion-safe:hover:scale-[1.03] motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] transition-all duration-300 flex flex-col">
                 <div className="relative">
                   <div className={`w-full h-48 bg-gradient-to-br ${categoryGradients[post.category] || 'from-[#1a1a1a] to-[#0f172a]'} flex items-center justify-center`}>
                     <span className="text-5xl opacity-30">{categoryEmojis[post.category] || '📝'}</span>

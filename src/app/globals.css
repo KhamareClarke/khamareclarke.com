@@ -113,3 +113,56 @@ a {
     display: none;
   }
 }
+
+/* ===========================================
+   VISUAL ENHANCEMENTS — progressive only
+   Elements never start below 0.85 opacity.
+   =========================================== */
+
+/* Section separator: hairline gradient between sections */
+.section-sep {
+  display: block;
+  height: 1px;
+  border: none;
+  background: linear-gradient(to right, transparent, rgba(255, 183, 0, 0.1), transparent);
+}
+
+/* Scroll-reveal: CSS class for non-Framer elements.
+   Floor at 0.85 — always readable. CSS animation fires after 1.5s
+   as a fallback if IntersectionObserver never fires. */
+.scroll-reveal {
+  opacity: 0.85;
+  transform: translateY(12px);
+  animation: sr-fallback 0.35s ease-out 1.5s both;
+}
+@keyframes sr-fallback {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.scroll-reveal.in-view {
+  animation: none;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 350ms ease-out, transform 350ms ease-out;
+}
+
+/* Prefers-reduced-motion: disable all transitions and animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .scroll-reveal,
+  .scroll-reveal.in-view {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

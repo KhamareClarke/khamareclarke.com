@@ -127,6 +127,17 @@ const HeroSection = () => {
           transition={{ duration: 0.5 }}
           className="lg:col-span-5 place-self-center order-1 lg:order-2 mt-8 sm:mt-12 lg:mt-0"
         >
+          <div className="relative inline-block mx-auto">
+            {/* Radial glow behind portrait — pure CSS, decorative */}
+            <div
+              aria-hidden="true"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
+              style={{
+                width: '140%',
+                height: '140%',
+                background: 'radial-gradient(circle, rgba(255,183,0,0.08) 0%, rgba(255,183,0,0.03) 45%, transparent 70%)',
+              }}
+            />
           <div className="rounded-full w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] lg:w-[450px] lg:h-[450px] xl:w-[550px] xl:h-[550px] relative shadow-2xl border-4 border-[#ffb700]/80 bg-[#111015] flex items-center justify-center ring-4 ring-[#ffb700]/20 mx-auto overflow-hidden hover:ring-[#ffb700]/40 transition-all duration-300">
             <Image
               src="/images/hero-image.png"
@@ -146,6 +157,7 @@ const HeroSection = () => {
               <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffb700"><circle cx="12" cy="12" r="3.5"/><g opacity="0.6"><circle cx="4" cy="12" r="1.6"/><circle cx="20" cy="12" r="1.6"/><circle cx="12" cy="4" r="1.6"/><circle cx="12" cy="20" r="1.6"/></g></svg>
             </motion.span>
           </div>
+          </div>{/* end inline-block glow wrapper */}
         </motion.div>
         </div>
       </div>

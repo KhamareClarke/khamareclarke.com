@@ -62,6 +62,10 @@ const AchievementsSection = () => {
           <motion.div
             key={index}
             className="group relative"
+            initial={{ opacity: 0.85, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut", delay: index * 0.08 }}
+            viewport={{ once: true }}
             whileHover={{ y: -8 }}
           >
             {/* Gradient Border */}
@@ -70,7 +74,7 @@ const AchievementsSection = () => {
             </div>
 
             {/* Card Content */}
-            <div className="relative bg-gradient-to-br from-[#1a1a1a]/90 to-[#0f0f0f]/90 backdrop-blur-sm rounded-2xl p-8 h-full flex flex-col items-center justify-center text-center border border-[#ffb700]/20 group-hover:border-[#ffb700]/40 transition-all duration-300">
+            <div className="relative bg-gradient-to-br from-[#1a1a1a]/90 to-[#0f0f0f]/90 backdrop-blur-sm rounded-2xl p-8 h-full flex flex-col items-center justify-center text-center border border-[#ffb700]/20 group-hover:border-[#ffb700]/40 motion-safe:group-hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] transition-all duration-300">
 
               {/* Icon with Color Background */}
               <div

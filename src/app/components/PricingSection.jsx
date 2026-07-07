@@ -235,21 +235,21 @@ const PricingSection = () => {
         <motion.div
           key={`category-${activeCategory}`}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0.85, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.35 }}
         >
           {currentCategory.tiers.map((tier, i) => (
             <motion.div
               key={tier.tier}
-              className={`relative bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black border-2 rounded-xl p-6 md:p-8 flex flex-col focus:outline-none focus:ring-2 focus:ring-[#f1cb32] transition-all duration-300 overflow-visible hover:scale-[1.02] ${
+              className={`relative bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black border-2 rounded-xl p-6 md:p-8 flex flex-col focus:outline-none focus:ring-2 focus:ring-[#f1cb32] transition-all duration-300 overflow-visible hover:scale-[1.02] motion-safe:hover:shadow-[0_0_24px_rgba(241,203,50,0.2)] ${
                 tier.mostPopular
                   ? 'border-[#f1cb32] shadow-2xl shadow-[#f1cb32]/25 bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-black md:scale-105 z-10'
                   : 'border-[#f1cb32]/35'
               }`}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0.85, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              transition={{ duration: 0.35, ease: "easeOut", delay: i * 0.08 }}
             >
               {tier.mostPopular && (
                 <motion.span
@@ -285,12 +285,7 @@ const PricingSection = () => {
                 ))}
               </ul>
 
-              <motion.div
-                className="mt-auto"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.2 + i * 0.1 }}
-              >
+              <div className="mt-auto">
                 <CTAButton
                   href="#contact"
                   className="w-full text-center py-4 text-lg font-bold"
@@ -299,7 +294,7 @@ const PricingSection = () => {
                 >
                   {tier.cta || "Get Started"}
                 </CTAButton>
-              </motion.div>
+              </div>
             </motion.div>
           ))}
         </motion.div>

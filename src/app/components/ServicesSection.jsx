@@ -81,6 +81,10 @@ const ServicesSection = () => {
             <motion.div
               key={idx}
               className="group relative"
+              initial={{ opacity: 0.85, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: "easeOut", delay: idx * 0.08 }}
+              viewport={{ once: true }}
               whileHover={{ y: -10 }}
             >
               {/* Card Background with Gradient Border */}
@@ -89,7 +93,7 @@ const ServicesSection = () => {
               </div>
               
               {/* Card Content */}
-              <div className="relative bg-gradient-to-br from-[#1a1a1a]/90 to-[#0f0f0f]/90 backdrop-blur-sm rounded-3xl p-8 md:p-10 h-full flex flex-col border border-[#ffb700]/20 group-hover:border-[#ffb700]/40 transition-all duration-300">
+              <div className="relative bg-gradient-to-br from-[#1a1a1a]/90 to-[#0f0f0f]/90 backdrop-blur-sm rounded-3xl p-8 md:p-10 h-full flex flex-col border border-[#ffb700]/20 group-hover:border-[#ffb700]/40 motion-safe:group-hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] transition-all duration-300">
                 {/* Icon */}
                 <div className="mb-8">
                   <div className="w-20 h-20 bg-gradient-to-br from-[#ffb700]/20 to-[#ff8c00]/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">

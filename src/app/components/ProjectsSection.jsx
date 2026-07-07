@@ -49,7 +49,7 @@ const allCards = [
 
 function CaseStudyCard({ card }) {
   return (
-    <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 transition-all duration-300 overflow-hidden h-full flex flex-col">
+    <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
       <div
         className="h-44 w-full flex-shrink-0"
         style={{ background: `url(${card.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
@@ -73,7 +73,7 @@ function CaseStudyCard({ card }) {
 
 function PortfolioCard({ card }) {
   return (
-    <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 transition-all duration-300 overflow-hidden h-full flex flex-col">
+    <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
       <div className="p-5 flex flex-col flex-1 justify-between">
         <div>
           <p className="text-[#ffb700] font-bold text-sm mb-2">{card.name}</p>
@@ -134,7 +134,7 @@ const ProjectsSection = () => {
             key={current}
             className="grid gap-6"
             style={{ gridTemplateColumns: `repeat(${Math.min(perPage, visible.length)}, minmax(0, 1fr))` }}
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0.85, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.35 }}
           >
