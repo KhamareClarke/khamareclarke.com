@@ -967,7 +967,289 @@ export const GLOSSARY_TERMS = [
     relatedTerms: ["ai-agent", "ai-lead-response"],
   },
 
-  // ─── BATCH 4 PLACEHOLDER ──────────────────────────────────────────────────
+  // ─── AI SYSTEMS FAMILY (continued) ───────────────────────────────────────
+
+  {
+    slug: "conversational-ai",
+    title: "Conversational AI",
+    abbr: null,
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is Conversational AI? | Khamare Clarke",
+    metaDescription: "Conversational AI explained: AI systems that understand and generate natural language in real-time dialogue, and how they are applied in business automation.",
+    h1: "Conversational AI: Natural Language Dialogue at Scale",
+    definition: "Conversational AI refers to systems that can understand and generate human language in real-time, two-way dialogue, using natural language processing and large language models to conduct coherent, contextually aware conversations across text or voice channels. It is the technology layer that powers AI receptionists, AI agents, and virtual assistants that handle genuine back-and-forth exchanges rather than scripted keyword matching.",
+    whyItMatters: [
+      "For a business, the practical value of conversational AI is the ability to engage every inbound enquiry at the moment it arrives, regardless of volume, time of day, or staff availability. A person who sends a message about a job at 10pm receives an immediate, relevant, coherent response. The alternative -- a scripted chatbot that breaks when the user says something outside the script, or no response until the following morning -- loses a measurable proportion of enquiries at each stage.",
+      "Conversational AI also handles the variation in how people express the same need. One person asks 'do you cover Stafford?' and another asks 'are you local to us, we're near the A34 just outside Stone?' Both questions are asking the same thing. A keyword-matching chatbot answers one reliably and fails the other. Conversational AI understands intent across natural language variation, which is the core quality difference from rule-based systems.",
+    ],
+    howKhamareApplies: [
+      "Conversational AI is the foundation of the AI receptionist systems built for clients. The underlying models understand the service context (what the business does, where it operates, what information a qualified lead needs to provide), which means the conversation feels relevant rather than generic. The system is configured with service-specific knowledge so that its responses are accurate to the business, not drawn from generic training data alone.",
+      "For businesses where enquiries arrive through multiple channels (web, WhatsApp, SMS), conversational AI provides a consistent interface that operates the same way regardless of the channel. The business owner sees a structured lead summary; the customer sees a responsive, informed conversation. The gap between these two experiences is what conversational AI bridges.",
+    ],
+    faq: [
+      { q: "What is the difference between conversational AI and a chatbot?", a: "A chatbot typically follows a decision tree: if the user says X, respond with Y. It breaks when the user says Z. Conversational AI uses a large language model to understand intent and generate contextually appropriate responses, meaning it handles the full range of natural language variation without requiring the user to follow a script. The distinction matters in practice: a chatbot with 20 decision nodes handles 20 inputs reliably and fails on everything else; a conversational AI system handles thousands of phrasings of the same underlying questions." },
+      { q: "Can conversational AI handle voice calls as well as text?", a: "Yes. Conversational AI can be deployed on voice channels using speech-to-text (to transcribe what the caller says), the language model (to determine the appropriate response), and text-to-speech (to speak the response). Voice AI is a distinct deployment from text-based AI and introduces additional complexity -- handling interruptions, background noise, and the time constraints of spoken conversation -- but the underlying conversational AI layer is the same. UK businesses with high inbound call volumes are an emerging use case for voice AI." },
+      { q: "Is conversational AI reliable enough for customer-facing use?", a: "Reliability depends on configuration scope. A conversational AI system configured to handle a specific set of enquiry types for a specific business, with a defined fallback for edge cases, performs reliably within that scope. The failure mode to design against is not the system saying something nonsensical -- modern language models rarely do this in structured business contexts -- but the system attempting to answer questions outside its scope. A well-designed system knows its boundaries and escalates appropriately rather than guessing." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: "/services/ai-receptionist",
+    relatedTerms: ["ai-chatbot", "ai-agent"],
+  },
+
+  {
+    slug: "ai-chatbot",
+    title: "AI Chatbot",
+    abbr: null,
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is an AI Chatbot? | Khamare Clarke",
+    metaDescription: "AI chatbot explained: how AI-powered chat differs from scripted chatbots, what it can and cannot do, and how businesses use it to handle inbound enquiries.",
+    h1: "AI Chatbot: What It Is and What Separates It From a Scripted Bot",
+    definition: "An AI chatbot is a chat interface powered by a large language model that can conduct open-ended, natural language conversations, understand context across multiple turns, and respond appropriately to a wide range of inputs without a predefined script. It differs from rule-based chatbots in that its responses are generated rather than retrieved from a fixed answer tree.",
+    whyItMatters: [
+      "For a business, the relevant question is not whether to use a chatbot but whether the chatbot can actually handle the conversations it will receive. A scripted chatbot embedded in a trades business website will receive inputs like 'we've got a bit of a situation with the roof after last night', 'how much roughly for a loft conversion, three bedroom semi', and 'do you come to us or do we come to you?' None of these map cleanly to buttons or keywords. An AI chatbot handles all of them.",
+      "The commercial case for an AI chatbot on a business website is straightforward: a proportion of visitors arrive outside working hours, prefer not to call, or want a quick answer before committing to a phone conversation. An AI chatbot converts a proportion of these visitors into qualified leads that would otherwise leave without making contact. The proportion recovered depends on how well the chatbot is configured for the specific business and enquiry type.",
+    ],
+    howKhamareApplies: [
+      "AI chatbots deployed for clients are configured with business-specific knowledge: the services offered, the geographic area covered, the typical questions asked, and the information needed from a lead before it is qualified. The chatbot does not attempt to quote prices or make promises outside the business's guidelines; it gathers information and either schedules a follow-up or routes the qualified lead to the business owner.",
+      "The chatbot is connected to the CRM so that lead data captured in the chat is automatically logged as a contact record, without the business owner needing to copy information from a chat log. This integration step is frequently where lower-quality implementations stop short, leaving the business owner to manually process the chats.",
+    ],
+    faq: [
+      { q: "Should a business use an AI chatbot or a human live chat?", a: "For most small businesses, the choice is not between AI chatbot and human live chat -- it is between AI chatbot and no chat, because staffing a human live chat operation outside working hours is not viable. An AI chatbot handles the hours when no human is available, and can be configured to hand off to a human agent during working hours if preferred. For larger businesses with dedicated sales teams, a hybrid approach (AI for qualification, human for closing) is common." },
+      { q: "What can an AI chatbot not do?", a: "An AI chatbot cannot access systems it is not integrated with: it cannot look up a customer's existing account, check a live inventory database, or process a payment unless it is specifically built with those integrations. It also cannot replicate the judgement of an expert for complex or sensitive queries -- a solicitor's AI chatbot should not be attempting to give legal advice. The configuration scope should match the chatbot's actual capability, with clear escalation paths for requests outside that scope." },
+      { q: "How do I measure whether my AI chatbot is working?", a: "The relevant metrics are: conversation start rate (what proportion of visitors start a chat), completion rate (what proportion of started chats reach a lead capture moment), qualified lead rate (what proportion of completed chats produce a usable lead), and lead-to-booking conversion rate (what proportion of AI-captured leads convert to a paid job). These are tracked through the CRM integration and compared against baseline lead volume from other channels." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: "/services/ai-receptionist",
+    relatedTerms: ["conversational-ai", "ai-lead-response"],
+  },
+
+  {
+    slug: "business-process-automation",
+    title: "Business Process Automation",
+    abbr: "BPA",
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is Business Process Automation? | Khamare Clarke",
+    metaDescription: "Business process automation (BPA) explained: automating repeatable business tasks to reduce manual work, improve consistency, and free up human capacity.",
+    h1: "Business Process Automation: Removing the Manual Work From Repeatable Tasks",
+    definition: "Business process automation (BPA) is the use of software to execute repeatable, rules-based business tasks automatically, without manual human input at each step. It applies to processes with defined inputs, predictable steps, and consistent outputs -- such as sending a follow-up message after an enquiry, adding a contact to a CRM, or generating a weekly report.",
+    whyItMatters: [
+      "The most common reason a small business loses leads is not that the enquiry never arrived -- it is that the manual follow-up step did not happen. The enquiry came in on a busy Tuesday, it was noted, and by Thursday it had been displaced by more immediate work. Business process automation removes the dependency on human memory and available time for these predictable follow-up actions. The follow-up sends regardless of how busy the week was.",
+      "For a growing service business, the scalability argument is straightforward. A one-person business can handle a certain volume of enquiries manually before quality degrades -- responses slow down, follow-ups get missed, admin accumulates. Automating the predictable parts of the process (enquiry capture, acknowledgement, qualification, follow-up, CRM logging) extends the volume a business can handle before a new hire is necessary.",
+    ],
+    howKhamareApplies: [
+      "Business process automation work here focuses on the enquiry-to-booking pipeline: the sequence of steps from initial contact to confirmed appointment. This typically covers automated enquiry acknowledgement (within seconds), AI qualification (gathering the information needed to assess the job), CRM record creation, follow-up sequence (timed messages to leads who have not responded), and booking confirmation. Each step that was previously manual and time-dependent becomes automatic and time-consistent.",
+      "The automation is built around the business's existing tools where possible, rather than requiring a new software stack. If the business already uses a particular CRM, job management system, or communication platform, the automation connects to those systems rather than replacing them.",
+    ],
+    faq: [
+      { q: "What is the difference between business process automation and AI automation?", a: "Business process automation (BPA) covers both rule-based automation (if X happens, do Y) and AI-powered automation (if X happens, use AI judgement to determine the appropriate response and do Y). Rule-based automation is highly reliable for processes with consistent, predictable inputs. AI automation adds the ability to handle natural language variation, make contextual judgements, and deal with inputs that do not fit a fixed template. Most business automation implementations use both: rule-based triggers and routing, with AI handling the conversational and judgement-intensive steps." },
+      { q: "Which business processes should be automated first?", a: "The highest-value processes to automate first are those that are (1) high-frequency -- they happen many times per day or week, (2) time-sensitive -- a delayed response has a measurable impact on outcomes, and (3) currently manual -- they depend on a person remembering to act. For most service businesses, inbound enquiry handling and lead follow-up meet all three criteria and are the natural starting point." },
+      { q: "How long does it take to set up business process automation?", a: "For a well-scoped enquiry handling automation covering a single business type, implementation typically takes one to three weeks from initial configuration to live operation. The timeline depends on the number of integrations required, the complexity of the qualification logic, and how quickly the business can review and approve the configuration. More complex workflows with multiple systems and conditional logic take longer to configure and test." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: "/services/ai-receptionist",
+    relatedTerms: ["workflow-automation", "crm-automation"],
+  },
+
+  {
+    slug: "workflow-automation",
+    title: "Workflow Automation",
+    abbr: null,
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is Workflow Automation? | Khamare Clarke",
+    metaDescription: "Workflow automation explained: automatically triggering actions in sequence when defined conditions are met, applied to business processes like lead handling and follow-up.",
+    h1: "Workflow Automation: Triggering the Right Action at the Right Moment",
+    definition: "Workflow automation is the configuration of software to trigger a defined sequence of actions automatically when specific conditions are met, eliminating the need for manual initiation of each step in a multi-stage process. A workflow might begin when a new enquiry arrives and then automatically send an acknowledgement, log a CRM record, qualify the lead via AI conversation, and initiate a follow-up sequence if no response is received within a set period.",
+    whyItMatters: [
+      "The value of workflow automation lies in consistency and speed. A manually managed enquiry process depends on the person managing it being available, attentive, and uninterrupted at the moment each step needs to happen. A workflow automation runs the same steps in the same order, at the same speed, regardless of the volume of simultaneous enquiries or the time of day. For a business receiving enquiries across multiple channels, this consistency is the difference between a managed process and an ad-hoc one.",
+      "Workflow automation also creates an auditable record: every action in a workflow is logged, so it is possible to see exactly what happened at each step for any given enquiry. This is useful both for diagnosing why a particular lead did not convert and for demonstrating process quality to clients or partners who want to understand how enquiries are handled.",
+    ],
+    howKhamareApplies: [
+      "Workflow automation here is built around the specific triggers and outcomes that matter for the business. The trigger is typically an inbound enquiry (from web chat, WhatsApp, SMS, or email). The workflow then runs: immediate acknowledgement, AI qualification conversation, CRM record creation with structured lead data, and a follow-up sequence (message at 24 hours, message at 72 hours, final message at 7 days) for leads that do not confirm a booking.",
+      "Each workflow is reviewed with the business owner before deployment to confirm the timing, messaging, and escalation logic reflect how they want to be represented to potential customers. The workflow can be adjusted after deployment based on conversion data: if a particular follow-up timing or message produces better results, the workflow is updated.",
+    ],
+    faq: [
+      { q: "What tools are typically used for workflow automation?", a: "Common workflow automation platforms include Make (formerly Integromat), n8n, Zapier, and the automation features built into CRM platforms like GoHighLevel or HubSpot. The right tool depends on the complexity of the workflow, the systems it needs to connect to, and the budget. For businesses already using a CRM with built-in automation, extending that CRM's native workflows is often the simplest path. For multi-system integrations involving AI steps, a dedicated workflow platform with language model integration is usually more appropriate." },
+      { q: "Can workflow automation replace staff?", a: "Workflow automation replaces specific tasks, not people. The tasks it replaces are typically the administrative and repetitive ones: logging enquiries, sending acknowledgements, scheduling follow-ups, updating records. This frees the people who were doing those tasks to focus on the work that requires genuine human judgement: scoping jobs, managing client relationships, delivering the service. For businesses that do not yet have dedicated admin staff, automation performs the administrative work that would otherwise fall on the owner." },
+      { q: "What happens when a workflow breaks?", a: "Well-designed workflows include error handling: if a step fails (for example, a CRM integration returns an error), the workflow logs the failure and alerts a human operator rather than silently stopping. Monitoring the workflow's execution logs is an ongoing task, not a one-time setup. In practice, most failures are integration-related (an API key expires, a platform updates its authentication requirements) rather than logic failures, and they are caught quickly when workflows are monitored regularly." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: "/services/ai-receptionist",
+    relatedTerms: ["business-process-automation", "ai-lead-response"],
+  },
+
+  {
+    slug: "ai-lead-response",
+    title: "AI Lead Response",
+    abbr: null,
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is AI Lead Response? | Khamare Clarke",
+    metaDescription: "AI lead response explained: automatically responding to inbound enquiries in seconds using AI, qualifying leads conversationally, and routing them to the business.",
+    h1: "AI Lead Response: Responding to Every Enquiry in Seconds, Not Hours",
+    definition: "AI lead response is the use of artificial intelligence to automatically acknowledge, engage, and qualify inbound business enquiries the moment they arrive, conducting a conversational exchange to gather the information needed to assess the lead before routing a structured summary to the business owner or CRM. It removes the dependency on a human being available to respond at the moment an enquiry is received.",
+    whyItMatters: [
+      "Speed of response is one of the most significant factors in lead conversion for service businesses. An enquiry that receives a response within five minutes converts at a significantly higher rate than one that receives a response after an hour, and the difference between a same-day response and a next-day response is more significant still. For a one-person or small-team business, matching the response speed of a dedicated sales team is not possible without automation. AI lead response closes this gap.",
+      "The follow-up problem is as significant as the initial response problem. A business that responds quickly to a first enquiry but then fails to follow up with leads that do not immediately book loses a substantial proportion of revenue that was, in practical terms, already acquired. An automated follow-up sequence -- triggered when a lead does not respond within a set window -- recovers a proportion of these near-conversions without requiring manual tracking.",
+    ],
+    howKhamareApplies: [
+      "AI lead response systems built here are configured to respond to enquiries across the channels the specific business uses (web, WhatsApp, SMS, email) and to ask the qualification questions relevant to their service type. A roofing contractor's AI lead response asks different questions to a solicitor's -- the job type, location, urgency, and scope are all different, and the AI needs to gather the right information to allow the business owner to assess the lead accurately.",
+      "The output of the AI lead response system is a structured lead record: name, contact details, job description, location, urgency, and any other fields relevant to the service. This record goes directly into the CRM, so the business owner sees a clean summary rather than a raw conversation thread to parse.",
+    ],
+    faq: [
+      { q: "How quickly can an AI lead response system respond to an enquiry?", a: "Typically within seconds of the enquiry arriving. The response time depends on the latency of the underlying language model and the communication platform, but in practice, response times of two to ten seconds from enquiry receipt to first AI message are standard. This is faster than any human response process and significantly faster than the industry average for small service businesses, which is often measured in hours." },
+      { q: "What if a lead sends a message that the AI cannot handle?", a: "A well-configured AI lead response system is designed with a defined scope and a clear escalation path. For enquiries that fall within scope, it handles them fully. For enquiries that fall outside scope -- complex complaints, detailed technical questions, requests the system is not configured for -- it acknowledges the enquiry, collects basic contact information, and flags the conversation for human follow-up. The business owner is notified immediately for escalated conversations." },
+      { q: "Does AI lead response work for all types of business?", a: "AI lead response works best for businesses that receive a predictable range of enquiry types and where the qualification questions are relatively consistent: trades businesses, professional services, clinics, letting agents, event companies, and similar. It is less suited to businesses where every enquiry is highly complex and unique from the outset, or where the initial contact typically requires specialist knowledge that cannot be encoded in a configuration. For most local service businesses in the UK, the enquiry types are predictable enough that AI lead response delivers a clear return." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: "/services/ai-receptionist",
+    relatedTerms: ["ai-receptionist", "crm-automation"],
+  },
+
+  {
+    slug: "crm-automation",
+    title: "CRM Automation",
+    abbr: null,
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is CRM Automation? | Khamare Clarke",
+    metaDescription: "CRM automation explained: automatically updating customer records, triggering follow-up sequences, and managing pipeline stages without manual data entry.",
+    h1: "CRM Automation: Your Pipeline Running Without Manual Data Entry",
+    definition: "CRM automation is the use of software to automatically create, update, and act on customer relationship management records without manual data entry, triggering actions (such as follow-up messages, status changes, and task assignments) based on defined rules or events within the CRM system. It ensures that lead and customer data is captured consistently and that follow-up actions happen at the right time regardless of human availability.",
+    whyItMatters: [
+      "A CRM that is not automated is, in practice, an address book that requires manual updating. The typical failure mode is that lead data is entered inconsistently (different information is captured for different leads, at different times, with different levels of detail), follow-up tasks are created manually and then forgotten or deprioritised, and the pipeline view does not reflect reality because stages are not updated promptly. CRM automation removes the dependency on manual discipline for each of these steps.",
+      "For a growing service business, CRM automation is the mechanism through which a higher volume of leads can be managed without proportionally increasing the time spent on administration. When a new enquiry automatically creates a CRM record, triggers a qualification conversation, and initiates a follow-up sequence, the business owner's attention is directed to qualified, structured leads rather than the admin of processing raw enquiries.",
+    ],
+    howKhamareApplies: [
+      "CRM automation is integrated with the AI lead response and workflow automation systems: the moment an AI qualification conversation produces a structured lead summary, that data is automatically written to the CRM as a new contact and deal record. Stage changes in the pipeline (enquiry received, qualified, proposal sent, booking confirmed, job complete) are triggered automatically where possible -- for example, a booking confirmation message from the customer automatically moves the deal to the 'confirmed' stage.",
+      "The CRM configuration is set up to serve the specific business's pipeline: the stages, the fields, and the automation rules all reflect how that business actually progresses a lead from enquiry to invoice. A generic CRM setup with default stages and no automation is technically installed but practically unused; the configuration work is what makes it a working business tool.",
+    ],
+    faq: [
+      { q: "Which CRM platforms support automation?", a: "Most modern CRM platforms include native automation features. GoHighLevel, HubSpot, and ActiveCampaign have strong built-in automation. Simpler CRMs like Pipedrive and Notion-based systems can be extended with workflow automation tools like Make or Zapier. The choice of platform depends on the business's existing stack, the complexity of the automation required, and the budget. For businesses that need both CRM and communication platform automation (WhatsApp, SMS, email) in one system, GoHighLevel is a common choice." },
+      { q: "What data should be captured in a CRM for a service business?", a: "The minimum useful dataset is: name, contact details, source (how they found the business), service type requested, location, enquiry date, current pipeline stage, and next action. More detailed records add job-specific information (scope, urgency, budget range), communication history, and outcome data (did they book? what was the job value?). The key principle is that data should only be captured if it will be used -- an extensive set of fields that are never completed or acted on adds noise without value." },
+      { q: "Can CRM automation handle the full sales process?", a: "CRM automation handles the consistent, rules-based parts of the sales process reliably: capturing data, sending timed follow-ups, moving stages, sending reminders. The parts that require human judgement -- assessing a complex job, negotiating on price, handling a difficult client conversation -- still require a person. The goal of CRM automation is not to remove human involvement from sales but to ensure that the human's time is spent on the judgement-intensive steps rather than on data entry and follow-up scheduling." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: "/services/ai-receptionist",
+    relatedTerms: ["marketing-automation", "workflow-automation"],
+  },
+
+  {
+    slug: "marketing-automation",
+    title: "Marketing Automation",
+    abbr: null,
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is Marketing Automation? | Khamare Clarke",
+    metaDescription: "Marketing automation explained: automatically sending the right message to the right person at the right time, based on behaviour and pipeline stage.",
+    h1: "Marketing Automation: Timely, Relevant Messages Without Manual Sending",
+    definition: "Marketing automation is the use of software to send marketing communications automatically based on predefined triggers, schedules, or behavioural conditions, delivering the right message to the right person at the right time without requiring manual intervention for each send. It covers email sequences, SMS campaigns, follow-up workflows, and re-engagement campaigns triggered by customer actions or inaction.",
+    whyItMatters: [
+      "The gap between receiving a lead and converting it to a booking is where most service businesses lose revenue. A lead who does not respond immediately is not necessarily disinterested -- they may be busy, comparing options, or waiting for budget approval. A structured follow-up sequence that continues to communicate value and address objections over a period of days or weeks converts a proportion of these delayed decisions into bookings. Without automation, this sequence requires sustained manual attention that most businesses cannot maintain consistently.",
+      "Marketing automation also applies to existing customers. A client who completed a job six months ago is a warm lead for future work, but manually identifying and contacting past clients at the right interval is time-intensive. An automated re-engagement sequence -- triggered at a set interval after job completion -- surfaces these opportunities without requiring manual tracking.",
+    ],
+    howKhamareApplies: [
+      "Marketing automation built for clients here focuses on two primary flows: the lead nurture sequence (for enquiries that did not immediately book) and the customer re-engagement sequence (for past clients who may need the service again). Both are built within the CRM and triggered automatically based on pipeline stage and time elapsed. The messaging is written for the specific business's tone, service type, and typical customer objections -- not from generic templates.",
+      "Email marketing automation is a separate layer that targets a broader audience: people who have opted in but not yet enquired. These campaigns are sequenced around content (useful information relevant to the service type) and timed offers, and are measured on open rate, click rate, and conversion to enquiry rather than direct conversion to booking.",
+    ],
+    faq: [
+      { q: "What is the difference between marketing automation and email marketing?", a: "Email marketing is the practice of sending emails to a list. Marketing automation is the system that determines who receives which email, when, and based on what conditions. An email newsletter sent to everyone on a list on the first Monday of each month is email marketing. An email sent automatically to a specific lead 48 hours after they submitted an enquiry form, personalised with their name and the service they asked about, is marketing automation. The distinction is behavioural triggers versus broadcast sending." },
+      { q: "Does marketing automation require a large contact list to be worth it?", a: "No. Marketing automation delivers value from the first contact onwards. Even a business with a small list benefits from automated follow-up sequences that run on every new enquiry. The compounding value comes over time as the list grows and the automation continues to work the same sequences without additional effort. A well-configured automation set up when a business has 50 contacts is performing the same function and delivering the same proportional return when it has 500." },
+      { q: "How do I avoid my automated emails going to spam?", a: "Deliverability depends on: sending from a properly authenticated domain (SPF, DKIM, DMARC records configured), maintaining a healthy sender reputation (not sending to disengaged or invalid addresses), sending relevant content that recipients actually open and interact with, and including compliant unsubscribe links. Platforms like GoHighLevel, ActiveCampaign, and Mailchimp handle the technical authentication requirements, but the sender reputation depends on the quality of the list and the relevance of the content." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: "/services/ai-receptionist",
+    relatedTerms: ["crm-automation", "email-marketing-automation"],
+  },
+
+  {
+    slug: "ai-consultant",
+    title: "AI Consultant",
+    abbr: null,
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is an AI Consultant? | Khamare Clarke",
+    metaDescription: "AI consultant explained: what an AI consultant does, how they differ from a generalist tech consultant, and what to expect from an AI strategy engagement.",
+    h1: "AI Consultant: What They Do and What to Expect From an Engagement",
+    definition: "An AI consultant is a specialist who advises businesses on how to apply artificial intelligence to their specific operations, and implements or oversees the implementation of AI systems that match the business's actual needs, workflows, and resources. The role spans strategy (identifying where AI produces a return), selection (choosing the right tools and architectures), implementation (building and integrating the systems), and review (measuring outcomes and refining over time).",
+    whyItMatters: [
+      "Most businesses considering AI have no shortage of AI tools available to them -- the shortage is clarity on which tools are appropriate for their specific situation, what they can realistically be expected to do, and what implementation actually involves. An AI consultant bridges the gap between the theoretical capability of AI systems and the practical reality of deploying them in a specific business context, with specific existing systems, specific staff, and specific customers.",
+      "The risk of approaching AI adoption without guidance is investing time and money in tools that are not suited to the use case, or in generic implementations that do not account for the specifics of the business. A generic AI chatbot configured with default settings for a trades business handles enquiries less effectively than a purpose-configured system that understands the service area, typical job types, and qualification requirements. The consultant's value is in the configuration and integration, not the tool selection alone.",
+    ],
+    howKhamareApplies: [
+      "AI consulting work here is applied rather than advisory: the engagement does not end with a strategy document. The starting point is identifying the specific workflow where AI produces the most immediate return -- for most small service businesses, this is inbound enquiry handling -- and then building, configuring, and integrating the system to handle that workflow. Strategy and implementation are the same engagement, not separate phases.",
+      "The second layer of AI consulting covers search visibility: ensuring the business appears accurately in AI-generated search responses (ChatGPT, Gemini, Perplexity) as well as in traditional Google results. AI consultants working on search visibility need to understand both the technical SEO foundations and the entity and content signals that AI systems use to evaluate and cite sources.",
+    ],
+    faq: [
+      { q: "What should I ask an AI consultant before hiring them?", a: "Ask for specific examples of AI systems they have built, for businesses similar to yours in size and sector. Ask what the implementation process looks like from start to live: how long, what you will need to provide, what the ongoing maintenance involves. Ask what the system will not do, and what the fallback is when it reaches its limits. A consultant who cannot answer these questions specifically is unlikely to build something that works specifically for your business." },
+      { q: "Is an AI consultant the same as a digital transformation consultant?", a: "Not precisely. Digital transformation is a broader term covering the adoption of digital tools and processes across an organisation. An AI consultant focuses specifically on artificial intelligence applications. In practice, many engagements involve both: implementing AI tools (AI consultant work) within a broader set of changes to how the business operates digitally (digital transformation work). The distinction matters primarily for scoping: an AI-focused engagement has a narrower and more technical scope than a broad digital transformation project." },
+      { q: "Do I need an AI consultant or can I implement AI tools myself?", a: "Simple AI tools with good documentation (AI writing assistants, basic chatbot builders, off-the-shelf automation platforms) can be implemented without a consultant by a business owner with reasonable technical comfort. Complex implementations -- multi-channel AI agents, CRM integrations, custom workflow automation, AI search optimisation -- have enough configuration, integration, and testing complexity that a specialist saves significant time and reduces the risk of a poorly configured system that does not produce results." },
+    ],
+    expertisePage: "/expertise/ai-consultant",
+    servicePage: "/services/ai-receptionist",
+    relatedTerms: ["ai-agent", "business-process-automation"],
+  },
+
+  {
+    slug: "machine-learning",
+    title: "Machine Learning",
+    abbr: "ML",
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is Machine Learning? | Khamare Clarke",
+    metaDescription: "Machine learning explained in plain English: how systems learn from data to improve performance, and the relationship between ML, AI, and the tools businesses use.",
+    h1: "Machine Learning: How AI Systems Learn From Data",
+    definition: "Machine learning (ML) is a branch of artificial intelligence in which systems learn to perform tasks by identifying patterns in large datasets, rather than being explicitly programmed with rules for every situation. The system's performance improves as it is exposed to more data, without each improvement requiring manual reprogramming.",
+    whyItMatters: [
+      "Machine learning is the foundation of the AI tools that businesses interact with directly: the large language models that power AI chatbots and search responses, the recommendation algorithms that underpin content platforms, and the spam filters that sort business emails. Understanding what machine learning is -- and what it is not -- helps business owners evaluate AI tools more accurately: they can assess what a system has been trained on, what it can reasonably be expected to do, and where its boundaries lie.",
+      "For businesses whose competitive advantage depends on how well they appear to AI systems (including AI search engines), understanding machine learning also informs strategy. AI search systems learn which sources to cite from patterns in their training data and from signals about entity authority and content quality. Building the content depth and entity signals that make a business a preferred citation source is, in part, a machine learning problem: you are shaping the signals that the system learns to associate with your business.",
+    ],
+    howKhamareApplies: [
+      "Machine learning as a concept informs work on both AI systems and AI search optimisation. On the AI systems side, understanding the training and capability characteristics of different language models informs which model is appropriate for which task -- a model trained primarily on general web data behaves differently from a fine-tuned model trained on domain-specific data, and the deployment context affects which trade-offs matter.",
+      "On the search visibility side, understanding that AI search systems use machine learning to evaluate content quality and entity authority is the reason that thin, repetitive content does not build AI search visibility regardless of how frequently it is published. The system has learned, from patterns in data, what authoritative and useful content looks like. The content and entity strategy here is designed to match those learned patterns rather than to game surface-level signals.",
+    ],
+    faq: [
+      { q: "What is the difference between machine learning and artificial intelligence?", a: "Artificial intelligence is the broader field: systems that perform tasks that typically require human intelligence. Machine learning is one approach within AI: systems that learn from data rather than following explicitly programmed rules. Other AI approaches include rule-based systems (which do not learn) and symbolic AI (which represents knowledge as logical structures). In common usage, 'AI' and 'machine learning' are often used interchangeably, but technically ML is a subset of AI. The large language models that power most current AI applications are machine learning systems." },
+      { q: "Do I need to understand machine learning to use AI tools in my business?", a: "No, but a basic understanding helps you evaluate AI tools more accurately. Knowing that a language model was trained on web data up to a certain date explains why it does not know about recent events. Knowing that ML systems can produce confidently wrong outputs (hallucinations) explains why human review is appropriate for AI-generated content before publication. You do not need to understand the mathematics of gradient descent to run an AI chatbot, but understanding what the system is doing at a conceptual level prevents misplaced expectations." },
+      { q: "What is the relationship between machine learning and large language models?", a: "Large language models (LLMs) are a type of machine learning system, specifically trained on large volumes of text data to predict and generate language. They are built using a machine learning architecture called the transformer, trained using self-supervised learning on datasets drawn from the internet and other text sources. The 'large' in large language model refers to the number of parameters (internal numerical weights that the model adjusts during training). GPT-4, Gemini, and Claude are all large language models." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: null,
+    relatedTerms: ["large-language-model", "ai-agent"],
+  },
+
+  {
+    slug: "large-language-model",
+    title: "Large Language Model",
+    abbr: "LLM",
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is a Large Language Model (LLM)? | Khamare Clarke",
+    metaDescription: "Large language model (LLM) explained: what LLMs are, how they work, which ones power AI tools businesses use, and why they matter for AI search visibility.",
+    h1: "Large Language Model (LLM): The Engine Behind Modern AI Tools",
+    definition: "A large language model (LLM) is a type of machine learning system trained on vast quantities of text data to understand and generate human language, capable of answering questions, summarising information, writing content, and conducting conversation with a high degree of fluency and contextual relevance. LLMs are the underlying technology in tools like ChatGPT, Gemini, Claude, and Perplexity, and in AI-powered search features including Google AI Overviews.",
+    whyItMatters: [
+      "LLMs are directly relevant to business visibility because they are what decides what information appears in AI-generated search responses. When a potential customer asks ChatGPT 'who is a good roofer in Stoke-on-Trent?' or asks Gemini 'what is the best approach to local SEO for a UK trades business?', the answer is generated by an LLM drawing on its training data and, in some cases, real-time web retrieval. The business that appears in that answer is the one whose entity data, content, and citations meet the criteria the LLM has learned to associate with a relevant, authoritative response.",
+      "Understanding LLMs also clarifies the limits of AI tools businesses use internally. An LLM does not know about events after its training cutoff. It can generate plausible-sounding but incorrect information (hallucinations) with the same apparent confidence as accurate information. It reflects the biases and limitations of its training data. These characteristics are relevant to how AI-generated content is reviewed before use and how much weight is placed on AI outputs versus verified information.",
+    ],
+    howKhamareApplies: [
+      "LLMs are the underlying technology in the AI agent and AI receptionist systems built for clients. The choice of model for a given deployment depends on the task: conversational fluency, reasoning quality, latency, cost per token, and the suitability of the model's training for the domain. Not all LLMs perform equally well for all tasks, and the model choice is part of the technical specification for each AI systems build.",
+      "On the AI search side, LLMs are the systems that generate the responses in ChatGPT, Gemini, and Perplexity. The strategy for appearing in those responses is built around what LLMs have learned to value: clear, authoritative, well-structured content with strong entity signals and consistent external references. This is not the same as traditional Google SEO, even though the technical foundations overlap.",
+    ],
+    faq: [
+      { q: "What LLMs are in common use in 2025?", a: "The major LLMs in widespread use include GPT-4o and GPT-4 (OpenAI, underpins ChatGPT), Gemini 1.5 and Gemini 2 (Google DeepMind, underpins Google AI Overviews and Gemini chat), Claude 3 and Claude 3.5 (Anthropic), and Llama 3 (Meta, open-source). Perplexity uses a combination of models depending on the query. Each model has different strengths, training data characteristics, and access policies. The landscape evolves rapidly, with new model versions releasing on a scale of months rather than years." },
+      { q: "Can an LLM be trained on my business's data?", a: "There are two approaches: fine-tuning (additional training on your data to adjust the model's behaviour) and retrieval-augmented generation (RAG), which keeps the base model unchanged but allows it to retrieve relevant information from your data at the time of generating a response. For most business applications, RAG is more practical than fine-tuning: it is faster to implement, easier to update, and does not require the volume of training data that fine-tuning needs. An AI agent that answers questions about a specific business's services is typically built using RAG rather than a custom-trained model." },
+      { q: "How do LLMs decide what to include in AI search responses?", a: "LLMs used in AI search (ChatGPT with web browsing, Gemini, Perplexity) generate responses based on a combination of their training data and real-time web retrieval. The factors that influence citation decisions include: how authoritative the source appears (based on entity signals, backlink profile, and content quality), how directly the content addresses the query, how recently the content was published or updated, and how consistently the entity is represented across the web. This is why entity SEO, structured data, and content depth are the primary levers for AI search visibility." },
+    ],
+    expertisePage: "/expertise/ai-search-optimisation",
+    servicePage: "/services/ai-search-optimisation",
+    relatedTerms: ["machine-learning", "prompt-engineering"],
+  },
+
+  // ─── BATCH 5 PLACEHOLDER ──────────────────────────────────────────────────
 ];
 
 export const GLOSSARY_BY_SLUG = Object.fromEntries(GLOSSARY_TERMS.map(t => [t.slug, t]));
