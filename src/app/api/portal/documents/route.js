@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseServer } from '@/lib/supabase-server';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/portal/documents
  * Returns the logged-in client's documents.

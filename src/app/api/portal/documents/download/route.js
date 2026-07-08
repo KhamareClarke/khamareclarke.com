@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { getSupabaseServer } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/portal/documents/download?id=<documentId>
  * Verifies the logged-in user owns the document, then generates a signed URL

@@ -16,7 +16,7 @@ export function hasSupabase() {
   return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 }
 
-/** Push a lead to Empire central dashboard (empire_leads). Uses service role when set. No @empire/bridge dependency for Vercel build. */
+/** Push a lead to Empire central dashboard (empire_leads). Uses service role when set. Inlined so no external shared package is needed on Vercel. */
 export async function pushLeadToEmpire(lead = {}) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;

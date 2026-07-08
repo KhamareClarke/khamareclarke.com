@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/api-guard';
 import { getClientGHLData } from '@/lib/ghl';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/admin/ghl?contactId=<id>
  * Admin-only. Returns cached GHL contact/opportunities/appointments,
