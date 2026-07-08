@@ -12,6 +12,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Section } from '../../../components/ui/Section';
 import { Container } from '../../../components/ui/Container';
 import { ALL_EMPIRE_PROJECT_IDS, getProjectLabel } from '@/lib/empire-projects';
+import { useAdminGuard } from '@/lib/use-admin-guard';
 
 const EVENT_TYPES = [
   'signin',
@@ -92,6 +93,7 @@ function relativeTime(ts) {
 }
 
 export default function EmpireActivityPage() {
+  const authReady = useAdminGuard();
   const [events, setEvents] = useState([]);
   const [summary, setSummary] = useState({ total24h: 0, byProject: {}, byEvent: {}, failed24h: 0 });
   const [loading, setLoading] = useState(true);
@@ -146,6 +148,14 @@ export default function EmpireActivityPage() {
   const dashboardProjects = ALL_EMPIRE_PROJECT_IDS.filter(
     (id) => id !== 'empire' && id !== 'empire-phase11-test'
   );
+
+  if (!authReady) {
+    return (
+      <Section size="large" className="bg-black text-white min-h-screen">
+        <Container size="wide"><p className="text-gray-400">Loading...</p></Container>
+      </Section>
+    );
+  }
 
   return (
     <Section size="large" className="bg-black text-white min-h-screen">

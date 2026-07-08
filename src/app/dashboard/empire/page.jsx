@@ -12,6 +12,7 @@ import { Section } from '../../components/ui/Section';
 import { Container } from '../../components/ui/Container';
 import { ALL_EMPIRE_PROJECT_IDS, getProjectLabel, getProjectRootUrl } from '@/lib/empire-projects';
 import { EMPIRE_SKILL_IDS, getSkillLabel } from '@/lib/empire-skills';
+import { useAdminGuard } from '@/lib/use-admin-guard';
 
 const supabase = typeof window !== 'undefined' && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
@@ -53,6 +54,7 @@ function summaryToPoints(summary) {
 }
 
 export default function EmpireDashboardPage() {
+  const authReady = useAdminGuard();
   const [leads, setLeads] = useState([]);
   const [myapprovedLeads, setMyapprovedLeads] = useState([]);
   const [myapprovedLeads24h, setMyapprovedLeads24h] = useState(0);
@@ -503,6 +505,7 @@ export default function EmpireDashboardPage() {
   };
 
 
+  if (!authReady) return <main className="min-h-screen p-6 bg-[#0a0a0a] text-white"><Section><Container><p>Loading Empire...</p></Container></Section></main>;
   if (loading) return <main className="min-h-screen p-6 bg-[#0a0a0a] text-white"><Section><Container><p>Loading Empire...</p></Container></Section></main>;
   if (error) return <main className="min-h-screen p-6 bg-[#0a0a0a] text-red-400"><Section><Container><p>Error: {error}</p></Container></Section></main>;
 
