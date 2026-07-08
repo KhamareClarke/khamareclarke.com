@@ -70,6 +70,8 @@ const Footer = () => {
               <li><a href="/business-bundle" className="text-white/60 hover:text-[#ffb700] transition-colors">Business Bundle</a></li>
               <li><a href="/case-studies" className="text-white/60 hover:text-white transition-colors">Case Studies</a></li>
               <li><a href="/blog" className="text-white/60 hover:text-white transition-colors">Blog</a></li>
+              <li><a href="/expertise/seo" className="text-white/60 hover:text-white transition-colors">Expertise</a></li>
+              <li><a href="/glossary" className="text-white/60 hover:text-white transition-colors">Glossary</a></li>
             </ul>
           </div>
 
@@ -124,10 +126,10 @@ const Footer = () => {
               {/* END: Unified Branding */}
             </div>
             <div className="flex items-center gap-6 flex-wrap justify-center md:justify-end">
-              <a href="/privacy" className="text-white/60 hover:text-white text-sm transition-colors">Privacy Policy</a>
+              <a href="/privacy-policy" className="text-white/60 hover:text-white text-sm transition-colors">Privacy Policy</a>
               <a href="/terms" className="text-white/60 hover:text-white text-sm transition-colors">Terms of Service</a>
               <a href="/cookies" className="text-white/60 hover:text-white text-sm transition-colors">Cookie Policy</a>
-              <a href="/sitemap-page" className="text-white/60 hover:text-[#ffb700] text-sm transition-colors">Sitemap</a>
+              <a href="/sitemap.xml" className="text-white/60 hover:text-[#ffb700] text-sm transition-colors">Sitemap</a>
             </div>
           </div>
         </div>
