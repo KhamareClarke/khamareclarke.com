@@ -173,7 +173,7 @@ export const GLOSSARY_TERMS = [
       { q: "What platforms support programmatic SEO?", a: "Programmatic SEO requires the ability to generate pages from data, ideally as static HTML at build time. Next.js with getStaticPaths and getStaticProps (or generateStaticParams in the App Router) is well-suited to this. WordPress can approximate it with custom post types and templates. Platforms like Wix and Shopify have limited or no native support for programmatic page generation, which is one of their ceiling constraints for SEO-focused campaigns." },
     ],
     expertisePage: "/expertise/programmatic-seo",
-    servicePage: "/services/programmatic-seo",
+    servicePage: "/services/seo-local-seo",
     relatedTerms: ["keyword-research", "on-page-seo"],
   },
 
@@ -935,7 +935,7 @@ export const GLOSSARY_TERMS = [
       { q: "What does an AI agent cost to build and run?", a: "Build cost depends on complexity: the number of channels the agent operates on, the complexity of the qualification logic, and the number of systems it integrates with. Running costs include the API costs of the underlying language model (typically priced per token processed) and any platform subscription costs for the communication channels. For most small business implementations, the total monthly cost is significantly lower than the revenue impact of recovering even one or two missed leads per week." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["ai-receptionist", "workflow-automation"],
   },
 
@@ -963,7 +963,7 @@ export const GLOSSARY_TERMS = [
       { q: "Which channels can an AI receptionist operate on?", a: "AI receptionists can be deployed on web chat (embedded in a website), WhatsApp Business (using the WhatsApp Business API), SMS (via services like Twilio), email (responding to enquiries automatically), and in some cases phone (via voice AI integrations). The right channels depend on where the business already receives enquiries. For UK trades businesses, WhatsApp is typically the highest-volume enquiry channel. For professional services, email is often primary." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["ai-agent", "ai-lead-response"],
   },
 
@@ -993,7 +993,7 @@ export const GLOSSARY_TERMS = [
       { q: "Is conversational AI reliable enough for customer-facing use?", a: "Reliability depends on configuration scope. A conversational AI system configured to handle a specific set of enquiry types for a specific business, with a defined fallback for edge cases, performs reliably within that scope. The failure mode to design against is not the system saying something nonsensical -- modern language models rarely do this in structured business contexts -- but the system attempting to answer questions outside its scope. A well-designed system knows its boundaries and escalates appropriately rather than guessing." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["ai-chatbot", "ai-agent"],
   },
 
@@ -1021,7 +1021,7 @@ export const GLOSSARY_TERMS = [
       { q: "How do I measure whether my AI chatbot is working?", a: "The relevant metrics are: conversation start rate (what proportion of visitors start a chat), completion rate (what proportion of started chats reach a lead capture moment), qualified lead rate (what proportion of completed chats produce a usable lead), and lead-to-booking conversion rate (what proportion of AI-captured leads convert to a paid job). These are tracked through the CRM integration and compared against baseline lead volume from other channels." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["conversational-ai", "ai-lead-response"],
   },
 
@@ -1049,7 +1049,7 @@ export const GLOSSARY_TERMS = [
       { q: "How long does it take to set up business process automation?", a: "For a well-scoped enquiry handling automation covering a single business type, implementation typically takes one to three weeks from initial configuration to live operation. The timeline depends on the number of integrations required, the complexity of the qualification logic, and how quickly the business can review and approve the configuration. More complex workflows with multiple systems and conditional logic take longer to configure and test." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["workflow-automation", "crm-automation"],
   },
 
@@ -1077,7 +1077,7 @@ export const GLOSSARY_TERMS = [
       { q: "What happens when a workflow breaks?", a: "Well-designed workflows include error handling: if a step fails (for example, a CRM integration returns an error), the workflow logs the failure and alerts a human operator rather than silently stopping. Monitoring the workflow's execution logs is an ongoing task, not a one-time setup. In practice, most failures are integration-related (an API key expires, a platform updates its authentication requirements) rather than logic failures, and they are caught quickly when workflows are monitored regularly." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["business-process-automation", "ai-lead-response"],
   },
 
@@ -1105,7 +1105,7 @@ export const GLOSSARY_TERMS = [
       { q: "Does AI lead response work for all types of business?", a: "AI lead response works best for businesses that receive a predictable range of enquiry types and where the qualification questions are relatively consistent: trades businesses, professional services, clinics, letting agents, event companies, and similar. It is less suited to businesses where every enquiry is highly complex and unique from the outset, or where the initial contact typically requires specialist knowledge that cannot be encoded in a configuration. For most local service businesses in the UK, the enquiry types are predictable enough that AI lead response delivers a clear return." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["ai-receptionist", "crm-automation"],
   },
 
@@ -1133,7 +1133,7 @@ export const GLOSSARY_TERMS = [
       { q: "Can CRM automation handle the full sales process?", a: "CRM automation handles the consistent, rules-based parts of the sales process reliably: capturing data, sending timed follow-ups, moving stages, sending reminders. The parts that require human judgement -- assessing a complex job, negotiating on price, handling a difficult client conversation -- still require a person. The goal of CRM automation is not to remove human involvement from sales but to ensure that the human's time is spent on the judgement-intensive steps rather than on data entry and follow-up scheduling." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["marketing-automation", "workflow-automation"],
   },
 
@@ -1161,7 +1161,7 @@ export const GLOSSARY_TERMS = [
       { q: "How do I avoid my automated emails going to spam?", a: "Deliverability depends on: sending from a properly authenticated domain (SPF, DKIM, DMARC records configured), maintaining a healthy sender reputation (not sending to disengaged or invalid addresses), sending relevant content that recipients actually open and interact with, and including compliant unsubscribe links. Platforms like GoHighLevel, ActiveCampaign, and Mailchimp handle the technical authentication requirements, but the sender reputation depends on the quality of the list and the relevance of the content." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["crm-automation", "email-marketing-automation"],
   },
 
@@ -1189,7 +1189,7 @@ export const GLOSSARY_TERMS = [
       { q: "Do I need an AI consultant or can I implement AI tools myself?", a: "Simple AI tools with good documentation (AI writing assistants, basic chatbot builders, off-the-shelf automation platforms) can be implemented without a consultant by a business owner with reasonable technical comfort. Complex implementations -- multi-channel AI agents, CRM integrations, custom workflow automation, AI search optimisation -- have enough configuration, integration, and testing complexity that a specialist saves significant time and reduces the risk of a poorly configured system that does not produce results." },
     ],
     expertisePage: "/expertise/ai-consultant",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["ai-agent", "business-process-automation"],
   },
 
@@ -1331,7 +1331,7 @@ export const GLOSSARY_TERMS = [
       { q: "What happens if an integration fails?", a: "A well-designed integration includes error handling and monitoring. If an integration step fails (for example, the CRM API returns an error when the AI tries to create a record), the system should log the failure, alert an operator, and either retry or route the data to a manual processing queue rather than silently dropping it. Silent failures -- where the integration breaks but no one is notified -- are the most damaging failure mode, because leads or data are lost without the business being aware. Monitoring the integration's error logs is a standard part of ongoing AI systems management." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["api-integration", "workflow-automation"],
   },
 
@@ -1359,7 +1359,7 @@ export const GLOSSARY_TERMS = [
       { q: "How is API integration different from a plugin or app?", a: "A plugin or app is a pre-packaged integration built by a third party and distributed through a platform's marketplace. It handles the API connection for you within a defined scope. A custom API integration is built directly between systems using their APIs, with full control over what data is exchanged, when, and how. Plugins are faster to set up but limited to their built-in functionality. Custom integrations take longer to build but can be designed to match any data flow or logic requirement." },
     ],
     expertisePage: "/expertise/ai-agents",
-    servicePage: "/services/ai-receptionist",
+    servicePage: "/services/ai-receptionist-lead-response",
     relatedTerms: ["ai-integration", "workflow-automation"],
   },
 
@@ -1389,7 +1389,7 @@ export const GLOSSARY_TERMS = [
       { q: "How is PPC performance measured?", a: "The primary metrics are: cost per click (CPC), click-through rate (CTR), conversion rate (percentage of clicks that become enquiries or sales), cost per lead (total spend divided by number of leads), and return on ad spend (ROAS, for e-commerce or businesses with direct revenue attribution). Conversion tracking must be correctly implemented -- typically via a Google Ads conversion tag or Google Analytics 4 event -- before any of these metrics beyond clicks can be reported accurately. Campaigns without conversion tracking cannot be meaningfully optimised." },
     ],
     expertisePage: null,
-    servicePage: "/services/ppc-google-ads",
+    servicePage: "/services/google-ads-api",
     relatedTerms: ["google-ads", "cost-per-lead"],
   },
 
@@ -1417,7 +1417,7 @@ export const GLOSSARY_TERMS = [
       { q: "How long does it take for Google Ads to deliver results?", a: "A well-configured Google Ads campaign can generate clicks and leads within days of going live. However, campaign performance typically improves over the first four to eight weeks as search term data accumulates, negative keyword lists are refined, and bid strategies have sufficient conversion data to optimise against. The first month should be treated as a paid learning phase: data collection is as important as immediate return, and decisions based on statistically insignificant data produce worse long-term outcomes than waiting for sufficient volume." },
     ],
     expertisePage: null,
-    servicePage: "/services/ppc-google-ads",
+    servicePage: "/services/google-ads-api",
     relatedTerms: ["ppc", "cost-per-lead"],
   },
 
@@ -1445,7 +1445,7 @@ export const GLOSSARY_TERMS = [
       { q: "Is cost per lead the same as cost per acquisition?", a: "No. Cost per lead (CPL) measures the cost of generating an enquiry. Cost per acquisition (CPA) measures the cost of generating a completed sale or booking. CPA equals CPL divided by the lead-to-booking conversion rate. If CPL is £60 and 25% of leads book, CPA is £240. CPA is the more complete measure of marketing economics, but it requires tracking through the full sales process rather than just at the lead stage. For businesses in early-stage marketing optimisation, CPL is the more immediately actionable metric." },
     ],
     expertisePage: null,
-    servicePage: "/services/ppc-google-ads",
+    servicePage: "/services/google-ads-api",
     relatedTerms: ["ppc", "conversion-rate-optimisation"],
   },
 
@@ -1468,7 +1468,7 @@ export const GLOSSARY_TERMS = [
       "Changes are tested where traffic volume allows (A/B testing requires sufficient visitors per variant to reach statistical significance) and implemented directly where traffic is too low for formal testing. Common high-impact changes include: headline clarity (the first sentence must communicate the offer and the target customer), social proof placement (reviews and case study results near the conversion action), and form simplification (reducing required fields to the minimum needed to follow up).",
     ],
     faq: [
-      { q: "How do I know if my website needs CRO?", a: "Calculate your current conversion rate: take the number of enquiries your website generates per month and divide by the number of unique visitors. For a local service business website, a conversion rate below 2% typically indicates significant unconverted potential. If your Google Analytics shows high traffic but few enquiries, or if you are spending on PPC and getting clicks but not leads, CRO is the appropriate next focus. If your traffic volume is very low, SEO to build traffic is more urgent than CRO to improve its conversion." },
+      { q: "How do I know if my website needs CRO?", a: "Calculate your current conversion rate: take the number of enquiries your website generates per month and divide by the number of unique visitors. If your site receives a meaningful volume of visitors but generates few enquiries relative to what the traffic level should reasonably produce, that gap is unconverted potential. The same signal appears in Google Analytics as high traffic with low goal completions, or in PPC reports as strong click volume with few resulting leads. Either pattern suggests CRO is the appropriate next focus. If your traffic volume is very low, SEO to build traffic is more urgent than CRO to improve its conversion." },
       { q: "What is A/B testing and when should I use it?", a: "A/B testing is running two versions of a page (or element) simultaneously with traffic split between them, and measuring which version produces a higher conversion rate. It is the rigorous method for validating CRO changes: rather than assuming a change is an improvement, you measure whether it actually is. A/B testing requires sufficient traffic to reach statistical significance -- as a rule of thumb, at least 200-300 conversions per variant before declaring a winner. For low-traffic pages, implementing the change and comparing before/after performance over equivalent time periods is the practical alternative." },
       { q: "Does CRO affect SEO?", a: "CRO and SEO interact positively. Google's Core Web Vitals and page experience signals (including load speed, interactivity, and layout stability) are SEO ranking factors that also affect conversion. A faster, better-structured page ranks better and converts better simultaneously. Reduced bounce rate (a side effect of a more engaging, relevant page) is correlated with improved rankings. CRO changes that improve user experience and reduce exit rates are therefore beneficial to both conversion performance and search visibility." },
     ],
@@ -1613,7 +1613,7 @@ export const GLOSSARY_TERMS = [
       { q: "How long should a retargeting audience window be?", a: "The retargeting window is the number of days after a website visit during which a visitor is included in the retargeting audience. For high-urgency services (emergency repairs, time-sensitive needs), a short window (7-14 days) is appropriate: if they have not converted in two weeks, they have likely booked elsewhere. For longer consideration services (significant home improvements, professional services, B2B decisions), a window of 30-90 days is more appropriate. Setting the window longer than the typical decision cycle wastes budget on audiences who have long since made their decision." },
     ],
     expertisePage: null,
-    servicePage: "/services/ppc-google-ads",
+    servicePage: "/services/google-ads-api",
     relatedTerms: ["ppc", "marketing-funnel"],
   },
 

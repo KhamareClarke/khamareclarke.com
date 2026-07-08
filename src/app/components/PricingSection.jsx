@@ -133,6 +133,7 @@ const PricingSection = () => {
               <div className="mt-auto">
                 <CTAButton
                   href="#contact"
+                  useBookingWidget={false}
                   className="w-full text-center"
                   eventLabel={`pricing_${tier.tier.toLowerCase().replace(/ /g, '_')}_cta`}
                   caption={tier.caption}
