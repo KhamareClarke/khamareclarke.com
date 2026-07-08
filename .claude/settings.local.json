@@ -19,7 +19,10 @@
       "Bash(grep *)",
       "Bash(echo \"NaN count: $\\(curl -s http://localhost:3000)",
       "Bash(npx next *)",
-      "Bash(npx skills *)"
+      "Bash(npx skills *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(start *)"
     ]
   }
 }
