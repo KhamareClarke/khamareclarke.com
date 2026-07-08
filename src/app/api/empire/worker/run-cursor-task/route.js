@@ -6,6 +6,7 @@
 import path from 'path';
 import fs from 'fs';
 import { spawn } from 'child_process';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 90;
@@ -32,6 +33,9 @@ function getProjectRepoPath(projectId) {
 }
 
 export async function POST(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   let repoPath = null;
   try {
     const body = await req.json().catch(() => ({}));

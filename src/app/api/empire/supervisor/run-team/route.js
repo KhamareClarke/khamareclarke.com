@@ -6,6 +6,7 @@
 import { createClient } from '@supabase/supabase-js';
 import path from 'path';
 import fs from 'fs';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -22,6 +23,9 @@ function loadTeamsConfig() {
 }
 
 export async function POST(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const body = await req.json();
     const { projectId, teamId, taskDescription, skills: skillsOverride } = body || {};

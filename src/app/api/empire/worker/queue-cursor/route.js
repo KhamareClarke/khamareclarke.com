@@ -6,6 +6,7 @@
  */
 import path from 'path';
 import fs from 'fs';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,6 +32,9 @@ function getProjectRepoPath(projectId) {
 }
 
 export async function POST(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const body = await req.json().catch(() => ({}));
     const projectId = (body.projectId || body.project_id || 'khamareclarke').toString().trim().toLowerCase();

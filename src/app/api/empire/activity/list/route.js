@@ -6,11 +6,15 @@
  * Uses the service role so anon RLS doesn't restrict.
  */
 import { supabaseAdmin } from '@/lib/supabase';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function GET(request) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   if (!supabaseAdmin) {
     return Response.json({ ok: false, events: [], error: 'Supabase not configured' }, { status: 500 });
   }

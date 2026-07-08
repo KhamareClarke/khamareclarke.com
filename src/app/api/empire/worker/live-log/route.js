@@ -3,10 +3,14 @@
  */
 import fs from 'fs';
 import path from 'path';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const logPath = path.join(process.cwd(), 'empire-worker-live.log');
     if (!fs.existsSync(logPath)) {

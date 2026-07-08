@@ -4,6 +4,7 @@
  */
 import * as empireTools from '@/lib/empire-tools.js';
 import { supabaseAdmin } from '@/lib/supabase';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 120;
@@ -11,6 +12,9 @@ export const maxDuration = 120;
 const OWN_DOMAINS_MYAPPROVED = new Set(['myapproved.com', 'myapproved.co.uk']);
 
 export async function POST(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   let body = {};
   try {
     body = await req.json();

@@ -5,6 +5,7 @@
  */
 import { createClient } from '@supabase/supabase-js';
 import { getProjectLabel, ALL_EMPIRE_PROJECT_IDS } from '@/lib/empire-projects';
+import { requireCronSecret } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
@@ -23,10 +24,16 @@ function getBaseUrl() {
 }
 
 export async function GET(req) {
+  const cronError = await requireCronSecret(req);
+  if (cronError) return cronError;
+
   return runAuto24h(req);
 }
 
 export async function POST(req) {
+  const cronError = await requireCronSecret(req);
+  if (cronError) return cronError;
+
   return runAuto24h(req);
 }
 

@@ -5,6 +5,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { runTaskWithZeroClaw } from '@/lib/empire-run-zeroclaw';
 import { getProjectLabel, getProjectRootUrl } from '@/lib/empire-projects';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
@@ -22,6 +23,9 @@ const FLEET_ANALYSIS_TASK = `Fully analyze this project for the Empire fleet das
 Reply with a concise 3–5 sentence summary suitable for a live dashboard. Be specific and actionable.`;
 
 export async function POST() {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;

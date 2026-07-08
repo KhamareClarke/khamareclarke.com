@@ -3,6 +3,7 @@
  * GET /api/empire/task-pdf?taskId=xxx returns application/pdf.
  */
 import { createClient } from '@supabase/supabase-js';
+import { requireAuth } from '@/lib/api-guard';
 
 // eslint-disable-next-line @next/next/no-assign-module-variable
 const PDFDocument = require('pdfkit');
@@ -41,6 +42,9 @@ function getSkillLabel(id) {
 }
 
 export async function GET(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const { searchParams } = new URL(req.url);
     const taskId = searchParams.get('taskId');

@@ -6,6 +6,7 @@ import { createClient } from '@supabase/supabase-js';
 import path from 'path';
 import fs from 'fs';
 import { executeOneTask } from '@/lib/empire-execute-one-task';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
@@ -33,6 +34,9 @@ function getSkillOrder(config) {
 }
 
 export async function POST(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const body = await req.json().catch(() => ({}));
     const projectId = body?.projectId || null;

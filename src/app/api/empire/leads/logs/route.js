@@ -4,10 +4,14 @@
  * so the dashboard always sees the same entries the API writes.
  */
 import { supabaseAdmin } from '@/lib/supabase';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   if (!supabaseAdmin) {
     return Response.json({ ok: false, logs: [], error: 'Supabase not configured' }, { status: 500 });
   }

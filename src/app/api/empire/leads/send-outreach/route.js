@@ -5,6 +5,7 @@
  */
 import { createClient } from '@supabase/supabase-js';
 import nodemailer from 'nodemailer';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -43,6 +44,9 @@ function buildOutreachEmail(lead) {
 }
 
 export async function POST(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const body = await req.json().catch(() => ({}));
     const projectId = (body.projectId || process.env.EMPIRE_AUTO_24H_PROJECT_ID || 'myapproved').trim().toLowerCase();

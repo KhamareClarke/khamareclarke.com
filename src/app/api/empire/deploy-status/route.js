@@ -1,3 +1,4 @@
+import { requireAuth } from '@/lib/api-guard';
 /**
  * Fetch latest Vercel deployment status and build error for a project.
  * GET /api/empire/deploy-status?projectId=myapproved
@@ -11,6 +12,9 @@ function getVercelProjectId(projectId) {
 }
 
 export async function GET(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const token = process.env.VERCEL_TOKEN;
     const { searchParams } = new URL(req.url);

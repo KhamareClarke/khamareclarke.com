@@ -6,6 +6,7 @@
 import { createClient } from '@supabase/supabase-js';
 import nodemailer from 'nodemailer';
 import { supabaseAdmin } from '@/lib/supabase';
+import { requireCronSecret } from '@/lib/api-guard';
 
 const SEO_ADMIN_EMAIL = process.env.EMPIRE_ADMIN_EMAIL || process.env.NOTIFY_EMAIL || 'Khamareclarke@gmail.com';
 
@@ -31,10 +32,16 @@ function getBaseUrl() {
 }
 
 export async function GET(req) {
+  const cronError = await requireCronSecret(req);
+  if (cronError) return cronError;
+
   return runSeoMyApproved(req);
 }
 
 export async function POST(req) {
+  const cronError = await requireCronSecret(req);
+  if (cronError) return cronError;
+
   return runSeoMyApproved(req);
 }
 

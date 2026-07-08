@@ -5,6 +5,7 @@
  * when dashboard pings in background. Writes to empire_supervisor_log for dashboard.
  */
 import { createClient } from '@supabase/supabase-js';
+import { requireCronSecret } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 180;
@@ -16,10 +17,16 @@ function getBaseUrl() {
 }
 
 export async function GET(req) {
+  const cronError = await requireCronSecret(req);
+  if (cronError) return cronError;
+
   return runLeadsCron(req);
 }
 
 export async function POST(req) {
+  const cronError = await requireCronSecret(req);
+  if (cronError) return cronError;
+
   return runLeadsCron(req);
 }
 

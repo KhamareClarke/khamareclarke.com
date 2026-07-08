@@ -4,6 +4,7 @@
  */
 import { createClient } from '@supabase/supabase-js';
 import { supabaseAdmin } from '@/lib/supabase';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,6 +17,9 @@ function getClient() {
 }
 
 export async function GET(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   const client = getClient();
   if (!client) {
     return Response.json({ ok: false, runs: [], count24h: 0, error: 'Supabase not configured' }, { status: 200 });

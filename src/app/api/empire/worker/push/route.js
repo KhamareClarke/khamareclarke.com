@@ -5,6 +5,7 @@
 import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -24,6 +25,9 @@ function getProjectRepoPath(projectId) {
 }
 
 export async function POST(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     if (process.env.EMPIRE_WORKER_PUSH_ENABLED !== 'true') {
       return Response.json(

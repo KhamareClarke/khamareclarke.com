@@ -3,6 +3,7 @@
  * Poll this while "Analyze all" is running to show live updates.
  */
 import { createClient } from '@supabase/supabase-js';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,6 +13,9 @@ const DASHBOARD_PROJECT_IDS = [
 ];
 
 export async function GET() {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;

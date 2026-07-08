@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { isAuthenticated } from '@/lib/auth';
 import { supabase, supabaseAdmin, hasSupabase } from '@/lib/supabase';
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_BODY_BYTES = 20_000;
+
 export async function GET() {
   try {
     if (!(await isAuthenticated())) {
@@ -32,8 +35,29 @@ export async function GET() {
 
 export async function POST(req) {
   try {
+    // Reject oversized payloads
+    const contentLength = Number(req.headers.get('content-length') || 0);
+    if (contentLength > MAX_BODY_BYTES) {
+      return NextResponse.json({ error: 'Payload too large' }, { status: 413 });
+    }
+
     const body = await req.json();
-    const { source = 'contact', ...data } = body;
+    const { source = 'contact', _hp, ...data } = body;
+
+    // Honeypot: bots fill this, humans don't
+    if (_hp) {
+      return NextResponse.json({ success: true }); // silent reject
+    }
+
+    // Require email on contact-form submissions
+    if (source === 'contact') {
+      if (!data.email || !EMAIL_RE.test(data.email)) {
+        return NextResponse.json({ error: 'Valid email is required' }, { status: 400 });
+      }
+      if (!data.name && !data.message) {
+        return NextResponse.json({ error: 'Name or message required' }, { status: 400 });
+      }
+    }
 
     if (!hasSupabase()) {
       console.log('Form submission (no DB):', { source, ...data });
@@ -44,7 +68,7 @@ export async function POST(req) {
     }
 
     const { error } = await supabase.from('form_submissions').insert({
-      source,
+      source: String(source).slice(0, 64),
       data,
       created_at: new Date().toISOString(),
     });

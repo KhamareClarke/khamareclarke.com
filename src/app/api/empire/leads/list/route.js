@@ -3,10 +3,14 @@
  * Returns leads using service role (same client as the app) so the dashboard sees saved leads.
  */
 import { supabaseAdmin } from '@/lib/supabase';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   if (!supabaseAdmin) {
     return Response.json({ ok: false, leads: [], count24h: 0, error: 'Supabase not configured (NEXT_PUBLIC_SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY)' }, { status: 500 });
   }

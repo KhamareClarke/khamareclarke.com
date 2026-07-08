@@ -3,11 +3,15 @@
  */
 import { createClient } from '@supabase/supabase-js';
 import { executeOneTask } from '@/lib/empire-execute-one-task';
+import { requireAuth } from '@/lib/api-guard';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 120;
 
 export async function POST(req) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
   try {
     const body = await req.json();
     const taskId = body?.taskId;
