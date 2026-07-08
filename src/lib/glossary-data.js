@@ -1249,7 +1249,374 @@ export const GLOSSARY_TERMS = [
     relatedTerms: ["machine-learning", "prompt-engineering"],
   },
 
-  // ─── BATCH 5 PLACEHOLDER ──────────────────────────────────────────────────
+  // ─── AI SYSTEMS FAMILY (final) ────────────────────────────────────────────
+
+  {
+    slug: "prompt-engineering",
+    title: "Prompt Engineering",
+    abbr: null,
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is Prompt Engineering? | Khamare Clarke",
+    metaDescription: "Prompt engineering explained: the practice of designing inputs to AI language models to produce accurate, consistent, and useful outputs for specific tasks.",
+    h1: "Prompt Engineering: Designing Inputs That Get the Right AI Output",
+    definition: "Prompt engineering is the practice of designing and refining the text instructions given to an AI language model to produce outputs that are accurate, consistent, and suited to a specific task. It is the discipline of communicating with AI systems in a way that reliably elicits the intended response, rather than treating the model as a general-purpose oracle that will always interpret vague instructions correctly.",
+    whyItMatters: [
+      "The quality of output from an AI system is directly determined by the quality of the instructions it receives. A poorly structured prompt produces inconsistent, off-topic, or inaccurate responses. A well-engineered prompt constrains the model's output to the relevant domain, specifies the format required, provides the context needed for an accurate response, and handles edge cases. For business applications of AI, the difference between a useful system and an unreliable one often lies in the prompt design rather than the choice of model.",
+      "Prompt engineering is particularly relevant for AI systems that interact with customers, where inconsistent or incorrect outputs damage trust. An AI receptionist that gives wrong information about the business's service area, or an AI content tool that produces text in the wrong tone, is failing not because the model is incapable but because the instructions are not specific enough to constrain its behaviour. Getting the prompts right is the foundational quality-assurance step for any deployed AI system.",
+    ],
+    howKhamareApplies: [
+      "Prompt engineering is embedded in every AI system build here. The system prompts for client AI receptionists specify the business's services, geographic coverage, typical enquiry types, tone requirements, fallback behaviour, and data capture format. These are not single-sentence instructions; they are structured specifications that define the operating parameters of the AI in detail. The output quality of the deployed system is a direct reflection of the prompt quality.",
+      "On the AI search side, prompt engineering informs how content is structured. AI search systems generate responses by effectively 'prompting themselves' with the user's query and retrieving relevant content. Content that is structured to answer the question directly, in the format an AI system expects to summarise, performs better in AI-generated responses than content that buries the answer in narrative prose.",
+    ],
+    faq: [
+      { q: "Is prompt engineering a technical skill or a writing skill?", a: "It is both. Effective prompt engineering requires understanding how language models process instructions (a technical consideration) and the ability to write clear, unambiguous specifications that leave no room for misinterpretation (a writing skill). In practice, the most important quality is precision: specifying exactly what is wanted, in what format, under what conditions, and what should happen when the instruction does not cover a particular situation. Vague instructions produce vague outputs." },
+      { q: "Do I need to know prompt engineering to use AI tools?", a: "Not for simple use cases. Basic tasks -- asking an AI to summarise a document, draft an email, or answer a factual question -- do not require sophisticated prompt engineering. For applications where consistency and accuracy matter -- customer-facing AI systems, automated content generation, AI agents handling business-critical tasks -- prompt engineering significantly affects the quality of the output. The more consequential the AI's output, the more important it is that the prompts are designed with care." },
+      { q: "How is prompt engineering different from fine-tuning?", a: "Prompt engineering shapes the AI's behaviour at inference time -- when it is generating a response -- by providing detailed instructions in the input. Fine-tuning changes the model's underlying weights through additional training on specific data, changing its behaviour at a deeper level. Prompt engineering is faster to implement, cheaper, and reversible: you can change a prompt instantly. Fine-tuning requires a dataset, compute resources, and time. For most business applications, prompt engineering is the appropriate first approach; fine-tuning is considered when prompt engineering alone cannot achieve the required consistency." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: null,
+    relatedTerms: ["large-language-model", "rag"],
+  },
+
+  {
+    slug: "rag",
+    title: "Retrieval-Augmented Generation",
+    abbr: "RAG",
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is RAG (Retrieval-Augmented Generation)? | Khamare Clarke",
+    metaDescription: "Retrieval-augmented generation (RAG) explained: how AI systems retrieve relevant information from a specific knowledge base before generating a response, reducing hallucinations.",
+    h1: "Retrieval-Augmented Generation (RAG): Grounding AI in Your Own Data",
+    definition: "Retrieval-augmented generation (RAG) is an AI architecture in which a language model retrieves relevant information from a specified knowledge base or document set before generating its response, grounding the output in specific, up-to-date information rather than relying solely on what was encoded during training. It allows an AI system to answer questions accurately about a specific business, document set, or data source without requiring the model to be retrained.",
+    whyItMatters: [
+      "The practical problem RAG solves is the hallucination problem: a standard language model, when asked about specific business details it was not trained on, will sometimes generate plausible-sounding but incorrect information. An AI trained on general web data does not know what services a specific business offers, what its service area is, or what its current pricing looks like. RAG connects the model to the specific information it needs to answer accurately, rather than asking it to guess.",
+      "For businesses deploying AI agents that need to accurately represent their operations, RAG is the architecture that makes factual accuracy achievable. The knowledge base can include service descriptions, FAQs, geographic coverage, pricing structures, team information, and any other content the AI needs to reference. When a customer asks 'do you cover Congleton?', the RAG system retrieves the relevant section of the knowledge base and the model generates an accurate response based on that retrieved content.",
+    ],
+    howKhamareApplies: [
+      "RAG is the architecture used in AI agent and AI receptionist builds where the system needs to accurately represent the client's specific operations. The knowledge base is built from the business's own content (website copy, service descriptions, FAQs, coverage areas) and structured for retrieval. The retrieval step happens in milliseconds before the model generates its response, so there is no perceptible delay from the user's perspective.",
+      "RAG also applies to AI search visibility in a conceptual sense: search engines like Perplexity and the web-browsing mode of ChatGPT perform a retrieval step (web search) before generating their responses. The retrieved content shapes the response. Ensuring that the retrieved content about a business is accurate, well-structured, and authoritative is the search-side equivalent of building a good RAG knowledge base.",
+    ],
+    faq: [
+      { q: "What is the difference between RAG and fine-tuning?", a: "RAG retrieves information at the time of generating a response, from a knowledge base that can be updated without touching the model. Fine-tuning modifies the model's underlying weights through additional training, encoding information permanently into the model. RAG is better for business-specific, frequently updated information (services, coverage, pricing) that changes over time. Fine-tuning is better for adjusting the model's general behaviour or writing style across all responses. Most business AI applications use RAG rather than fine-tuning." },
+      { q: "How accurate is a RAG system compared to a standard AI?", a: "Accuracy depends on the quality of the knowledge base and the retrieval implementation. A RAG system with a well-structured, comprehensive knowledge base and a well-designed retrieval mechanism performs significantly more accurately on domain-specific questions than a standard model without retrieval. The remaining failure modes are: the knowledge base does not contain the relevant information (retrieval returns nothing useful), the retrieval returns the wrong document (retrieval fails), or the model misinterprets the retrieved content. Each of these can be tested and addressed during the build and testing phase." },
+      { q: "Can RAG systems access live data, like a business's calendar?", a: "RAG as an architecture retrieves from a static or periodically updated knowledge base. Accessing live data (a calendar, a live inventory system, a CRM) requires a tool-use or API integration layer rather than standard RAG. In practice, many AI agent builds combine RAG (for static knowledge like service descriptions) with tool use (for live data like availability). The distinction matters for system design: each live data integration requires an API connection and authentication, whereas knowledge base updates are simpler and cheaper." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: null,
+    relatedTerms: ["large-language-model", "ai-integration"],
+  },
+
+  {
+    slug: "ai-integration",
+    title: "AI Integration",
+    abbr: null,
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is AI Integration? | Khamare Clarke",
+    metaDescription: "AI integration explained: connecting AI systems to existing business software -- CRMs, calendars, messaging platforms, and databases -- to create a unified automated workflow.",
+    h1: "AI Integration: Connecting AI to the Systems Your Business Already Uses",
+    definition: "AI integration is the process of connecting an AI system to the existing software infrastructure of a business -- including CRMs, calendars, messaging platforms, job management systems, and databases -- so that the AI can read from and write to those systems as part of automated workflows, rather than operating in isolation as a standalone tool. The integration is what converts an AI capability into a working business process.",
+    whyItMatters: [
+      "An AI system that operates without integration can converse and generate text, but it cannot take action within the business's actual operations. It cannot log the lead to the CRM, check the calendar for availability, update the pipeline stage, or send the confirmation message to the customer's WhatsApp. Integration is the step that turns AI from a useful tool into a process component. Without it, the AI's output still requires a person to manually act on, which removes much of the automation benefit.",
+      "Integration also enables data continuity across the customer journey. When an AI receptionist captures a lead's name, contact details, and job description and writes them directly to the CRM, the business owner sees that structured data in the context of all their other leads and pipeline stages. Without integration, the lead data exists only in the AI conversation log and requires manual extraction and re-entry -- a time cost that undermines the efficiency gain of using AI in the first place.",
+    ],
+    howKhamareApplies: [
+      "Every AI systems build here includes integration as a core component, not an optional add-on. The AI receptionist connects to the channels where the business receives enquiries (WhatsApp, web chat, SMS), writes to the CRM, and optionally connects to a calendar for availability checking and appointment booking. The integration is built using the APIs of the relevant platforms and is tested end-to-end before deployment.",
+      "The integration layer is also where ongoing maintenance is focused: when a platform updates its API (a common occurrence with messaging platforms in particular), the integration needs to be updated. Monitoring the integration's health -- checking that data is flowing correctly from AI conversation to CRM record -- is an ongoing operational task that is part of the support structure for AI systems built here.",
+    ],
+    faq: [
+      { q: "What systems can an AI be integrated with?", a: "AI systems can be integrated with any platform that exposes an API: CRMs (GoHighLevel, HubSpot, Salesforce, Pipedrive), messaging platforms (WhatsApp Business API, Twilio for SMS), calendar systems (Google Calendar, Calendly), job management software (Jobber, ServiceM8), email platforms (Mailchimp, ActiveCampaign), and databases. The specific integrations available depend on the platform's API documentation and access policies. WhatsApp Business API, for example, requires a verified business account and a BSP (Business Solution Provider) partnership." },
+      { q: "How long does AI integration take?", a: "A single integration between an AI system and one external platform (for example, connecting an AI chatbot to a GoHighLevel CRM) typically takes one to three days of development work, plus testing time. A multi-platform integration (AI receptionist connected to WhatsApp, a CRM, a calendar, and an email platform) takes one to three weeks depending on the platforms involved and the complexity of the data mapping. Integrations that require vendor approval processes (WhatsApp Business API) add time for the approval queue." },
+      { q: "What happens if an integration fails?", a: "A well-designed integration includes error handling and monitoring. If an integration step fails (for example, the CRM API returns an error when the AI tries to create a record), the system should log the failure, alert an operator, and either retry or route the data to a manual processing queue rather than silently dropping it. Silent failures -- where the integration breaks but no one is notified -- are the most damaging failure mode, because leads or data are lost without the business being aware. Monitoring the integration's error logs is a standard part of ongoing AI systems management." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: "/services/ai-receptionist",
+    relatedTerms: ["api-integration", "workflow-automation"],
+  },
+
+  {
+    slug: "api-integration",
+    title: "API Integration",
+    abbr: null,
+    family: "ai-systems",
+    badge: "AI Systems",
+    metaTitle: "What is API Integration? | Khamare Clarke",
+    metaDescription: "API integration explained: how software systems connect and exchange data through application programming interfaces, and why it is central to business automation.",
+    h1: "API Integration: How Business Software Systems Connect and Share Data",
+    definition: "An API integration is a connection between two or more software systems using application programming interfaces (APIs), allowing them to exchange data and trigger actions automatically without human intervention at each transfer. When a website form submits a lead to a CRM, when an AI system updates a calendar, or when a payment platform notifies an email system of a completed purchase, these transfers happen through API integrations.",
+    whyItMatters: [
+      "Business software does not naturally share data between systems. A CRM, a calendar, a messaging platform, and a website are all separate systems with separate data stores. Without API integrations, data moves between them only when a person manually copies it. API integrations automate these transfers, ensuring that data is consistent across systems and that actions in one system trigger the appropriate responses in another -- without the delays, errors, and time cost of manual data entry.",
+      "For AI systems in particular, API integration is the mechanism through which the AI takes action. An AI agent that decides to book an appointment can only execute that decision if it has an API integration with the calendar system. An AI receptionist that captures a lead's details can only write them to the CRM if it has an API integration with the CRM. Without integrations, AI output exists only as text; with integrations, it becomes operational.",
+    ],
+    howKhamareApplies: [
+      "API integrations are the connective layer in every AI systems build here. The choice of which API to use (for example, whether to connect to WhatsApp via the official WhatsApp Business API or via a third-party gateway) is a technical decision with implications for reliability, cost, and compliance. These decisions are made at the architecture stage rather than discovered mid-build.",
+      "API documentation quality varies significantly between platforms, and some integrations require navigating vendor approval processes or authentication complexity. Experience with the specific APIs used in business automation (WhatsApp Business, GoHighLevel, Google Calendar, Twilio, common CRM platforms) reduces the time and uncertainty in the integration phase of a build.",
+    ],
+    faq: [
+      { q: "What is the difference between an API and a webhook?", a: "An API (application programming interface) is a set of endpoints that a system exposes to allow other systems to query or update it. You call an API when you want to retrieve or send data to another system. A webhook is the reverse: a system automatically sends data to a specified URL when something happens (for example, a CRM sends a webhook to a workflow tool when a new lead is created). APIs are pull-based (you request data); webhooks are push-based (data is sent to you automatically when an event occurs). Both are used in business integrations, often in combination." },
+      { q: "Do I need a developer to set up API integrations?", a: "For simple integrations between popular platforms, no-code tools like Make (formerly Integromat), Zapier, and n8n provide pre-built connectors that can be configured without writing code. For integrations that require custom logic, authentication flows, or connections to platforms without pre-built connectors, development work is required. AI systems builds that involve WhatsApp Business API, custom CRM configurations, or real-time data exchange typically require development work rather than no-code tooling." },
+      { q: "How is API integration different from a plugin or app?", a: "A plugin or app is a pre-packaged integration built by a third party and distributed through a platform's marketplace. It handles the API connection for you within a defined scope. A custom API integration is built directly between systems using their APIs, with full control over what data is exchanged, when, and how. Plugins are faster to set up but limited to their built-in functionality. Custom integrations take longer to build but can be designed to match any data flow or logic requirement." },
+    ],
+    expertisePage: "/expertise/ai-agents",
+    servicePage: "/services/ai-receptionist",
+    relatedTerms: ["ai-integration", "workflow-automation"],
+  },
+
+  // ─── MARKETING FAMILY ────────────────────────────────────────────────────
+
+  {
+    slug: "ppc",
+    title: "Pay-Per-Click Advertising",
+    abbr: "PPC",
+    family: "marketing",
+    badge: "Marketing",
+    metaTitle: "What is PPC (Pay-Per-Click Advertising)? | Khamare Clarke",
+    metaDescription: "PPC advertising explained: how pay-per-click works, how it differs from SEO, and how it is used alongside organic search to generate qualified leads.",
+    h1: "PPC: How Pay-Per-Click Advertising Generates Immediate Lead Flow",
+    definition: "Pay-per-click advertising (PPC) is a digital advertising model in which an advertiser pays a fee each time a user clicks on their advertisement, with ads placed in prominent positions on search engine results pages, display networks, or social media platforms. The advertiser bids on keywords or audience segments, and the ad appears when the targeting criteria are met, with cost determined by the competitive auction for that position.",
+    whyItMatters: [
+      "PPC and SEO serve different phases of a business's growth. SEO builds compounding organic visibility over months; PPC generates traffic immediately. For a business that needs leads now, PPC provides that volume while SEO is building. For a business with strong SEO, PPC adds a second presence in search results (organic ranking and paid ad simultaneously) and allows testing of messaging, offers, and landing pages that can then inform the organic content strategy.",
+      "The cost efficiency of PPC depends heavily on campaign management quality. A poorly managed Google Ads campaign in a competitive sector can deliver a cost per lead that makes the channel unprofitable. A well-managed campaign -- with tightly themed ad groups, high-quality score keywords, relevant landing pages, negative keyword lists, and conversion tracking -- delivers a cost per lead that justifies the spend. The management quality gap between campaigns is the primary source of variation in PPC returns.",
+    ],
+    howKhamareApplies: [
+      "PPC management here is handled through the Google Ads API rather than the standard interface, which allows more precise campaign management and the ability to build custom tooling around bid strategy and performance data. The focus is on cost per lead as the primary metric rather than click volume or impression share -- a metric that only makes sense once conversion tracking is correctly implemented and the attribution model is understood.",
+      "PPC is positioned as a complement to SEO and AI search work rather than an alternative. The combination of organic visibility (from SEO), AI search presence (from AEO/GEO), and paid advertising (from PPC) creates multiple contact points across the customer's search journey, which is more effective than any single channel managed in isolation.",
+    ],
+    faq: [
+      { q: "How much should a small business spend on PPC?", a: "Budget is determined by the target cost per lead and the number of leads required. To set a sensible budget, you need: the conversion rate of your landing page (what percentage of clicks become enquiries), your target cost per lead, and your required lead volume. For competitive local service terms in the UK (such as roofing, plumbing, or legal services), cost per click ranges from a few pounds to tens of pounds depending on the area and keyword. A minimum viable test budget for a local service business is typically in the range of £500-£1,000 per month to generate statistically meaningful data." },
+      { q: "What is Quality Score and why does it matter for PPC?", a: "Quality Score is Google's internal rating of the relevance of a keyword, ad, and landing page combination, scored from 1 to 10. A higher Quality Score lowers the cost per click for a given ad position, because Google rewards relevant, high-quality ads with lower auction prices. Quality Score is influenced by expected click-through rate, ad relevance to the keyword, and landing page experience. Improving Quality Score is one of the most cost-effective ways to improve PPC efficiency: a campaign with a Quality Score of 8 pays less per click than a campaign with a Quality Score of 4 for the same position." },
+      { q: "How is PPC performance measured?", a: "The primary metrics are: cost per click (CPC), click-through rate (CTR), conversion rate (percentage of clicks that become enquiries or sales), cost per lead (total spend divided by number of leads), and return on ad spend (ROAS, for e-commerce or businesses with direct revenue attribution). Conversion tracking must be correctly implemented -- typically via a Google Ads conversion tag or Google Analytics 4 event -- before any of these metrics beyond clicks can be reported accurately. Campaigns without conversion tracking cannot be meaningfully optimised." },
+    ],
+    expertisePage: null,
+    servicePage: "/services/ppc-google-ads",
+    relatedTerms: ["google-ads", "cost-per-lead"],
+  },
+
+  {
+    slug: "google-ads",
+    title: "Google Ads",
+    abbr: null,
+    family: "marketing",
+    badge: "Marketing",
+    metaTitle: "What is Google Ads? | Khamare Clarke",
+    metaDescription: "Google Ads explained: how the platform works, the types of campaign available, and how to get a return from Google advertising for a UK service business.",
+    h1: "Google Ads: The Platform Behind Google Search Advertising",
+    definition: "Google Ads is Google's online advertising platform through which businesses bid to display advertisements in Google Search results, on the Google Display Network, on YouTube, and across Google's partner properties, paying either per click (search and display) or per thousand impressions (display and video). It is the primary platform for search advertising in the UK, with access to the query-level intent data of Google's search engine.",
+    whyItMatters: [
+      "Google Ads provides access to demand at the moment it is expressed: a person searching 'emergency boiler repair Stoke' has an active, immediate need and high purchase intent. No other advertising channel captures intent at this level of specificity and immediacy. Social media advertising reaches people who may fit a target audience profile but are not actively seeking the service. Search advertising intercepts the moment of active need.",
+      "The platform's complexity is also its main risk for businesses managing it without experience. Google Ads will spend the full budget regardless of results. Broad match keywords, poorly structured campaigns, and absent negative keyword lists are the most common reasons a Google Ads campaign delivers poor results at significant cost. The platform has sufficient controls to run an efficient campaign, but those controls require configuration that goes well beyond the default settings Google recommends during account setup.",
+    ],
+    howKhamareApplies: [
+      "Google Ads management here uses the Google Ads API for campaign management, which allows more granular control and the ability to make bulk changes and custom optimisations that the standard interface does not support. Campaigns are structured with tightly themed ad groups (single keyword or close variant groupings), exact match and phrase match keywords as the primary bid types, comprehensive negative keyword lists, and conversion tracking verified before any optimisation decisions are made.",
+      "The account setup and optimisation process covers: keyword research (including search term report analysis to identify irrelevant traffic), ad copy testing (two to three variants per ad group, with statistical significance as the threshold for decisions), landing page optimisation (matching the ad message to the page content), and bid strategy selection (target CPA once sufficient conversion data exists, manual bidding in earlier phases).",
+    ],
+    faq: [
+      { q: "What types of campaign does Google Ads offer?", a: "The main campaign types are: Search (text ads in Google search results, triggered by keywords), Display (image and responsive ads across the Google Display Network, typically used for awareness or retargeting), Shopping (product listing ads for e-commerce), Video (ads on YouTube), and Performance Max (a Google-managed campaign type that serves across all inventory types using automated targeting). For local service businesses focused on lead generation, Search campaigns with carefully managed keywords are typically the highest-return starting point." },
+      { q: "What is the difference between Google Ads and Google Business Profile?", a: "Google Business Profile (formerly Google My Business) is a free listing that appears in Google Maps and the local pack (the map-based results for local searches). It does not involve paid advertising. Google Ads is the paid advertising platform. They operate separately and serve different purposes. Local Service Ads (LSAs) are a separate Google product -- a pay-per-lead advertising format specific to local service businesses -- that is distinct from both standard Google Ads and the organic Google Business Profile." },
+      { q: "How long does it take for Google Ads to deliver results?", a: "A well-configured Google Ads campaign can generate clicks and leads within days of going live. However, campaign performance typically improves over the first four to eight weeks as search term data accumulates, negative keyword lists are refined, and bid strategies have sufficient conversion data to optimise against. The first month should be treated as a paid learning phase: data collection is as important as immediate return, and decisions based on statistically insignificant data produce worse long-term outcomes than waiting for sufficient volume." },
+    ],
+    expertisePage: null,
+    servicePage: "/services/ppc-google-ads",
+    relatedTerms: ["ppc", "cost-per-lead"],
+  },
+
+  {
+    slug: "cost-per-lead",
+    title: "Cost Per Lead",
+    abbr: "CPL",
+    family: "marketing",
+    badge: "Marketing",
+    metaTitle: "What is Cost Per Lead (CPL)? | Khamare Clarke",
+    metaDescription: "Cost per lead (CPL) explained: how to calculate it, why it is the right metric for service businesses, and how to reduce it through channel and conversion optimisation.",
+    h1: "Cost Per Lead: The Metric That Tells You Whether Marketing Is Working",
+    definition: "Cost per lead (CPL) is the total marketing spend on a given channel or campaign divided by the number of qualified leads generated from that channel in the same period, giving a single figure that represents what the business is paying per inbound enquiry. It is the primary performance metric for service businesses spending on marketing, because it expresses return in terms directly comparable to the business's value per job.",
+    whyItMatters: [
+      "Without cost per lead, a business cannot evaluate its marketing spend rationally. Knowing that a campaign generated 200 clicks is not meaningful without knowing how many of those clicks became enquiries and what was spent to generate them. A campaign that costs £1,000 and generates 20 qualified leads has a CPL of £50. Whether that is good or bad depends on the average value of a booked job: for a landscaping business with jobs averaging £2,000, a £50 CPL is excellent; for a business with average job values under £200, it may not be viable.",
+      "CPL also enables comparison across channels. If SEO generates leads at £30 each, Google Ads at £80 each, and social media advertising at £200 each, the business can make an informed decision about where to allocate additional budget. Without this calculation done consistently across channels, budget allocation is based on intuition rather than evidence.",
+    ],
+    howKhamareApplies: [
+      "CPL is the primary metric used to evaluate all paid and earned marketing channels here. Before any channel is scaled, conversion tracking is implemented to accurately count leads from that channel. Without accurate lead attribution, CPL calculations are estimates that can mislead budget decisions in either direction. The tracking setup -- Google Ads conversion tags, GA4 events, CRM source attribution -- is a non-negotiable foundation step.",
+      "CPL reduction strategies work on two levers: reducing the cost per click (through better keyword targeting, higher Quality Score, and negative keyword refinement) and increasing the conversion rate from click to lead (through landing page optimisation, offer clarity, and trust signals). Both levers are worked simultaneously rather than sequentially, because the fastest CPL improvement often comes from landing page changes that can be tested without increasing spend.",
+    ],
+    faq: [
+      { q: "What is a good cost per lead for a UK service business?", a: "There is no universal benchmark because CPL viability depends entirely on the average job value and gross margin of the specific business. The relevant comparison is between CPL and the value a lead generates: if the average job value is £1,500 and the business converts 30% of leads to bookings, each lead is worth approximately £450 in revenue. A CPL of £60 represents excellent economics; a CPL of £400 does not. Calculate the break-even CPL for your specific business before evaluating whether any campaign is performing acceptably." },
+      { q: "How do I reduce my cost per lead?", a: "CPL is reduced by improving either the efficiency of spend (lower cost per click) or the conversion rate of traffic to leads. Lower cost per click comes from tighter keyword targeting, improved Quality Score, better negative keyword lists, and bid adjustments that shift spend to higher-performing times, locations, and devices. Higher conversion rates come from landing page improvements: clearer headline, more specific social proof, stronger call to action, faster page load speed, and better mobile experience. The most cost-effective CPL reduction usually comes from landing page optimisation rather than ad changes alone." },
+      { q: "Is cost per lead the same as cost per acquisition?", a: "No. Cost per lead (CPL) measures the cost of generating an enquiry. Cost per acquisition (CPA) measures the cost of generating a completed sale or booking. CPA equals CPL divided by the lead-to-booking conversion rate. If CPL is £60 and 25% of leads book, CPA is £240. CPA is the more complete measure of marketing economics, but it requires tracking through the full sales process rather than just at the lead stage. For businesses in early-stage marketing optimisation, CPL is the more immediately actionable metric." },
+    ],
+    expertisePage: null,
+    servicePage: "/services/ppc-google-ads",
+    relatedTerms: ["ppc", "conversion-rate-optimisation"],
+  },
+
+  {
+    slug: "conversion-rate-optimisation",
+    title: "Conversion Rate Optimisation",
+    abbr: "CRO",
+    family: "marketing",
+    badge: "Marketing",
+    metaTitle: "What is Conversion Rate Optimisation (CRO)? | Khamare Clarke",
+    metaDescription: "Conversion rate optimisation (CRO) explained: improving the percentage of website visitors who take a desired action, and why it amplifies every other marketing investment.",
+    h1: "Conversion Rate Optimisation: Getting More From the Traffic You Already Have",
+    definition: "Conversion rate optimisation (CRO) is the systematic practice of increasing the percentage of website visitors who complete a desired action -- submitting an enquiry form, calling, booking an appointment -- by improving the design, content, and user experience of the page without increasing traffic. It treats the website as a conversion asset to be continually refined rather than a static brochure.",
+    whyItMatters: [
+      "The return on CRO compounds across every marketing channel simultaneously. If a website converts 2% of visitors to leads and a CRO intervention raises that to 4%, the business doubles its lead volume from the same traffic. Every SEO gain, every PPC click, every social referral is now worth twice as much. CRO is the highest-leverage marketing activity for businesses with established traffic, because its benefits apply to all existing and future traffic simultaneously.",
+      "Most service business websites have significant unconverted traffic. Visitors land, read briefly, and leave without making contact -- often because the page does not clearly answer the visitor's primary concern (can this business solve my problem?), lacks the trust signals needed to take the next step (are they reliable?), or makes the conversion action harder than necessary (a form with too many fields, a phone number that is not click-to-call on mobile). Each of these is a diagnosable and fixable issue.",
+    ],
+    howKhamareApplies: [
+      "CRO work here starts with conversion audit: identifying where in the user journey visitors are leaving without converting, and why. This is done through a combination of analytics data (which pages have high exit rates, where form abandonment happens), heatmap and session recording analysis (where visitors are clicking, scrolling, and stopping), and qualitative assessment of the page against conversion principles. The audit produces a prioritised list of changes, ranked by estimated impact and implementation effort.",
+      "Changes are tested where traffic volume allows (A/B testing requires sufficient visitors per variant to reach statistical significance) and implemented directly where traffic is too low for formal testing. Common high-impact changes include: headline clarity (the first sentence must communicate the offer and the target customer), social proof placement (reviews and case study results near the conversion action), and form simplification (reducing required fields to the minimum needed to follow up).",
+    ],
+    faq: [
+      { q: "How do I know if my website needs CRO?", a: "Calculate your current conversion rate: take the number of enquiries your website generates per month and divide by the number of unique visitors. For a local service business website, a conversion rate below 2% typically indicates significant unconverted potential. If your Google Analytics shows high traffic but few enquiries, or if you are spending on PPC and getting clicks but not leads, CRO is the appropriate next focus. If your traffic volume is very low, SEO to build traffic is more urgent than CRO to improve its conversion." },
+      { q: "What is A/B testing and when should I use it?", a: "A/B testing is running two versions of a page (or element) simultaneously with traffic split between them, and measuring which version produces a higher conversion rate. It is the rigorous method for validating CRO changes: rather than assuming a change is an improvement, you measure whether it actually is. A/B testing requires sufficient traffic to reach statistical significance -- as a rule of thumb, at least 200-300 conversions per variant before declaring a winner. For low-traffic pages, implementing the change and comparing before/after performance over equivalent time periods is the practical alternative." },
+      { q: "Does CRO affect SEO?", a: "CRO and SEO interact positively. Google's Core Web Vitals and page experience signals (including load speed, interactivity, and layout stability) are SEO ranking factors that also affect conversion. A faster, better-structured page ranks better and converts better simultaneously. Reduced bounce rate (a side effect of a more engaging, relevant page) is correlated with improved rankings. CRO changes that improve user experience and reduce exit rates are therefore beneficial to both conversion performance and search visibility." },
+    ],
+    expertisePage: null,
+    servicePage: null,
+    relatedTerms: ["landing-page-optimisation", "cost-per-lead"],
+  },
+
+  {
+    slug: "landing-page-optimisation",
+    title: "Landing Page Optimisation",
+    abbr: null,
+    family: "marketing",
+    badge: "Marketing",
+    metaTitle: "What is Landing Page Optimisation? | Khamare Clarke",
+    metaDescription: "Landing page optimisation explained: improving the specific pages that receive paid or organic traffic to maximise conversion rate and reduce cost per lead.",
+    h1: "Landing Page Optimisation: The Page That Turns Clicks Into Enquiries",
+    definition: "Landing page optimisation is the process of improving the specific web pages that visitors arrive on from a marketing campaign -- a paid search ad, an organic ranking, or a social post -- to increase the proportion of those visitors who take the desired next action, typically submitting an enquiry or calling. It focuses on the elements that affect conversion: headline, offer clarity, social proof, form design, page speed, and mobile experience.",
+    whyItMatters: [
+      "The landing page is the final stage of the marketing funnel before a visitor becomes a lead. Every pound spent on PPC, every hour invested in SEO, and every post published on social media is ultimately delivering visitors to a page that either converts them or loses them. A weak landing page wastes the entire value chain that preceded it. Improving landing page performance increases the return on every other marketing activity without requiring additional spend on those activities.",
+      "For PPC campaigns in particular, landing page quality directly affects both conversion rate and advertising costs. Google's Quality Score -- which determines how much an advertiser pays per click -- is partly determined by landing page experience: relevance to the keyword, load speed, mobile usability, and ease of navigation. A better landing page reduces cost per click and improves conversion rate simultaneously, compressing cost per lead from both ends.",
+    ],
+    howKhamareApplies: [
+      "Landing page design for service businesses follows a consistent structure that addresses the visitor's decision sequence: the headline confirms they are in the right place (the service and location match their search), the subheading communicates the specific value proposition, social proof (reviews, results, recognisable client names) addresses the trust question, and the conversion action (form or phone) is immediately visible without scrolling. Each element serves the visitor's progression through the decision, rather than showcasing the business's history or capabilities in generic terms.",
+      "Pages built here are optimised for mobile from the outset, not adapted for mobile after desktop design. For UK local service businesses, the majority of search traffic arrives on mobile, and the majority of conversions happen on mobile. A form that is awkward to complete on a phone, a phone number that requires manual dialling rather than click-to-call, or a page that loads slowly on a 4G connection are all conversion barriers that mobile-first design eliminates.",
+    ],
+    faq: [
+      { q: "Should I use a dedicated landing page or my homepage for PPC traffic?", a: "A dedicated landing page almost always outperforms a homepage for PPC traffic. A homepage serves multiple audiences and purposes. A dedicated landing page is built for the specific query that generated the click: the messaging matches the ad, the offer is clear, and there is no navigation to distract the visitor from converting. The cost of building a landing page is small relative to the PPC spend that flows through it, and even a modest improvement in conversion rate produces a significant reduction in cost per lead at scale." },
+      { q: "What are the most common reasons a landing page fails to convert?", a: "The most common failures are: message mismatch (the headline does not match what the ad promised), unclear value proposition (the visitor cannot quickly determine what they get and why this business over a competitor), absent or unconvincing social proof (no reviews, no results, no credibility signals near the conversion action), conversion friction (form too long, phone number not prominent, no mobile optimisation), and slow page speed (particularly on mobile over 4G). Each of these can be identified through analytics and session recording tools and addressed systematically." },
+      { q: "How is a landing page different from a regular website page?", a: "A landing page is designed and measured against a single conversion goal. It typically has minimal navigation (to prevent visitors leaving before converting), a single clear call to action repeated at multiple points on the page, and content structured to address the visitor's specific concern rather than providing a general overview of the business. A regular website page serves informational, navigational, and brand purposes simultaneously. The focused, conversion-first structure of a landing page is what makes it more effective for paid traffic than a standard website page." },
+    ],
+    expertisePage: null,
+    servicePage: null,
+    relatedTerms: ["conversion-rate-optimisation", "ppc"],
+  },
+
+  {
+    slug: "email-marketing-automation",
+    title: "Email Marketing Automation",
+    abbr: null,
+    family: "marketing",
+    badge: "Marketing",
+    metaTitle: "What is Email Marketing Automation? | Khamare Clarke",
+    metaDescription: "Email marketing automation explained: automatically sending targeted email sequences based on subscriber behaviour, pipeline stage, or time triggers.",
+    h1: "Email Marketing Automation: Sequences That Run Without Manual Sending",
+    definition: "Email marketing automation is the use of software to send email sequences automatically based on triggers, schedules, or subscriber behaviour, delivering targeted messages to specific segments of an audience at the moment most likely to be relevant, without requiring manual send decisions for each message. It combines the reach of email marketing with the precision of behavioural targeting.",
+    whyItMatters: [
+      "Email remains the highest-ROI direct marketing channel for most service businesses when used correctly -- not as a broadcast newsletter, but as a targeted sequence that responds to what a subscriber has done. A lead who submitted an enquiry form receives a different sequence to a past customer who completed a job last year; a lead who opened three emails and clicked one receives a different sequence to one who has not opened anything in 90 days. This segmentation and sequencing is what automation enables at scale.",
+      "The most immediately valuable email automation for a service business is the lead follow-up sequence: a series of messages sent to leads who have not booked, over a period of days or weeks, continuing to communicate value and address objections. Most businesses send one follow-up (if any) and then stop. A structured sequence of five to seven messages, timed appropriately and written to reflect the typical decision timeline, converts a measurable proportion of delayed decisions into bookings.",
+    ],
+    howKhamareApplies: [
+      "Email marketing automation here is built within the CRM and integrated with the lead handling workflow, so sequences are triggered automatically based on CRM pipeline stage rather than manually applied list tags. A new enquiry triggers a lead nurture sequence; a completed booking triggers a post-job review request sequence; a past customer who has not re-enquired in a defined period triggers a re-engagement sequence. Each sequence is written for the specific business's service type and customer relationship.",
+      "Email deliverability is managed alongside the content: domain authentication (SPF, DKIM, DMARC), list hygiene (removing bounces and long-term non-openers), and sender reputation monitoring are ongoing tasks rather than one-time setups. A well-written sequence that lands in spam has zero return; deliverability infrastructure is the prerequisite for content to perform.",
+    ],
+    faq: [
+      { q: "How many emails should a lead nurture sequence contain?", a: "The appropriate sequence length depends on the typical decision timeline for the service. A high-urgency service (emergency repairs, immediate-need services) has a short decision cycle; three to four emails over five to seven days is appropriate. A longer-consideration purchase (significant landscaping, a loft conversion, legal services) has a longer decision cycle; a sequence of six to eight emails over three to four weeks, covering different decision concerns at each stage, is more appropriate. The sequence should stop when the lead converts, opts out, or reaches the end of the window where follow-up is reasonable." },
+      { q: "What should email marketing automation not be used for?", a: "Email automation should not be used to send irrelevant, generic messages to unengaged lists. Sending a blanket promotional email to everyone who has ever enquired, regardless of their status, damages sender reputation and produces low engagement that signals to inbox providers that your emails are unwanted. Automation is most effective when triggered by specific behaviours or conditions and when the content is relevant to the recipient's current situation. Volume without relevance actively harms deliverability." },
+      { q: "How does email marketing automation integrate with SEO and AI search?", a: "Email marketing and search visibility are complementary rather than directly integrated. Email drives repeat engagement with existing contacts; search drives new contact acquisition. The content created for email campaigns -- detailed answers to common questions, case studies, service explanations -- can also serve as search-optimised blog content and as the structured, authoritative material that AI search systems use to cite sources. The underlying content strategy serves both channels, even though the distribution mechanisms are separate." },
+    ],
+    expertisePage: null,
+    servicePage: null,
+    relatedTerms: ["marketing-automation", "lead-generation"],
+  },
+
+  {
+    slug: "lead-generation",
+    title: "Lead Generation",
+    abbr: null,
+    family: "marketing",
+    badge: "Marketing",
+    metaTitle: "What is Lead Generation? | Khamare Clarke",
+    metaDescription: "Lead generation explained: the process of attracting and capturing inbound enquiries from potential customers, across organic, paid, and AI search channels.",
+    h1: "Lead Generation: Attracting and Capturing Enquiries From Potential Customers",
+    definition: "Lead generation is the process of attracting potential customers to a business and capturing their contact information and intent, converting an anonymous visitor or searcher into an identifiable enquiry that can be followed up by the business. It spans the full range of marketing channels through which potential customers are first reached -- search, paid advertising, social media, referrals -- and the conversion mechanisms through which they make contact.",
+    whyItMatters: [
+      "Lead generation is the upstream constraint on business growth for most service businesses. Operational capacity can be scaled; the business can take on more staff or subcontractors. Product and service quality can be maintained or improved. But if the pipeline of new enquiries is insufficient, neither operational capacity nor service quality translates to revenue. For most small and medium service businesses, lead generation quality and volume are the primary determinants of growth rate.",
+      "The composition of lead generation channels matters as much as the total volume. A business that generates all its leads from a single channel (referrals, one lead aggregator, a single Google Ads campaign) is commercially fragile: if that channel degrades, the entire lead flow degrades simultaneously. A diversified lead generation system -- organic search, AI search visibility, paid search, email re-engagement, and referrals -- provides resilience and allows each channel to be optimised independently.",
+    ],
+    howKhamareApplies: [
+      "Lead generation work here builds across multiple channels simultaneously: SEO (organic search visibility), AEO and GEO (AI search visibility), Google Business Profile (local pack and maps), and PPC (paid search) at the acquisition layer; AI receptionist and email automation at the capture and conversion layer. Each channel feeds into the same CRM pipeline, so total lead volume, source attribution, and channel-level CPL are visible in one view.",
+      "The AI search layer of lead generation is an increasingly important channel for UK businesses. Potential customers asking ChatGPT, Gemini, or Perplexity for service recommendations are expressing the same high-intent need as a person conducting a Google search -- but the AI system, not a search results page, determines whose business is recommended. Building AI search visibility is lead generation work, not brand awareness work.",
+    ],
+    faq: [
+      { q: "What is the difference between inbound and outbound lead generation?", a: "Inbound lead generation attracts potential customers who are actively searching for or showing interest in the service, and converts them into enquiries. SEO, PPC, and AI search visibility are inbound channels: the potential customer initiates contact. Outbound lead generation involves proactively reaching out to potential customers who have not expressed a specific intent: cold calling, cold email, direct mail. For most UK service businesses, inbound channels (particularly search) produce higher-intent, easier-to-convert leads than outbound channels." },
+      { q: "How many leads does a small service business need per month?", a: "The required monthly lead volume depends on the average job value and the target monthly revenue. If the average job value is £1,500, the lead-to-booking rate is 30%, and the monthly revenue target is £15,000, the business needs approximately 33 qualified leads per month. Working backwards from the revenue target through conversion rate gives the lead volume target. This calculation should be done before committing to any specific marketing channel budget, because it determines what CPL is viable and which channels can realistically deliver the required volume at that CPL." },
+      { q: "Is lead generation the same as sales?", a: "No. Lead generation produces enquiries; sales converts enquiries to bookings. Lead generation covers everything up to the moment of first contact from the potential customer. The sales process begins when that contact is made and covers qualification, proposal, negotiation, and closing. For businesses with AI lead response and CRM automation, much of the qualification stage is handled automatically, and the owner's sales input begins with a pre-qualified, structured lead rather than a raw enquiry. The distinction is useful for diagnosing whether a business's commercial problem is upstream (not enough enquiries) or downstream (not enough conversions from enquiries to bookings)." },
+    ],
+    expertisePage: null,
+    servicePage: null,
+    relatedTerms: ["marketing-funnel", "cost-per-lead"],
+  },
+
+  {
+    slug: "marketing-funnel",
+    title: "Marketing Funnel",
+    abbr: null,
+    family: "marketing",
+    badge: "Marketing",
+    metaTitle: "What is a Marketing Funnel? | Khamare Clarke",
+    metaDescription: "Marketing funnel explained: the stages a potential customer passes through from first awareness of a business to becoming a paying client, and how to optimise each stage.",
+    h1: "Marketing Funnel: The Stages From First Awareness to Paying Client",
+    definition: "A marketing funnel is a model representing the stages a potential customer passes through from their first exposure to a business to becoming a paying client, typically described as awareness (knowing the business exists), consideration (evaluating it against alternatives), and conversion (making the purchase decision). The funnel shape reflects the fact that fewer people reach each successive stage than the one before it.",
+    whyItMatters: [
+      "The funnel model is useful because it identifies where a business is losing potential customers and directs the appropriate intervention. A business with high website traffic but low enquiry rates has a conversion problem at the consideration-to-conversion stage -- a landing page or offer issue. A business with low traffic has an awareness problem -- a reach or search visibility issue. Diagnosing the specific stage where the funnel narrows most sharply determines where the marketing investment produces the greatest return.",
+      "AI search changes the upper funnel meaningfully. A potential customer who asks ChatGPT or Gemini for a business recommendation has already moved past the awareness stage -- they are in active consideration. If a business is not present in AI-generated recommendations, it is absent from the consideration set of an increasingly large proportion of high-intent potential customers. AI search visibility work targets this specific point in the funnel.",
+    ],
+    howKhamareApplies: [
+      "Funnel analysis here is applied to each marketing channel separately and to the combined pipeline. The channel-level analysis identifies which channels are driving top-of-funnel awareness (organic search, AI search, social), which are capturing mid-funnel consideration (content, case studies, reviews), and which are converting at the bottom (PPC, landing pages, AI receptionist). Each stage is measured with appropriate metrics: reach and traffic at the top, engagement and enquiry rate in the middle, conversion rate and CPL at the bottom.",
+      "The CRM pipeline maps directly to the funnel stages for active leads: enquiry received, qualified, proposal sent, booking confirmed, job complete. This gives visibility into the conversion rates at each handoff point and identifies which stages are losing leads. If 50% of enquiries are qualified but only 10% of qualified leads convert to bookings, the conversion problem is at the proposal or closing stage, not the top-of-funnel.",
+    ],
+    faq: [
+      { q: "What is the difference between a marketing funnel and a sales funnel?", a: "The terms are often used interchangeably but describe different scopes. A marketing funnel typically covers the period from first awareness through to first contact or enquiry -- the stages managed by marketing activities. A sales funnel covers the period from first contact through to closed deal -- the stages managed by sales activities. In practice, the two overlap: a CRM pipeline that begins at enquiry and ends at booking is a combined marketing-and-sales funnel. The distinction is most useful for organisations where marketing and sales are separate functions." },
+      { q: "What content is appropriate at each funnel stage?", a: "Top-of-funnel content builds awareness and authority: blog posts answering common questions, glossary terms, case study summaries, and social content that reaches people who are not yet actively searching. Mid-funnel content supports consideration: detailed case studies with specific results, service comparison content, FAQs, and reviews. Bottom-of-funnel content drives conversion: clear service pages with specific offers, testimonials adjacent to conversion actions, and calls to action with low commitment friction (a free consultation rather than an immediate purchase decision). Matching content to stage is more effective than creating one type of content and expecting it to serve all stages." },
+      { q: "How does the funnel change for local service businesses?", a: "For local service businesses, the funnel is typically compressed and faster-moving than for high-consideration or B2B purchases. A person searching for emergency roof repair is at the bottom of the funnel the moment they search -- the awareness and consideration stages have already happened implicitly through past brand exposure or referral. The entire marketing job for that search is to be present (SEO or PPC), immediately credible (reviews, social proof), and frictionless to contact (click-to-call, instant response). Treating local service marketing as a long-funnel awareness game misallocates resources toward top-of-funnel activities when the conversion point is the relevant focus." },
+    ],
+    expertisePage: null,
+    servicePage: null,
+    relatedTerms: ["lead-generation", "conversion-rate-optimisation"],
+  },
+
+  {
+    slug: "retargeting",
+    title: "Retargeting",
+    abbr: null,
+    family: "marketing",
+    badge: "Marketing",
+    metaTitle: "What is Retargeting? | Khamare Clarke",
+    metaDescription: "Retargeting explained: showing targeted ads to people who have previously visited your website, keeping your business in front of warm prospects who did not convert on first visit.",
+    h1: "Retargeting: Staying in Front of Visitors Who Did Not Convert First Time",
+    definition: "Retargeting is a form of digital advertising that serves ads specifically to people who have previously visited a website or interacted with a business online, using cookies or platform-specific audience data to identify and re-engage warm prospects who did not convert on their first visit. It keeps the business visible to potential customers who are in the consideration phase but have not yet made contact.",
+    whyItMatters: [
+      "Most website visitors do not convert on their first visit. They may be comparing options, waiting for budget confirmation, or simply not ready to commit at the moment they first land on the site. Without retargeting, these visitors disappear from the business's marketing reach the moment they leave. With retargeting, the business remains visible to these warm prospects as they continue their research and decision process across other websites, platforms, and search sessions.",
+      "The economics of retargeting are typically favourable because the audience is pre-qualified: these are people who have already shown enough interest to visit the website. Retargeting campaigns therefore tend to have higher click-through rates and lower cost per lead than cold awareness campaigns, because the audience is not being introduced to the business for the first time -- it is being reminded of it at a moment when they may be ready to act.",
+    ],
+    howKhamareApplies: [
+      "Retargeting is positioned as a complementary layer to search advertising rather than a standalone channel for local service businesses. The primary acquisition channels (SEO, Google Ads, AI search) generate the initial visit; retargeting extends the business's presence for those visitors who did not convert. The retargeting audience is segmented where possible: visitors to specific service pages see ads relevant to that service, rather than a generic brand message.",
+      "Google Ads and Meta (Facebook/Instagram) are the primary retargeting platforms for UK service businesses. Google Display Network retargeting reaches prospects across websites and apps. Meta retargeting reaches them on social media. The combination provides broad reach across different contexts and times of day during the consideration period.",
+    ],
+    faq: [
+      { q: "How does retargeting work technically?", a: "Retargeting works by placing a small piece of code (a pixel or tag) on a website that stores a cookie in the visitor's browser. Advertising platforms (Google, Meta) read this cookie when the same visitor uses those platforms and serve the business's ads to them. Platform-specific audience matching (using email addresses or phone numbers matched against platform accounts) is an alternative approach that does not depend on cookies, and is increasingly important as third-party cookies are phased out in some browser environments. UK businesses running retargeting campaigns must comply with UK GDPR and the PECR cookie consent requirements." },
+      { q: "What is the difference between retargeting and remarketing?", a: "Retargeting and remarketing are often used interchangeably. In Google's terminology, 'remarketing' is the Google Ads term for showing ads to past website visitors. 'Retargeting' is the broader industry term covering all platforms. The distinction, where it exists, is that remarketing sometimes specifically refers to email re-engagement of past customers, while retargeting refers specifically to ad-based re-engagement. In common usage, both terms describe the same core activity: advertising to people who have previously interacted with the business." },
+      { q: "How long should a retargeting audience window be?", a: "The retargeting window is the number of days after a website visit during which a visitor is included in the retargeting audience. For high-urgency services (emergency repairs, time-sensitive needs), a short window (7-14 days) is appropriate: if they have not converted in two weeks, they have likely booked elsewhere. For longer consideration services (significant home improvements, professional services, B2B decisions), a window of 30-90 days is more appropriate. Setting the window longer than the typical decision cycle wastes budget on audiences who have long since made their decision." },
+    ],
+    expertisePage: null,
+    servicePage: "/services/ppc-google-ads",
+    relatedTerms: ["ppc", "marketing-funnel"],
+  },
+
 ];
 
 export const GLOSSARY_BY_SLUG = Object.fromEntries(GLOSSARY_TERMS.map(t => [t.slug, t]));
