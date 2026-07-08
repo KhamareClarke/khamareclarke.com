@@ -130,6 +130,18 @@ export default function DashboardPage() {
           </div>
           <div className="flex items-center gap-4">
             <a
+              href="/dashboard/clients"
+              className="text-sm text-[#ffb700] hover:underline flex items-center gap-1"
+            >
+              Clients
+            </a>
+            <a
+              href="/portal"
+              className="text-sm text-[#ffb700] hover:underline flex items-center gap-1"
+            >
+              Client Portal
+            </a>
+            <a
               href="/dashboard/empire"
               className="text-sm text-[#ffb700] hover:underline flex items-center gap-1"
             >

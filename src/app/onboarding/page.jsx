@@ -1,13 +1,10 @@
-import { redirect } from 'next/navigation';
 import OnboardingForm from './OnboardingForm';
 
-// Interim token gate: share the link as /onboarding?token=<ONBOARDING_TOKEN>
-// Replace with Supabase Auth invite flow in the portal rebuild.
-export default function OnboardingPage({ searchParams }) {
-  const expected = process.env.ONBOARDING_TOKEN;
-  if (expected) {
-    const provided = searchParams?.token;
-    if (provided !== expected) redirect('/');
-  }
+/**
+ * Public onboarding form — lead-gen tool. Anyone can submit; entries land in
+ * onboarding_clients (no user_id). Authenticated clients use /portal/onboarding
+ * which associates the submission with their user_id.
+ */
+export default function OnboardingPage() {
   return <OnboardingForm />;
 }

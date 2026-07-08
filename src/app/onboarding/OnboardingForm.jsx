@@ -12,20 +12,20 @@ const STEPS = [
   { id: 'complete', title: 'Complete' },
 ];
 
-export default function OnboardingForm() {
+export default function OnboardingForm({ userId = null, endpoint = '/api/onboarding', initialData = null, successHref = '/dashboard', successLabel = 'Access Dashboard' } = {}) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
-    contactName: '',
-    email: '',
-    phone: '',
-    companyName: '',
-    website: '',
-    businessType: '',
-    industry: '',
-    currentChallenges: '',
-    goals: '',
-    timeline: '',
-    budget: '',
+    contactName: initialData?.contactName || '',
+    email: initialData?.email || '',
+    phone: initialData?.phone || '',
+    companyName: initialData?.companyName || '',
+    website: initialData?.website || '',
+    businessType: initialData?.businessType || '',
+    industry: initialData?.industry || '',
+    currentChallenges: initialData?.currentChallenges || '',
+    goals: initialData?.goals || '',
+    timeline: initialData?.timeline || '',
+    budget: initialData?.budget || '',
   });
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -43,10 +43,10 @@ export default function OnboardingForm() {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      const res = await fetch('/api/onboarding', {
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, userId }),
       });
       if (res.ok) {
         setDone(true);
@@ -110,11 +110,11 @@ export default function OnboardingForm() {
                     Thanks for completing the onboarding. We'll be in touch within 24 hours with your personalized strategy.
               </p>
               <a
-                href="/dashboard"
+                href={successHref}
                     className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ffb700] to-[#ff8c00] text-black font-bold rounded-xl hover:scale-105 transform transition-all duration-300"
               >
                     <span>🚀</span>
-                    Access Dashboard
+                    {successLabel}
               </a>
             </motion.div>
           ) : (
