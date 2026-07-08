@@ -48,6 +48,8 @@ export const EMPIRE_SKILLS = [
   { id: 'form-cro', label: 'Form CRO', repoUrl: `${REPO_BASE}/form-cro` },
   { id: 'paywall-upgrade-cro', label: 'Paywall & Upgrade CRO', repoUrl: `${REPO_BASE}/paywall-upgrade-cro` },
   { id: 'popup-cro', label: 'Popup CRO', repoUrl: `${REPO_BASE}/popup-cro` },
+  // Jarvis client-portal: monthly client report generator (see src/lib/empire-client-report.js)
+  { id: 'client-report', label: 'Client Report', repoUrl: '' },
 ];
 
 export const EMPIRE_SKILL_IDS = EMPIRE_SKILLS.map((s) => s.id);

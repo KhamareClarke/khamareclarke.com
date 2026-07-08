@@ -36,6 +36,24 @@ export async function executeOneTask(supabase, task, options = {}) {
   try {
     if (task.agent_id === 'seo-audit') {
       resultMessage = await runSeoAudit(task.project_id);
+    } else if (task.agent_id === 'client-report') {
+      // Jarvis client-portal skill: task_description is expected to be
+      // JSON `{"client_id":"...","project_id":"..."}`. Generates a monthly
+      // report and stores it on client_projects.
+      const { generateClientReport } = await import('@/lib/empire-client-report');
+      let parsed;
+      try {
+        parsed = JSON.parse(task.task_description);
+      } catch {
+        throw new Error(
+          'client-report task_description must be JSON: {"client_id":"...","project_id":"..."}'
+        );
+      }
+      const { text } = await generateClientReport({
+        clientId: parsed.client_id,
+        projectId: parsed.project_id,
+      });
+      resultMessage = text;
     } else {
       resultMessage = await runTaskWithZeroClaw(
         task.project_id,
