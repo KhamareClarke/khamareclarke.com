@@ -1,10 +1,16 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import crypto from 'crypto';
+import { getSupabaseServer } from '@/lib/supabase-server';
 
+/**
+ * Email + password login via Supabase Auth.
+ * Body: { email, password }
+ * On success, Supabase sets sb-* cookies (session managed by @supabase/ssr).
+ *
+ * The old ADMIN_PASSWORD flow is gone. Users are provisioned by admin invite
+ * (see /api/admin/invite) or by Supabase magic-link/invite email.
+ */
 // In-memory rate limiter: 5 attempts per IP per 15 minutes.
-// Best-effort on serverless (state is per-instance); upgrade to Upstash ratelimit for production.
-const attempts = new Map(); // ip -> { count, resetAt }
+const attempts = new Map();
 const MAX_ATTEMPTS = 5;
 const WINDOW_MS = 15 * 60 * 1000;
 
@@ -17,7 +23,6 @@ function checkRateLimit(ip) {
     return true;
   }
   attempts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-  // Prune old entries periodically to avoid memory leak
   if (attempts.size > 1000) {
     for (const [k, v] of attempts) {
       if (now >= v.resetAt) attempts.delete(k);
@@ -26,23 +31,8 @@ function checkRateLimit(ip) {
   return true;
 }
 
-function getAdminPassword() {
-  const pw = process.env.ADMIN_PASSWORD;
-  if (!pw) return null;
-  return pw;
-}
-
-function getToken(password) {
-  return crypto.createHmac('sha256', password).update('dashboard').digest('hex');
-}
-
 export async function POST(req) {
   try {
-    const password = getAdminPassword();
-    if (!password) {
-      return NextResponse.json({ error: 'auth not configured' }, { status: 500 });
-    }
-
     const ip =
       req.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
       req.headers.get('x-real-ip') ||
@@ -55,20 +45,30 @@ export async function POST(req) {
       );
     }
 
-    const { password: provided } = await req.json();
-    if (provided === password) {
-      const cookieStore = await cookies();
-      cookieStore.set('admin_session', getToken(password), {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 24 * 60 * 60,
-      });
-      return NextResponse.json({ ok: true });
+    const body = await req.json().catch(() => ({}));
+    const email = String(body.email || '').trim().toLowerCase();
+    const password = String(body.password || '');
+    if (!email || !password) {
+      return NextResponse.json({ ok: false, error: 'Email and password required' }, { status: 400 });
     }
-    return NextResponse.json({ ok: false }, { status: 401 });
-  } catch (e) {
-    return NextResponse.json({ ok: false }, { status: 500 });
+
+    const supabase = await getSupabaseServer();
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error || !data?.user) {
+      return NextResponse.json({ ok: false, error: 'Invalid credentials' }, { status: 401 });
+    }
+
+    // Look up role to tell the client where to redirect.
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', data.user.id)
+      .maybeSingle();
+
+    return NextResponse.json({ ok: true, role: profile?.role || 'client' });
+  } catch (err) {
+    console.error('Login error:', err);
+    return NextResponse.json({ ok: false, error: 'Login failed' }, { status: 500 });
   }
 }

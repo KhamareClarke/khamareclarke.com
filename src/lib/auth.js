@@ -1,23 +1,30 @@
-import { cookies } from 'next/headers';
-import crypto from 'crypto';
-
-function getAdminPassword() {
-  const pw = process.env.ADMIN_PASSWORD;
-  if (!pw) throw new Error('ADMIN_PASSWORD env var is not set — auth not configured');
-  return pw;
-}
-
-function getToken(password) {
-  return crypto.createHmac('sha256', password).update('dashboard').digest('hex');
-}
+/**
+ * Auth helpers backed by Supabase Auth (replaces the old ADMIN_PASSWORD HMAC cookie).
+ *
+ * - isAuthenticated(): true when there is a valid Supabase session (any role).
+ * - isAdmin(): true when the logged-in user has profiles.role = 'admin'.
+ * - getAuthUser(): returns { user, profile } or nulls.
+ *
+ * Middleware (middleware.js) is the primary gate; these helpers are for
+ * Server Components / Route Handlers that need to double-check on the server.
+ */
+import { getSupabaseServer, getSessionAndProfile } from '@/lib/supabase-server';
 
 export async function isAuthenticated() {
   try {
-    const password = getAdminPassword();
-    const cookieStore = await cookies();
-    const session = cookieStore.get('admin_session')?.value;
-    return session === getToken(password);
+    const supabase = await getSupabaseServer();
+    const { data: { user }, error } = await supabase.auth.getUser();
+    return !!user && !error;
   } catch {
     return false;
   }
+}
+
+export async function isAdmin() {
+  const { profile } = await getSessionAndProfile();
+  return profile?.role === 'admin';
+}
+
+export async function getAuthUser() {
+  return getSessionAndProfile();
 }

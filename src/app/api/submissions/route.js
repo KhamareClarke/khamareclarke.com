@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { isAuthenticated } from '@/lib/auth';
+import { isAuthenticated, isAdmin } from '@/lib/auth';
 import { supabase, supabaseAdmin, hasSupabase } from '@/lib/supabase';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -9,6 +9,9 @@ export async function GET() {
   try {
     if (!(await isAuthenticated())) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (!(await isAdmin())) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     if (!hasSupabase()) {

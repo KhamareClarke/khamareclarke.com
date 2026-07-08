@@ -1,10 +1,28 @@
-import { isAuthenticated } from '@/lib/auth';
+import { isAuthenticated, isAdmin } from '@/lib/auth';
 
 /**
- * Use on all /api/empire/* routes that the admin calls from the dashboard.
+ * Guard for admin-only API routes (Empire OS, dashboard admin actions).
+ * Requires:
+ *   1. A valid Supabase session, AND
+ *   2. profiles.role = 'admin' for that user.
+ *
  * Returns a Response on failure, null on success.
  */
 export async function requireAuth() {
+  if (!(await isAuthenticated())) {
+    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  if (!(await isAdmin())) {
+    return Response.json({ error: 'Forbidden — admin role required' }, { status: 403 });
+  }
+  return null;
+}
+
+/**
+ * Guard for authenticated client-portal routes (any signed-in user, admin or client).
+ * Returns a Response on failure, null on success.
+ */
+export async function requireSession() {
   if (!(await isAuthenticated())) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -29,7 +47,12 @@ export async function requireCronSecret(req) {
   }
 
   // Fall back to admin session (allows "Run now" from the dashboard)
-  if (await isAuthenticated()) return null;
+  if (await isAuthenticated()) {
+    if (await isAdmin()) return null;
+  }
 
-  return Response.json({ error: 'Unauthorized — missing CRON_SECRET bearer or admin session' }, { status: 401 });
+  return Response.json(
+    { error: 'Unauthorized — missing CRON_SECRET bearer or admin session' },
+    { status: 401 }
+  );
 }
