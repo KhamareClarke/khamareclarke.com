@@ -9,6 +9,7 @@
  */
 import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
+import { supabaseAdmin } from '@/lib/supabase';
 
 export async function getSupabaseServer() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -43,7 +44,8 @@ export async function getSessionAndProfile() {
     const supabase = await getSupabaseServer();
     const { data: { user }, error } = await supabase.auth.getUser();
     if (error || !user) return { user: null, profile: null, supabase };
-    const { data: profile } = await supabase
+    const profileClient = supabaseAdmin || supabase;
+    const { data: profile } = await profileClient
       .from('profiles')
       .select('id, role, full_name, company, created_at')
       .eq('id', user.id)

@@ -22,9 +22,11 @@ export default function DashboardPage() {
   const [refreshing, setRefreshing] = useState(false);
   const [loggedIn, setLoggedIn] = useState(null);
   const [expandedId, setExpandedId] = useState(null);
+  const [fetchError, setFetchError] = useState(null);
 
   const fetchData = async (retry = false) => {
     try {
+      setFetchError(null);
       const [subRes, clientRes] = await Promise.all([
         fetch('/api/submissions', { credentials: 'include', cache: 'no-store' }),
         fetch('/api/onboarding', { credentials: 'include', cache: 'no-store' }),
@@ -37,8 +39,18 @@ export default function DashboardPage() {
         window.location.href = '/login?callbackUrl=/dashboard';
         return;
       }
-      const subData = subRes.ok ? await subRes.json() : { submissions: [] };
-      const clientData = clientRes.ok ? await clientRes.json() : { clients: [] };
+      if (!subRes.ok || !clientRes.ok) {
+        const subErr = subRes.ok ? null : await subRes.json().catch(() => ({}));
+        const clientErr = clientRes.ok ? null : await clientRes.json().catch(() => ({}));
+        setFetchError(
+          subErr?.error || clientErr?.error || subErr?.message || clientErr?.message || 'Could not load leads'
+        );
+        setSubmissions([]);
+        setClients([]);
+        return;
+      }
+      const subData = await subRes.json();
+      const clientData = await clientRes.json();
       setSubmissions(subData.submissions || []);
       setClients(clientData.clients || []);
     } catch (err) {
@@ -207,6 +219,13 @@ export default function DashboardPage() {
 
           {loading ? (
             <div className="p-12 text-center text-[#ADB7BE]">Loading...</div>
+          ) : fetchError ? (
+            <div className="p-12 text-center text-red-400">
+              <p>{fetchError}</p>
+              <p className="mt-2 text-sm text-[#ADB7BE]">
+                Check Supabase tables exist (form_submissions, onboarding_clients) and SUPABASE_SERVICE_ROLE_KEY is set in Vercel.
+              </p>
+            </div>
           ) : allLeads.length === 0 ? (
             <div className="p-12 text-center text-[#ADB7BE]">
               <p>No leads yet. Form submissions and onboarding clients will appear here.</p>
