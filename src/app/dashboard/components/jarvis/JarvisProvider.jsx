@@ -50,7 +50,7 @@ async function pollTaskOutcome(taskId, signal) {
   return null;
 }
 
-export function JarvisProvider({ children }) {
+export function JarvisProvider({ children, toastApi }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -162,21 +162,19 @@ export function JarvisProvider({ children }) {
       if (fresh.length) {
         setLastActivityTs(fresh[0].created_at);
         const line = fresh.map((e) => `${e.event_type} on ${e.project_id} (${e.status})`).join('; ');
+        const msg = `Activity update, sir: ${line}`;
         if (open) {
           setMessages((prev) => [
             ...prev,
-            {
-              id: `sys-${Date.now()}`,
-              role: 'assistant',
-              content: `Activity update, sir: ${line}`,
-              system: true,
-            },
+            { id: `sys-${Date.now()}`, role: 'assistant', content: msg, system: true },
           ]);
+        } else {
+          toastApi?.pushToast?.(msg);
         }
       }
     }, 15000);
     return () => clearInterval(interval);
-  }, [open, lastActivityTs]);
+  }, [open, lastActivityTs, toastApi]);
 
   const scrollToBottom = useCallback(() => {
     if (!userScrolledUpRef.current) {
@@ -304,7 +302,7 @@ export function JarvisProvider({ children }) {
         }
 
         if (action.command === 'run') {
-          const res = await fetch('/api/empire/supervisor/run-team', {
+          const teamRes = await fetch('/api/empire/supervisor/run-team', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -315,10 +313,22 @@ export function JarvisProvider({ children }) {
               taskDescription: `JARVIS: run ${action.skill} for ${action.project}`,
             }),
           });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.error || 'Run failed');
-          const taskId = data.taskIds?.[0];
-          let msg = `Task queued${taskId ? ` (#${taskId.slice(0, 8)})` : ''} for ${action.skill} on ${action.project}, sir.`;
+          const teamData = await teamRes.json();
+          if (!teamRes.ok) throw new Error(teamData.error || 'Run failed');
+          const taskId = teamData.taskIds?.[0];
+          if (taskId) {
+            const runRes = await fetch('/api/empire/run-task', {
+              method: 'POST',
+              credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ taskId }),
+            });
+            const runData = await runRes.json();
+            if (!runRes.ok && runData.error) {
+              throw new Error(runData.error);
+            }
+          }
+          let msg = `Task queued${taskId ? ` (#${String(taskId).slice(0, 8)})` : ''} for ${action.skill} on ${action.project}, sir.`;
           setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: msg, pending: false } : m)));
           if (taskId) {
             const outcome = await pollTaskOutcome(taskId);
@@ -386,6 +396,7 @@ export function JarvisProvider({ children }) {
 
   const cancelAction = useCallback(() => {
     setPendingAction(null);
+    setMessages((prev) => prev.map((m) => (m.confirm ? { ...m, confirm: null } : m)));
     appendAssistant('Action cancelled. No changes made, sir.');
   }, [appendAssistant]);
 
@@ -398,9 +409,29 @@ export function JarvisProvider({ children }) {
       setMessages((prev) => [...prev, userMsg]);
       userScrolledUpRef.current = false;
 
-      const data = liveData || (await refreshData());
+      let data = liveData || (await refreshData());
       const clients = data?.clients || [];
       const parsed = parseJarvisCommand(trimmed, clients);
+
+      if (parsed?.type === 'read' && parsed.command === 'leads' && parsed.days > 1) {
+        if (data?.leadsHistory?.[parsed.days] == null) {
+          try {
+            const lr = await fetch(`/api/jarvis/leads?days=${parsed.days}`, {
+              credentials: 'include',
+              cache: 'no-store',
+            });
+            if (lr.ok) {
+              const ld = await lr.json();
+              data = {
+                ...data,
+                leadsHistory: { ...(data?.leadsHistory || {}), [parsed.days]: ld.count },
+              };
+            }
+          } catch {
+            // fall through
+          }
+        }
+      }
 
       if (parsed?.type === 'read') {
         const reply = composeReadResponse(parsed, data || {});

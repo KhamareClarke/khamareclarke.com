@@ -8,6 +8,7 @@
     "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint",
+    "jarvis:exam": "node scripts/jarvis-exam.mjs",
     "export": "next build && next export"
   },
   "dependencies": {
