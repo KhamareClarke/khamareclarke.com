@@ -1,0 +1,163 @@
+import { getProjectLabel } from '@/lib/empire-projects';
+
+function leadComparison(today, yesterday) {
+  if (yesterday === 0 && today === 0) return 'no comparison data yet';
+  if (yesterday === 0) return `up from 0 yesterday`;
+  const diff = today - yesterday;
+  if (diff === 0) return 'unchanged from yesterday';
+  if (diff > 0) return `up from ${yesterday} yesterday`;
+  return `down from ${yesterday} yesterday`;
+}
+
+export function composeStatus(data, client) {
+  const s = data.snapshot || {};
+  if (client) {
+    const projects = (data.projects || []).filter((p) => p.client_id === client.id);
+    const lines = [
+      `Client: ${client.full_name || client.company || client.id}`,
+      `Projects: ${projects.length}`,
+    ];
+    for (const p of projects.slice(0, 5)) {
+      lines.push(`  · ${p.project_name} — ${p.status || 'active'}`);
+    }
+    if (!projects.length) lines.push('No projects on file for this client, sir.');
+    return lines.join('\n');
+  }
+
+  return [
+    'Fleet status, sir.',
+    `Leads today: ${s.leadsToday ?? 0} (${leadComparison(s.leadsToday ?? 0, s.leadsYesterday ?? 0)})`,
+    `Form submissions today: ${s.formsToday ?? 0} | total: ${s.formsTotal ?? 0}`,
+    `Onboarding today: ${s.onboardToday ?? 0} | total: ${s.onboardTotal ?? 0}`,
+    `Task queue: ${s.tasksQueued ?? 0} pending or running`,
+  ].join('\n');
+}
+
+export function composeFleet(data) {
+  const fleet = data.fleet || [];
+  if (!fleet.length) {
+    return 'Fleet analysis not available yet, sir. Run analyse on Empire OS.';
+  }
+  const done = fleet.filter((p) => p.status === 'done').length;
+  const failed = fleet.filter((p) => p.status === 'failed').length;
+  const running = fleet.filter((p) => p.status === 'running').length;
+  const lines = [
+    `Fleet overview: ${fleet.length} projects tracked.`,
+    `Done: ${done} | Running: ${running} | Failed: ${failed}`,
+  ];
+  for (const p of fleet.slice(0, 8)) {
+    lines.push(`  · ${getProjectLabel(p.project_id)} — ${p.status}`);
+  }
+  if (failed > 0) {
+    const warnings = fleet.filter((p) => p.status === 'failed').slice(0, 3);
+    for (const w of warnings) {
+      lines.push(`  ⚠ ${getProjectLabel(w.project_id)}: ${(w.error_message || 'failed').slice(0, 60)}`);
+    }
+  }
+  return lines.join('\n');
+}
+
+export function composeLeads(data, days = 1) {
+  const s = data.snapshot || {};
+  if (days === 1) {
+    const cmp = leadComparison(s.leadsToday ?? 0, s.leadsYesterday ?? 0);
+    if ((s.leadsToday ?? 0) === 0) {
+      return `No leads yet today, sir. The pipeline awaits. (${cmp})`;
+    }
+    return `Leads today: ${s.leadsToday ?? 0}, ${cmp}.\nForms: ${s.formsToday ?? 0} | Onboarding: ${s.onboardToday ?? 0}`;
+  }
+  const hist = data.leadsHistory?.[days];
+  if (hist == null) return `Lead count for ${days} days is not tracked yet, sir.`;
+  return `Leads in the last ${days} days: ${hist}.`;
+}
+
+export function composeBriefing(data) {
+  const s = data.snapshot || {};
+  const activity = (data.activity || []).slice(0, 3);
+  const failedTasks = (data.tasksRecent || []).filter((t) => t.status === 'failed');
+  const cmp = leadComparison(s.leadsToday ?? 0, s.leadsYesterday ?? 0);
+
+  const lines = [
+    'Morning briefing, sir.',
+    `Leads today: ${s.leadsToday ?? 0}, ${cmp}.`,
+    `Tasks queued: ${s.tasksQueued ?? 0}.`,
+  ];
+
+  if (activity.length) {
+    lines.push('Recent activity:');
+    for (const e of activity) {
+      lines.push(`  · ${e.created_at?.slice(0, 16) || '?'} — ${e.project_id} ${e.event_type}`);
+    }
+  } else {
+    lines.push('No recent activity events.');
+  }
+
+  if (failedTasks.length) {
+    lines.push(`Flagged: ${failedTasks.length} failed task(s) in queue.`);
+  }
+
+  return lines.join('\n');
+}
+
+export const HELP_CARD = {
+  type: 'help',
+  title: 'JARVIS Commands',
+  sections: [
+    { label: 'Read (instant)', items: ['status', 'status [client]', 'leads today', 'leads [n] days', 'briefing', 'fleet'] },
+    { label: 'Navigate', items: ['open fleet | clients | leads | agents | activity | reports'] },
+    { label: 'Actions (confirm)', items: ['run [skill] [project]', 'report [client]', 'pause [agent]', 'resume [agent]'] },
+    { label: 'Other', items: ['help', 'natural language → AI with live context'] },
+  ],
+};
+
+export function composeReadResponse(command, data) {
+  switch (command.command) {
+    case 'status':
+      return { content: composeStatus(data, command.client), cards: buildClientCards(data, command.client) };
+    case 'fleet':
+      return { content: composeFleet(data), cards: [] };
+    case 'leads':
+      return { content: composeLeads(data, command.days || 1), cards: buildLeadCards(data) };
+    case 'briefing':
+      return { content: composeBriefing(data), cards: buildActivityCards(data) };
+    case 'help':
+      return { content: 'Command reference below, sir.', cards: [HELP_CARD] };
+    default:
+      return null;
+  }
+}
+
+function buildClientCards(data, filterClient) {
+  const clients = filterClient ? [filterClient] : (data.clients || []).slice(0, 5);
+  return clients.map((c) => ({
+    type: 'client',
+    id: c.id,
+    name: c.full_name || c.company || 'Client',
+    company: c.company,
+    projectCount: (data.projects || []).filter((p) => p.client_id === c.id).length,
+    status: (data.projects || []).find((p) => p.client_id === c.id)?.status || 'active',
+  }));
+}
+
+function buildLeadCards(data) {
+  return (data.recentLeads || []).slice(0, 5).map((l) => ({
+    type: 'lead',
+    id: l.id,
+    name: l.name,
+    source: l.source,
+    date: l.date,
+  }));
+}
+
+function buildActivityCards(data) {
+  return (data.activity || [])
+    .filter((e) => e.event_type?.includes('report') || e.status === 'failed')
+    .slice(0, 3)
+    .map((e) => ({
+      type: 'report',
+      projectId: e.project_id,
+      eventType: e.event_type,
+      date: e.created_at,
+      message: e.message,
+    }));
+}
