@@ -55,18 +55,65 @@ export function playBootChime(muted) {
 }
 
 export function isSpeechRecognitionSupported() {
-  return typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window);
+  return (
+    typeof window !== 'undefined' &&
+    ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)
+  );
 }
 
-export function createSpeechRecognition({ onResult, onError, onEnd }) {
+const SPEECH_ERRORS = {
+  'not-allowed': 'Microphone access denied, sir. Allow mic permission for this site in browser settings.',
+  'service-not-allowed': 'Microphone blocked by browser policy, sir. Try Chrome or Edge.',
+  'no-speech': 'No speech detected, sir. Tap the mic and speak clearly.',
+  'audio-capture': 'No microphone found, sir. Check your audio input device.',
+  'network': 'Speech recognition needs network access, sir.',
+  'aborted': null,
+};
+
+export function mapSpeechError(code) {
+  return SPEECH_ERRORS[code] || (code ? `Voice input error (${code}), sir.` : null);
+}
+
+/** Extract best transcript from a SpeechRecognition result event. */
+export function extractTranscript(event) {
+  let transcript = '';
+  for (let i = event.resultIndex; i < event.results.length; i += 1) {
+    transcript += event.results[i][0]?.transcript || '';
+  }
+  return transcript.trim();
+}
+
+/**
+ * Create a reusable SpeechRecognition instance (call once, reuse start/stop).
+ */
+export function createSpeechRecognition({ onResult, onError, onEnd, onStart }) {
   if (!isSpeechRecognitionSupported()) return null;
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   const rec = new SR();
   rec.continuous = false;
-  rec.interimResults = false;
+  rec.interimResults = true;
+  rec.maxAlternatives = 1;
   rec.lang = 'en-GB';
-  rec.onresult = (e) => onResult?.(e.results[0][0].transcript);
-  rec.onerror = () => onError?.();
+
+  rec.onstart = () => onStart?.();
+  rec.onresult = (e) => {
+    const transcript = extractTranscript(e);
+    if (transcript) onResult?.(transcript);
+  };
+  rec.onerror = (e) => onError?.(e.error || 'unknown');
   rec.onend = () => onEnd?.();
+
   return rec;
+}
+
+/** Warm up mic permission so the first recognition start is reliable. */
+export async function ensureMicPermission() {
+  if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) return true;
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream.getTracks().forEach((t) => t.stop());
+    return true;
+  } catch {
+    return false;
+  }
 }

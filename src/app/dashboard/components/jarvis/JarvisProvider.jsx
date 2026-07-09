@@ -11,6 +11,8 @@ import {
   createSpeechRecognition,
   isSpeechRecognitionSupported,
   pickBritishVoice,
+  mapSpeechError,
+  ensureMicPermission,
 } from '@/lib/jarvis/voice';
 
 const JarvisContext = createContext(null);
@@ -64,14 +66,22 @@ export function JarvisProvider({ children, toastApi }) {
   const [presentationMode, setPresentationMode] = useState(false);
   const [muted, setMuted] = useState(true);
   const [voiceAutoSend, setVoiceAutoSend] = useState(false);
+  const [voiceInterim, setVoiceInterim] = useState('');
+  const [voiceError, setVoiceError] = useState(null);
   const [lastActivityTs, setLastActivityTs] = useState(null);
 
   const abortRef = useRef(null);
   const messagesEndRef = useRef(null);
   const userScrolledUpRef = useRef(false);
   const recognitionRef = useRef(null);
+  const recognizingRef = useRef(false);
+  const transcriptRef = useRef('');
+  const voiceAutoSendRef = useRef(false);
+  const sendMessageRef = useRef(null);
+  const onTranscriptRef = useRef(null);
   const bootPlayedRef = useRef(false);
   const pendingQueryRef = useRef(null);
+  const streamingRef = useRef(false);
 
   const toggle = useCallback(() => setOpen((o) => !o), []);
   const close = useCallback(() => setOpen(false), []);
@@ -115,8 +125,63 @@ export function JarvisProvider({ children, toastApi }) {
   }, [muted]);
 
   useEffect(() => {
+    voiceAutoSendRef.current = voiceAutoSend;
     writeCookie(VOICE_AUTO_SEND_KEY, voiceAutoSend ? '1' : '0');
   }, [voiceAutoSend]);
+
+  useEffect(() => {
+    streamingRef.current = streaming;
+  }, [streaming]);
+
+  useEffect(() => {
+    if (!isSpeechRecognitionSupported()) return undefined;
+
+    const rec = createSpeechRecognition({
+      onStart: () => {
+        recognizingRef.current = true;
+        setListening(true);
+        setVoiceError(null);
+        transcriptRef.current = '';
+        setVoiceInterim('');
+      },
+      onResult: (transcript) => {
+        if (!transcript) return;
+        transcriptRef.current = transcript;
+        setVoiceInterim(transcript);
+      },
+      onError: (code) => {
+        const msg = mapSpeechError(code);
+        if (msg) setVoiceError(msg);
+      },
+      onEnd: () => {
+        recognizingRef.current = false;
+        setListening(false);
+
+        const transcript = (transcriptRef.current || '').trim();
+        transcriptRef.current = '';
+        setVoiceInterim('');
+
+        if (!transcript) return;
+
+        if (voiceAutoSendRef.current) {
+          sendMessageRef.current?.(transcript);
+        } else {
+          onTranscriptRef.current?.(transcript);
+        }
+      },
+    });
+
+    recognitionRef.current = rec;
+    return () => {
+      try {
+        rec.abort();
+      } catch {
+        // ignore
+      }
+      recognitionRef.current = null;
+      recognizingRef.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     refreshData().then((d) => {
@@ -416,10 +481,21 @@ export function JarvisProvider({ children, toastApi }) {
     appendAssistant('Action cancelled. No changes made, sir.');
   }, [appendAssistant]);
 
+  const appendSystemNote = useCallback((content) => {
+    setMessages((prev) => [
+      ...prev,
+      { id: `sys-${Date.now()}`, role: 'assistant', content, system: true },
+    ]);
+  }, []);
+
   const sendMessage = useCallback(
     async (text) => {
       const trimmed = text.trim();
-      if (!trimmed || streaming) return;
+      if (!trimmed) return;
+      if (streamingRef.current) {
+        appendSystemNote('Still processing your last message, sir. Wait a moment or tap Stop.');
+        return;
+      }
 
       const userMsg = { id: `u-${Date.now()}`, role: 'user', content: trimmed };
       setMessages((prev) => [...prev, userMsg]);
@@ -477,8 +553,12 @@ export function JarvisProvider({ children, toastApi }) {
       const full = await streamLLM(history, assistantId);
       if (full) speakReply(full);
     },
-    [streaming, liveData, refreshData, messages, appendAssistant, speakReply, streamLLM, executeAction]
+    [liveData, refreshData, messages, appendAssistant, speakReply, streamLLM, executeAction, appendSystemNote]
   );
+
+  useEffect(() => {
+    sendMessageRef.current = sendMessage;
+  }, [sendMessage]);
 
   const openWithQuery = useCallback(
     (query) => {
@@ -498,26 +578,57 @@ export function JarvisProvider({ children, toastApi }) {
     }
   }, [open, streaming, sendMessage]);
 
-  const startListening = useCallback(
-    (onTranscript) => {
-      if (!isSpeechRecognitionSupported() || listening) return;
-      recognitionRef.current?.stop();
-      const rec = createSpeechRecognition({
-        onResult: (transcript) => {
-          setListening(false);
-          if (voiceAutoSend) sendMessage(transcript);
-          else onTranscript?.(transcript);
-        },
-        onError: () => setListening(false),
-        onEnd: () => setListening(false),
-      });
-      if (!rec) return;
-      recognitionRef.current = rec;
-      setListening(true);
+  const startListening = useCallback(async (onTranscript) => {
+    if (!isSpeechRecognitionSupported()) return;
+    const rec = recognitionRef.current;
+    if (!rec) return;
+
+    onTranscriptRef.current = onTranscript;
+
+    if (recognizingRef.current) {
+      try {
+        rec.stop();
+      } catch {
+        // ignore
+      }
+      return;
+    }
+
+    stopSpeaking();
+    setSpeaking(false);
+    setVoiceError(null);
+
+    const micOk = await ensureMicPermission();
+    if (!micOk) {
+      setVoiceError('Microphone access denied, sir. Allow mic permission for this site.');
+      return;
+    }
+
+    try {
       rec.start();
-    },
-    [listening, voiceAutoSend, sendMessage]
-  );
+    } catch {
+      try {
+        rec.stop();
+      } catch {
+        // ignore
+      }
+      setTimeout(() => {
+        try {
+          if (!recognizingRef.current) rec.start();
+        } catch {
+          setVoiceError('Could not start voice input, sir. Try again in a moment.');
+        }
+      }, 300);
+    }
+  }, []);
+
+  const stopListening = useCallback(() => {
+    try {
+      recognitionRef.current?.stop();
+    } catch {
+      // ignore
+    }
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -546,6 +657,9 @@ export function JarvisProvider({ children, toastApi }) {
       setPresentationMode,
       voiceAutoSend,
       setVoiceAutoSend,
+      voiceInterim,
+      voiceError,
+      stopListening,
       openWithQuery,
       liveData,
       refreshData,
@@ -569,6 +683,9 @@ export function JarvisProvider({ children, toastApi }) {
       muted,
       presentationMode,
       voiceAutoSend,
+      voiceInterim,
+      voiceError,
+      stopListening,
       openWithQuery,
       liveData,
       refreshData,

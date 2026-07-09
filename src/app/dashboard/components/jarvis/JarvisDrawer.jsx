@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useJarvis } from './JarvisProvider';
 import JarvisSheet from './JarvisSheet';
@@ -109,9 +109,18 @@ export default function JarvisDrawer() {
     speechSupported,
     voiceAutoSend,
     setVoiceAutoSend,
+    voiceInterim,
+    voiceError,
+    stopListening,
   } = useJarvis();
   const [input, setInput] = useState('');
   const trapRef = useFocusTrap(open);
+
+  useEffect(() => {
+    if (listening && voiceInterim && !voiceAutoSend) {
+      setInput(voiceInterim);
+    }
+  }, [listening, voiceInterim, voiceAutoSend]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -128,7 +137,7 @@ export default function JarvisDrawer() {
   };
 
   const handleMic = () => {
-    if (!speechSupported || listening) return;
+    if (!speechSupported) return;
     startListening((transcript) => setInput((prev) => (prev ? `${prev} ${transcript}` : transcript)));
   };
 
@@ -223,12 +232,18 @@ export default function JarvisDrawer() {
 
         <form onSubmit={handleSubmit} className="border-t border-[#222] p-3">
           <textarea
-            value={input}
+            value={listening && voiceAutoSend && voiceInterim ? voiceInterim : input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKeyDown}
             disabled={streaming}
             rows={2}
-            placeholder="Message JARVIS… (Enter send, Shift+Enter newline)"
+            placeholder={
+              listening
+                ? voiceAutoSend
+                  ? 'Listening… will send when you stop speaking'
+                  : 'Listening… tap mic again when done'
+                : 'Message JARVIS… (Enter send, Shift+Enter newline)'
+            }
             className="w-full resize-none rounded-lg bg-[#121212] border border-[#333] text-white text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffb700]/50 disabled:opacity-50"
             aria-label="Message JARVIS"
           />
@@ -244,9 +259,10 @@ export default function JarvisDrawer() {
                         ? 'border-[#ffb700] text-[#ffb700] jarvis-mic-active'
                         : 'border-[#666] text-[#ADB7BE]'
                     }`}
-                    aria-label="Voice input"
+                    aria-label={listening ? 'Stop voice input' : 'Voice input'}
+                    aria-pressed={listening}
                   >
-                    🎤
+                    🎤{listening ? ' …' : ''}
                   </button>
                   <label className="flex items-center gap-1 text-[10px] text-[#666] cursor-pointer">
                     <input
@@ -257,7 +273,13 @@ export default function JarvisDrawer() {
                     />
                     Auto-send voice
                   </label>
+                  {listening && (
+                    <span className="text-[10px] text-[#ffb700]">Listening…</span>
+                  )}
                 </>
+              )}
+              {voiceError && (
+                <span className="text-[10px] text-red-400 w-full">{voiceError}</span>
               )}
               {!speechSupported && (
                 <span className="text-[10px] text-[#555]">Voice unavailable in this browser, sir.</span>
