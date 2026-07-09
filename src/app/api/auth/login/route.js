@@ -1,17 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseServer } from '@/lib/supabase-server';
+import { supabaseAdmin } from '@/lib/supabase';
 
-/**
- * Email + password login via Supabase Auth.
- * Body: { email, password }
- * On success, Supabase sets sb-* cookies (session managed by @supabase/ssr).
- *
- * The old ADMIN_PASSWORD flow is gone. Users are provisioned by admin invite
- * (see /api/admin/invite) or by Supabase magic-link/invite email.
- */
-// In-memory rate limiter: 5 attempts per IP per 15 minutes.
+// In-memory rate limiter: 15 attempts per IP per 15 minutes (setup-friendly).
 const attempts = new Map();
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 15;
 const WINDOW_MS = 15 * 60 * 1000;
 
 function checkRateLimit(ip) {
@@ -60,7 +53,9 @@ export async function POST(req) {
       return NextResponse.json({ ok: false, error: 'Invalid credentials' }, { status: 401 });
     }
 
-    const { data: profile } = await supabase
+    // Use service role for role lookup so RLS cannot hide the profile row.
+    const profileClient = supabaseAdmin || supabase;
+    const { data: profile } = await profileClient
       .from('profiles')
       .select('role')
       .eq('id', data.user.id)
@@ -71,7 +66,12 @@ export async function POST(req) {
     if (intendedRole === 'admin' && role !== 'admin') {
       await supabase.auth.signOut();
       return NextResponse.json(
-        { ok: false, error: 'This account is not an admin. Switch to Client sign in.' },
+        {
+          ok: false,
+          error: profile
+            ? 'This account is not an admin. In Supabase run: UPDATE profiles SET role=\'admin\' WHERE id matches your user.'
+            : 'No profile row found for this user. Run the profiles INSERT in Supabase SQL Editor, then try again.',
+        },
         { status: 403 }
       );
     }
