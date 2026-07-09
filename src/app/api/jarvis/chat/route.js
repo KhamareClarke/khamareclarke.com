@@ -1,10 +1,12 @@
 import { requireAuth } from '@/lib/api-guard';
 import { buildJarvisContext } from '@/lib/jarvis/context';
 import { JARVIS_OFFLINE_MESSAGE, JARVIS_SYSTEM_PROMPT } from '@/lib/jarvis/prompt';
+import { mapGeminiError } from '@/lib/jarvis/gemini';
 import { streamJarvisCompletion, transformJarvisStream } from '@/lib/jarvis/llm';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
+export const maxDuration = 60;
 
 function offlineStream(message) {
   const encoder = new TextEncoder();
@@ -54,12 +56,7 @@ export async function POST(req) {
           { status: 503 }
         );
       }
-      let offlineMsg = JARVIS_OFFLINE_MESSAGE;
-      const em = err?.message || '';
-      if (em.includes('401') || em.includes('403') || em.includes('API key') || em.includes('400')) {
-        offlineMsg =
-          'Gemini credentials rejected, sir. Use a fresh API key from aistudio.google.com (starts with AIzaSy), set as GEMINI_API_KEY in Vercel, and redeploy.';
-      }
+      let offlineMsg = mapGeminiError(err) || JARVIS_OFFLINE_MESSAGE;
       const stream = offlineStream(offlineMsg);
       return new Response(stream, {
         headers: {
