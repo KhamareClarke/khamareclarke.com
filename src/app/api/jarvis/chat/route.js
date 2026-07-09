@@ -41,13 +41,26 @@ export async function POST(req) {
     try {
       ({ provider, body: upstream } = await streamJarvisCompletion(systemPrompt, messages));
     } catch (err) {
-      if (err.message === 'LLM_NOT_CONFIGURED' || err.message === 'OPENROUTER_NOT_CONFIGURED' || err.message === 'GEMINI_NOT_CONFIGURED') {
+      if (
+        err.message === 'LLM_NOT_CONFIGURED' ||
+        err.message === 'OPENROUTER_NOT_CONFIGURED' ||
+        err.message === 'GEMINI_NOT_CONFIGURED'
+      ) {
         return Response.json(
-          { error: 'No LLM configured — set GEMINI_API_KEY or OPENROUTER_API_KEY on server' },
+          {
+            error:
+              'No LLM configured. Set GEMINI_API_KEY (from aistudio.google.com, starts with AIzaSy) or OPENROUTER_API_KEY in Vercel, then redeploy.',
+          },
           { status: 503 }
         );
       }
-      const stream = offlineStream(JARVIS_OFFLINE_MESSAGE);
+      let offlineMsg = JARVIS_OFFLINE_MESSAGE;
+      const em = err?.message || '';
+      if (em.includes('401') || em.includes('403') || em.includes('API key') || em.includes('400')) {
+        offlineMsg =
+          'Gemini credentials rejected, sir. Use a fresh API key from aistudio.google.com (starts with AIzaSy), set as GEMINI_API_KEY in Vercel, and redeploy.';
+      }
+      const stream = offlineStream(offlineMsg);
       return new Response(stream, {
         headers: {
           'Content-Type': 'text/event-stream; charset=utf-8',

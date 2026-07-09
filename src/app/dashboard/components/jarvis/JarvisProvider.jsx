@@ -232,7 +232,23 @@ export function JarvisProvider({ children, toastApi }) {
           return '';
         }
 
-        if (!res.ok || !res.body) {
+        if (!res.ok) {
+          let msg = 'Systems are momentarily offline, sir. Retrying shortly.';
+          try {
+            const errData = await res.json();
+            if (errData?.error) {
+              msg = `Configuration issue, sir. ${errData.error}`;
+            }
+          } catch {
+            // not JSON
+          }
+          setMessages((prev) =>
+            prev.map((m) => (m.id === assistantId ? { ...m, content: msg } : m))
+          );
+          return msg;
+        }
+
+        if (!res.body) {
           const offline = 'Systems are momentarily offline, sir. Retrying shortly.';
           setMessages((prev) =>
             prev.map((m) => (m.id === assistantId ? { ...m, content: offline } : m))
