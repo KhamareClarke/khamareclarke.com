@@ -3,11 +3,11 @@ const DEFAULT_MODEL = 'gemini-1.5-flash';
 const TIMEOUT_MS = 25_000;
 
 function getApiKey() {
-  return process.env.GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY || '';
+  return (process.env.GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY || '').trim();
 }
 
 function getModel() {
-  return process.env.GEMINI_MODEL || DEFAULT_MODEL;
+  return (process.env.GEMINI_MODEL || DEFAULT_MODEL).trim();
 }
 
 function buildPayload(systemPrompt, messages) {
