@@ -187,3 +187,45 @@ a {
     transition: none !important;
   }
 }
+
+/* JARVIS orb — decorative only; cockpit works without JS */
+@keyframes jarvis-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 183, 0, 0.35); }
+  50% { box-shadow: 0 0 0 12px rgba(255, 183, 0, 0); }
+}
+.jarvis-orb-pulse {
+  animation: jarvis-pulse 2s ease-in-out infinite;
+}
+.jarvis-orb-glow {
+  box-shadow: 0 0 20px rgba(255, 183, 0, 0.45);
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+.jarvis-boot-fade {
+  animation: fade-in 0.4s ease-out 0.1s forwards;
+}
+.jarvis-mic-active {
+  box-shadow: 0 0 12px rgba(255, 183, 0, 0.5);
+}
+.jarvis-orb-speaking {
+  animation: jarvis-pulse 1.2s ease-in-out infinite;
+}
+@keyframes jarvis-type-cursor {
+  50% { opacity: 0; }
+}
+
+/* Presentation mode — enlarged cockpit text for demos */
+html.jarvis-presentation .jarvis-drawer,
+html.jarvis-presentation [class*="text-sm"],
+html.jarvis-presentation [class*="text-xs"] {
+  font-size: calc(1em * 1.15);
+}
+html.jarvis-presentation .jarvis-drawer textarea,
+html.jarvis-presentation .jarvis-drawer .rounded-lg {
+  font-size: 0.95rem;
+}
