@@ -48,6 +48,7 @@ export async function POST(req) {
     const body = await req.json().catch(() => ({}));
     const email = String(body.email || '').trim().toLowerCase();
     const password = String(body.password || '');
+    const intendedRole = body.intendedRole === 'admin' ? 'admin' : 'client';
     if (!email || !password) {
       return NextResponse.json({ ok: false, error: 'Email and password required' }, { status: 400 });
     }
@@ -59,14 +60,31 @@ export async function POST(req) {
       return NextResponse.json({ ok: false, error: 'Invalid credentials' }, { status: 401 });
     }
 
-    // Look up role to tell the client where to redirect.
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', data.user.id)
       .maybeSingle();
 
-    return NextResponse.json({ ok: true, role: profile?.role || 'client' });
+    const role = profile?.role || 'client';
+
+    if (intendedRole === 'admin' && role !== 'admin') {
+      await supabase.auth.signOut();
+      return NextResponse.json(
+        { ok: false, error: 'This account is not an admin. Switch to Client sign in.' },
+        { status: 403 }
+      );
+    }
+
+    if (intendedRole === 'client' && role === 'admin') {
+      await supabase.auth.signOut();
+      return NextResponse.json(
+        { ok: false, error: 'Use Admin sign in for the control centre account.' },
+        { status: 403 }
+      );
+    }
+
+    return NextResponse.json({ ok: true, role });
   } catch (err) {
     console.error('Login error:', err);
     return NextResponse.json({ ok: false, error: 'Login failed' }, { status: 500 });
