@@ -1,7 +1,7 @@
 import { requireAuth } from '@/lib/api-guard';
 import { buildJarvisContext } from '@/lib/jarvis/context';
 import { JARVIS_OFFLINE_MESSAGE, JARVIS_SYSTEM_PROMPT } from '@/lib/jarvis/prompt';
-import { streamJarvisCompletion, transformOpenRouterStream } from '@/lib/jarvis/openrouter';
+import { streamJarvisCompletion, transformJarvisStream } from '@/lib/jarvis/llm';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -37,12 +37,13 @@ export async function POST(req) {
     const systemPrompt = `${JARVIS_SYSTEM_PROMPT}\n\n${contextBlock}`;
 
     let upstream;
+    let provider;
     try {
-      upstream = await streamJarvisCompletion(systemPrompt, messages);
+      ({ provider, body: upstream } = await streamJarvisCompletion(systemPrompt, messages));
     } catch (err) {
-      if (err.message === 'OPENROUTER_NOT_CONFIGURED') {
+      if (err.message === 'LLM_NOT_CONFIGURED' || err.message === 'OPENROUTER_NOT_CONFIGURED' || err.message === 'GEMINI_NOT_CONFIGURED') {
         return Response.json(
-          { error: 'OPENROUTER_API_KEY not configured on server' },
+          { error: 'No LLM configured — set GEMINI_API_KEY or OPENROUTER_API_KEY on server' },
           { status: 503 }
         );
       }
@@ -56,7 +57,7 @@ export async function POST(req) {
       });
     }
 
-    const stream = transformOpenRouterStream(upstream);
+    const stream = transformJarvisStream(upstream, provider);
     return new Response(stream, {
       headers: {
         'Content-Type': 'text/event-stream; charset=utf-8',

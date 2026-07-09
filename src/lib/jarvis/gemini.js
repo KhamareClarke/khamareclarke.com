@@ -1,33 +1,34 @@
-const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
-const DEFAULT_MODEL = 'openai/gpt-4o-mini';
+const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
+const DEFAULT_MODEL = 'gemini-2.0-flash';
 const TIMEOUT_MS = 15_000;
 
-function referer() {
-  const url = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL;
-  if (url) return url.startsWith('http') ? url : `https://${url}`;
-  return 'https://khamareclarke.com';
+function getApiKey() {
+  return process.env.GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY || '';
 }
 
-export function isOpenRouterConfigured() {
-  return !!(process.env.OPENROUTER_API_KEY || process.env.EMPIRE_LLM_API_KEY);
+function getModel() {
+  return process.env.GEMINI_MODEL || DEFAULT_MODEL;
 }
 
 /**
- * Stream chat completion from OpenRouter. One retry on failure/timeout.
- * Returns upstream Response body stream or throws.
+ * Stream chat from Google Gemini (free tier friendly).
  */
-export async function streamOpenRouterCompletion(systemPrompt, messages) {
-  const apiKey = process.env.OPENROUTER_API_KEY || process.env.EMPIRE_LLM_API_KEY;
-  if (!apiKey) {
-    throw new Error('OPENROUTER_NOT_CONFIGURED');
-  }
+export async function streamGeminiCompletion(systemPrompt, messages) {
+  const apiKey = getApiKey();
+  if (!apiKey) throw new Error('GEMINI_NOT_CONFIGURED');
 
-  const model = process.env.OPENROUTER_MODEL || process.env.EMPIRE_LLM_MODEL || DEFAULT_MODEL;
+  const model = getModel();
+  const url = `${GEMINI_BASE}/models/${model}:streamGenerateContent?alt=sse`;
+
+  const contents = messages.map((m) => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }],
+  }));
+
   const payload = {
-    model,
-    messages: [{ role: 'system', content: systemPrompt }, ...messages],
-    stream: true,
-    max_tokens: 1024,
+    systemInstruction: { parts: [{ text: systemPrompt }] },
+    contents,
+    generationConfig: { maxOutputTokens: 1024, temperature: 0.4 },
   };
 
   let lastError;
@@ -35,13 +36,11 @@ export async function streamOpenRouterCompletion(systemPrompt, messages) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
     try {
-      const res = await fetch(OPENROUTER_URL, {
+      const res = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
-          'HTTP-Referer': referer(),
-          'X-Title': 'Khamare Clarke JARVIS',
+          'x-goog-api-key': apiKey,
         },
         body: JSON.stringify(payload),
         signal: controller.signal,
@@ -50,9 +49,9 @@ export async function streamOpenRouterCompletion(systemPrompt, messages) {
 
       if (!res.ok) {
         const errText = await res.text().catch(() => '');
-        throw new Error(`OpenRouter ${res.status}: ${errText.slice(0, 200)}`);
+        throw new Error(`Gemini ${res.status}: ${errText.slice(0, 200)}`);
       }
-      if (!res.body) throw new Error('No response body from OpenRouter');
+      if (!res.body) throw new Error('No response body from Gemini');
       return res.body;
     } catch (err) {
       clearTimeout(timer);
@@ -60,13 +59,11 @@ export async function streamOpenRouterCompletion(systemPrompt, messages) {
       if (attempt === 0) continue;
     }
   }
-  throw lastError || new Error('OpenRouter request failed');
+  throw lastError || new Error('Gemini request failed');
 }
 
-/**
- * Transform OpenRouter SSE into simplified token events for the client.
- */
-export function transformOpenRouterStream(upstream) {
+/** Transform Gemini SSE into simplified token events for the client. */
+export function transformGeminiStream(upstream) {
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
   let buffer = '';
@@ -85,13 +82,10 @@ export function transformOpenRouterStream(upstream) {
             const trimmed = line.trim();
             if (!trimmed.startsWith('data:')) continue;
             const data = trimmed.slice(5).trim();
-            if (data === '[DONE]') {
-              controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-              continue;
-            }
+            if (!data || data === '[DONE]') continue;
             try {
               const json = JSON.parse(data);
-              const token = json.choices?.[0]?.delta?.content;
+              const token = json.candidates?.[0]?.content?.parts?.[0]?.text;
               if (token) {
                 controller.enqueue(
                   encoder.encode(`data: ${JSON.stringify({ token })}\n\n`)
@@ -111,4 +105,8 @@ export function transformOpenRouterStream(upstream) {
       }
     },
   });
+}
+
+export function isGeminiConfigured() {
+  return !!getApiKey();
 }
