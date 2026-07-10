@@ -78,6 +78,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const [continuousListen, setContinuousListen] = useState(true);
   const [voiceInterim, setVoiceInterim] = useState('');
   const [voiceError, setVoiceError] = useState(null);
+  const [lastActivityTs, setLastActivityTs] = useState(null);
   const [lastReplyText, setLastReplyText] = useState('');
   const [audioUnlocked, setAudioUnlocked] = useState(false);
 
