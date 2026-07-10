@@ -1,6 +1,6 @@
 import { requireAuth } from '@/lib/api-guard';
 import { generateJarvisCompletion, getJarvisLlmProvider } from '@/lib/jarvis/llm';
-import { formatSearchResultsForPrompt, normalizeSearchQuery, searchWeb } from '@/lib/jarvis/web-search';
+import { formatSearchResultsForPrompt, normalizeSearchQuery, searchWeb, summarizeSearchResults } from '@/lib/jarvis/web-search';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -16,18 +16,11 @@ Rules:
 - Be concise (2-4 sentences). One "sir" is enough.`;
 
 function fallbackSearchSummary(query, results) {
-  if (!results?.length) {
-    return `No web results found for "${query}", sir. Try a shorter query.`;
-  }
-  const parts = results.slice(0, 3).map((r) => {
-    const bit = r.snippet ? `${r.title}: ${r.snippet}` : r.title;
-    return bit.slice(0, 160);
-  });
-  return `Here's what I found for "${query}", sir. ${parts.join(' ')}`.slice(0, 600);
+  return summarizeSearchResults(query, results);
 }
 
 function isSearchRefusal(text) {
-  return /\b(cannot provide|can't provide|unable to provide|do not have access|cannot access|real-time data|check a financial|commodities trading platform|I cannot directly)\b/i.test(
+  return /\b(cannot provide|can't provide|unable to provide|do not have access|cannot access|real-time data|could not find results|check a financial|commodities trading platform|I cannot directly)\b/i.test(
     String(text || '')
   );
 }
@@ -51,16 +44,21 @@ export async function POST(req) {
 
     try {
       if (results.length) {
-        summary = await generateJarvisCompletion(SEARCH_SYSTEM_PROMPT, [
-          {
-            role: 'user',
-            content: `Query: ${query}\n\nSearch results:\n${block}\n\nSummarize the answer to the query using these results.`,
-          },
-        ]);
-        if (isSearchRefusal(summary)) {
-          summary = fallbackSearchSummary(query, results);
+        if (source === 'fallback-links') {
+          summary = summarizeSearchResults(query, results);
+          llmSource = source;
+        } else {
+          summary = await generateJarvisCompletion(SEARCH_SYSTEM_PROMPT, [
+            {
+              role: 'user',
+              content: `Query: ${query}\n\nSearch results:\n${block}\n\nSummarize the answer to the query using these results.`,
+            },
+          ]);
+          if (isSearchRefusal(summary)) {
+            summary = fallbackSearchSummary(query, results);
+          }
+          llmSource = `${source}+${getJarvisLlmProvider()}`;
         }
-        llmSource = `${source}+${getJarvisLlmProvider()}`;
       } else if (getJarvisLlmProvider()) {
         summary = await generateJarvisCompletion(SEARCH_SYSTEM_PROMPT, [
           {

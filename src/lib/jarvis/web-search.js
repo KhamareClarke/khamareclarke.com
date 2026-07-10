@@ -17,9 +17,19 @@ function stripHtml(s) {
     .trim();
 }
 
+/** Fix common voice/text typos before parsing. */
+export function fixSearchTypos(text) {
+  return String(text || '')
+    .replace(/\bserach\b/gi, 'search')
+    .replace(/\bserch\b/gi, 'search')
+    .replace(/\bsarch\b/gi, 'search')
+    .replace(/\bserachin\b/gi, 'searching')
+    .trim();
+}
+
 /** Pull a search query from messy voice transcripts. */
 export function extractSearchQueryFromTranscript(raw) {
-  let text = String(raw || '').trim();
+  let text = fixSearchTypos(String(raw || '').trim());
   text = text.replace(/^(?:hello\s+)?(?:hey\s+)?jarvis[,:\s]+/i, '').trim();
   const lower = text.toLowerCase();
   const idx = lower.search(/\bsearch\b/);
@@ -43,8 +53,10 @@ export function extractSearchQueryFromTranscript(raw) {
 
 /** Clean voice/text queries like "on google about gold price". */
 export function normalizeSearchQuery(query) {
-  return String(query || '')
+  return fixSearchTypos(String(query || ''))
     .trim()
+    .replace(/^(?:please\s+)+/i, '')
+    .replace(/^(?:do it|just search|search for me)[,:\s]*/i, '')
     .replace(/^(?:on\s+google\s+)*/i, '')
     .replace(/^(?:about\s+)+/i, '')
     .replace(/^(?:for\s+)+/i, '')
@@ -88,6 +100,17 @@ function parseDuckDuckGoResults(html) {
     const title = stripHtml(linkMatch[2]);
     const snippetMatch = chunk.match(/class="result__snippet"[^>]*>([\s\S]*?)<\/a>/i);
     add(title, url, snippetMatch ? stripHtml(snippetMatch[1]) : '');
+  }
+
+  if (results.length) return results;
+
+  // Alternate DDG HTML layout
+  const altLinkRe = /<a[^>]*class="[^"]*result-link[^"]*"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi;
+  let alt;
+  while ((alt = altLinkRe.exec(html)) !== null && results.length < 8) {
+    const url = decodeDdgUrl(alt[1]);
+    if (!url) continue;
+    add(stripHtml(alt[2]), url, '');
   }
 
   if (results.length) return results;
@@ -141,6 +164,76 @@ function parseBingResults(html) {
   }
 
   return results;
+}
+
+/** DuckDuckGo Instant Answer API — works when HTML scraping is blocked. */
+async function searchDuckDuckGoApi(query) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  try {
+    const res = await fetch(
+      `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_redirect=1&no_html=1&skip_disambig=1`,
+      {
+        headers: { 'User-Agent': SEARCH_UA, Accept: 'application/json' },
+        signal: controller.signal,
+      }
+    );
+    clearTimeout(timer);
+    if (!res.ok) return [];
+    const json = await res.json();
+    const results = [];
+    const seen = new Set();
+    const add = (title, url, snippet = '') => {
+      if (!url || seen.has(url) || SKIP_HOST.test(url)) return;
+      seen.add(url);
+      results.push({ title: title || url, url, snippet });
+    };
+
+    if (json.AbstractURL && json.Abstract) {
+      add(json.Heading || json.AbstractSource || query, json.AbstractURL, json.Abstract);
+    }
+    for (const t of json.RelatedTopics || []) {
+      if (t.FirstURL && t.Text) add(t.Text.slice(0, 100), t.FirstURL, t.Text);
+      if (Array.isArray(t.Topics)) {
+        for (const st of t.Topics) {
+          if (st.FirstURL && st.Text) add(st.Text.slice(0, 100), st.FirstURL, st.Text);
+        }
+      }
+      if (results.length >= 8) break;
+    }
+    return results;
+  } catch {
+    clearTimeout(timer);
+    return [];
+  }
+}
+
+function fallbackSearchLinks(query) {
+  const q = encodeURIComponent(query);
+  return [
+    {
+      title: `Google search: ${query}`,
+      url: `https://www.google.com/search?q=${q}`,
+      snippet: 'Open full Google results for this query.',
+    },
+    {
+      title: `Bing search: ${query}`,
+      url: `https://www.bing.com/search?q=${q}`,
+      snippet: 'Open full Bing results for this query.',
+    },
+  ];
+}
+
+/** Build a spoken summary from result rows without LLM. */
+export function summarizeSearchResults(query, results) {
+  if (!results?.length) {
+    return `No web snippets found for "${query}", sir. Tap the links in comms or add BRAVE_SEARCH_API_KEY on Vercel for richer search.`;
+  }
+  const lines = results.slice(0, 4).map((r, i) => {
+    const bit = r.snippet ? `${r.title}. ${r.snippet}` : r.title;
+    return `${i + 1}. ${bit}`;
+  });
+  return `Here's what I found for "${query}", sir. ${lines.join(' ')}`.slice(0, 700);
 }
 
 async function searchBrave(query) {
@@ -219,7 +312,7 @@ async function searchBing(query) {
   }
 }
 
-/** Run a web search — Brave → Bing → DuckDuckGo. Never throws. */
+/** Run a web search — Brave → Bing → DDG API → DDG HTML → search links. */
 export async function searchWeb(query) {
   const q = normalizeSearchQuery(query);
   if (!q) return { query: q, results: [], source: 'none' };
@@ -230,10 +323,13 @@ export async function searchWeb(query) {
   const bing = await searchBing(q);
   if (bing?.length) return { query: q, results: bing, source: 'bing' };
 
+  const ddgApi = await searchDuckDuckGoApi(q);
+  if (ddgApi?.length) return { query: q, results: ddgApi, source: 'duckduckgo-api' };
+
   const ddg = await searchDuckDuckGo(q);
   if (ddg?.length) return { query: q, results: ddg, source: 'duckduckgo' };
 
-  return { query: q, results: [], source: 'none' };
+  return { query: q, results: fallbackSearchLinks(q), source: 'fallback-links' };
 }
 
 export function formatSearchResultsForPrompt(results) {
@@ -249,7 +345,7 @@ export function messageNeedsWebSearch(text) {
   const t = String(text || '').toLowerCase();
   if (!t) return false;
   if (/^(status|fleet|leads|briefing|help|open\s+(fleet|clients|leads))/i.test(t)) return false;
-  return /\b(price|cost|how much|what is|what's|who is|when did|latest|news|weather|today|inr|usd|£|\$|buy|review|compare|search|google|gold|silver|stock)\b/i.test(
+  return /\b(price|prices|cost|how much|what is|what's|who is|when did|latest|news|weather|today|inr|usd|£|\$|buy|review|compare|search|serach|google|gold|silver|stock|laptop|roofing|companies|company|uk)\b/i.test(
     t
   );
 }

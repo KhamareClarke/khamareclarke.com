@@ -21,7 +21,7 @@ import {
   isSpeechAudioUnlocked,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
-import { messageNeedsWebSearch, extractSearchQueryFromTranscript, normalizeSearchQuery } from '@/lib/jarvis/web-search';
+import { messageNeedsWebSearch, extractSearchQueryFromTranscript, normalizeSearchQuery, summarizeSearchResults } from '@/lib/jarvis/web-search';
 
 const JarvisContext = createContext(null);
 const PRESENTATION_KEY = 'jarvis-presentation';
@@ -102,6 +102,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const voiceSendTimerRef = useRef(null);
   const skipOnEndSendRef = useRef(false);
   const pendingTtsRef = useRef(false);
+  const lastSearchQueryRef = useRef(null);
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
@@ -821,7 +822,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Search failed');
-        const summary = data.summary || `Found results for "${query}", sir.`;
+        lastSearchQueryRef.current = data.query || query;
+        let summary = data.summary || summarizeSearchResults(data.query || query, data.results || []);
+        if (!summary?.trim() || /\bcould not find results\b/i.test(summary)) {
+          summary = summarizeSearchResults(data.query || query, data.results || []);
+        }
         setMessages((prev) =>
           prev.map((m) =>
             m.id === pendingId
@@ -924,6 +929,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       }
 
       if (parsed?.type === 'read') {
+        if (parsed.command === 'search-retry' && lastSearchQueryRef.current) {
+          await runWebSearch(lastSearchQueryRef.current);
+          return;
+        }
         if (parsed.command === 'search') {
           await runWebSearch(parsed.query);
           return;

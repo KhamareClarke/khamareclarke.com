@@ -1,7 +1,7 @@
 import { EMPIRE_SKILL_IDS } from '@/lib/empire-skills';
 import { ALL_EMPIRE_PROJECT_IDS } from '@/lib/empire-projects';
 import { resolveSiteUrl } from '@/lib/jarvis/sites';
-import { extractSearchQueryFromTranscript, normalizeSearchQuery } from '@/lib/jarvis/web-search';
+import { extractSearchQueryFromTranscript, normalizeSearchQuery, fixSearchTypos } from '@/lib/jarvis/web-search';
 
 const TAB_ROUTES = {
   fleet: '/dashboard/empire',
@@ -58,10 +58,14 @@ function fuzzyMatchClient(token, clients) {
  * Parse user input into a command object or null (fall through to LLM).
  */
 export function parseJarvisCommand(input, clients = []) {
-  let raw = String(input || '').trim();
-  raw = raw.replace(/^(?:hello\s+)?(?:hey\s+)?jarvis[,:\s]+/i, '').trim() || String(input || '').trim();
+  let raw = fixSearchTypos(String(input || '').trim());
+  raw = raw.replace(/^(?:hello\s+)?(?:hey\s+)?jarvis[,:\s]+/i, '').trim() || fixSearchTypos(String(input || '').trim());
   const text = norm(raw);
   if (!text) return null;
+
+  if (/^(?:please\s+)?(?:do it|try again|search again)$/i.test(text)) {
+    return { type: 'read', command: 'search-retry' };
+  }
 
   if (text === 'help' || text === '?') {
     return { type: 'read', command: 'help' };
@@ -95,7 +99,7 @@ export function parseJarvisCommand(input, clients = []) {
   }
 
   const searchMatch = raw.match(
-    /^(?:search|google)(?:\s+on\s+google)?(?:\s+(?:for|about|the web for))*\s+(.+)$/i
+    /^(?:search|serach|google)(?:\s+on\s+google)?(?:\s+(?:for|about|the web for))*\s+(.+)$/i
   );
   const searchQuery = searchMatch
     ? normalizeSearchQuery(searchMatch[1])
@@ -104,6 +108,16 @@ export function parseJarvisCommand(input, clients = []) {
       : null;
   if (searchQuery && searchQuery.length > 2) {
     return { type: 'read', command: 'search', query: searchQuery };
+  }
+
+  const aboutOnly = raw.match(/^about\s+(.+)$/i);
+  if (aboutOnly) {
+    const q = normalizeSearchQuery(aboutOnly[1]);
+    if (q.length > 2) return { type: 'read', command: 'search', query: q };
+  }
+
+  if (/\b(price|prices|cost)\b/i.test(text) && text.length > 5) {
+    return { type: 'read', command: 'search', query: normalizeSearchQuery(raw) };
   }
 
   const priceMatch = text.match(
