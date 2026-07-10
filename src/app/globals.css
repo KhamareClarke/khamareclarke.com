@@ -403,6 +403,27 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   opacity: 0.85;
   pointer-events: none;
 }
+.jarvis-center-stage {
+  overflow: visible;
+}
+.jarvis-hud-rings-stage {
+  width: min(88vw, 480px);
+  height: min(88vw, 480px);
+  max-width: 100%;
+  max-height: min(62vh, 480px);
+  opacity: 0.9;
+  z-index: 0;
+}
+@media (min-width: 768px) {
+  .jarvis-hud-rings-stage {
+    width: min(100%, 520px);
+    height: min(100%, 520px);
+    max-height: min(72vh, 520px);
+  }
+}
+.jarvis-fullpage .jarvis-hud-side {
+  display: none;
+}
 
 /* Iron Man HUD frame */
 .jarvis-hud-frame {
@@ -458,7 +479,10 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   background: rgba(3, 7, 18, 0.55);
   backdrop-filter: blur(8px);
   border-radius: 2px;
-  align-self: center;
+  align-self: stretch;
+}
+.jarvis-hud-panel-comms {
+  align-self: stretch;
 }
 .jarvis-hud-panel-title {
   border-bottom: 1px solid rgba(56, 189, 248, 0.15);
@@ -651,6 +675,7 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   background: rgba(34, 211, 238, 0.5);
 }
 .jarvis-comms-row {
+  width: 100%;
   animation: jarvis-comms-in 0.35s ease-out;
 }
 @keyframes jarvis-comms-in {
@@ -658,19 +683,21 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   to { opacity: 1; transform: translateY(0); }
 }
 .jarvis-comms-label {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.28em;
-  color: rgba(56, 189, 248, 0.65);
+  letter-spacing: 0.22em;
+  color: rgba(56, 189, 248, 0.75);
 }
-.jarvis-comms-user .jarvis-comms-label { color: rgba(125, 211, 252, 0.75); text-align: right; }
+.jarvis-comms-user .jarvis-comms-label { color: rgba(125, 211, 252, 0.85); text-align: right; }
 .jarvis-comms-user { text-align: right; }
+.jarvis-comms-assistant { text-align: left; }
 .jarvis-comms-bubble {
-  display: inline-block;
+  display: block;
+  width: 100%;
   max-width: 100%;
-  padding: 0.6rem 0.75rem;
-  font-size: 12px;
-  line-height: 1.55;
+  padding: 0.75rem 0.9rem;
+  font-size: 13px;
+  line-height: 1.6;
   text-align: left;
   color: #e0f2fe;
   clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
@@ -686,6 +713,10 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   color: inherit;
 }
 .jarvis-comms-user .jarvis-comms-bubble {
+  display: inline-block;
+  width: auto;
+  max-width: 94%;
+  margin-left: auto;
   clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
 }
 .jarvis-bubble-error {
@@ -716,12 +747,13 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.04);
 }
 .jarvis-mobile-comms .jarvis-comms-bubble {
-  font-size: 11px;
+  font-size: 12px;
+  padding: 0.65rem 0.8rem;
 }
 .jarvis-cockpit-footer {
-  border-top: 1px solid rgba(56, 189, 248, 0.1);
-  background: linear-gradient(0deg, rgba(3, 7, 18, 0.95), rgba(3, 7, 18, 0.7));
-  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(56, 189, 248, 0.06);
+  background: linear-gradient(0deg, rgba(3, 7, 18, 0.55), transparent);
+  backdrop-filter: blur(6px);
 }
 .jarvis-input-dock {
   display: flex;
@@ -729,9 +761,10 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   gap: 0.5rem;
   padding: 0.35rem 0.35rem 0.35rem 1rem;
   border: 1px solid rgba(56, 189, 248, 0.2);
-  background: rgba(8, 47, 73, 0.35);
+  background: rgba(3, 7, 18, 0.4);
   border-radius: 2px;
   box-shadow: 0 0 24px rgba(34, 211, 238, 0.06), inset 0 0 16px rgba(56, 189, 248, 0.03);
+  backdrop-filter: blur(8px);
 }
 .jarvis-input-dock:focus-within {
   border-color: rgba(34, 211, 238, 0.45);
@@ -777,9 +810,4 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   background: rgba(120, 53, 15, 0.25);
   color: rgba(253, 230, 138, 0.9);
   border-radius: 2px;
-}
-.jarvis-fullpage .jarvis-hud-rings {
-  opacity: 0.7;
-  top: 42%;
-  transform: translateY(-50%);
 }

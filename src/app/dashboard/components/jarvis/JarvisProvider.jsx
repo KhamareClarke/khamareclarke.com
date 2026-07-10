@@ -21,7 +21,7 @@ import {
   isSpeechAudioUnlocked,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
-import { messageNeedsWebSearch } from '@/lib/jarvis/web-search';
+import { messageNeedsWebSearch, extractSearchQueryFromTranscript, normalizeSearchQuery } from '@/lib/jarvis/web-search';
 
 const JarvisContext = createContext(null);
 const PRESENTATION_KEY = 'jarvis-presentation';
@@ -962,6 +962,15 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       if (parsed?.type === 'action' && !parsed.needsConfirm) {
         await executeAction(parsed);
         return;
+      }
+
+      if (!parsed && messageNeedsWebSearch(trimmed)) {
+        const autoQuery =
+          extractSearchQueryFromTranscript(trimmed) || normalizeSearchQuery(trimmed);
+        if (autoQuery.length > 2) {
+          await runWebSearch(autoQuery);
+          return;
+        }
       }
 
       const assistantId = `a-${Date.now()}`;

@@ -28,7 +28,7 @@ async function enrichPromptWithWebSearch(systemPrompt, messages) {
   try {
     const { results } = await searchWeb(lastUser);
     if (!results?.length) return systemPrompt;
-    return `${systemPrompt}\n\nLive web search results (use for factual answers):\n${formatSearchResultsForPrompt(results)}`;
+    return `${systemPrompt}\n\nLive web search results (answer from these — do NOT say you lack real-time access):\n${formatSearchResultsForPrompt(results)}`;
   } catch {
     return systemPrompt;
   }

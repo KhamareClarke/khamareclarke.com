@@ -180,9 +180,6 @@ export default function JarvisFullPageHud() {
     isMobileVoice,
     muted,
     setMuted,
-    presentationMode,
-    setPresentationMode,
-    continuousListen,
     voiceInterim,
     voiceError,
     liveData,
@@ -209,7 +206,6 @@ export default function JarvisFullPageHud() {
   const hudActive = listening || streaming || speaking;
   const activeClients = liveData?.activeClients ?? liveData?.clients?.length;
   const displayMessages = useMemo(() => dedupeMessages(messages).slice(-20), [messages]);
-  const systemOnline = !voiceError?.includes('denied');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -238,66 +234,24 @@ export default function JarvisFullPageHud() {
           </button>
         )}
         <JarvisAmbient />
-        <JarvisHudRings active={hudActive} />
 
-        {/* Header */}
-        <header className="jarvis-cockpit-header relative z-20 shrink-0 px-4 md:px-6 py-3">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3 min-w-0">
-              <span className={`jarvis-online-dot shrink-0 ${systemOnline ? 'jarvis-online-dot-live' : ''}`} />
-              <div className="min-w-0">
-                <p className="text-[8px] tracking-[0.5em] uppercase text-cyan-500/45 truncate">Stark Industries</p>
-                <h1 className="jarvis-title text-base md:text-xl font-light tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-50 via-sky-200 to-blue-400">
-                  J.A.R.V.I.S
-                </h1>
-              </div>
-            </div>
-
-            <div className="jarvis-pill-group">
-              <span className={`jarvis-pill hidden sm:inline ${listening ? 'jarvis-pill-active' : ''}`}>
-                {listening ? '◉ Live' : continuousListen ? '◎ Ready' : 'Mic'}
-              </span>
-              <span className={`jarvis-pill hidden sm:inline ${streaming ? 'jarvis-pill-active' : ''}`}>Proc</span>
-              <span className={`jarvis-pill hidden sm:inline ${speaking ? 'jarvis-pill-active' : ''}`}>Voice</span>
-              <button
-                type="button"
-                onClick={() => setMuted((m) => !m)}
-                className={`jarvis-pill jarvis-pill-btn ${!muted ? 'jarvis-pill-active' : ''}`}
-              >
-                {muted ? '🔇' : '🔊'}
-              </button>
-              <button
-                type="button"
-                onClick={() => setPresentationMode((p) => !p)}
-                className={`jarvis-pill jarvis-pill-btn hidden lg:inline ${presentationMode ? 'jarvis-pill-active' : ''}`}
-              >
-                Demo
-              </button>
-              <Link href="/dashboard/leads" className="jarvis-pill jarvis-pill-btn hidden md:inline">
-                Leads
-              </Link>
-            </div>
-          </div>
-        </header>
-
-        {/* Mobile stats */}
-        <div className="jarvis-mobile-stats md:hidden relative z-10 grid grid-cols-3 gap-px mx-4 mb-2">
-          <div className="jarvis-stat-cell">
-            <span className="text-[8px] text-sky-500/60 uppercase">Leads</span>
-            <span className="text-cyan-300 text-lg font-light">{liveData?.leadsToday ?? '—'}</span>
-          </div>
-          <div className="jarvis-stat-cell">
-            <span className="text-[8px] text-sky-500/60 uppercase">Tasks</span>
-            <span className="text-cyan-300 text-lg font-light">{liveData?.tasksQueued ?? '—'}</span>
-          </div>
-          <div className="jarvis-stat-cell">
-            <span className="text-[8px] text-sky-500/60 uppercase">Clients</span>
-            <span className="text-cyan-300 text-lg font-light">{activeClients ?? '—'}</span>
-          </div>
+        {/* Floating controls */}
+        <div className="absolute top-3 right-3 md:top-4 md:right-5 z-30 flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setMuted((m) => !m)}
+            className={`jarvis-pill jarvis-pill-btn ${!muted ? 'jarvis-pill-active' : ''}`}
+            aria-label={muted ? 'Unmute voice' : 'Mute voice'}
+          >
+            {muted ? '🔇' : '🔊'}
+          </button>
+          <Link href="/dashboard/leads" className="jarvis-pill jarvis-pill-btn hidden sm:inline">
+            Exit
+          </Link>
         </div>
 
         {/* Main cockpit grid */}
-        <div className="relative z-10 flex flex-1 min-h-0 gap-3 px-3 md:px-5 pb-2">
+        <div className="relative z-10 flex flex-1 min-h-0 gap-3 px-3 md:px-5 pt-3 pb-2">
           <JarvisHudPanel title="Telemetry" align="left">
             <JarvisHudStatBar label="Leads today" value={liveData?.leadsToday} max={10} />
             <JarvisHudStatBar label="Tasks queued" value={liveData?.tasksQueued} max={20} />
@@ -309,36 +263,47 @@ export default function JarvisFullPageHud() {
             )}
           </JarvisHudPanel>
 
-          {/* Center stage */}
-          <div className="relative flex flex-1 flex-col items-center min-w-0 min-h-0">
-            <div className="flex flex-1 flex-col items-center justify-center w-full py-2">
-              <JarvisVoiceCore
-                size="lg"
-                state={coreState}
-                label={bootTyped && bootLine ? undefined : 'Initializing'}
+          {/* Center stage — full rings + orb */}
+          <div className="jarvis-center-stage relative flex flex-1 flex-col items-center min-w-0 min-h-0 overflow-visible">
+            <p className="absolute top-0 left-0 right-0 z-10 text-center text-[9px] md:text-[10px] tracking-[0.45em] uppercase text-cyan-400/35 font-light pointer-events-none">
+              J.A.R.V.I.S
+            </p>
+
+            <div className="relative z-10 flex flex-1 w-full min-h-0 items-center justify-center">
+              <JarvisHudRings
+                active={hudActive}
+                className="jarvis-hud-rings-stage absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
               />
 
-              {(listening || voiceInterim) && (
-                <div className="jarvis-interim-display mt-3 max-w-md w-full mx-3 px-4 py-3 text-center">
-                  <p className="text-[8px] uppercase tracking-[0.4em] text-cyan-400/50 mb-1.5">
-                    {listening ? '◉ Receiving' : 'Last signal'}
-                  </p>
-                  <p className="text-sm text-cyan-50/95 font-light leading-snug min-h-[1.25rem]">
-                    {voiceInterim || 'Speak now, sir…'}
-                  </p>
-                </div>
-              )}
+              <div className="relative z-10 flex w-full flex-col items-center justify-center">
+                <JarvisVoiceCore
+                  size="lg"
+                  state={coreState}
+                  label={bootTyped && bootLine ? undefined : 'Initializing'}
+                />
 
-              {!listening && !voiceInterim && !streaming && (
-                <JarvisCommandChips onSelect={sendMessage} disabled={streaming} />
-              )}
+                {(listening || voiceInterim) && (
+                  <div className="jarvis-interim-display mt-4 max-w-md w-full mx-3 px-4 py-3 text-center">
+                    <p className="text-[8px] uppercase tracking-[0.4em] text-cyan-400/50 mb-1.5">
+                      {listening ? '◉ Receiving' : 'Last signal'}
+                    </p>
+                    <p className="text-sm text-cyan-50/95 font-light leading-snug min-h-[1.25rem]">
+                      {voiceInterim || 'Speak now, sir…'}
+                    </p>
+                  </div>
+                )}
+
+                {!listening && !voiceInterim && !streaming && (
+                  <JarvisCommandChips onSelect={sendMessage} disabled={streaming} />
+                )}
+              </div>
             </div>
           </div>
 
           {/* Comms panel */}
-          <JarvisHudPanel title="Comms" align="right" className="min-h-0 max-h-full">
+          <JarvisHudPanel title="Comms" variant="comms" className="min-h-0">
             <div
-              className="jarvis-comms-feed font-sans flex-1 w-full space-y-3 overflow-y-auto pr-1 min-h-[120px] max-h-full"
+              className="jarvis-comms-feed font-sans flex-1 w-full space-y-4 overflow-y-auto pr-1 min-h-0"
               onScroll={(e) => {
                 const el = e.currentTarget;
                 const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
@@ -367,7 +332,7 @@ export default function JarvisFullPageHud() {
 
         {/* Mobile comms strip */}
         <div
-          className="jarvis-mobile-comms font-sans md:hidden relative z-10 mx-3 mb-2 max-h-24 overflow-y-auto space-y-2 shrink-0"
+          className="jarvis-mobile-comms font-sans md:hidden relative z-10 mx-3 mb-2 max-h-40 overflow-y-auto space-y-3 shrink-0"
           onScroll={(e) => {
             const el = e.currentTarget;
             const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 32;
@@ -387,7 +352,7 @@ export default function JarvisFullPageHud() {
         </div>
 
         {/* Cockpit footer */}
-        <footer className="jarvis-cockpit-footer relative z-20 shrink-0 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2">
+        <footer className="jarvis-cockpit-footer relative z-20 shrink-0 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-1">
           <div ref={messagesEndRef} className="h-px w-full" aria-hidden />
           <JarvisHudVisualizer active={hudActive} barCount={isMobileVoice ? 40 : 72} />
 

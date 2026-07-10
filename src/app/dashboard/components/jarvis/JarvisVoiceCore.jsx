@@ -10,10 +10,10 @@ export default function JarvisVoiceCore({ state = 'idle', label, size = 'md' }) 
   const lg = size === 'lg';
 
   return (
-    <div className={`jarvis-voice-core flex flex-col items-center ${lg ? 'py-2' : 'py-6'}`}>
+    <div className={`jarvis-voice-core flex flex-col items-center ${lg ? 'py-0' : 'py-6'}`}>
       <div
         className={`relative flex items-center justify-center ${
-          lg ? 'w-52 h-52 md:w-64 md:h-64' : 'w-36 h-36'
+          lg ? 'w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72' : 'w-36 h-36'
         }`}
       >
         <span
@@ -53,7 +53,7 @@ export default function JarvisVoiceCore({ state = 'idle', label, size = 'md' }) 
         )}
         <div
           className={`jarvis-core-orb relative z-10 rounded-full ${
-            lg ? 'w-28 h-28 md:w-32 md:h-32' : 'w-20 h-20'
+            lg ? 'w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40' : 'w-20 h-20'
           } ${
             isSpeaking ? 'jarvis-core-speaking' : isListening ? 'jarvis-core-listening' : 'jarvis-core-idle'
           }`}

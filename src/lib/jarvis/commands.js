@@ -106,6 +106,13 @@ export function parseJarvisCommand(input, clients = []) {
     return { type: 'read', command: 'search', query: searchQuery };
   }
 
+  const priceMatch = text.match(
+    /^(?:what(?:'s| is) the )?(?:current )?(?:price of )?(.+?)(?:\s+price)?(?:\s+today)?$/i
+  );
+  if (priceMatch && /\b(gold|silver|bitcoin|btc|eth|oil|gas|stock|share)\b/i.test(text)) {
+    return { type: 'read', command: 'search', query: normalizeSearchQuery(text) };
+  }
+
   const imageMatch = raw.match(
     /^(?:generate image|make image|draw(?:\s+an?)?\s+image(?:\s+of)?|image of|draw)\s+(.+)$/i
   );
@@ -133,6 +140,53 @@ export function parseJarvisCommand(input, clients = []) {
     }
   }
 
+  if (/\b(youtube|yt)\b/i.test(raw) && /\b(play|music|song|listen)\b/i.test(raw)) {
+    const topic = raw.match(/\bplay\s+(?:music\s+)?(?:about\s+)?(.+?)(?:\s+on\s+youtube)?$/i)?.[1];
+    const q = topic && !/^(music|songs?)$/i.test(topic.trim()) ? encodeURIComponent(topic.trim()) : 'music';
+    return {
+      type: 'action',
+      command: 'browse',
+      url: `https://www.youtube.com/results?search_query=${q}`,
+      label: 'YouTube',
+      needsConfirm: false,
+    };
+  }
+
+  const openLineMatch = raw.match(/^open\s+(.+)$/i);
+  if (openLineMatch) {
+    const rest = openLineMatch[1].trim();
+    const restLower = rest.toLowerCase();
+
+    if (/\b(youtube|yt)\b/.test(restLower) && /\b(play|music|song|songs|listen)\b/.test(restLower)) {
+      const topic = restLower.match(/\bplay\s+(?:music\s+)?(?:about\s+)?(.+?)(?:\s+on\s+youtube)?$/i)?.[1];
+      const q = topic && !/^(music|songs?)$/i.test(topic) ? encodeURIComponent(topic.trim()) : 'music';
+      return {
+        type: 'action',
+        command: 'browse',
+        url: `https://www.youtube.com/results?search_query=${q}`,
+        label: 'YouTube',
+        needsConfirm: false,
+      };
+    }
+
+    const firstToken = restLower.match(/^([a-z0-9][-a-z0-9.]*)/i)?.[1];
+    if (firstToken && TAB_ROUTES[firstToken] && !/\s/.test(rest.trim())) {
+      return { type: 'action', command: 'open', tab: firstToken, route: TAB_ROUTES[firstToken], needsConfirm: false };
+    }
+
+    const siteToken = firstToken || restLower.split(/\s+/)[0];
+    const url = resolveSiteUrl(siteToken);
+    if (url) {
+      return {
+        type: 'action',
+        command: 'browse',
+        url,
+        label: siteToken,
+        needsConfirm: false,
+      };
+    }
+  }
+
   const openUrlMatch = raw.match(/^open\s+(https?:\/\/.+)$/i);
   if (openUrlMatch) {
     return {
@@ -142,24 +196,6 @@ export function parseJarvisCommand(input, clients = []) {
       label: openUrlMatch[1].trim(),
       needsConfirm: false,
     };
-  }
-
-  const openMatch = text.match(/^open\s+(\S+)$/);
-  if (openMatch) {
-    const tab = openMatch[1];
-    if (TAB_ROUTES[tab]) {
-      return { type: 'action', command: 'open', tab, route: TAB_ROUTES[tab], needsConfirm: false };
-    }
-    const url = resolveSiteUrl(tab);
-    if (url) {
-      return {
-        type: 'action',
-        command: 'browse',
-        url,
-        label: tab,
-        needsConfirm: false,
-      };
-    }
   }
 
   const runMatch = raw.match(/^run\s+(\S+)\s+(\S+)$/i);

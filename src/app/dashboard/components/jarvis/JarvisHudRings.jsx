@@ -1,14 +1,13 @@
 'use client';
 
 /** Concentric HUD rings — Iron Man JARVIS style. */
-export default function JarvisHudRings({ active }) {
+export default function JarvisHudRings({ active, className = '' }) {
   return (
     <svg
-      className="jarvis-hud-rings absolute inset-0 m-auto w-[min(90vw,720px)] h-[min(90vw,720px)]"
+      className={`jarvis-hud-rings pointer-events-none ${className}`}
       viewBox="0 0 400 400"
       aria-hidden
-    >
-      <defs>
+    >      <defs>
         <radialGradient id="jarvisHudGlow" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="rgba(56,189,248,0.35)" />
           <stop offset="70%" stopColor="rgba(14,165,233,0.08)" />
