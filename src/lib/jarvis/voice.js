@@ -86,11 +86,11 @@ export function extractTranscript(event) {
 /**
  * Create a reusable SpeechRecognition instance (call once, reuse start/stop).
  */
-export function createSpeechRecognition({ onResult, onError, onEnd, onStart }) {
+export function createSpeechRecognition({ onResult, onError, onEnd, onStart, continuous = false }) {
   if (!isSpeechRecognitionSupported()) return null;
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   const rec = new SR();
-  rec.continuous = false;
+  rec.continuous = continuous;
   rec.interimResults = true;
   rec.maxAlternatives = 1;
   rec.lang = 'en-GB';

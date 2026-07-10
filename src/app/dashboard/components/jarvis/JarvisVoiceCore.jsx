@@ -1,21 +1,33 @@
 'use client';
 
 /**
- * Central voice orb — listening rings, thinking arcs, speaking pulse.
+ * Central voice orb — arc reactor style. size="lg" for full-page HUD.
  */
-export default function JarvisVoiceCore({ state = 'idle', label }) {
+export default function JarvisVoiceCore({ state = 'idle', label, size = 'md' }) {
   const isListening = state === 'listening';
   const isThinking = state === 'thinking';
   const isSpeaking = state === 'speaking';
+  const lg = size === 'lg';
 
   return (
-    <div className="jarvis-voice-core flex flex-col items-center py-6">
-      <div className="relative flex items-center justify-center w-36 h-36">
+    <div className={`jarvis-voice-core flex flex-col items-center ${lg ? 'py-2' : 'py-6'}`}>
+      <div
+        className={`relative flex items-center justify-center ${
+          lg ? 'w-52 h-52 md:w-64 md:h-64' : 'w-36 h-36'
+        }`}
+      >
+        <span
+          className={`jarvis-arc-reactor-glow absolute rounded-full ${
+            lg ? 'inset-4' : 'inset-2'
+          } ${hudActiveClass(isListening, isThinking, isSpeaking)}`}
+          aria-hidden
+        />
         {isListening && (
           <>
             <span className="jarvis-ring jarvis-ring-1 absolute inset-0 rounded-full border border-sky-400/50" />
             <span className="jarvis-ring jarvis-ring-2 absolute inset-0 rounded-full border border-cyan-400/40" />
             <span className="jarvis-ring jarvis-ring-3 absolute inset-0 rounded-full border border-sky-300/30" />
+            <span className="jarvis-ring jarvis-ring-1 absolute inset-[-12px] rounded-full border border-cyan-300/20" />
           </>
         )}
         {isThinking && (
@@ -40,11 +52,14 @@ export default function JarvisVoiceCore({ state = 'idle', label }) {
           </svg>
         )}
         <div
-          className={`jarvis-core-orb relative z-10 w-20 h-20 rounded-full ${
+          className={`jarvis-core-orb relative z-10 rounded-full ${
+            lg ? 'w-28 h-28 md:w-32 md:h-32' : 'w-20 h-20'
+          } ${
             isSpeaking ? 'jarvis-core-speaking' : isListening ? 'jarvis-core-listening' : 'jarvis-core-idle'
           }`}
         >
           <div className="jarvis-core-inner absolute inset-2 rounded-full" />
+          <div className="jarvis-core-triangle absolute inset-0 m-auto w-0 h-0 opacity-40" aria-hidden />
         </div>
         {isSpeaking && (
           <div className="jarvis-wave-bars absolute -bottom-1 flex gap-1 items-end h-6" aria-hidden>
@@ -54,9 +69,20 @@ export default function JarvisVoiceCore({ state = 'idle', label }) {
           </div>
         )}
       </div>
-      <p className="mt-3 text-xs font-medium tracking-[0.2em] uppercase text-sky-300/90">
+      <p
+        className={`mt-3 font-medium tracking-[0.25em] uppercase text-sky-300/90 ${
+          lg ? 'text-sm' : 'text-xs'
+        }`}
+      >
         {label || (isListening ? 'Listening' : isThinking ? 'Processing' : isSpeaking ? 'Speaking' : 'Online')}
       </p>
     </div>
   );
+}
+
+function hudActiveClass(listening, thinking, speaking) {
+  if (listening) return 'jarvis-reactor-listening';
+  if (thinking) return 'jarvis-reactor-thinking';
+  if (speaking) return 'jarvis-reactor-speaking';
+  return 'jarvis-reactor-idle';
 }
