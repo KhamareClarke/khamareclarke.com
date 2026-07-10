@@ -16,6 +16,18 @@ const TAB_ROUTES = {
 const READ_COMMANDS = new Set(['status', 'fleet', 'briefing', 'help', 'leads']);
 const ACTION_COMMANDS = new Set(['run', 'report', 'pause', 'resume', 'open']);
 
+function youtubeSearchUrl(topic) {
+  const q = String(topic || '').trim();
+  if (!q || /^(music|songs?|videos?)$/i.test(q)) {
+    return `https://www.youtube.com/results?search_query=${encodeURIComponent(q || 'music')}`;
+  }
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`;
+}
+
+function googleSearchUrl(query) {
+  return `https://www.google.com/search?q=${encodeURIComponent(String(query || '').trim())}`;
+}
+
 function norm(s) {
   return String(s || '')
     .trim()
@@ -98,19 +110,25 @@ export function parseJarvisCommand(input, clients = []) {
     return { type: 'read', command: 'briefing' };
   }
 
+  // Broad search-intent detection: search / google / look up / find (on google/web).
   const searchMatch = raw.match(
-    /^(?:search|serach|google)(?:\s+on\s+google)?(?:\s+(?:for|about|the web for))*\s+(.+)$/i
+    /^(?:search|serach|google|look\s*up|lookup)(?:\s+(?:on\s+google|the\s+web|the\s+internet))?(?:\s+(?:for|about|the web for))*\s+(.+)$/i
   );
   const intentSearch = raw.match(
-    /\b(?:search|serach)\b(?:\s+on\s+google)?(?:\s+(?:for|about|the web for))*\s+(.+)$/i
+    /\b(?:search|serach|look\s*up|lookup)\b(?:\s+(?:on\s+google|the\s+web|the\s+internet))?(?:\s+(?:for|about|the web for))*\s+(.+)$/i
+  );
+  const findSearch = raw.match(
+    /\bfind\s+(?:me\s+)?(.+?)\s+(?:on|via|using)\s+(?:google|the\s+web|the\s+internet|online)\b.*$/i
   );
   const searchQuery = searchMatch
     ? normalizeSearchQuery(searchMatch[1])
     : intentSearch
       ? normalizeSearchQuery(intentSearch[1])
-      : /\bsearch\b/i.test(raw)
-        ? extractSearchQueryFromTranscript(raw)
-        : null;
+      : findSearch
+        ? normalizeSearchQuery(findSearch[1])
+        : /\b(?:search|serach|look\s*up|lookup)\b/i.test(raw)
+          ? extractSearchQueryFromTranscript(raw)
+          : null;
   if (searchQuery && searchQuery.length > 2) {
     return { type: 'read', command: 'search', query: searchQuery };
   }
@@ -159,14 +177,28 @@ export function parseJarvisCommand(input, clients = []) {
     }
   }
 
-  if (/\b(youtube|yt)\b/i.test(raw) && /\b(play|music|song|listen)\b/i.test(raw)) {
-    const topic = raw.match(/\bplay\s+(?:music\s+)?(?:about\s+)?(.+?)(?:\s+on\s+youtube)?$/i)?.[1];
-    const q = topic && !/^(music|songs?)$/i.test(topic.trim()) ? encodeURIComponent(topic.trim()) : 'music';
+  if (/\b(youtube|yt)\b/i.test(raw) && /\b(play|music|song|songs|listen|watch|video|videos)\b/i.test(raw)) {
+    const topic = raw
+      .match(/\b(?:play|watch|listen to)\s+(?:music\s+)?(?:about\s+)?(.+?)(?:\s+on\s+youtube)?$/i)?.[1]
+      || raw.replace(/\b(on\s+)?(youtube|yt)\b/gi, '').replace(/\b(play|watch|listen to|music|song|songs)\b/gi, '').trim();
     return {
       type: 'action',
       command: 'browse',
-      url: `https://www.youtube.com/results?search_query=${q}`,
-      label: 'YouTube',
+      url: youtubeSearchUrl(topic),
+      label: `YouTube: ${(topic || 'music').trim()}`,
+      needsConfirm: false,
+    };
+  }
+
+  // "play <topic>" (no site named) → YouTube search.
+  const playMatch = raw.match(/^play\s+(?:me\s+)?(?:some\s+)?(.+)$/i);
+  if (playMatch) {
+    const topic = playMatch[1].replace(/\bon\s+youtube\b/i, '').trim();
+    return {
+      type: 'action',
+      command: 'browse',
+      url: youtubeSearchUrl(topic),
+      label: `YouTube: ${topic || 'music'}`,
       needsConfirm: false,
     };
   }
@@ -176,14 +208,16 @@ export function parseJarvisCommand(input, clients = []) {
     const rest = openLineMatch[1].trim();
     const restLower = rest.toLowerCase();
 
-    if (/\b(youtube|yt)\b/.test(restLower) && /\b(play|music|song|songs|listen)\b/.test(restLower)) {
-      const topic = restLower.match(/\bplay\s+(?:music\s+)?(?:about\s+)?(.+?)(?:\s+on\s+youtube)?$/i)?.[1];
-      const q = topic && !/^(music|songs?)$/i.test(topic) ? encodeURIComponent(topic.trim()) : 'music';
+    // "open youtube and play cat videos" / "open cat videos on youtube" → YouTube search.
+    if (/\b(youtube|yt)\b/.test(restLower) && /\b(play|music|song|songs|listen|watch|video|videos)\b/.test(restLower)) {
+      const topic = restLower
+        .match(/\b(?:play|watch|listen to)\s+(?:music\s+)?(?:about\s+)?(.+?)(?:\s+on\s+youtube)?$/i)?.[1]
+        || restLower.replace(/\b(and|on)?\s*(youtube|yt)\b/g, '').replace(/\b(play|watch|listen to|music|song|songs)\b/g, '').trim();
       return {
         type: 'action',
         command: 'browse',
-        url: `https://www.youtube.com/results?search_query=${q}`,
-        label: 'YouTube',
+        url: youtubeSearchUrl(topic),
+        label: `YouTube: ${(topic || 'music').trim()}`,
         needsConfirm: false,
       };
     }
@@ -193,8 +227,20 @@ export function parseJarvisCommand(input, clients = []) {
       return { type: 'action', command: 'open', tab: firstToken, route: TAB_ROUTES[firstToken], needsConfirm: false };
     }
 
+    // "open cat videos" / "open ... video" with no explicit site → YouTube search.
+    if (/\b(video|videos|watch)\b/.test(restLower)) {
+      const topic = rest.replace(/\b(videos?|watch)\b/gi, '').trim() || rest.trim();
+      return {
+        type: 'action',
+        command: 'browse',
+        url: youtubeSearchUrl(topic),
+        label: `YouTube: ${topic}`,
+        needsConfirm: false,
+      };
+    }
+
     const siteToken = firstToken || restLower.split(/\s+/)[0];
-    const url = resolveSiteUrl(siteToken);
+    const url = resolveSiteUrl(rest.trim()) || resolveSiteUrl(siteToken);
     if (url) {
       return {
         type: 'action',
@@ -204,6 +250,15 @@ export function parseJarvisCommand(input, clients = []) {
         needsConfirm: false,
       };
     }
+
+    // Fallback: "open <anything>" → Google search so JARVIS never refuses.
+    return {
+      type: 'action',
+      command: 'browse',
+      url: googleSearchUrl(rest.trim()),
+      label: rest.trim(),
+      needsConfirm: false,
+    };
   }
 
   const openUrlMatch = raw.match(/^open\s+(https?:\/\/.+)$/i);

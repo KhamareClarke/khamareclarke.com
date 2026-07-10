@@ -14,12 +14,15 @@ import JarvisVoiceCore from './JarvisVoiceCore';
 import JarvisCommandChips from './JarvisCommandChips';
 import JarvisMessageContent, { stripJarvisMarkdown } from './JarvisMessageContent';
 
-function voiceState({ listening, streaming, speaking }) {
-  if (listening) return 'listening';
-  if (streaming) return 'thinking';
-  if (speaking) return 'speaking';
-  return 'idle';
-}
+const ACTIVITY_LABELS = {
+  listening: 'Listening',
+  thinking: 'Processing',
+  searching: 'Searching',
+  opening: 'Opening',
+  drawing: 'Generating',
+  speaking: 'Speaking',
+  idle: 'Online',
+};
 
 function dedupeMessages(messages) {
   const out = [];
@@ -175,6 +178,7 @@ export default function JarvisFullPageHud() {
     bootTyped,
     speaking,
     listening,
+    activity,
     stopListening,
     speechSupported,
     voicePlatformHint,
@@ -203,8 +207,8 @@ export default function JarvisFullPageHud() {
     };
   }, [setOpen, stopListening]);
 
-  const coreState = voiceState({ listening, streaming, speaking });
-  const hudActive = listening || streaming || speaking;
+  const coreState = activity || 'idle';
+  const hudActive = coreState !== 'idle';
   const activeClients = liveData?.activeClients ?? liveData?.clients?.length;
   const displayMessages = useMemo(() => dedupeMessages(messages).slice(-20), [messages]);
 
@@ -218,7 +222,10 @@ export default function JarvisFullPageHud() {
 
   return (
     <JarvisHudFrame>
-      <div className="jarvis-fullpage jarvis-cockpit relative flex h-full flex-col overflow-hidden">
+      <div
+        className="jarvis-fullpage jarvis-cockpit relative flex h-full flex-col overflow-hidden"
+        data-activity={coreState}
+      >
         {isMobileVoice && !audioUnlocked && (
           <button
             type="button"
@@ -279,6 +286,16 @@ export default function JarvisFullPageHud() {
             <p className="absolute top-0 left-0 right-0 z-10 text-center text-[9px] md:text-[10px] tracking-[0.45em] uppercase text-cyan-400/35 font-light pointer-events-none">
               J.A.R.V.I.S
             </p>
+            {hudActive && (
+              <div
+                className={`jarvis-activity-status jarvis-activity-${coreState} absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-3 py-1 rounded-full pointer-events-none`}
+              >
+                <span className="jarvis-activity-dot" aria-hidden />
+                <span className="text-[9px] md:text-[10px] tracking-[0.4em] uppercase font-medium">
+                  {ACTIVITY_LABELS[coreState] || 'Online'}
+                </span>
+              </div>
+            )}
 
             <div className="relative z-10 flex flex-1 w-full min-h-0 items-center justify-center">
               <JarvisHudRings

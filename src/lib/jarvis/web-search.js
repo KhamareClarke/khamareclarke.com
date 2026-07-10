@@ -511,7 +511,7 @@ export function messageNeedsWebSearch(text) {
   const t = String(text || '').toLowerCase();
   if (!t) return false;
   if (/^(status|fleet|leads|briefing|help|open\s+(fleet|clients|leads))/i.test(t)) return false;
-  return /\b(price|prices|cost|how much|what is|what's|who is|when did|latest|news|weather|today|inr|usd|£|\$|buy|review|compare|search|serach|google|gold|silver|stock|laptop|roofing|companies|company|uk)\b/i.test(
+  return /\b(price|prices|cost|how much|what is|what's|who is|when did|latest|news|weather|today|inr|usd|£|\$|buy|review|compare|search|serach|google|look\s*up|lookup|find|gold|silver|stock|laptop|roofing|companies|company|uk)\b/i.test(
     t
   );
 }

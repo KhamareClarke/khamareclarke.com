@@ -81,6 +81,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const [lastActivityTs, setLastActivityTs] = useState(null);
   const [lastReplyText, setLastReplyText] = useState('');
   const [audioUnlocked, setAudioUnlocked] = useState(false);
+  // Manual activity override for the HUD: 'searching' | 'opening' | 'drawing' | null.
+  const [busyActivity, setBusyActivity] = useState(null);
+  const busyActivityTimerRef = useRef(null);
 
   const abortRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -103,6 +106,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const skipOnEndSendRef = useRef(false);
   const pendingTtsRef = useRef(false);
   const lastSearchQueryRef = useRef(null);
+  const messageQueueRef = useRef([]);
+  const flushMessageQueueRef = useRef(null);
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
@@ -324,7 +329,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       voiceSendTimerRef.current = setTimeout(() => {
         voiceSendTimerRef.current = null;
         const transcript = (transcriptRef.current || lastInterimRef.current || '').trim();
-        if (!transcript || streamingRef.current || speakingRef.current) return;
+        if (!transcript) return;
 
         transcriptRef.current = '';
         lastInterimRef.current = '';
@@ -404,7 +409,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         lastInterimRef.current = '';
         setVoiceInterim('');
 
-        if (transcript && !streamingRef.current && !speakingRef.current) {
+        if (transcript) {
           const autoSend = voiceAutoSendRef.current || continuousListenRef.current;
           if (autoSend) {
             sendMessageRef.current?.(transcript);
@@ -509,6 +514,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     speakingRef.current = false;
     setSpeaking(false);
     pendingTtsRef.current = false;
+    flushMessageQueueRef.current?.();
   }, []);
 
   const stopSpeakingReply = useCallback(() => {
@@ -517,6 +523,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     setSpeaking(false);
     pendingTtsRef.current = false;
     scheduleRestartRef.current?.();
+    flushMessageQueueRef.current?.();
   }, []);
 
   const appendAssistant = useCallback((content, extras = {}) => {
@@ -525,9 +532,49 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     return id;
   }, []);
 
+  const beginActivity = useCallback((mode) => {
+    if (busyActivityTimerRef.current) {
+      clearTimeout(busyActivityTimerRef.current);
+      busyActivityTimerRef.current = null;
+    }
+    setBusyActivity(mode);
+  }, []);
+
+  const endActivity = useCallback((delayMs = 0) => {
+    if (busyActivityTimerRef.current) {
+      clearTimeout(busyActivityTimerRef.current);
+      busyActivityTimerRef.current = null;
+    }
+    if (delayMs > 0) {
+      busyActivityTimerRef.current = setTimeout(() => {
+        busyActivityTimerRef.current = null;
+        setBusyActivity(null);
+      }, delayMs);
+    } else {
+      setBusyActivity(null);
+    }
+  }, []);
+
+  const flushMessageQueue = useCallback(() => {
+    if (streamingRef.current || speakingRef.current || pendingTtsRef.current) return;
+    const next = messageQueueRef.current.shift();
+    if (next) {
+      setTimeout(() => processUserMessageRef.current?.(next, { addUserBubble: false }), 80);
+    }
+  }, []);
+
+  useEffect(() => {
+    flushMessageQueueRef.current = flushMessageQueue;
+  }, [flushMessageQueue]);
+
+  const processUserMessageRef = useRef(null);
+
   const speakReply = useCallback(
     async (text) => {
-      const finish = () => scheduleRestartRef.current?.();
+      const finish = () => {
+        scheduleRestartRef.current?.();
+        flushMessageQueueRef.current?.();
+      };
       if (!text?.trim()) {
         finish();
         return;
@@ -578,6 +625,17 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       }
     },
     [muted, pauseListening]
+  );
+
+  const replyAssistant = useCallback(
+    (content, extras = {}) => {
+      const text = String(content || '').trim();
+      if (!text) return null;
+      const id = appendAssistant(text, extras);
+      speakReply(text);
+      return id;
+    },
+    [appendAssistant, speakReply]
   );
 
   const streamLLM = useCallback(
@@ -698,18 +756,22 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
       try {
         if (action.command === 'open') {
+          beginActivity('opening');
           router.push(action.route);
           const msg = `Opening ${action.tab} tab, sir.`;
           setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: msg, pending: false } : m)));
           speakReply(msg);
+          endActivity(2500);
           return;
         }
 
         if (action.command === 'browse') {
+          beginActivity('opening');
           window.open(action.url, '_blank', 'noopener,noreferrer');
           const msg = `Opening ${action.label || action.url}, sir.`;
           setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: msg, pending: false } : m)));
           speakReply(msg);
+          endActivity(2500);
           scheduleRestartRef.current?.();
           return;
         }
@@ -759,6 +821,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           if (!project) {
             const msg = 'No project on file for that client, sir.';
             setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: msg, pending: false } : m)));
+            speakReply(msg);
             return;
           }
           const res = await fetch('/api/admin/reports/generate', {
@@ -802,16 +865,17 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       } catch (err) {
         const msg = `That action could not complete, sir. ${err.message || 'Please try from the dashboard.'}`;
         setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: msg, pending: false } : m)));
+        speakReply(msg);
       }
     },
-    [appendAssistant, liveData, router, speakReply]
+    [appendAssistant, liveData, router, speakReply, beginActivity, endActivity]
   );
 
   const cancelAction = useCallback(() => {
     setPendingAction(null);
     setMessages((prev) => prev.map((m) => (m.confirm ? { ...m, confirm: null } : m)));
-    appendAssistant('Action cancelled. No changes made, sir.');
-  }, [appendAssistant]);
+    replyAssistant('Action cancelled. No changes made, sir.');
+  }, [replyAssistant]);
 
   const appendSystemNote = useCallback((content) => {
     setMessages((prev) => [
@@ -822,7 +886,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   const runWebSearch = useCallback(
     async (query) => {
-      const pendingId = appendAssistant('Searching the web, sir…', { pending: true });
+      beginActivity('searching');
+      const pendingId = appendAssistant(`Searching the web for "${query}", sir…`, { pending: true });
+      speakReply(`Searching the web for ${query}, sir.`);
       try {
         const res = await fetch('/api/jarvis/search', {
           method: 'POST',
@@ -858,15 +924,19 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         setMessages((prev) =>
           prev.map((m) => (m.id === pendingId ? { ...m, content: msg, pending: false } : m))
         );
-        scheduleRestartRef.current?.();
+        speakReply(msg);
+      } finally {
+        endActivity();
       }
     },
-    [appendAssistant, speakReply]
+    [appendAssistant, speakReply, beginActivity, endActivity]
   );
 
   const runImageGen = useCallback(
     async (prompt) => {
-      const pendingId = appendAssistant('Generating image, sir…', { pending: true });
+      beginActivity('drawing');
+      const pendingId = appendAssistant(`Generating image: ${prompt}, sir…`, { pending: true });
+      speakReply('Generating image, sir.');
       try {
         const res = await fetch('/api/jarvis/image', {
           method: 'POST',
@@ -895,127 +965,166 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         setMessages((prev) =>
           prev.map((m) => (m.id === pendingId ? { ...m, content: msg, pending: false } : m))
         );
-        scheduleRestartRef.current?.();
+        speakReply(msg);
+      } finally {
+        endActivity();
       }
     },
-    [appendAssistant, speakReply]
+    [appendAssistant, speakReply, beginActivity, endActivity]
   );
+
+  const processUserMessage = useCallback(
+    async (trimmed, { addUserBubble = true } = {}) => {
+      try {
+        if (!trimmed) return;
+        pauseListening();
+
+        const userMsg = { id: `u-${Date.now()}`, role: 'user', content: trimmed };
+        if (addUserBubble) {
+          setMessages((prev) => [...prev, userMsg]);
+          userScrolledUpRef.current = false;
+        }
+
+        let data = normalizeJarvisContext(liveData || (await refreshData()));
+        const clients = data?.clients || [];
+        const parsed = parseJarvisCommand(trimmed, clients);
+
+        if (parsed?.type === 'read' && parsed.command === 'leads' && parsed.days > 1) {
+          if (data?.leadsHistory?.[parsed.days] == null) {
+            try {
+              const lr = await fetch(`/api/jarvis/leads?days=${parsed.days}`, {
+                credentials: 'include',
+                cache: 'no-store',
+              });
+              if (lr.ok) {
+                const ld = await lr.json();
+                data = {
+                  ...data,
+                  leadsHistory: { ...(data?.leadsHistory || {}), [parsed.days]: ld.count },
+                };
+              }
+            } catch {
+              // fall through
+            }
+          }
+        }
+
+        if (parsed?.type === 'read') {
+          if (parsed.command === 'search-retry' && lastSearchQueryRef.current) {
+            await runWebSearch(lastSearchQueryRef.current);
+            return;
+          }
+          if (parsed.command === 'search') {
+            await runWebSearch(parsed.query);
+            return;
+          }
+          const reply = composeReadResponse(parsed, data || {});
+          if (reply?.content) {
+            replyAssistant(reply.content, { cards: reply.cards });
+            return;
+          }
+        }
+
+        if (parsed?.type === 'action' && parsed.command === 'image') {
+          await runImageGen(parsed.prompt);
+          return;
+        }
+
+        if (parsed?.type === 'action' && parsed.command === 'browse') {
+          beginActivity('opening');
+          window.open(parsed.url, '_blank', 'noopener,noreferrer');
+          replyAssistant(`Opening ${parsed.label || parsed.url}, sir.`);
+          endActivity(2500);
+          return;
+        }
+
+        if (parsed?.type === 'action' && parsed.needsConfirm) {
+          setPendingAction(parsed);
+          replyAssistant(`${parsed.summary}\n\nConfirm execution below, sir.`, {
+            confirm: parsed,
+          });
+          return;
+        }
+
+        if (parsed?.type === 'action' && !parsed.needsConfirm) {
+          await executeAction(parsed);
+          return;
+        }
+
+        if (!parsed && messageNeedsWebSearch(trimmed)) {
+          const autoQuery =
+            extractSearchQueryFromTranscript(trimmed) || normalizeSearchQuery(trimmed);
+          if (autoQuery.length > 2) {
+            await runWebSearch(autoQuery);
+            return;
+          }
+        }
+
+        const assistantId = `a-${Date.now()}`;
+        setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: '' }]);
+        const history = [...messages, userMsg]
+          .filter((m) => m.role === 'user' || m.role === 'assistant')
+          .filter((m) => typeof m.content === 'string' && m.content.trim())
+          .map((m) => ({ role: m.role, content: m.content }));
+        const full = await streamLLM(history, assistantId);
+        if (full?.trim()) {
+          await speakReply(full);
+        } else if (!full) {
+          flushMessageQueueRef.current?.();
+        } else {
+          const fallback = 'I did not get a clear reply for that, sir. Please try again.';
+          setMessages((prev) =>
+            prev.map((m) => (m.id === assistantId ? { ...m, content: fallback } : m))
+          );
+          await speakReply(fallback);
+        }
+      } catch (err) {
+        console.error('[jarvis] processUserMessage', err);
+        replyAssistant(
+          `Something went wrong, sir. ${err?.message || 'Try help, status, or briefing for instant commands.'}`
+        );
+      }
+    },
+    [
+      liveData,
+      refreshData,
+      messages,
+      replyAssistant,
+      speakReply,
+      streamLLM,
+      executeAction,
+      pauseListening,
+      runWebSearch,
+      runImageGen,
+      beginActivity,
+      endActivity,
+    ]
+  );
+
+  useEffect(() => {
+    processUserMessageRef.current = processUserMessage;
+  }, [processUserMessage]);
 
   const sendMessage = useCallback(
     async (text) => {
-      try {
       const trimmed = text.trim();
       if (!trimmed) return;
-      if (streamingRef.current) {
-        appendSystemNote('Still processing your last message, sir. Wait a moment or tap Stop.');
-        return;
-      }
-
-      pauseListening();
-
-      const userMsg = { id: `u-${Date.now()}`, role: 'user', content: trimmed };
-      setMessages((prev) => [...prev, userMsg]);
-      userScrolledUpRef.current = false;
-
-      let data = normalizeJarvisContext(liveData || (await refreshData()));
-      const clients = data?.clients || [];
-      const parsed = parseJarvisCommand(trimmed, clients);
-
-      if (parsed?.type === 'read' && parsed.command === 'leads' && parsed.days > 1) {
-        if (data?.leadsHistory?.[parsed.days] == null) {
-          try {
-            const lr = await fetch(`/api/jarvis/leads?days=${parsed.days}`, {
-              credentials: 'include',
-              cache: 'no-store',
-            });
-            if (lr.ok) {
-              const ld = await lr.json();
-              data = {
-                ...data,
-                leadsHistory: { ...(data?.leadsHistory || {}), [parsed.days]: ld.count },
-              };
-            }
-          } catch {
-            // fall through
+      if (streamingRef.current || speakingRef.current || pendingTtsRef.current) {
+        setMessages((prev) => [...prev, { id: `u-${Date.now()}`, role: 'user', content: trimmed }]);
+        userScrolledUpRef.current = false;
+        messageQueueRef.current.push(trimmed);
+        const isFirstQueued = messageQueueRef.current.length === 1;
+        if (isFirstQueued) {
+          appendAssistant('One moment, sir — I will answer that next.');
+          if (!speakingRef.current && !pendingTtsRef.current) {
+            speakReply('One moment, sir — I will answer that next.');
           }
         }
-      }
-
-      if (parsed?.type === 'read') {
-        if (parsed.command === 'search-retry' && lastSearchQueryRef.current) {
-          await runWebSearch(lastSearchQueryRef.current);
-          return;
-        }
-        if (parsed.command === 'search') {
-          await runWebSearch(parsed.query);
-          return;
-        }
-        const reply = composeReadResponse(parsed, data || {});
-        if (reply?.content) {
-          appendAssistant(reply.content, { cards: reply.cards });
-          speakReply(reply.content);
-          return;
-        }
-      }
-
-      if (parsed?.type === 'action' && parsed.command === 'image') {
-        await runImageGen(parsed.prompt);
         return;
       }
-
-      if (parsed?.type === 'action' && parsed.command === 'browse') {
-        window.open(parsed.url, '_blank', 'noopener,noreferrer');
-        const msg = `Opening ${parsed.label || parsed.url}, sir.`;
-        appendAssistant(msg);
-        speakReply(msg);
-        scheduleRestartRef.current?.();
-        return;
-      }
-
-      if (parsed?.type === 'action' && parsed.needsConfirm) {
-        setPendingAction(parsed);
-        appendAssistant(`${parsed.summary}\n\nConfirm execution below, sir.`, {
-          confirm: parsed,
-        });
-        scheduleRestartRef.current?.();
-        return;
-      }
-
-      if (parsed?.type === 'action' && !parsed.needsConfirm) {
-        await executeAction(parsed);
-        return;
-      }
-
-      if (!parsed && messageNeedsWebSearch(trimmed)) {
-        const autoQuery =
-          extractSearchQueryFromTranscript(trimmed) || normalizeSearchQuery(trimmed);
-        if (autoQuery.length > 2) {
-          await runWebSearch(autoQuery);
-          return;
-        }
-      }
-
-      const assistantId = `a-${Date.now()}`;
-      setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: '' }]);
-      const history = [...messages, userMsg]
-        .filter((m) => m.role === 'user' || m.role === 'assistant')
-        .filter((m) => typeof m.content === 'string' && m.content.trim())
-        .map((m) => ({ role: m.role, content: m.content }));
-      const full = await streamLLM(history, assistantId);
-      if (full) {
-        await speakReply(full);
-      } else {
-        scheduleRestartRef.current?.();
-      }
-      } catch (err) {
-        console.error('[jarvis] sendMessage', err);
-        appendAssistant(
-          `Something went wrong, sir. ${err?.message || 'Try help, status, or briefing for instant commands.'}`
-        );
-        scheduleRestartRef.current?.();
-      }
+      await processUserMessage(trimmed);
     },
-    [liveData, refreshData, messages, appendAssistant, speakReply, streamLLM, executeAction, appendSystemNote, pauseListening, runWebSearch, runImageGen]
+    [processUserMessage, appendAssistant, speakReply]
   );
 
   useEffect(() => {
@@ -1117,6 +1226,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       cancelAction,
       speaking,
       listening,
+      busyActivity,
+      activity:
+        busyActivity ||
+        (speaking ? 'speaking' : streaming ? 'thinking' : listening ? 'listening' : 'idle'),
       startListening,
       speechSupported: isSpeechRecognitionSupported(),
       voicePlatformHint: getVoicePlatformHint(),
@@ -1157,6 +1270,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       cancelAction,
       speaking,
       listening,
+      busyActivity,
       startListening,
       muted,
       presentationMode,
