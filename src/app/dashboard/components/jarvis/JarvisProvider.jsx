@@ -21,8 +21,8 @@ import {
   isSpeechAudioUnlocked,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
-import { messageNeedsWebSearch, extractSearchQueryFromTranscript, normalizeSearchQuery, summarizeSearchResults, isRealSearchResultSet } from '@/lib/jarvis/web-search';
-import { openExternalUrl } from '@/lib/jarvis/open-url';
+import { messageNeedsWebSearch, hasExplicitSearchIntent, extractSearchQueryFromTranscript, normalizeSearchQuery, summarizeSearchResults, isRealSearchResultSet } from '@/lib/jarvis/web-search';
+import { navigateExternalUrl } from '@/lib/jarvis/open-url';
 
 const JarvisContext = createContext(null);
 const PRESENTATION_KEY = 'jarvis-presentation';
@@ -110,6 +110,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const skipOnEndSendRef = useRef(false);
   const pendingTtsRef = useRef(false);
   const lastSearchQueryRef = useRef(null);
+  const lastBrowseRef = useRef(null);
   const messageQueueRef = useRef([]);
   const flushMessageQueueRef = useRef(null);
   const clapFlashTimerRef = useRef(null);
@@ -718,14 +719,20 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const openBrowseUrl = useCallback(
     (url, label) => {
       beginActivity('opening');
-      const opened = openExternalUrl(url);
       const name = label || url;
-      const msg = opened
-        ? `Opening ${name}, sir.`
-        : `Opening ${name}, sir — tap the link below if the tab did not open.`;
-      replyAssistant(msg, {
-        cards: [{ type: 'link', url, label: `Open ${name}` }],
-      });
+      lastBrowseRef.current = { url, label: name };
+      const mode = navigateExternalUrl(url);
+      const msg =
+        mode === 'tab'
+          ? `Opening ${name} in a new tab, sir.`
+          : mode === 'same'
+            ? `Opening ${name} now, sir.`
+            : `Could not open ${name}, sir. Try again or paste the link in your browser.`;
+      if (mode === 'failed') {
+        replyAssistant(msg, { cards: [{ type: 'link', url, label: `Open ${name}` }] });
+      } else {
+        replyAssistant(msg);
+      }
       endActivity(2500);
       scheduleRestartRef.current?.();
     },
@@ -1076,6 +1083,23 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
         const parsedQuick = parseJarvisCommand(trimmed, liveData?.clients || []);
 
+        if (
+          /\b(?:have you opened|did you open|where(?:'s|\s+is)|can't see|cannot see|don't see|do not see|i can't see|not see it)\b/i.test(
+            trimmed
+          )
+        ) {
+          const yt = /\b(?:youtube|yt)\b/i.test(trimmed);
+          const target = yt
+            ? { url: 'https://www.youtube.com', label: 'YouTube' }
+            : lastBrowseRef.current;
+          if (target?.url) {
+            openBrowseUrl(target.url, target.label || 'link');
+            return;
+          }
+          replyAssistant('Nothing is open yet, sir. Say "open YouTube" and I will open it.');
+          return;
+        }
+
         if (parsedQuick?.type === 'action' && parsedQuick.command === 'browse') {
           openBrowseUrl(parsedQuick.url, parsedQuick.label || parsedQuick.url);
           return;
@@ -1152,7 +1176,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           return;
         }
 
-        if (!parsed && messageNeedsWebSearch(trimmed)) {
+        if (!parsed && hasExplicitSearchIntent(trimmed)) {
           const autoQuery =
             extractSearchQueryFromTranscript(trimmed) || normalizeSearchQuery(trimmed);
           if (autoQuery.length > 2) {
@@ -1285,6 +1309,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     }
   }, []);
 
+  const clearComms = useCallback(() => {
+    setMessages([]);
+    setPendingAction(null);
+  }, []);
+
   const replayLastReply = useCallback(async () => {
     if (!lastReplyText?.trim() || muted) return;
     unlockSpeechAudio({ prime: true });
@@ -1317,6 +1346,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       messages,
       streaming,
       sendMessage,
+      clearComms,
       stopGeneration,
       stopSpeakingReply,
       bootLine,
@@ -1374,6 +1404,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       messages,
       streaming,
       sendMessage,
+      clearComms,
       stopGeneration,
       stopSpeakingReply,
       bootLine,

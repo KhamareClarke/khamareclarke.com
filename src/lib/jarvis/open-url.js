@@ -1,25 +1,21 @@
 'use client';
 
-/** Try to open a URL in a new tab; returns whether a tab likely opened. */
-export function openExternalUrl(url) {
-  if (!url || typeof window === 'undefined') return false;
+/**
+ * Open an external URL. Tries a new tab first; if the browser blocks popups
+ * (common after voice), navigates the current tab so the site actually opens.
+ */
+export function navigateExternalUrl(url) {
+  if (!url || typeof window === 'undefined') return 'failed';
   try {
     const win = window.open(url, '_blank', 'noopener,noreferrer');
-    if (win) return true;
+    if (win != null) return 'tab';
   } catch {
-    // fall through
+    // popup blocked — fall through
   }
   try {
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.target = '_blank';
-    anchor.rel = 'noopener noreferrer';
-    anchor.style.display = 'none';
-    document.body.appendChild(anchor);
-    anchor.click();
-    document.body.removeChild(anchor);
-    return true;
+    window.location.assign(url);
+    return 'same';
   } catch {
-    return false;
+    return 'failed';
   }
 }

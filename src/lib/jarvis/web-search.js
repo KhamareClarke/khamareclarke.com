@@ -506,12 +506,43 @@ export function formatSearchResultsForPrompt(results) {
     .join('\n\n');
 }
 
-/** Heuristic: message likely needs live web data (not ops dashboard). */
-export function messageNeedsWebSearch(text) {
-  const t = String(text || '').toLowerCase();
+/** Conversational / ops questions that must never auto-search the web. */
+export function isConversationalOrOpsMessage(text) {
+  const t = String(text || '').trim().toLowerCase();
+  if (!t) return true;
+  if (/^(status|fleet|leads|briefing|help|hello|hi|hey|thanks|thank you)\b/i.test(t)) return true;
+  if (/\b(your|my|our|today'?s?)\s+(work|day|plan|schedule|briefing|tasks?|agenda)\b/i.test(t)) return true;
+  if (/\bhow\s+(?:is|was|are)\s+(?:work|your day|things|it going)\b/i.test(t)) return true;
+  if (/\bwhat\s+(?:is|are|was|were)\s+(?:your|my|our|today'?s?)\b/i.test(t)) return true;
+  if (/\bwhat\s+(?:did|do)\s+you\s+(?:do|have|work on)\b/i.test(t)) return true;
+  if (/\b(?:tell me|explain)\s+(?:about\s+)?(?:yourself|your|my)\b/i.test(t)) return true;
+  if (/\b(?:good morning|good night|happy birthday|how are you)\b/i.test(t)) return true;
+  return false;
+}
+
+/** Explicit user intent to search the web (slash/voice search commands). */
+export function hasExplicitSearchIntent(text) {
+  const t = fixSearchTypos(String(text || '').trim().toLowerCase());
   if (!t) return false;
+  if (/^(search|google|look\s*up|lookup|find)\b/i.test(t)) return true;
+  if (/\b(search|serach|look\s*up|lookup)\s+(?:on\s+)?(?:google|the\s+web|the\s+internet|for|about)\b/i.test(t)) return true;
+  if (/\bfind\s+.+\s+(?:on|via|using)\s+(?:google|the\s+web|the\s+internet|online)\b/i.test(t)) return true;
+  if (/\bgoogle\s+(?:search|for)\b/i.test(t)) return true;
+  return false;
+}
+
+/** Heuristic: message likely needs live web data (not ops dashboard or chat). */
+export function messageNeedsWebSearch(text) {
+  const t = fixSearchTypos(String(text || '').trim().toLowerCase());
+  if (!t || isConversationalOrOpsMessage(t)) return false;
+  if (hasExplicitSearchIntent(t)) return true;
   if (/^(status|fleet|leads|briefing|help|open\s+(fleet|clients|leads))/i.test(t)) return false;
-  return /\b(price|prices|cost|how much|what is|what's|who is|when did|latest|news|weather|today|inr|usd|£|\$|buy|review|compare|search|serach|google|look\s*up|lookup|find|gold|silver|stock|laptop|roofing|companies|company|uk)\b/i.test(
-    t
-  );
+
+  if (/\bweather\b/i.test(t)) return true;
+  if (/\b(latest|breaking|today'?s?)\s+(news|headlines)\b/i.test(t)) return true;
+  if (/\b(price|prices|cost|how much)\b/i.test(t) && /\b(gold|silver|bitcoin|btc|eth|oil|gas|stock|share|inr|usd|£|\$)\b/i.test(t)) return true;
+  if (/\bwho\s+(?:is|was)\s+/i.test(t) && !/\b(you|jarvis|sir)\b/i.test(t)) return true;
+  if (/\bwhat\s+(?:is|are)\s+the\s+(?:price|cost|weather|news)\b/i.test(t)) return true;
+
+  return false;
 }

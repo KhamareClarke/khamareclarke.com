@@ -1,10 +1,10 @@
 'use client';
 
 /** Concentric HUD rings — Iron Man JARVIS style. */
-export default function JarvisHudRings({ active, className = '' }) {
+export default function JarvisHudRings({ active, listening = false, className = '' }) {
   return (
     <svg
-      className={`jarvis-hud-rings pointer-events-none ${className}`}
+      className={`jarvis-hud-rings pointer-events-none ${listening ? 'jarvis-hud-rings--listening' : ''} ${className}`}
       viewBox="0 0 400 400"
       aria-hidden
     >      <defs>
