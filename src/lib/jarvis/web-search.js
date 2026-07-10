@@ -33,10 +33,54 @@ export function fixSearchTypos(text) {
     .trim();
 }
 
+const WAKE_PREFIX_RE =
+  /^(?:hello\s+|hey\s+|ok(?:ay)?\s+)?(?:jarvis|jarvus|jervis|darbis|darwis|darwise|darwin|gervais|service)\s*[,:\s]*/gi;
+
+function stripWakePrefix(text) {
+  return fixSearchTypos(String(text || '').trim())
+    .replace(WAKE_PREFIX_RE, '')
+    .trim();
+}
+
+/** Build a clean web search query from voice/text (news, photos, tell me about, etc.). */
+export function buildWebSearchQuery(raw) {
+  let text = stripWakePrefix(raw);
+  if (!text) text = fixSearchTypos(String(raw || '').trim());
+
+  const tellAbout = text.match(/\b(?:tell|give)\s+me\s+(?:about\s+)?(.+)$/i);
+  if (tellAbout) {
+    const q = normalizeSearchQuery(tellAbout[1]);
+    if (q.length > 2) return q;
+  }
+
+  const photosOf = text.match(/\bphotos?\s+of\s+(.+)$/i);
+  if (photosOf) {
+    const q = normalizeSearchQuery(photosOf[1]);
+    if (q.length > 2) return q;
+  }
+
+  if (/\b(?:news|headlines|weather|price|prices)\b/i.test(text)) {
+    const q = normalizeSearchQuery(text);
+    if (q.length > 2) return q;
+  }
+
+  if (/\b(?:today|latest|breaking|current)\b/i.test(text)) {
+    const q = normalizeSearchQuery(text);
+    if (q.length > 2) return q;
+  }
+
+  const about = text.match(/\babout\s+(.+)$/i);
+  if (about) {
+    const q = normalizeSearchQuery(about[1]);
+    if (q.length > 2) return q;
+  }
+
+  return extractSearchQueryFromTranscript(raw);
+}
+
 /** Pull a search query from messy voice transcripts. */
 export function extractSearchQueryFromTranscript(raw) {
-  let text = fixSearchTypos(String(raw || '').trim());
-  text = text.replace(/^(?:hello\s+)?(?:hey\s+)?jarvis[,:\s]+/i, '').trim();
+  let text = stripWakePrefix(raw);
   const lower = text.toLowerCase();
   const idx = lower.search(/\bsearch\b/);
   if (idx >= 0) {
@@ -506,10 +550,23 @@ export function formatSearchResultsForPrompt(results) {
     .join('\n\n');
 }
 
+/** Draft/write/compose requests — always handled by the LLM, never ops metrics. */
+export function isWritingRequest(text) {
+  const t = String(text || '').trim().toLowerCase();
+  if (!t) return false;
+  return (
+    /\b(write|draft|compose|prepare|create|generate)\s+(?:a\s+|an\s+|the\s+|me\s+)?/.test(t) ||
+    /\b(sick\s+leave|leave\s+application|cover\s+letter|resignation\s+letter)\b/.test(t) ||
+    /\b(?:write|draft|compose)\b.*\b(?:letter|email|application|message|document|essay|report)\b/.test(t) ||
+    /\b(?:letter|email\s+body|application)\b.*\b(?:for|about|to)\b/.test(t)
+  );
+}
+
 /** Conversational / ops questions that must never auto-search the web. */
 export function isConversationalOrOpsMessage(text) {
   const t = String(text || '').trim().toLowerCase();
   if (!t) return true;
+  if (isWritingRequest(t)) return true;
   if (/^(status|fleet|leads|briefing|help|hello|hi|hey|thanks|thank you)\b/i.test(t)) return true;
   if (/\b(your|my|our|today'?s?)\s+(work|day|plan|schedule|briefing|tasks?|agenda)\b/i.test(t)) return true;
   if (/\bhow\s+(?:is|was|are)\s+(?:work|your day|things|it going)\b/i.test(t)) return true;
@@ -531,12 +588,30 @@ export function hasExplicitSearchIntent(text) {
   return false;
 }
 
+function isTellMeAboutWebQuery(text) {
+  const t = String(text || '').trim().toLowerCase();
+  if (!/\b(?:tell|give)\s+me\s+(?:about\s+)?/i.test(t)) return false;
+  if (/\b(?:your|my|our|today'?s?)\s+(?:work|day|plan|schedule|briefing|tasks?|agenda)\b/i.test(t)) {
+    return false;
+  }
+  if (/\b(?:yourself|your|my)\b/i.test(t)) return false;
+  return true;
+}
+
 /** Heuristic: message likely needs live web data (not ops dashboard or chat). */
 export function messageNeedsWebSearch(text) {
   const t = fixSearchTypos(String(text || '').trim().toLowerCase());
   if (!t || isConversationalOrOpsMessage(t)) return false;
   if (hasExplicitSearchIntent(t)) return true;
   if (/^(status|fleet|leads|briefing|help|open\s+(fleet|clients|leads))/i.test(t)) return false;
+
+  if (/\bnews\b/i.test(t)) return true;
+  if (/\bphotos?\s+of\b/i.test(t)) return true;
+  if (isTellMeAboutWebQuery(t)) return true;
+  if (/\b(?:today|latest|breaking|current)\s+(?:\w+\s+){0,4}(?:news|ai|tech|technology|headlines)\b/i.test(t)) {
+    return true;
+  }
+  if (/\b(?:today|latest|breaking)\b/i.test(t) && /\b(?:ai|tech|technology)\b/i.test(t)) return true;
 
   if (/\bweather\b/i.test(t)) return true;
   if (/\b(latest|breaking|today'?s?)\s+(news|headlines)\b/i.test(t)) return true;

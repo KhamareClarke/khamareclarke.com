@@ -1142,6 +1142,12 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   box-shadow: 0 0 28px rgba(34, 211, 238, 0.45);
   animation: jarvis-dock-mic-pulse 1.5s ease-in-out infinite;
 }
+.jarvis-dock-btn--speaking,
+.jarvis-dock-btn--mic.jarvis-dock-btn--speaking {
+  border-color: rgba(251, 191, 36, 0.55);
+  background: linear-gradient(180deg, rgba(180, 83, 9, 0.35), rgba(120, 53, 15, 0.3));
+  box-shadow: 0 0 22px rgba(251, 191, 36, 0.35);
+}
 @keyframes jarvis-dock-mic-pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }

@@ -37,10 +37,15 @@ export async function POST(req) {
     }
 
     const { text: contextBlock } = await buildJarvisContext();
-    const systemPrompt = `${JARVIS_SYSTEM_PROMPT}\n\n${contextBlock}`;
+    let systemPrompt = `${JARVIS_SYSTEM_PROMPT}\n\n${contextBlock}`;
+    if (body.writingTask) {
+      systemPrompt +=
+        '\n\nWRITING TASK: Produce the complete requested draft in full. Do not say not tracked yet. Deliver the full text now.';
+    }
 
     const lastUser = messages[messages.length - 1]?.content || '';
-    const useGoogleSearch = body.webSearch !== false && messageNeedsWebSearch(lastUser);
+    const useGoogleSearch =
+      !body.writingTask && body.webSearch !== false && messageNeedsWebSearch(lastUser);
 
     let upstream;
     let provider;

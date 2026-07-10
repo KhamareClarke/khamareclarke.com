@@ -15,14 +15,42 @@ import {
   ensureMicPermission,
   processRecognitionResult,
   isMobileUserAgent,
+  isIOS,
   speechRecognitionUsesContinuous,
   getVoicePlatformHint,
   unlockSpeechAudio,
   isSpeechAudioUnlocked,
+  prepareSpeechOutput,
+  handoffSpeechToMic,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
-import { messageNeedsWebSearch, hasExplicitSearchIntent, extractSearchQueryFromTranscript, normalizeSearchQuery, summarizeSearchResults, isRealSearchResultSet } from '@/lib/jarvis/web-search';
+import {
+  messageNeedsWebSearch,
+  hasExplicitSearchIntent,
+  buildWebSearchQuery,
+  isWritingRequest,
+  extractSearchQueryFromTranscript,
+  normalizeSearchQuery,
+  summarizeSearchResults,
+  isRealSearchResultSet,
+} from '@/lib/jarvis/web-search';
 import { navigateExternalUrl } from '@/lib/jarvis/open-url';
+
+function resolveOpenUrlFromParsed(parsed) {
+  if (!parsed || parsed.type !== 'action') return null;
+  if (parsed.command === 'browse' && parsed.url) return parsed.url;
+  if (parsed.command === 'open' && parsed.route && typeof window !== 'undefined') {
+    return `${window.location.origin}${parsed.route}`;
+  }
+  return null;
+}
+
+function prefetchOpenFromTranscript(transcript, prefetchedRef) {
+  const url = resolveOpenUrlFromParsed(parseJarvisCommand(transcript, []));
+  if (!url) return false;
+  prefetchedRef.current = url;
+  return navigateExternalUrl(url);
+}
 
 const JarvisContext = createContext(null);
 const PRESENTATION_KEY = 'jarvis-presentation';
@@ -111,6 +139,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const pendingTtsRef = useRef(false);
   const lastSearchQueryRef = useRef(null);
   const lastBrowseRef = useRef(null);
+  const prefetchedOpenUrlRef = useRef(null);
   const messageQueueRef = useRef([]);
   const flushMessageQueueRef = useRef(null);
   const clapFlashTimerRef = useRef(null);
@@ -234,7 +263,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       ) {
         beginListeningRef.current?.();
       }
-    }, 6000);
+    }, isMobileUserAgent() ? 3500 : 6000);
 
     return () => {
       cancelled = true;
@@ -377,10 +406,15 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const scheduleRestartListening = useCallback(() => {
     if (!continuousListenRef.current) return;
     if (pendingTtsRef.current || streamingRef.current || speakingRef.current) return;
-    const delay = isMobileUserAgent() ? 900 : 500;
-    setTimeout(() => {
+    const delay = isIOS() ? 1300 : isMobileUserAgent() ? 1000 : 500;
+    setTimeout(async () => {
       if (!continuousListenRef.current) return;
       if (streamingRef.current || speakingRef.current || recognizingRef.current) return;
+      if (pendingTtsRef.current) return;
+      if (isMobileUserAgent()) {
+        await handoffSpeechToMic();
+      }
+      if (!continuousListenRef.current || streamingRef.current || speakingRef.current) return;
       beginListeningRef.current?.();
     }, delay);
   }, []);
@@ -447,6 +481,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         if (interim) lastInterimRef.current = interim;
         else if (display) lastInterimRef.current = display;
         if (display) setVoiceInterim(display);
+
+        if (hadFinal && accumulated.trim()) {
+          prefetchOpenFromTranscript(accumulated, prefetchedOpenUrlRef);
+        }
 
         // Continuous mode never fires onEnd per utterance — send after a pause in speech.
         if (display && (voiceAutoSendRef.current || continuousListenRef.current)) {
@@ -595,11 +633,14 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     flushMessageQueueRef.current?.();
   }, []);
 
-  const stopSpeakingReply = useCallback(() => {
+  const stopSpeakingReply = useCallback(async () => {
     stopSpeaking();
     speakingRef.current = false;
     setSpeaking(false);
     pendingTtsRef.current = false;
+    if (isMobileUserAgent()) {
+      await handoffSpeechToMic();
+    }
     scheduleRestartRef.current?.();
     flushMessageQueueRef.current?.();
   }, []);
@@ -649,27 +690,32 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   const speakReply = useCallback(
     async (text) => {
-      const finish = () => {
+      const finish = async () => {
+        if (isMobileUserAgent()) {
+          await handoffSpeechToMic();
+        }
         scheduleRestartRef.current?.();
         flushMessageQueueRef.current?.();
       };
       if (!text?.trim()) {
-        finish();
+        await finish();
         return;
       }
       if (muted) {
-        finish();
+        await finish();
         return;
       }
 
       pendingTtsRef.current = true;
       pauseListening();
       stopSpeaking();
+      prepareSpeechOutput();
+      setAudioUnlocked(true);
 
       const plain = stripJarvisMarkdown(text);
       setLastReplyText(plain);
 
-      const gap = isMobileUserAgent() ? 280 : 200;
+      const gap = isIOS() ? 360 : isMobileUserAgent() ? 300 : 200;
       await new Promise((r) => setTimeout(r, gap));
 
       try {
@@ -699,7 +745,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         });
       } catch {
         pendingTtsRef.current = false;
-        finish();
+        await finish();
       }
     },
     [muted, pauseListening]
@@ -721,18 +767,17 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       beginActivity('opening');
       const name = label || url;
       lastBrowseRef.current = { url, label: name };
-      const mode = navigateExternalUrl(url);
-      const msg =
-        mode === 'tab'
-          ? `Opening ${name} in a new tab, sir.`
-          : mode === 'same'
-            ? `Opening ${name} now, sir.`
-            : `Could not open ${name}, sir. Try again or paste the link in your browser.`;
-      if (mode === 'failed') {
-        replyAssistant(msg, { cards: [{ type: 'link', url, label: `Open ${name}` }] });
+      let opened = false;
+      if (prefetchedOpenUrlRef.current === url) {
+        prefetchedOpenUrlRef.current = null;
+        opened = true;
       } else {
-        replyAssistant(msg);
+        opened = navigateExternalUrl(url);
       }
+      const msg = opened
+        ? `Opening ${name} in a new tab, sir.`
+        : `Could not open a new tab for ${name}, sir — allow popups for this site or use the link below.`;
+      replyAssistant(msg, opened ? { cards: [{ type: 'link', url, label: `Open ${name}` }] } : { cards: [{ type: 'link', url, label: `Open ${name}` }] });
       endActivity(2500);
       scheduleRestartRef.current?.();
     },
@@ -740,10 +785,12 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   );
 
   const streamLLM = useCallback(
-    async (history, assistantId) => {
+    async (history, assistantId, { writingTask = false } = {}) => {
       const controller = new AbortController();
       abortRef.current = controller;
       setStreaming(true);
+
+      const lastContent = history[history.length - 1]?.content || '';
 
       try {
         const res = await fetch('/api/jarvis/chat', {
@@ -752,7 +799,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             messages: history,
-            webSearch: messageNeedsWebSearch(history[history.length - 1]?.content),
+            webSearch: writingTask ? false : messageNeedsWebSearch(lastContent),
+            writingTask: writingTask || undefined,
           }),
           signal: controller.signal,
         });
@@ -857,12 +905,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
       try {
         if (action.command === 'open') {
-          beginActivity('opening');
-          router.push(action.route);
-          const msg = `Opening ${action.tab} tab, sir.`;
-          setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: msg, pending: false } : m)));
-          speakReply(msg);
-          endActivity(2500);
+          openBrowseUrl(
+            `${typeof window !== 'undefined' ? window.location.origin : ''}${action.route}`,
+            action.tab
+          );
+          setMessages((prev) => prev.filter((m) => m.id !== confirmId));
           return;
         }
 
@@ -1111,10 +1158,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         }
 
         if (parsedQuick?.type === 'action' && parsedQuick.command === 'open') {
-          beginActivity('opening');
-          router.push(parsedQuick.route);
-          replyAssistant(`Opening ${parsedQuick.tab} tab, sir.`);
-          endActivity(2500);
+          const abs =
+            typeof window !== 'undefined'
+              ? `${window.location.origin}${parsedQuick.route}`
+              : parsedQuick.route;
+          openBrowseUrl(abs, parsedQuick.tab);
           return;
         }
 
@@ -1176,14 +1224,19 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           return;
         }
 
-        if (!parsed && hasExplicitSearchIntent(trimmed)) {
-          const autoQuery =
-            extractSearchQueryFromTranscript(trimmed) || normalizeSearchQuery(trimmed);
+        if (
+          !parsed &&
+          !isWritingRequest(trimmed) &&
+          (hasExplicitSearchIntent(trimmed) || messageNeedsWebSearch(trimmed))
+        ) {
+          const autoQuery = buildWebSearchQuery(trimmed);
           if (autoQuery.length > 2) {
             await runWebSearch(autoQuery);
             return;
           }
         }
+
+        const writingTask = isWritingRequest(trimmed);
 
         const assistantId = `a-${Date.now()}`;
         setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: '' }]);
@@ -1191,7 +1244,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           .filter((m) => m.role === 'user' || m.role === 'assistant')
           .filter((m) => typeof m.content === 'string' && m.content.trim())
           .map((m) => ({ role: m.role, content: m.content }));
-        const full = await streamLLM(history, assistantId);
+        const full = await streamLLM(history, assistantId, { writingTask });
         if (full?.trim()) {
           await speakReply(full);
         } else if (!full) {
@@ -1235,6 +1288,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     async (text) => {
       const trimmed = text.trim();
       if (!trimmed) return;
+      prefetchOpenFromTranscript(trimmed, prefetchedOpenUrlRef);
       if (streamingRef.current || speakingRef.current || pendingTtsRef.current) {
         setMessages((prev) => [...prev, { id: `u-${Date.now()}`, role: 'user', content: trimmed }]);
         userScrolledUpRef.current = false;
@@ -1276,6 +1330,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   }, [open, streaming, sendMessage]);
 
   const startListening = useCallback(async (onTranscript) => {
+    unlockSpeechAudio({ prime: isMobileUserAgent() });
+    prepareSpeechOutput();
+    setAudioUnlocked(true);
     onTranscriptRef.current = onTranscript;
     if (recognizingRef.current) {
       pauseListening();
@@ -1283,6 +1340,15 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       return;
     }
     setContinuousListen(true);
+    if (speakingRef.current) {
+      stopSpeaking();
+      speakingRef.current = false;
+      setSpeaking(false);
+      pendingTtsRef.current = false;
+      if (isMobileUserAgent()) {
+        await handoffSpeechToMic();
+      }
+    }
     await beginListening({ interruptSpeech: true });
   }, [beginListening, pauseListening]);
 
@@ -1292,9 +1358,12 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   }, [pauseListening]);
 
   const enableContinuousListen = useCallback(async () => {
+    unlockSpeechAudio({ prime: isMobileUserAgent() });
+    prepareSpeechOutput();
+    setAudioUnlocked(true);
     setContinuousListen(true);
     setVoiceAutoSend(true);
-    const ok = await beginListening();
+    const ok = await beginListening({ interruptSpeech: true });
     if (!ok) {
       setContinuousListen(false);
     }

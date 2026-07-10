@@ -1,21 +1,41 @@
 'use client';
 
 /**
- * Open an external URL. Tries a new tab first; if the browser blocks popups
- * (common after voice), navigates the current tab so the site actually opens.
+ * Open a URL in a new tab only — never navigates away from JARVIS.
+ * Uses about:blank first so blocked popups return null instead of hijacking this tab.
  */
 export function navigateExternalUrl(url) {
-  if (!url || typeof window === 'undefined') return 'failed';
+  if (!url || typeof window === 'undefined') return false;
+
   try {
-    const win = window.open(url, '_blank', 'noopener,noreferrer');
-    if (win != null) return 'tab';
+    const blank = window.open('about:blank', '_blank', 'noopener,noreferrer');
+    if (blank) {
+      blank.opener = null;
+      blank.location.href = url;
+      return true;
+    }
   } catch {
-    // popup blocked — fall through
+    // fall through
   }
+
   try {
-    window.location.assign(url);
-    return 'same';
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.target = '_blank';
+    anchor.rel = 'noopener noreferrer';
+    anchor.referrerPolicy = 'no-referrer';
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    return true;
   } catch {
-    return 'failed';
+    return false;
   }
+}
+
+/** Absolute URL for an in-app path, opened in a new tab. */
+export function openAppRouteInNewTab(route) {
+  if (typeof window === 'undefined') return false;
+  const path = String(route || '').startsWith('/') ? route : `/${route || ''}`;
+  return navigateExternalUrl(`${window.location.origin}${path}`);
 }

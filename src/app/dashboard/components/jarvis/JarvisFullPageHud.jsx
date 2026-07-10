@@ -178,13 +178,21 @@ export default function JarvisFullPageHud() {
     e.preventDefault();
     const text = input.trim();
     if (!text) return;
+    if (isMobileVoice) unlockAndPrimeAudio();
     setInput('');
     sendMessage(text);
   };
 
-  const toggleMic = () => {
-    if (listening) stopListening();
-    else startListening();
+  const toggleMic = async () => {
+    unlockAndPrimeAudio();
+    if (listening) {
+      stopListening();
+      return;
+    }
+    if (speaking) {
+      await stopSpeakingReply();
+    }
+    await startListening();
   };
 
   return (
@@ -273,8 +281,8 @@ export default function JarvisFullPageHud() {
               <button
                 type="button"
                 onClick={toggleMic}
-                className={`jarvis-dock-btn jarvis-dock-btn--mic ${listening ? 'jarvis-dock-btn--active' : ''}`}
-                aria-label={listening ? 'Pause microphone' : 'Start microphone'}
+                className={`jarvis-dock-btn jarvis-dock-btn--mic ${listening ? 'jarvis-dock-btn--active' : speaking ? 'jarvis-dock-btn--speaking' : ''}`}
+                aria-label={listening ? 'Pause microphone' : speaking ? 'Interrupt and speak' : 'Start microphone'}
               >
                 🎤
               </button>

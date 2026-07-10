@@ -70,7 +70,7 @@ function stripWakePrefix(input) {
   let s = fixSearchTypos(String(input || '').trim());
   s = s
     .replace(
-      /^(?:hello\s+|hey\s+|ok(?:ay)?\s+)?(?:jarvis|jarvus|jervis|darbis|darwin|gervais|service)\s*[,:\s]*/gi,
+      /^(?:hello\s+|hey\s+|ok(?:ay)?\s+)?(?:jarvis|jarvus|jervis|darbis|darwis|darwise|darwin|gervais|service)\s*[,:\s]*/gi,
       ''
     )
     .trim();

@@ -81,13 +81,60 @@ function ttsDelayMs() {
 }
 
 function splitForTts(text) {
-  if (!isIOS() || text.length < 160) return [text];
+  const mobile = isMobileUserAgent();
+  const limit = isIOS() ? 160 : mobile ? 220 : 4000;
+  if (!mobile || text.length < limit) return [text];
   const parts = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g);
   return (parts || [text]).map((p) => p.trim()).filter(Boolean);
 }
 
 function speakingRefSafe(synth) {
   return synth.speaking || synth.pending;
+}
+
+/** Resume TTS output after a user gesture (required on iOS/Android). */
+export function prepareSpeechOutput() {
+  unlockSpeechAudio({ prime: false });
+  if (typeof window === 'undefined' || !window.speechSynthesis) return;
+  try {
+    window.speechSynthesis.resume?.();
+  } catch {
+    // ignore
+  }
+}
+
+/** Wait until the browser finishes TTS (iOS often fires onend early). */
+export function waitUntilSpeechIdle(maxMs = 8000) {
+  return new Promise((resolve) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) {
+      resolve();
+      return;
+    }
+    const synth = window.speechSynthesis;
+    const start = Date.now();
+    const tick = () => {
+      if (!speakingRefSafe(synth) || Date.now() - start > maxMs) {
+        resolve();
+        return;
+      }
+      setTimeout(tick, 80);
+    };
+    tick();
+  });
+}
+
+function buildUtterance(spoken, { onStart, onEnd, onError }) {
+  pickBritishVoice();
+  const utterance = new SpeechSynthesisUtterance(spoken);
+  const voice = pickBritishVoice();
+  if (voice) utterance.voice = voice;
+  utterance.rate = isMobileUserAgent() ? 1.0 : 0.95;
+  utterance.pitch = 0.95;
+  utterance.volume = 1;
+  utterance.onstart = () => onStart?.();
+  utterance.onend = () => onEnd?.();
+  utterance.onerror = () => onError?.();
+  return utterance;
 }
 
 function speakSingleChunk(spoken, { onStart, onEnd, muted } = {}) {
@@ -100,11 +147,14 @@ function speakSingleChunk(spoken, { onStart, onEnd, muted } = {}) {
     return Promise.resolve(false);
   }
 
-  unlockSpeechAudio();
+  prepareSpeechOutput();
 
   return new Promise((resolve) => {
     let started = false;
+    let settled = false;
     const finish = (didStart) => {
+      if (settled) return;
+      settled = true;
       onEnd?.();
       resolve(didStart);
     };
@@ -112,51 +162,53 @@ function speakSingleChunk(spoken, { onStart, onEnd, muted } = {}) {
     const synth = window.speechSynthesis;
     synth.cancel();
 
-    const startSpeak = () => {
+    const runAttempt = (attempt = 0) => {
+      if (settled) return;
       try {
         synth.resume?.();
       } catch {
         // ignore
       }
 
-      pickBritishVoice();
-      const utterance = new SpeechSynthesisUtterance(spoken);
-      const voice = pickBritishVoice();
-      if (voice) utterance.voice = voice;
-      utterance.rate = isMobileUserAgent() ? 1.0 : 0.95;
-      utterance.pitch = 0.95;
-      utterance.volume = 1;
-      utterance.onstart = () => {
-        started = true;
-        onStart?.();
-      };
-      utterance.onend = () => finish(started);
-      utterance.onerror = () => finish(started);
+      const utterance = buildUtterance(spoken, {
+        onStart: () => {
+          started = true;
+          onStart?.();
+        },
+        onEnd: () => finish(started),
+        onError: () => {
+          if (attempt < 2 && isMobileUserAgent()) {
+            setTimeout(() => runAttempt(attempt + 1), isIOS() ? 320 : 400);
+          } else {
+            finish(started);
+          }
+        },
+      });
 
       synth.speak(utterance);
 
-      if (isIOS()) {
+      if (isMobileUserAgent()) {
         setTimeout(() => {
-          if (!speakingRefSafe(synth) && !started) {
-            try {
-              synth.resume();
-              synth.speak(utterance);
-            } catch {
-              finish(false);
-            }
+          if (settled || started) return;
+          if (!speakingRefSafe(synth) && attempt < 2) {
+            runAttempt(attempt + 1);
           }
-        }, 350);
+        }, isIOS() ? 420 : 520);
       }
     };
 
-    setTimeout(startSpeak, ttsDelayMs());
+    setTimeout(() => runAttempt(0), ttsDelayMs());
   });
 }
 
 async function speakChunks(chunks, opts, index = 0, anyStarted = false) {
   if (index >= chunks.length) {
+    await waitUntilSpeechIdle(isIOS() ? 12000 : isMobileUserAgent() ? 9000 : 6000);
     opts.onEnd?.();
     return anyStarted;
+  }
+  if (index > 0 && isMobileUserAgent()) {
+    await new Promise((r) => setTimeout(r, isIOS() ? 160 : 120));
   }
   const started = await speakSingleChunk(chunks[index], {
     muted: opts.muted,
@@ -180,8 +232,21 @@ export function speakJarvis(text, { onStart, onEnd, muted } = {}) {
 
 export function stopSpeaking() {
   if (typeof window !== 'undefined' && window.speechSynthesis) {
-    window.speechSynthesis.cancel();
+    try {
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.resume?.();
+    } catch {
+      // ignore
+    }
   }
+}
+
+/** Give the OS time to hand audio from TTS back to the mic (mobile Safari). */
+export async function handoffSpeechToMic() {
+  stopSpeaking();
+  if (!isMobileUserAgent()) return;
+  await waitUntilSpeechIdle(4000);
+  await new Promise((r) => setTimeout(r, isIOS() ? 450 : 280));
 }
 
 export function playBootChime(muted) {
@@ -243,7 +308,7 @@ export function getVoicePlatformHint() {
     return 'Voice needs Chrome or Edge, sir. Text commands work below.';
   }
   if (isMobileUserAgent()) {
-    return 'Tap Enable voice once, then speak. Turn off silent mode and ensure Voice is not muted.';
+    return 'Tap Enable voice once, then speak. Turn off silent mode. Tap 🎤 to interrupt JARVIS and speak again.';
   }
   return null;
 }
