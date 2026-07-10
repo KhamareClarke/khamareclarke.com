@@ -143,9 +143,10 @@ export const HELP_CARD = {
   title: 'JARVIS Commands',
   sections: [
     { label: 'Read (instant)', items: ['status', 'status [client]', 'leads today', 'leads [n] days', 'briefing', 'fleet'] },
-    { label: 'Navigate', items: ['open fleet | clients | leads | agents | activity | reports'] },
+    { label: 'Navigate', items: ['open fleet | clients | leads | agents | activity | reports', 'open youtube | google | [site]', 'go to [website]'] },
+    { label: 'Web & media', items: ['search [query]', 'google [query]', 'draw [description]', 'generate image [description]'] },
     { label: 'Actions (confirm)', items: ['run [skill] [project]', 'report [client]', 'pause [agent]', 'resume [agent]'] },
-    { label: 'Other', items: ['help', 'natural language → AI with live context'] },
+    { label: 'Other', items: ['help', 'natural language → AI with live context + web search'] },
   ],
 };
 
@@ -161,6 +162,8 @@ export function composeReadResponse(command, data) {
       return { content: composeBriefing(data), cards: buildActivityCards(data) };
     case 'help':
       return { content: 'Command reference below, sir.', cards: [HELP_CARD] };
+    case 'search':
+      return { content: null, cards: [], searchQuery: command.query };
     default:
       return null;
   }

@@ -69,6 +69,49 @@ function MessageCard({ card }) {
     );
   }
 
+  if (card.type === 'search') {
+    return (
+      <div className="mt-2 rounded-lg border border-cyan-500/25 bg-sky-950/50 p-3 text-xs backdrop-blur-sm max-h-48 overflow-y-auto">
+        <p className="text-[10px] uppercase tracking-wider text-cyan-400/70 mb-2">
+          Live search · {card.query}
+        </p>
+        <ul className="space-y-2">
+          {(card.results || []).slice(0, 5).map((r) => (
+            <li key={r.url}>
+              <a
+                href={r.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cyan-300 hover:text-cyan-100 font-medium line-clamp-1"
+              >
+                {r.title}
+              </a>
+              {r.snippet && (
+                <p className="text-sky-400/70 text-[10px] mt-0.5 line-clamp-2">{r.snippet}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
+  if (card.type === 'image' && card.dataUrl) {
+    return (
+      <div className="mt-2 rounded-lg border border-cyan-500/25 bg-sky-950/50 p-2 overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={card.dataUrl}
+          alt={card.prompt || 'Generated image'}
+          className="w-full max-h-64 object-contain rounded-sm"
+        />
+        {card.prompt && (
+          <p className="text-[10px] text-sky-500/70 mt-2 px-1 line-clamp-2">{card.prompt}</p>
+        )}
+      </div>
+    );
+  }
+
   return null;
 }
 
@@ -99,13 +142,12 @@ export default function JarvisFullPageHud() {
     bootTyped,
     speaking,
     listening,
-    startListening,
     stopListening,
-    enableContinuousListen,
     speechSupported,
+    voicePlatformHint,
+    isMobileVoice,
     muted,
     setMuted,
-    setVoiceAutoSend,
     presentationMode,
     setPresentationMode,
     continuousListen,
@@ -118,7 +160,6 @@ export default function JarvisFullPageHud() {
   } = useJarvis();
 
   const [input, setInput] = useState('');
-  const [voiceReady, setVoiceReady] = useState(false);
 
   useEffect(() => {
     setOpen(true);
@@ -127,20 +168,6 @@ export default function JarvisFullPageHud() {
       stopListening();
     };
   }, [setOpen, stopListening]);
-
-  useEffect(() => {
-    if (!speechSupported || voiceReady) return undefined;
-    let cancelled = false;
-    (async () => {
-      setMuted(false);
-      setVoiceAutoSend(true);
-      await enableContinuousListen();
-      if (!cancelled) setVoiceReady(true);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [speechSupported, voiceReady, enableContinuousListen, setMuted, setVoiceAutoSend]);
 
   const coreState = voiceState({ listening, streaming, speaking });
   const hudActive = listening || streaming || speaking;
@@ -154,15 +181,6 @@ export default function JarvisFullPageHud() {
     if (!text) return;
     setInput('');
     sendMessage(text);
-  };
-
-  const toggleMic = () => {
-    if (!speechSupported) return;
-    if (continuousListen || listening) {
-      stopListening();
-    } else {
-      startListening((transcript) => setInput((prev) => (prev ? `${prev} ${transcript}` : transcript)));
-    }
   };
 
   return (
@@ -179,7 +197,7 @@ export default function JarvisFullPageHud() {
             </h1>
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2">
-            <StatusChip active={continuousListen && listening} label={listening ? 'Mic live' : continuousListen ? 'Standby' : 'Mic off'} />
+            <StatusChip active={listening || continuousListen} label={listening ? 'Listening' : continuousListen ? 'Standby' : 'Mic'} />
             <StatusChip active={streaming} label="Processing" />
             <StatusChip active={speaking} label="Speaking" />
             <button
@@ -255,8 +273,10 @@ export default function JarvisFullPageHud() {
           <JarvisHudPanel title="Comms log" align="right">
             {recentMessages.length === 0 ? (
               <p className="text-sky-500/50 text-[10px] leading-relaxed">
-                Continuous voice active. Say <span className="text-cyan-400">status</span>,{' '}
-                <span className="text-cyan-400">briefing</span>, or ask anything.
+                Voice or text: <span className="text-cyan-400">status</span>,{' '}
+                <span className="text-cyan-400">search rtx 4060 price</span>,{' '}
+                <span className="text-cyan-400">open youtube</span>,{' '}
+                <span className="text-cyan-400">draw iron man hud</span>
               </p>
             ) : (
               recentMessages.slice(-5).map((m) => (
@@ -276,7 +296,7 @@ export default function JarvisFullPageHud() {
         </div>
 
         <div
-          className="relative z-10 hidden md:block flex-1 min-h-0 max-h-36 w-full max-w-3xl mx-auto overflow-y-auto px-4 py-1 space-y-2"
+          className="relative z-10 flex shrink-0 max-h-28 sm:max-h-36 w-full max-w-3xl mx-auto overflow-y-auto px-4 py-1 space-y-2"
           onScroll={(e) => {
             const el = e.currentTarget;
             const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
@@ -336,38 +356,30 @@ export default function JarvisFullPageHud() {
           <div ref={messagesEndRef} />
         </div>
 
-        <footer className="relative z-20 shrink-0 pb-4 px-4 space-y-3 border-t border-sky-500/10 pt-3">
-          <JarvisHudVisualizer active={hudActive} barCount={64} />
+        <footer className="relative z-20 shrink-0 pb-[max(1rem,env(safe-area-inset-bottom))] px-4 space-y-3 border-t border-sky-500/10 pt-3">
+          <JarvisHudVisualizer active={hudActive} barCount={isMobileVoice ? 32 : 64} />
 
           <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
             {voiceError && <p className="text-[10px] text-red-400 mb-2 text-center">{voiceError}</p>}
-            <div className="flex gap-2 items-center justify-center">
-              {speechSupported && (
-                <button
-                  type="button"
-                  onClick={toggleMic}
-                  className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-lg transition ${
-                    continuousListen
-                      ? 'jarvis-mic-btn-active jarvis-mic-active jarvis-mic-continuous'
-                      : 'jarvis-mic-btn opacity-60'
-                  }`}
-                  aria-label={continuousListen ? 'Disable continuous listening' : 'Enable continuous listening'}
-                  aria-pressed={continuousListen}
-                >
-                  {continuousListen ? '◉' : '◎'}
-                </button>
-              )}
+            {!speechSupported && voicePlatformHint && (
+              <p className="text-[10px] text-amber-400/90 mb-2 text-center">{voicePlatformHint}</p>
+            )}
+            <div className="flex gap-2 items-stretch justify-center">
               <input
                 type="text"
+                inputMode="text"
+                enterKeyHint="send"
+                autoComplete="off"
+                autoCorrect="off"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={streaming}
                 placeholder={
-                  continuousListen
-                    ? 'Type a written command — voice sends automatically'
+                  speechSupported
+                    ? 'Speak anytime — or type here and press Send'
                     : 'Type a command…'
                 }
-                className="flex-1 max-w-lg rounded-sm bg-sky-950/70 border border-sky-500/20 text-sky-50 text-sm px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 font-mono placeholder:text-sky-600/60"
+                className="flex-1 min-w-0 w-full rounded-sm bg-sky-950/70 border border-sky-500/20 text-sky-50 text-base px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 font-mono placeholder:text-sky-600/60"
               />
               {streaming ? (
                 <button
@@ -382,23 +394,17 @@ export default function JarvisFullPageHud() {
                   type="submit"
                   disabled={!input.trim()}
                   className="shrink-0 px-4 py-2.5 rounded-sm bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-bold uppercase tracking-wider disabled:opacity-30"
-                  title="Send typed text only — voice sends automatically when you stop speaking"
+                  title="Typed text only — voice sends automatically"
                 >
                   Send
                 </button>
               )}
             </div>
-            <div className="flex items-center justify-center mt-2">
-              <label className="flex items-center gap-1.5 text-[9px] text-sky-500/70 cursor-pointer uppercase tracking-wider">
-                <input
-                  type="checkbox"
-                  checked={continuousListen}
-                  onChange={(e) => (e.target.checked ? enableContinuousListen() : stopListening())}
-                  className="rounded border-sky-600/40 bg-sky-950 text-cyan-500"
-                />
-                Always listen — speak anytime, no Send needed
-              </label>
-            </div>
+            {speechSupported && (
+              <p className="text-center text-[9px] text-sky-600/80 uppercase tracking-widest mt-2">
+                Always listening · pause speaking to send
+              </p>
+            )}
           </form>
         </footer>
       </div>

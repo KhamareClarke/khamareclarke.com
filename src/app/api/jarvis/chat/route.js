@@ -3,6 +3,7 @@ import { buildJarvisContext } from '@/lib/jarvis/context';
 import { JARVIS_OFFLINE_MESSAGE, JARVIS_SYSTEM_PROMPT } from '@/lib/jarvis/prompt';
 import { mapGeminiError } from '@/lib/jarvis/gemini';
 import { streamJarvisCompletion, transformJarvisStream } from '@/lib/jarvis/llm';
+import { messageNeedsWebSearch } from '@/lib/jarvis/web-search';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -38,10 +39,15 @@ export async function POST(req) {
     const { text: contextBlock } = await buildJarvisContext();
     const systemPrompt = `${JARVIS_SYSTEM_PROMPT}\n\n${contextBlock}`;
 
+    const lastUser = messages[messages.length - 1]?.content || '';
+    const useGoogleSearch = body.webSearch !== false && messageNeedsWebSearch(lastUser);
+
     let upstream;
     let provider;
     try {
-      ({ provider, body: upstream } = await streamJarvisCompletion(systemPrompt, messages));
+      ({ provider, body: upstream } = await streamJarvisCompletion(systemPrompt, messages, {
+        useGoogleSearch,
+      }));
     } catch (err) {
       if (
         err.message === 'LLM_NOT_CONFIGURED' ||

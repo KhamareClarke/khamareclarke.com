@@ -1,5 +1,6 @@
 import { EMPIRE_SKILL_IDS } from '@/lib/empire-skills';
 import { ALL_EMPIRE_PROJECT_IDS } from '@/lib/empire-projects';
+import { resolveSiteUrl } from '@/lib/jarvis/sites';
 
 const TAB_ROUTES = {
   fleet: '/dashboard/empire',
@@ -56,7 +57,9 @@ function fuzzyMatchClient(token, clients) {
  * Parse user input into a command object or null (fall through to LLM).
  */
 export function parseJarvisCommand(input, clients = []) {
-  const raw = String(input || '').trim();
+  let raw = String(input || '').trim();
+  // Voice often prefixes "hey jarvis"
+  raw = raw.replace(/^(hey\s+)?jarvis[,:\s]+/i, '').trim() || String(input || '').trim();
   const text = norm(raw);
   if (!text) return null;
 
@@ -91,11 +94,64 @@ export function parseJarvisCommand(input, clients = []) {
     return { type: 'read', command: 'briefing' };
   }
 
-  const openMatch = text.match(/^open\s+(\w+)$/);
+  const searchMatch = raw.match(/^(?:search|google)(?:\s+(?:for|the web for))?\s+(.+)$/i);
+  if (searchMatch) {
+    return { type: 'read', command: 'search', query: searchMatch[1].trim() };
+  }
+
+  const imageMatch = raw.match(
+    /^(?:generate image|make image|draw(?:\s+an?)?\s+image(?:\s+of)?|image of|draw)\s+(.+)$/i
+  );
+  if (imageMatch) {
+    return {
+      type: 'action',
+      command: 'image',
+      prompt: imageMatch[1].trim(),
+      needsConfirm: false,
+      summary: `Generate image: ${imageMatch[1].trim().slice(0, 80)}`,
+    };
+  }
+
+  const goMatch = raw.match(/^(?:go to|browse|visit|open site)\s+(.+)$/i);
+  if (goMatch) {
+    const url = resolveSiteUrl(goMatch[1].trim());
+    if (url) {
+      return {
+        type: 'action',
+        command: 'browse',
+        url,
+        label: goMatch[1].trim(),
+        needsConfirm: false,
+      };
+    }
+  }
+
+  const openUrlMatch = raw.match(/^open\s+(https?:\/\/.+)$/i);
+  if (openUrlMatch) {
+    return {
+      type: 'action',
+      command: 'browse',
+      url: openUrlMatch[1].trim(),
+      label: openUrlMatch[1].trim(),
+      needsConfirm: false,
+    };
+  }
+
+  const openMatch = text.match(/^open\s+(\S+)$/);
   if (openMatch) {
     const tab = openMatch[1];
     if (TAB_ROUTES[tab]) {
       return { type: 'action', command: 'open', tab, route: TAB_ROUTES[tab], needsConfirm: false };
+    }
+    const url = resolveSiteUrl(tab);
+    if (url) {
+      return {
+        type: 'action',
+        command: 'browse',
+        url,
+        label: tab,
+        needsConfirm: false,
+      };
     }
   }
 

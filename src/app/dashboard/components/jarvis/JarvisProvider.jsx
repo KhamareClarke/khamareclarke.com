@@ -14,8 +14,12 @@ import {
   mapSpeechError,
   ensureMicPermission,
   processRecognitionResult,
+  isMobileUserAgent,
+  speechRecognitionUsesContinuous,
+  getVoicePlatformHint,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
+import { messageNeedsWebSearch } from '@/lib/jarvis/web-search';
 
 const JarvisContext = createContext(null);
 const PRESENTATION_KEY = 'jarvis-presentation';
@@ -67,9 +71,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const [liveData, setLiveData] = useState(null);
   const [pendingAction, setPendingAction] = useState(null);
   const [presentationMode, setPresentationMode] = useState(false);
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
   const [voiceAutoSend, setVoiceAutoSend] = useState(true);
-  const [continuousListen, setContinuousListen] = useState(false);
+  const [continuousListen, setContinuousListen] = useState(true);
   const [voiceInterim, setVoiceInterim] = useState('');
   const [voiceError, setVoiceError] = useState(null);
   const [lastActivityTs, setLastActivityTs] = useState(null);
@@ -91,6 +95,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const scheduleRestartRef = useRef(null);
   const beginListeningRef = useRef(null);
   const lastInterimRef = useRef('');
+  const voiceSendTimerRef = useRef(null);
+  const skipOnEndSendRef = useRef(false);
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
@@ -114,9 +120,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   useEffect(() => {
     setPresentationMode(readCookie(PRESENTATION_KEY) === '1');
-    setMuted(readCookie(MUTE_KEY) === '1');
-    setVoiceAutoSend(readCookie(VOICE_AUTO_SEND_KEY) !== '0');
-    setContinuousListen(readCookie(CONTINUOUS_LISTEN_KEY) !== '0');
+    if (readCookie(MUTE_KEY) === '1') setMuted(true);
+    if (readCookie(VOICE_AUTO_SEND_KEY) === '0') setVoiceAutoSend(false);
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       window.speechSynthesis.onvoiceschanged = pickBritishVoice;
       pickBritishVoice();
@@ -161,7 +166,53 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   useEffect(() => {
     speakingRef.current = speaking;
-  }, [speaking]);
+    if (!minimal && open && !speaking && !streaming) {
+      scheduleRestartRef.current?.();
+    }
+  }, [speaking, streaming, minimal, open]);
+
+  /** Full JARVIS page: always-on listen → reply → listen loop. */
+  useEffect(() => {
+    if (minimal || !open) return undefined;
+    if (!isSpeechRecognitionSupported()) return undefined;
+
+    setMuted((m) => (readCookie(MUTE_KEY) === '1' ? m : false));
+    setVoiceAutoSend(true);
+    setContinuousListen(true);
+    continuousListenRef.current = true;
+    voiceAutoSendRef.current = true;
+
+    let cancelled = false;
+    const armMic = async () => {
+      await new Promise((r) => setTimeout(r, 400));
+      if (cancelled) return;
+      await beginListeningRef.current?.();
+    };
+    armMic();
+
+    const onGesture = () => {
+      if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
+        beginListeningRef.current?.();
+      }
+    };
+    document.addEventListener('pointerdown', onGesture, { once: true, passive: true });
+
+    const keepalive = setInterval(() => {
+      if (
+        continuousListenRef.current &&
+        !recognizingRef.current &&
+        !streamingRef.current &&
+        !speakingRef.current
+      ) {
+        beginListeningRef.current?.();
+      }
+    }, 6000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(keepalive);
+    };
+  }, [minimal, open]);
 
   const pauseListening = useCallback(() => {
     try {
@@ -219,11 +270,12 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const scheduleRestartListening = useCallback(() => {
     if (!continuousListenRef.current) return;
     if (streamingRef.current || speakingRef.current) return;
+    const delay = isMobileUserAgent() ? 700 : 400;
     setTimeout(() => {
       if (!continuousListenRef.current) return;
       if (streamingRef.current || speakingRef.current || recognizingRef.current) return;
       beginListeningRef.current?.();
-    }, 600);
+    }, delay);
   }, []);
 
   useEffect(() => {
@@ -235,18 +287,52 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     if (minimal) return undefined;
     if (!isSpeechRecognitionSupported()) return undefined;
 
+    const clearVoiceSendTimer = () => {
+      if (voiceSendTimerRef.current) {
+        clearTimeout(voiceSendTimerRef.current);
+        voiceSendTimerRef.current = null;
+      }
+    };
+
+    const scheduleVoiceAutoSend = (delayMs) => {
+      if (!voiceAutoSendRef.current && !continuousListenRef.current) return;
+      clearVoiceSendTimer();
+      voiceSendTimerRef.current = setTimeout(() => {
+        voiceSendTimerRef.current = null;
+        const transcript = (transcriptRef.current || lastInterimRef.current || '').trim();
+        if (!transcript || streamingRef.current || speakingRef.current) return;
+
+        transcriptRef.current = '';
+        lastInterimRef.current = '';
+        setVoiceInterim('');
+        skipOnEndSendRef.current = true;
+
+        try {
+          recognitionRef.current?.stop();
+        } catch {
+          skipOnEndSendRef.current = false;
+          sendMessageRef.current?.(transcript);
+          return;
+        }
+
+        sendMessageRef.current?.(transcript);
+      }, delayMs);
+    };
+
     const rec = createSpeechRecognition({
-      continuous: true,
+      continuous: speechRecognitionUsesContinuous(),
       onStart: () => {
         recognizingRef.current = true;
         setListening(true);
         setVoiceError(null);
+        clearVoiceSendTimer();
+        skipOnEndSendRef.current = false;
         transcriptRef.current = '';
         lastInterimRef.current = '';
         setVoiceInterim('');
       },
       onResult: (event) => {
-        const { accumulated, display, interim } = processRecognitionResult(
+        const { accumulated, display, interim, hadFinal } = processRecognitionResult(
           event,
           transcriptRef.current
         );
@@ -254,16 +340,36 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         if (interim) lastInterimRef.current = interim;
         else if (display) lastInterimRef.current = display;
         if (display) setVoiceInterim(display);
+
+        // Continuous mode never fires onEnd per utterance — send after a pause in speech.
+        if (display && (voiceAutoSendRef.current || continuousListenRef.current)) {
+          scheduleVoiceAutoSend(hadFinal ? 550 : 1100);
+        }
       },
       onError: (code) => {
-        if (code === 'no-speech' && continuousListenRef.current) return;
+        if (code === 'no-speech' && continuousListenRef.current) {
+          scheduleRestartRef.current?.();
+          return;
+        }
         if (code === 'aborted') return;
         const msg = mapSpeechError(code);
         if (msg) setVoiceError(msg);
+        if (continuousListenRef.current) {
+          scheduleRestartRef.current?.();
+        }
       },
       onEnd: () => {
         recognizingRef.current = false;
         setListening(false);
+        clearVoiceSendTimer();
+
+        if (skipOnEndSendRef.current) {
+          skipOnEndSendRef.current = false;
+          transcriptRef.current = '';
+          lastInterimRef.current = '';
+          setVoiceInterim('');
+          return;
+        }
 
         const transcript = (
           transcriptRef.current ||
@@ -289,6 +395,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
     recognitionRef.current = rec;
     return () => {
+      clearVoiceSendTimer();
       try {
         rec.abort();
       } catch {
@@ -423,7 +530,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: history }),
+          body: JSON.stringify({
+            messages: history,
+            webSearch: messageNeedsWebSearch(history[history.length - 1]?.content),
+          }),
           signal: controller.signal,
         });
 
@@ -537,6 +647,15 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           return;
         }
 
+        if (action.command === 'browse') {
+          window.open(action.url, '_blank', 'noopener,noreferrer');
+          const msg = `Opening ${action.label || action.url}, sir.`;
+          setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: msg, pending: false } : m)));
+          speakReply(msg);
+          scheduleRestartRef.current?.();
+          return;
+        }
+
         if (action.command === 'run') {
           const teamRes = await fetch('/api/empire/supervisor/run-team', {
             method: 'POST',
@@ -643,6 +762,80 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     ]);
   }, []);
 
+  const runWebSearch = useCallback(
+    async (query) => {
+      const pendingId = appendAssistant('Searching the web, sir…', { pending: true });
+      try {
+        const res = await fetch('/api/jarvis/search', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Search failed');
+        const summary = data.summary || `Found results for "${query}", sir.`;
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === pendingId
+              ? {
+                  ...m,
+                  content: summary,
+                  pending: false,
+                  cards: [{ type: 'search', query: data.query || query, results: data.results || [] }],
+                }
+              : m
+          )
+        );
+        speakReply(summary);
+      } catch (err) {
+        const msg = `Web search failed, sir. ${err.message || 'Try again.'}`;
+        setMessages((prev) =>
+          prev.map((m) => (m.id === pendingId ? { ...m, content: msg, pending: false } : m))
+        );
+        scheduleRestartRef.current?.();
+      }
+    },
+    [appendAssistant, speakReply]
+  );
+
+  const runImageGen = useCallback(
+    async (prompt) => {
+      const pendingId = appendAssistant('Generating image, sir…', { pending: true });
+      try {
+        const res = await fetch('/api/jarvis/image', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Image generation failed');
+        const msg = 'Image ready, sir.';
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === pendingId
+              ? {
+                  ...m,
+                  content: msg,
+                  pending: false,
+                  cards: [{ type: 'image', dataUrl: data.dataUrl, prompt: data.prompt || prompt }],
+                }
+              : m
+          )
+        );
+        speakReply(msg);
+      } catch (err) {
+        const msg = `Could not generate that image, sir. ${err.message || ''}`.trim();
+        setMessages((prev) =>
+          prev.map((m) => (m.id === pendingId ? { ...m, content: msg, pending: false } : m))
+        );
+        scheduleRestartRef.current?.();
+      }
+    },
+    [appendAssistant, speakReply]
+  );
+
   const sendMessage = useCallback(
     async (text) => {
       try {
@@ -684,12 +877,30 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       }
 
       if (parsed?.type === 'read') {
+        if (parsed.command === 'search') {
+          await runWebSearch(parsed.query);
+          return;
+        }
         const reply = composeReadResponse(parsed, data || {});
-        if (reply) {
+        if (reply?.content) {
           appendAssistant(reply.content, { cards: reply.cards });
           speakReply(reply.content);
           return;
         }
+      }
+
+      if (parsed?.type === 'action' && parsed.command === 'image') {
+        await runImageGen(parsed.prompt);
+        return;
+      }
+
+      if (parsed?.type === 'action' && parsed.command === 'browse') {
+        window.open(parsed.url, '_blank', 'noopener,noreferrer');
+        const msg = `Opening ${parsed.label || parsed.url}, sir.`;
+        appendAssistant(msg);
+        speakReply(msg);
+        scheduleRestartRef.current?.();
+        return;
       }
 
       if (parsed?.type === 'action' && parsed.needsConfirm) {
@@ -722,7 +933,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         scheduleRestartRef.current?.();
       }
     },
-    [liveData, refreshData, messages, appendAssistant, speakReply, streamLLM, executeAction, appendSystemNote, pauseListening]
+    [liveData, refreshData, messages, appendAssistant, speakReply, streamLLM, executeAction, appendSystemNote, pauseListening, runWebSearch, runImageGen]
   );
 
   useEffect(() => {
@@ -766,7 +977,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const enableContinuousListen = useCallback(async () => {
     setContinuousListen(true);
     setVoiceAutoSend(true);
-    await beginListening();
+    const ok = await beginListening();
+    if (!ok) {
+      setContinuousListen(false);
+    }
+    return ok;
   }, [beginListening]);
 
   const value = useMemo(
@@ -790,6 +1005,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       listening,
       startListening,
       speechSupported: isSpeechRecognitionSupported(),
+      voicePlatformHint: getVoicePlatformHint(),
+      isMobileVoice: isMobileUserAgent(),
       muted,
       setMuted,
       presentationMode,

@@ -33,17 +33,23 @@ function isQuotaError(err) {
   return em.includes('429') || em.includes('quota') || em.includes('RESOURCE_EXHAUSTED');
 }
 
-function buildPayload(systemPrompt, messages) {
+function buildPayload(systemPrompt, messages, { useGoogleSearch = false } = {}) {
   const contents = messages.map((m) => ({
     role: m.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: m.content }],
   }));
 
-  return {
+  const payload = {
     systemInstruction: { parts: [{ text: systemPrompt }] },
     contents,
     generationConfig: { maxOutputTokens: 512, temperature: 0.4 },
   };
+
+  if (useGoogleSearch) {
+    payload.tools = [{ google_search: {} }];
+  }
+
+  return payload;
 }
 
 function geminiUrl(model, stream) {
@@ -123,7 +129,7 @@ export async function pingGemini() {
 /**
  * Non-streaming completion — reliable fallback when SSE fails.
  */
-export async function generateGeminiCompletion(systemPrompt, messages) {
+export async function generateGeminiCompletion(systemPrompt, messages, options = {}) {
   const apiKey = getApiKey();
   if (!apiKey) throw new Error('GEMINI_NOT_CONFIGURED');
 
@@ -137,7 +143,7 @@ export async function generateGeminiCompletion(systemPrompt, messages) {
       const res = await fetch(geminiUrl(model, false), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(buildPayload(systemPrompt, messages)),
+        body: JSON.stringify(buildPayload(systemPrompt, messages, options)),
         signal: controller.signal,
       });
       clearTimeout(timer);
@@ -182,7 +188,7 @@ export function textToTokenStream(text) {
 /**
  * Stream chat from Google Gemini.
  */
-export async function streamGeminiCompletion(systemPrompt, messages) {
+export async function streamGeminiCompletion(systemPrompt, messages, options = {}) {
   const apiKey = getApiKey();
   if (!apiKey) throw new Error('GEMINI_NOT_CONFIGURED');
 
@@ -197,7 +203,7 @@ export async function streamGeminiCompletion(systemPrompt, messages) {
         const res = await fetch(geminiUrl(model, true), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(buildPayload(systemPrompt, messages)),
+          body: JSON.stringify(buildPayload(systemPrompt, messages, options)),
           signal: controller.signal,
         });
         clearTimeout(timer);
@@ -227,7 +233,7 @@ export async function streamGeminiCompletion(systemPrompt, messages) {
 
   // Fallback: single request, stream full text to client
   try {
-    const text = await generateGeminiCompletion(systemPrompt, messages);
+    const text = await generateGeminiCompletion(systemPrompt, messages, options);
     return textToTokenStream(text);
   } catch (fallbackErr) {
     const mapped = mapGeminiError(fallbackErr) || mapGeminiError(lastError);

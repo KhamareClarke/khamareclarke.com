@@ -24,7 +24,12 @@ export function speakJarvis(text, { onStart, onEnd, muted } = {}) {
   utterance.onstart = () => onStart?.();
   utterance.onend = () => onEnd?.();
   utterance.onerror = () => onEnd?.();
-  window.speechSynthesis.speak(utterance);
+  // iOS requires speech to be queued after cancel in next tick
+  if (isIOS()) {
+    setTimeout(() => window.speechSynthesis.speak(utterance), 50);
+  } else {
+    window.speechSynthesis.speak(utterance);
+  }
   return utterance;
 }
 
@@ -61,6 +66,43 @@ export function isSpeechRecognitionSupported() {
   );
 }
 
+export function isMobileUserAgent() {
+  if (typeof navigator === 'undefined') return false;
+  return /Android|iPhone|iPad|iPod|Mobile|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
+
+export function isIOS() {
+  if (typeof navigator === 'undefined') return false;
+  return (
+    /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  );
+}
+
+/** iOS Safari handles single-utterance mode + auto-restart more reliably than continuous. */
+export function speechRecognitionUsesContinuous() {
+  return !isIOS();
+}
+
+export function getVoicePlatformHint() {
+  if (typeof window === 'undefined') return null;
+  if (!isSpeechRecognitionSupported()) {
+    if (isIOS()) {
+      return 'Voice needs Safari 14.5+ on iPhone, sir. Text commands work in the box below.';
+    }
+    if (isMobileUserAgent()) {
+      return 'Voice works best in Chrome on Android, sir. Text commands always work below.';
+    }
+    return 'Voice needs Chrome or Edge, sir. Text commands work below.';
+  }
+  if (isMobileUserAgent()) {
+    return 'Tap the mic once to allow voice — then speak anytime. Text Send works too.';
+  }
+  return null;
+}
+
 const SPEECH_ERRORS = {
   'not-allowed': 'Microphone access denied, sir. Allow mic permission for this site in browser settings.',
   'service-not-allowed': 'Microphone blocked by browser policy, sir. Try Chrome or Edge.',
@@ -87,16 +129,18 @@ export function extractTranscript(event) {
 export function processRecognitionResult(event, accumulated = '') {
   let interim = '';
   let finals = accumulated;
+  let hadFinal = false;
   for (let i = event.resultIndex; i < event.results.length; i += 1) {
     const piece = event.results[i][0]?.transcript || '';
     if (event.results[i].isFinal) {
+      hadFinal = true;
       finals = `${finals} ${piece}`.trim();
     } else {
       interim += piece;
     }
   }
   const display = (interim ? `${finals} ${interim}` : finals).trim();
-  return { accumulated: finals, display, interim: interim.trim() };
+  return { accumulated: finals, display, interim: interim.trim(), hadFinal };
 }
 
 /**
