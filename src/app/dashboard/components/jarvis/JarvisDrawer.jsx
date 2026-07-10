@@ -6,6 +6,7 @@ import { useJarvis } from './JarvisProvider';
 import JarvisSheet from './JarvisSheet';
 import JarvisVoiceCore from './JarvisVoiceCore';
 import JarvisAmbient from './JarvisAmbient';
+import JarvisMessageContent from './JarvisMessageContent';
 import { useFocusTrap } from './useFocusTrap';
 
 function StatusPill({ status }) {
@@ -227,13 +228,19 @@ export default function JarvisDrawer() {
                         : 'jarvis-bubble-assistant text-sky-100/95'
                   }`}
                 >
-                  {m.content || (streaming && m.role === 'assistant' ? (
+                  {m.role === 'user' ? (
+                    m.content
+                  ) : m.content ? (
+                    <JarvisMessageContent content={m.content} />
+                  ) : streaming && m.role === 'assistant' ? (
                     <span className="inline-flex gap-1 items-center text-cyan-400/80">
                       <span className="jarvis-typing-dot" />
                       <span className="jarvis-typing-dot" style={{ animationDelay: '0.15s' }} />
                       <span className="jarvis-typing-dot" style={{ animationDelay: '0.3s' }} />
                     </span>
-                  ) : '')}
+                  ) : (
+                    ''
+                  )}
                 </div>
                 {m.cards?.map((card, i) => (
                   <MessageCard key={`${m.id}-card-${i}`} card={card} />

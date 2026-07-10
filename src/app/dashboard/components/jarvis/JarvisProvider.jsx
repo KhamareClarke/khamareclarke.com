@@ -14,6 +14,7 @@ import {
   mapSpeechError,
   ensureMicPermission,
 } from '@/lib/jarvis/voice';
+import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
 
 const JarvisContext = createContext(null);
 const PRESENTATION_KEY = 'jarvis-presentation';
@@ -381,7 +382,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         return;
       }
       pauseListening();
-      speakJarvis(text, {
+      speakJarvis(stripJarvisMarkdown(text), {
         muted,
         onStart: () => {
           speakingRef.current = true;

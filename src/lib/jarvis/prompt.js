@@ -11,7 +11,7 @@ HARD RULE (non-negotiable): Only report data present in the provided context. If
 
 When asked about something outside your context, say you do not have that data yet and suggest what tab or action might surface it.
 
-Keep replies focused. Use short paragraphs or tight bullet lists when listing facts from context.`;
+FORMAT (required): Plain text only. Never use markdown syntax — no asterisks, no **bold**, no # headings. For lists, put one item per line starting with a middle dot and space, like "· fliprepublic/form-optimizer". Keep replies focused. Use short paragraphs when listing facts from context.`;
 
 export const JARVIS_OFFLINE_MESSAGE =
   'Systems are momentarily offline, sir. Retrying shortly.';

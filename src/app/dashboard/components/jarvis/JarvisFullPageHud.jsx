@@ -10,6 +10,7 @@ import JarvisHudRings from './JarvisHudRings';
 import JarvisHudPanel from './JarvisHudPanel';
 import JarvisHudVisualizer from './JarvisHudVisualizer';
 import JarvisVoiceCore from './JarvisVoiceCore';
+import JarvisMessageContent, { stripJarvisMarkdown } from './JarvisMessageContent';
 
 function voiceState({ listening, streaming, speaking }) {
   if (listening) return 'listening';
@@ -83,6 +84,10 @@ function StatusChip({ active, label }) {
       {label}
     </span>
   );
+}
+
+function stripMarkdown(text) {
+  return stripJarvisMarkdown(text);
 }
 
 export default function JarvisFullPageHud() {
@@ -251,7 +256,7 @@ export default function JarvisFullPageHud() {
 
               {lastAssistant && !listening && !streaming && (
                 <p className="mt-3 max-w-md text-center text-xs text-sky-400/70 px-4 line-clamp-3">
-                  {lastAssistant.content}
+                  {stripJarvisMarkdown(lastAssistant.content)}
                 </p>
               )}
             </div>
@@ -272,7 +277,7 @@ export default function JarvisFullPageHud() {
                   }`}
                 >
                   <span className="text-sky-600/80">{m.role === 'user' ? '▸ ' : '◂ '}</span>
-                  {(m.content || '…').slice(0, 80)}
+                  {stripJarvisMarkdown((m.content || '…').slice(0, 80))}
                   {(m.content || '').length > 80 ? '…' : ''}
                 </p>
               ))
@@ -300,16 +305,19 @@ export default function JarvisFullPageHud() {
                         : 'jarvis-bubble-assistant text-sky-100/95'
                   }`}
                 >
-                  {m.content ||
-                    (streaming && m.role === 'assistant' ? (
-                      <span className="inline-flex gap-1 items-center text-cyan-400/80">
-                        <span className="jarvis-typing-dot" />
-                        <span className="jarvis-typing-dot" style={{ animationDelay: '0.15s' }} />
-                        <span className="jarvis-typing-dot" style={{ animationDelay: '0.3s' }} />
-                      </span>
-                    ) : (
-                      ''
-                    ))}
+                  {m.role === 'user' ? (
+                    m.content
+                  ) : m.content ? (
+                    <JarvisMessageContent content={m.content} />
+                  ) : streaming && m.role === 'assistant' ? (
+                    <span className="inline-flex gap-1 items-center text-cyan-400/80">
+                      <span className="jarvis-typing-dot" />
+                      <span className="jarvis-typing-dot" style={{ animationDelay: '0.15s' }} />
+                      <span className="jarvis-typing-dot" style={{ animationDelay: '0.3s' }} />
+                    </span>
+                  ) : (
+                    ''
+                  )}
                 </div>
                 {m.cards?.map((card, i) => (
                   <MessageCard key={`${m.id}-card-${i}`} card={card} />
