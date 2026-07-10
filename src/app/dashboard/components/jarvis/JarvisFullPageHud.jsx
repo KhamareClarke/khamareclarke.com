@@ -86,10 +86,6 @@ function StatusChip({ active, label }) {
   );
 }
 
-function stripMarkdown(text) {
-  return stripJarvisMarkdown(text);
-}
-
 export default function JarvisFullPageHud() {
   const {
     setOpen,
