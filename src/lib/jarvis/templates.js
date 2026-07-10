@@ -1,5 +1,44 @@
 import { getProjectLabel } from '@/lib/empire-projects';
 
+/** Snapshot API returns KPI fields at top level; normalize for compose helpers. */
+export function normalizeJarvisContext(data = {}) {
+  if (!data || typeof data !== 'object') {
+    return {
+      snapshot: {},
+      clients: [],
+      projects: [],
+      activity: [],
+      tasksRecent: [],
+      fleet: [],
+      recentLeads: [],
+      leadsHistory: {},
+    };
+  }
+  const {
+    snapshot,
+    clients,
+    projects,
+    activity,
+    tasksRecent,
+    fleet,
+    recentLeads,
+    leadsHistory,
+    ok,
+    error,
+    ...kpi
+  } = data;
+  return {
+    snapshot: snapshot || kpi,
+    clients: clients || [],
+    projects: projects || [],
+    activity: activity || [],
+    tasksRecent: tasksRecent || [],
+    fleet: fleet || [],
+    recentLeads: recentLeads || [],
+    leadsHistory: leadsHistory || {},
+  };
+}
+
 function leadComparison(today, yesterday) {
   if (yesterday === 0 && today === 0) return 'no comparison data yet';
   if (yesterday === 0) return `up from 0 yesterday`;

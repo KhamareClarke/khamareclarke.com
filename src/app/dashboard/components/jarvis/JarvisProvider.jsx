@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { parseJarvisCommand } from '@/lib/jarvis/commands';
-import { composeReadResponse } from '@/lib/jarvis/templates';
+import { composeReadResponse, normalizeJarvisContext } from '@/lib/jarvis/templates';
 import {
   speakJarvis,
   stopSpeaking,
@@ -356,6 +356,13 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
             }
           }
         }
+        if (!full.trim()) {
+          const empty = 'No reply received, sir. Verify GEMINI_API_KEY in Vercel or try help / status.';
+          setMessages((prev) =>
+            prev.map((m) => (m.id === assistantId ? { ...m, content: empty } : m))
+          );
+          return empty;
+        }
         return full;
       } catch (err) {
         if (err.name !== 'AbortError') {
@@ -507,7 +514,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       setMessages((prev) => [...prev, userMsg]);
       userScrolledUpRef.current = false;
 
-      let data = liveData || (await refreshData());
+      let data = normalizeJarvisContext(liveData || (await refreshData()));
       const clients = data?.clients || [];
       const parsed = parseJarvisCommand(trimmed, clients);
 
@@ -555,7 +562,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
       const assistantId = `a-${Date.now()}`;
       setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: '' }]);
-      const history = [...messages, userMsg].map((m) => ({ role: m.role, content: m.content }));
+      const history = [...messages, userMsg]
+        .filter((m) => m.role === 'user' || m.role === 'assistant')
+        .filter((m) => typeof m.content === 'string' && m.content.trim())
+        .map((m) => ({ role: m.role, content: m.content }));
       const full = await streamLLM(history, assistantId);
       if (full) speakReply(full);
     },
