@@ -18,6 +18,7 @@ import {
   speechRecognitionUsesContinuous,
   getVoicePlatformHint,
   unlockSpeechAudio,
+  isSpeechAudioUnlocked,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
 import { messageNeedsWebSearch } from '@/lib/jarvis/web-search';
@@ -77,7 +78,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const [continuousListen, setContinuousListen] = useState(true);
   const [voiceInterim, setVoiceInterim] = useState('');
   const [voiceError, setVoiceError] = useState(null);
-  const [lastActivityTs, setLastActivityTs] = useState(null);
+  const [lastReplyText, setLastReplyText] = useState('');
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
 
   const abortRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -188,12 +190,17 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     armMic();
 
     const onGesture = () => {
-      unlockSpeechAudio();
+      unlockSpeechAudio({ prime: isMobileUserAgent() });
+      setAudioUnlocked(true);
       if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
         beginListeningRef.current?.();
       }
     };
-    document.addEventListener('pointerdown', onGesture, { once: true, passive: true });
+    if (isMobileUserAgent()) {
+      document.addEventListener('pointerdown', onGesture, { passive: true });
+    } else {
+      document.addEventListener('pointerdown', onGesture, { once: true, passive: true });
+    }
 
     const keepalive = setInterval(() => {
       if (
@@ -210,6 +217,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     return () => {
       cancelled = true;
       clearInterval(keepalive);
+      if (isMobileUserAgent()) {
+        document.removeEventListener('pointerdown', onGesture);
+      }
     };
   }, [minimal, open]);
 
@@ -245,15 +255,28 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     }
 
     try {
+      if (isMobileUserAgent()) {
+        try {
+          rec.abort();
+        } catch {
+          // ignore
+        }
+        await new Promise((r) => setTimeout(r, 80));
+      }
       rec.start();
       return true;
     } catch {
+      try {
+        rec.abort?.();
+      } catch {
+        // ignore
+      }
       try {
         rec.stop();
       } catch {
         // ignore
       }
-      await new Promise((r) => setTimeout(r, 350));
+      await new Promise((r) => setTimeout(r, isMobileUserAgent() ? 650 : 350));
       try {
         if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
           rec.start();
@@ -506,7 +529,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       pauseListening();
       stopSpeaking();
 
-      const gap = isMobileUserAgent() ? 450 : 200;
+      const plain = stripJarvisMarkdown(text);
+      setLastReplyText(plain);
+
+      const gap = isMobileUserAgent() ? 280 : 200;
       await new Promise((r) => setTimeout(r, gap));
 
       try {
@@ -519,7 +545,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           }
         }, 45000);
 
-        await speakJarvis(stripJarvisMarkdown(text), {
+        await speakJarvis(plain, {
           muted: false,
           onStart: () => {
             pendingTtsRef.current = false;
@@ -627,7 +653,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           }
         }
         if (!full.trim()) {
-          const empty = 'No reply received, sir. Verify GEMINI_API_KEY in Vercel or try help / status.';
+          const empty = 'No reply received, sir. Verify OPENROUTER_API_KEY in Vercel or try help / status.';
           setMessages((prev) =>
             prev.map((m) => (m.id === assistantId ? { ...m, content: empty } : m))
           );
@@ -1008,6 +1034,37 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     return ok;
   }, [beginListening]);
 
+  const unlockAndPrimeAudio = useCallback(() => {
+    unlockSpeechAudio({ prime: true });
+    setAudioUnlocked(true);
+    if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
+      beginListeningRef.current?.();
+    }
+  }, []);
+
+  const replayLastReply = useCallback(async () => {
+    if (!lastReplyText?.trim() || muted) return;
+    unlockSpeechAudio({ prime: true });
+    setAudioUnlocked(true);
+    pauseListening();
+    stopSpeaking();
+    pendingTtsRef.current = true;
+    await speakJarvis(lastReplyText, {
+      muted: false,
+      onStart: () => {
+        pendingTtsRef.current = false;
+        speakingRef.current = true;
+        setSpeaking(true);
+      },
+      onEnd: () => {
+        speakingRef.current = false;
+        setSpeaking(false);
+        pendingTtsRef.current = false;
+        scheduleRestartRef.current?.();
+      },
+    });
+  }, [lastReplyText, muted, pauseListening]);
+
   const value = useMemo(
     () => ({
       open,
@@ -1046,6 +1103,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       openWithQuery,
       liveData,
       refreshData,
+      audioUnlocked: audioUnlocked || isSpeechAudioUnlocked(),
+      unlockAndPrimeAudio,
+      lastReplyText,
+      replayLastReply,
     }),
     [
       open,
@@ -1074,6 +1135,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       openWithQuery,
       liveData,
       refreshData,
+      audioUnlocked,
+      unlockAndPrimeAudio,
+      lastReplyText,
+      replayLastReply,
     ]
   );
 

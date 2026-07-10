@@ -57,7 +57,7 @@ export async function POST(req) {
         return Response.json(
           {
             error:
-              'No LLM configured. Set GEMINI_API_KEY (from aistudio.google.com, starts with AIzaSy) or OPENROUTER_API_KEY in Vercel, then redeploy.',
+              'No LLM configured. Set OPENROUTER_API_KEY in Vercel (recommended) or GEMINI_API_KEY, then redeploy.',
           },
           { status: 503 }
         );

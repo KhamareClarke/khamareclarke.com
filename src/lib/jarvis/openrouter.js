@@ -12,17 +12,64 @@ export function isOpenRouterConfigured() {
   return !!(process.env.OPENROUTER_API_KEY || process.env.EMPIRE_LLM_API_KEY);
 }
 
+function getApiKey() {
+  return process.env.OPENROUTER_API_KEY || process.env.EMPIRE_LLM_API_KEY;
+}
+
+function getModel() {
+  return process.env.OPENROUTER_MODEL || process.env.EMPIRE_LLM_MODEL || DEFAULT_MODEL;
+}
+
+/** Non-streaming completion for search summaries etc. */
+export async function generateOpenRouterCompletion(systemPrompt, messages) {
+  const apiKey = getApiKey();
+  if (!apiKey) throw new Error('OPENROUTER_NOT_CONFIGURED');
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  try {
+    const res = await fetch(OPENROUTER_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+        'HTTP-Referer': referer(),
+        'X-Title': 'Khamare Clarke JARVIS',
+      },
+      body: JSON.stringify({
+        model: getModel(),
+        messages: [{ role: 'system', content: systemPrompt }, ...messages],
+        stream: false,
+        max_tokens: 1024,
+      }),
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      throw new Error(`OpenRouter ${res.status}: ${errText.slice(0, 200)}`);
+    }
+    const json = await res.json();
+    const text = json.choices?.[0]?.message?.content;
+    if (!text) throw new Error('OpenRouter returned empty response');
+    return text;
+  } catch (err) {
+    clearTimeout(timer);
+    throw err;
+  }
+}
+
 /**
  * Stream chat completion from OpenRouter. One retry on failure/timeout.
  * Returns upstream Response body stream or throws.
  */
 export async function streamOpenRouterCompletion(systemPrompt, messages) {
-  const apiKey = process.env.OPENROUTER_API_KEY || process.env.EMPIRE_LLM_API_KEY;
+  const apiKey = getApiKey();
   if (!apiKey) {
     throw new Error('OPENROUTER_NOT_CONFIGURED');
   }
 
-  const model = process.env.OPENROUTER_MODEL || process.env.EMPIRE_LLM_MODEL || DEFAULT_MODEL;
+  const model = getModel();
   const payload = {
     model,
     messages: [{ role: 'system', content: systemPrompt }, ...messages],

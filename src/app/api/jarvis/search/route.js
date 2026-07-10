@@ -1,5 +1,5 @@
 import { requireAuth } from '@/lib/api-guard';
-import { generateGeminiCompletion, isGeminiConfigured } from '@/lib/jarvis/gemini';
+import { generateJarvisCompletion, getJarvisLlmProvider } from '@/lib/jarvis/llm';
 import { formatSearchResultsForPrompt, normalizeSearchQuery, searchWeb } from '@/lib/jarvis/web-search';
 
 export const dynamic = 'force-dynamic';
@@ -21,36 +21,35 @@ export async function POST(req) {
     const block = formatSearchResultsForPrompt(results);
 
     let summary = '';
-    let geminiSource = source;
+    let llmSource = source;
 
     try {
       if (results.length) {
-        summary = await generateGeminiCompletion(
+        summary = await generateJarvisCompletion(
           `You are JARVIS. Summarize web search results for the operator in plain text (no markdown). Be concise and cite key facts.`,
           [
             {
               role: 'user',
               content: `Query: ${query}\n\nSearch results:\n${block}\n\nAnswer the query using these results.`,
             },
-          ],
-          { useGoogleSearch: false }
+          ]
         );
-      } else if (isGeminiConfigured()) {
-        summary = await generateGeminiCompletion(
-          `You are JARVIS. The operator needs a factual web-style answer. Plain text only, no markdown. Be concise. If unsure, say live data may vary, sir.`,
-          [{ role: 'user', content: query }],
-          { useGoogleSearch: false }
+        llmSource = `${source}+${getJarvisLlmProvider()}`;
+      } else if (getJarvisLlmProvider()) {
+        summary = await generateJarvisCompletion(
+          `You are JARVIS. The operator needs a factual answer. Plain text only, no markdown. Be concise, sir.`,
+          [{ role: 'user', content: query }]
         );
-        geminiSource = 'gemini';
+        llmSource = getJarvisLlmProvider();
       } else {
-        summary = `No web results found for "${query}", sir. Set GEMINI_API_KEY for live search.`;
+        summary = `No web results found for "${query}", sir. Set OPENROUTER_API_KEY in Vercel.`;
       }
     } catch (err) {
       if (results.length) {
         summary = `Found ${results.length} result(s) for "${query}", sir. Top hit: ${results[0].title}.`;
       } else {
         return Response.json(
-          { error: err?.message || 'Search and Gemini fallback both failed' },
+          { error: err?.message || 'Search and LLM fallback both failed' },
           { status: 500 }
         );
       }
@@ -59,7 +58,7 @@ export async function POST(req) {
     return Response.json({
       ok: true,
       query,
-      source: geminiSource,
+      source: llmSource,
       results: results.slice(0, 8),
       summary,
     });

@@ -3,6 +3,10 @@
 let preferredVoice = null;
 let speechAudioUnlocked = false;
 
+export function isSpeechAudioUnlocked() {
+  return speechAudioUnlocked;
+}
+
 export function pickBritishVoice() {
   if (typeof window === 'undefined' || !window.speechSynthesis) return null;
   const voices = window.speechSynthesis.getVoices();
@@ -16,10 +20,36 @@ export function pickBritishVoice() {
   return preferredVoice;
 }
 
+/** Wait until voices are loaded (iOS often needs this before first speak). */
+export function waitForVoices(timeoutMs = 2500) {
+  return new Promise((resolve) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) {
+      resolve(null);
+      return;
+    }
+    const existing = window.speechSynthesis.getVoices();
+    if (existing.length) {
+      resolve(pickBritishVoice());
+      return;
+    }
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve(pickBritishVoice());
+    };
+    const prev = window.speechSynthesis.onvoiceschanged;
+    window.speechSynthesis.onvoiceschanged = () => {
+      prev?.();
+      finish();
+    };
+    setTimeout(finish, timeoutMs);
+  });
+}
+
 /** Prime audio + speech synthesis after a user gesture (required on iOS/Android). */
-export function unlockSpeechAudio() {
-  if (typeof window === 'undefined' || speechAudioUnlocked) return;
-  speechAudioUnlocked = true;
+export function unlockSpeechAudio({ prime = false } = {}) {
+  if (typeof window === 'undefined') return;
   try {
     const Ctx = window.AudioContext || window.webkitAudioContext;
     if (Ctx) {
@@ -29,35 +59,54 @@ export function unlockSpeechAudio() {
     if (window.speechSynthesis) {
       window.speechSynthesis.resume();
       pickBritishVoice();
+      if (prime) {
+        const u = new SpeechSynthesisUtterance('Online.');
+        u.volume = 0.15;
+        u.rate = 1.2;
+        const voice = pickBritishVoice();
+        if (voice) u.voice = voice;
+        window.speechSynthesis.speak(u);
+      }
     }
+    speechAudioUnlocked = true;
   } catch {
     // optional
   }
 }
 
 function ttsDelayMs() {
-  if (isIOS()) return 320;
-  if (isMobileUserAgent()) return 220;
+  if (isIOS()) return 180;
+  if (isMobileUserAgent()) return 120;
   return 80;
 }
 
-export function speakJarvis(text, { onStart, onEnd, muted } = {}) {
+function splitForTts(text) {
+  if (!isIOS() || text.length < 160) return [text];
+  const parts = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g);
+  return (parts || [text]).map((p) => p.trim()).filter(Boolean);
+}
+
+function speakingRefSafe(synth) {
+  return synth.speaking || synth.pending;
+}
+
+function speakSingleChunk(spoken, { onStart, onEnd, muted } = {}) {
   if (muted || typeof window === 'undefined' || !window.speechSynthesis) {
     onEnd?.();
-    return Promise.resolve(null);
+    return Promise.resolve(false);
   }
-  const spoken = String(text || '').trim().slice(0, 4000);
   if (!spoken) {
     onEnd?.();
-    return Promise.resolve(null);
+    return Promise.resolve(false);
   }
 
   unlockSpeechAudio();
 
   return new Promise((resolve) => {
-    const finish = () => {
+    let started = false;
+    const finish = (didStart) => {
       onEnd?.();
-      resolve(null);
+      resolve(didStart);
     };
 
     const synth = window.speechSynthesis;
@@ -77,24 +126,26 @@ export function speakJarvis(text, { onStart, onEnd, muted } = {}) {
       utterance.rate = isMobileUserAgent() ? 1.0 : 0.95;
       utterance.pitch = 0.95;
       utterance.volume = 1;
-      utterance.onstart = () => onStart?.();
-      utterance.onend = finish;
-      utterance.onerror = () => finish();
+      utterance.onstart = () => {
+        started = true;
+        onStart?.();
+      };
+      utterance.onend = () => finish(started);
+      utterance.onerror = () => finish(started);
 
       synth.speak(utterance);
 
-      // iOS Safari often drops the first speak() after STT — nudge once if silent.
       if (isIOS()) {
         setTimeout(() => {
-          if (!speakingRefSafe(synth)) {
+          if (!speakingRefSafe(synth) && !started) {
             try {
               synth.resume();
               synth.speak(utterance);
             } catch {
-              finish();
+              finish(false);
             }
           }
-        }, 400);
+        }, 350);
       }
     };
 
@@ -102,8 +153,29 @@ export function speakJarvis(text, { onStart, onEnd, muted } = {}) {
   });
 }
 
-function speakingRefSafe(synth) {
-  return synth.speaking || synth.pending;
+async function speakChunks(chunks, opts, index = 0, anyStarted = false) {
+  if (index >= chunks.length) {
+    opts.onEnd?.();
+    return anyStarted;
+  }
+  const started = await speakSingleChunk(chunks[index], {
+    muted: opts.muted,
+    onStart: index === 0 ? opts.onStart : undefined,
+  });
+  return speakChunks(chunks, opts, index + 1, anyStarted || started);
+}
+
+export function speakJarvis(text, { onStart, onEnd, muted } = {}) {
+  const spoken = String(text || '').trim().slice(0, 4000);
+  if (muted || !spoken) {
+    onEnd?.();
+    return Promise.resolve(false);
+  }
+
+  return waitForVoices().then(() => {
+    const chunks = splitForTts(spoken);
+    return speakChunks(chunks, { onStart, onEnd, muted });
+  });
 }
 
 export function stopSpeaking() {
@@ -171,7 +243,7 @@ export function getVoicePlatformHint() {
     return 'Voice needs Chrome or Edge, sir. Text commands work below.';
   }
   if (isMobileUserAgent()) {
-    return 'Tap the screen once, then speak. Ensure Voice on is lit and phone is not on silent.';
+    return 'Tap Enable voice once, then speak. Turn off silent mode and ensure Voice is not muted.';
   }
   return null;
 }

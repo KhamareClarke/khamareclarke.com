@@ -1,13 +1,24 @@
-import { streamGeminiCompletion, transformGeminiStream, isGeminiConfigured } from '@/lib/jarvis/gemini';
-import { streamOpenRouterCompletion, transformOpenRouterStream, isOpenRouterConfigured } from '@/lib/jarvis/openrouter';
+import { generateGeminiCompletion, streamGeminiCompletion, transformGeminiStream, isGeminiConfigured } from '@/lib/jarvis/gemini';
+import {
+  generateOpenRouterCompletion,
+  streamOpenRouterCompletion,
+  transformOpenRouterStream,
+  isOpenRouterConfigured,
+} from '@/lib/jarvis/openrouter';
 import { formatSearchResultsForPrompt, messageNeedsWebSearch, searchWeb } from '@/lib/jarvis/web-search';
 
 /**
- * Pick LLM provider: Gemini (free tier) first, then OpenRouter.
+ * Pick LLM provider. OpenRouter preferred when configured (set JARVIS_LLM_PROVIDER=gemini to force Gemini).
  */
 export function getJarvisLlmProvider() {
-  if (isGeminiConfigured()) return 'gemini';
-  if (isOpenRouterConfigured()) return 'openrouter';
+  const pref = (process.env.JARVIS_LLM_PROVIDER || '').trim().toLowerCase();
+  const hasOpenRouter = isOpenRouterConfigured();
+  const hasGemini = isGeminiConfigured();
+
+  if (pref === 'gemini' && hasGemini) return 'gemini';
+  if (pref === 'openrouter' && hasOpenRouter) return 'openrouter';
+  if (hasOpenRouter) return 'openrouter';
+  if (hasGemini) return 'gemini';
   return null;
 }
 
@@ -28,6 +39,13 @@ export async function streamJarvisCompletion(systemPrompt, messages, options = {
   const useGoogleSearch = options.useGoogleSearch !== false;
   const lastUser = [...messages].reverse().find((m) => m.role === 'user')?.content || '';
 
+  if (provider === 'openrouter') {
+    let prompt = systemPrompt;
+    if (useGoogleSearch) {
+      prompt = await enrichPromptWithWebSearch(systemPrompt, messages);
+    }
+    return { provider, body: await streamOpenRouterCompletion(prompt, messages) };
+  }
   if (provider === 'gemini') {
     let prompt = systemPrompt;
     if (useGoogleSearch && messageNeedsWebSearch(lastUser)) {
@@ -38,12 +56,16 @@ export async function streamJarvisCompletion(systemPrompt, messages, options = {
       body: await streamGeminiCompletion(prompt, messages, { useGoogleSearch: false }),
     };
   }
+  throw new Error('LLM_NOT_CONFIGURED');
+}
+
+export async function generateJarvisCompletion(systemPrompt, messages) {
+  const provider = getJarvisLlmProvider();
   if (provider === 'openrouter') {
-    let prompt = systemPrompt;
-    if (useGoogleSearch) {
-      prompt = await enrichPromptWithWebSearch(systemPrompt, messages);
-    }
-    return { provider, body: await streamOpenRouterCompletion(prompt, messages) };
+    return generateOpenRouterCompletion(systemPrompt, messages);
+  }
+  if (provider === 'gemini') {
+    return generateGeminiCompletion(systemPrompt, messages, { useGoogleSearch: false });
   }
   throw new Error('LLM_NOT_CONFIGURED');
 }

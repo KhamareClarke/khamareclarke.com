@@ -114,11 +114,11 @@ function CommsMessage({ m, streaming, pendingAction, executeAction, cancelAction
 
   return (
     <div className={`jarvis-comms-row ${isUser ? 'jarvis-comms-user' : 'jarvis-comms-assistant'}`}>
-      <p className="jarvis-comms-label text-[8px] uppercase tracking-[0.3em] mb-1">
+      <p className="jarvis-comms-label mb-1">
         {isUser ? 'Operator' : m.system ? 'System' : 'JARVIS'}
       </p>
       <div
-        className={`jarvis-comms-bubble text-[11px] leading-relaxed whitespace-pre-wrap ${
+        className={`jarvis-comms-bubble whitespace-pre-wrap ${
           isUser ? 'jarvis-bubble-user' : isError ? 'jarvis-bubble-error' : m.system ? 'jarvis-bubble-system' : 'jarvis-bubble-assistant'
         }`}
       >
@@ -189,6 +189,10 @@ export default function JarvisFullPageHud() {
     pendingAction,
     executeAction,
     cancelAction,
+    audioUnlocked,
+    unlockAndPrimeAudio,
+    lastReplyText,
+    replayLastReply,
   } = useJarvis();
 
   const [input, setInput] = useState('');
@@ -218,6 +222,21 @@ export default function JarvisFullPageHud() {
   return (
     <JarvisHudFrame>
       <div className="jarvis-fullpage jarvis-cockpit relative flex h-full flex-col overflow-hidden">
+        {isMobileVoice && !audioUnlocked && (
+          <button
+            type="button"
+            onClick={unlockAndPrimeAudio}
+            className="jarvis-audio-unlock fixed inset-0 z-[60] flex flex-col items-center justify-center gap-3 bg-slate-950/92 backdrop-blur-sm border-0 cursor-pointer"
+          >
+            <span className="text-4xl">🔊</span>
+            <span className="text-cyan-200 text-sm font-light tracking-[0.25em] uppercase">
+              Tap to enable JARVIS voice
+            </span>
+            <span className="text-sky-500/60 text-[10px] max-w-xs text-center px-6">
+              Required on mobile. Turn off silent mode, then tap once.
+            </span>
+          </button>
+        )}
         <JarvisAmbient />
         <JarvisHudRings active={hudActive} />
 
@@ -234,7 +253,7 @@ export default function JarvisFullPageHud() {
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
+            <div className="jarvis-pill-group">
               <span className={`jarvis-pill hidden sm:inline ${listening ? 'jarvis-pill-active' : ''}`}>
                 {listening ? '◉ Live' : continuousListen ? '◎ Ready' : 'Mic'}
               </span>
@@ -319,7 +338,7 @@ export default function JarvisFullPageHud() {
           {/* Comms panel */}
           <JarvisHudPanel title="Comms" align="right" className="min-h-0 max-h-full">
             <div
-              className="jarvis-comms-feed flex-1 w-full space-y-3 overflow-y-auto pr-1 min-h-[120px] max-h-full"
+              className="jarvis-comms-feed font-sans flex-1 w-full space-y-3 overflow-y-auto pr-1 min-h-[120px] max-h-full"
               onScroll={(e) => {
                 const el = e.currentTarget;
                 const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
@@ -327,8 +346,8 @@ export default function JarvisFullPageHud() {
               }}
             >
               {displayMessages.length === 0 ? (
-                <p className="text-sky-500/45 text-[10px] leading-relaxed font-sans">
-                  Voice or tap a command chip. Try <span className="text-cyan-400">status</span> or ask anything.
+                <p className="text-sky-400/70 text-[11px] leading-relaxed font-sans">
+                  Voice or tap a command chip. Try <span className="text-cyan-300 font-medium">status</span> or ask anything.
                 </p>
               ) : (
                 displayMessages.map((m) => (
@@ -348,7 +367,7 @@ export default function JarvisFullPageHud() {
 
         {/* Mobile comms strip */}
         <div
-          className="jarvis-mobile-comms md:hidden relative z-10 mx-3 mb-2 max-h-24 overflow-y-auto space-y-2 shrink-0"
+          className="jarvis-mobile-comms font-sans md:hidden relative z-10 mx-3 mb-2 max-h-24 overflow-y-auto space-y-2 shrink-0"
           onScroll={(e) => {
             const el = e.currentTarget;
             const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 32;
@@ -375,6 +394,18 @@ export default function JarvisFullPageHud() {
           {(voiceError || (!speechSupported && voicePlatformHint)) && (
             <div className="jarvis-alert max-w-2xl mx-auto mb-2 px-3 py-2 text-[10px] text-center">
               {voiceError || voicePlatformHint}
+            </div>
+          )}
+
+          {isMobileVoice && audioUnlocked && lastReplyText && !speaking && !streaming && (
+            <div className="max-w-2xl mx-auto mb-2 flex justify-center">
+              <button
+                type="button"
+                onClick={replayLastReply}
+                className="jarvis-pill jarvis-pill-btn jarvis-pill-active text-[10px] uppercase tracking-wider"
+              >
+                Tap to hear reply
+              </button>
             </div>
           )}
 
