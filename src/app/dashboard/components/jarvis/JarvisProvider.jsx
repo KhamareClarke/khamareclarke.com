@@ -52,7 +52,7 @@ async function pollTaskOutcome(taskId, signal) {
   return null;
 }
 
-export function JarvisProvider({ children, toastApi }) {
+export function JarvisProvider({ children, toastApi, minimal = false }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -136,6 +136,7 @@ export function JarvisProvider({ children, toastApi }) {
   }, [streaming]);
 
   useEffect(() => {
+    if (minimal) return undefined;
     if (!isSpeechRecognitionSupported()) return undefined;
 
     const rec = createSpeechRecognition({
@@ -183,9 +184,10 @@ export function JarvisProvider({ children, toastApi }) {
       recognitionRef.current = null;
       recognizingRef.current = false;
     };
-  }, []);
+  }, [minimal]);
 
   useEffect(() => {
+    if (minimal) return;
     refreshData().then((d) => {
       if (d) {
         setBootLine(`JARVIS online. ${d.leadsToday ?? 0} leads today, ${d.tasksQueued ?? 0} tasks queued.`);
@@ -196,9 +198,10 @@ export function JarvisProvider({ children, toastApi }) {
         setTimeout(() => setBootTyped(true), 1200);
       }
     });
-  }, [refreshData]);
+  }, [refreshData, minimal]);
 
   useEffect(() => {
+    if (minimal) return undefined;
     const onKey = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'j') {
         e.preventDefault();
@@ -214,6 +217,7 @@ export function JarvisProvider({ children, toastApi }) {
   }, [open, toggle, close]);
 
   useEffect(() => {
+    if (minimal) return undefined;
     const interval = setInterval(async () => {
       const res = await fetch('/api/empire/activity/list?limit=5', { credentials: 'include', cache: 'no-store' });
       if (!res.ok) return;
@@ -241,7 +245,7 @@ export function JarvisProvider({ children, toastApi }) {
       }
     }, 15000);
     return () => clearInterval(interval);
-  }, [open, lastActivityTs, toastApi]);
+  }, [open, lastActivityTs, toastApi, minimal]);
 
   const scrollToBottom = useCallback(() => {
     if (!userScrolledUpRef.current) {

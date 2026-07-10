@@ -50,11 +50,11 @@ export default function LoginPage() {
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.ok) {
         const role = data.role || 'client';
-        const defaultUrl = role === 'admin' ? '/dashboard' : '/portal';
+        const defaultUrl = role === 'admin' ? '/dashboard/jarvis' : '/portal';
         let target = requestedCallback || defaultUrl;
         if (role !== 'admin' && target.startsWith('/dashboard')) target = '/portal';
         if (role === 'admin' && target.startsWith('/portal') && mode === 'admin') target = '/dashboard';
-        if (role === 'admin' && target === '/') target = '/dashboard';
+        if (role === 'admin' && target === '/') target = '/dashboard/jarvis';
         window.location.href = target;
         return;
       }

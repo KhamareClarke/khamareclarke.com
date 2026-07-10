@@ -378,3 +378,25 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
 .jarvis-sheet-enter {
   animation: jarvis-sheet-in 0.3s ease-out forwards;
 }
+
+/* Full-page HUD rings */
+.jarvis-hud-spin-slow {
+  animation: jarvis-spin 48s linear infinite;
+}
+.jarvis-hud-spin-reverse {
+  animation: jarvis-spin 32s linear infinite reverse;
+}
+.jarvis-hud-spin-mid {
+  animation: jarvis-spin 20s linear infinite;
+}
+.jarvis-hud-pulse-ring {
+  animation: jarvis-hud-pulse 3s ease-in-out infinite;
+}
+@keyframes jarvis-hud-pulse {
+  0%, 100% { stroke-opacity: 0.55; }
+  50% { stroke-opacity: 1; }
+}
+.jarvis-fullpage .jarvis-hud-rings {
+  opacity: 0.85;
+  pointer-events: none;
+}

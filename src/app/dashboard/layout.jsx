@@ -12,7 +12,7 @@ function JarvisShell({ children }) {
   const toastApi = useJarvisToasts();
 
   return (
-    <JarvisProvider toastApi={toastApi}>
+    <JarvisProvider toastApi={toastApi} minimal={!isFullJarvis}>
       {children}
       {!isFullJarvis && <JarvisOrb />}
       {!isFullJarvis && <JarvisCommandPalette />}

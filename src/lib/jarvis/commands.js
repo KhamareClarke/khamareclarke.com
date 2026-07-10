@@ -4,7 +4,7 @@ import { ALL_EMPIRE_PROJECT_IDS } from '@/lib/empire-projects';
 const TAB_ROUTES = {
   fleet: '/dashboard/empire',
   clients: '/dashboard/clients',
-  leads: '/dashboard',
+  leads: '/dashboard/leads',
   agents: '/dashboard/empire',
   activity: '/dashboard/empire/activity',
   reports: '/dashboard/clients',
