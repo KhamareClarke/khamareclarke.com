@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useJarvis } from './JarvisProvider';
@@ -8,8 +8,10 @@ import JarvisAmbient from './JarvisAmbient';
 import JarvisHudFrame from './JarvisHudFrame';
 import JarvisHudRings from './JarvisHudRings';
 import JarvisHudPanel from './JarvisHudPanel';
+import JarvisHudStatBar from './JarvisHudStatBar';
 import JarvisHudVisualizer from './JarvisHudVisualizer';
 import JarvisVoiceCore from './JarvisVoiceCore';
+import JarvisCommandChips from './JarvisCommandChips';
 import JarvisMessageContent, { stripJarvisMarkdown } from './JarvisMessageContent';
 
 function voiceState({ listening, streaming, speaking }) {
@@ -19,13 +21,15 @@ function voiceState({ listening, streaming, speaking }) {
   return 'idle';
 }
 
-function HudStat({ label, value }) {
-  return (
-    <div className="jarvis-hud-stat">
-      <p className="text-[9px] uppercase tracking-[0.3em] text-sky-500/60">{label}</p>
-      <p className="text-xl font-light text-cyan-300 tabular-nums mt-0.5">{value ?? '—'}</p>
-    </div>
-  );
+function dedupeMessages(messages) {
+  const out = [];
+  for (const m of messages) {
+    const c = (m.content || '').trim();
+    const prev = out[out.length - 1];
+    if (prev && prev.role === m.role && (prev.content || '').trim() === c) continue;
+    out.push(m);
+  }
+  return out;
 }
 
 function MessageCard({ card }) {
@@ -33,11 +37,11 @@ function MessageCard({ card }) {
 
   if (card.type === 'help') {
     return (
-      <div className="mt-2 rounded-lg border border-sky-500/25 bg-sky-950/50 p-3 text-xs backdrop-blur-sm">
-        <p className="font-bold text-cyan-300 mb-2">{card.title}</p>
+      <div className="jarvis-card mt-2 p-3 text-xs">
+        <p className="font-semibold text-cyan-300 mb-2 tracking-wide">{card.title}</p>
         {card.sections?.map((s) => (
           <div key={s.label} className="mb-2">
-            <p className="text-sky-400/60 uppercase tracking-wide text-[10px] mb-1">{s.label}</p>
+            <p className="text-sky-400/60 uppercase tracking-wide text-[9px] mb-1">{s.label}</p>
             <ul className="space-y-0.5 text-sky-100/80">
               {s.items.map((item) => (
                 <li key={item}>· {item}</li>
@@ -54,7 +58,7 @@ function MessageCard({ card }) {
       <button
         type="button"
         onClick={() => router.push(`/dashboard/clients/${card.id}`)}
-        className="mt-2 w-full text-left rounded-lg border border-sky-500/20 bg-sky-950/40 p-2 hover:border-cyan-400/40 transition text-xs text-sky-100"
+        className="jarvis-card mt-2 w-full text-left p-2.5 hover:border-cyan-400/40 transition text-xs text-sky-100"
       >
         {card.name}
       </button>
@@ -63,7 +67,7 @@ function MessageCard({ card }) {
 
   if (card.type === 'lead') {
     return (
-      <div className="mt-2 rounded-lg border border-sky-500/20 bg-sky-950/40 p-2 text-xs text-sky-100/80">
+      <div className="jarvis-card mt-2 p-2.5 text-xs text-sky-100/80">
         {card.name} · {card.source}
       </div>
     );
@@ -71,10 +75,8 @@ function MessageCard({ card }) {
 
   if (card.type === 'search') {
     return (
-      <div className="mt-2 rounded-lg border border-cyan-500/25 bg-sky-950/50 p-3 text-xs backdrop-blur-sm max-h-48 overflow-y-auto">
-        <p className="text-[10px] uppercase tracking-wider text-cyan-400/70 mb-2">
-          Live search · {card.query}
-        </p>
+      <div className="jarvis-card jarvis-card-search mt-2 p-3 text-xs max-h-40 overflow-y-auto">
+        <p className="text-[9px] uppercase tracking-wider text-cyan-400/70 mb-2">Live search · {card.query}</p>
         <ul className="space-y-2">
           {(card.results || []).slice(0, 5).map((r) => (
             <li key={r.url}>
@@ -86,9 +88,7 @@ function MessageCard({ card }) {
               >
                 {r.title}
               </a>
-              {r.snippet && (
-                <p className="text-sky-400/70 text-[10px] mt-0.5 line-clamp-2">{r.snippet}</p>
-              )}
+              {r.snippet && <p className="text-sky-400/70 text-[10px] mt-0.5 line-clamp-2">{r.snippet}</p>}
             </li>
           ))}
         </ul>
@@ -98,16 +98,9 @@ function MessageCard({ card }) {
 
   if (card.type === 'image' && card.dataUrl) {
     return (
-      <div className="mt-2 rounded-lg border border-cyan-500/25 bg-sky-950/50 p-2 overflow-hidden">
+      <div className="jarvis-card mt-2 p-2 overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={card.dataUrl}
-          alt={card.prompt || 'Generated image'}
-          className="w-full max-h-64 object-contain rounded-sm"
-        />
-        {card.prompt && (
-          <p className="text-[10px] text-sky-500/70 mt-2 px-1 line-clamp-2">{card.prompt}</p>
-        )}
+        <img src={card.dataUrl} alt={card.prompt || 'Generated'} className="w-full max-h-48 object-contain" />
       </div>
     );
   }
@@ -115,17 +108,56 @@ function MessageCard({ card }) {
   return null;
 }
 
-function StatusChip({ active, label }) {
+function CommsMessage({ m, streaming, pendingAction, executeAction, cancelAction }) {
+  const isUser = m.role === 'user';
+  const isError = !isUser && (m.content || '').includes('LLM error');
+
   return (
-    <span
-      className={`jarvis-status-chip text-[9px] tracking-[0.25em] uppercase px-2.5 py-1 rounded-sm border ${
-        active
-          ? 'border-cyan-400/60 text-cyan-300 bg-cyan-500/10 jarvis-status-chip-active'
-          : 'border-sky-600/30 text-sky-500/50 bg-transparent'
-      }`}
-    >
-      {label}
-    </span>
+    <div className={`jarvis-comms-row ${isUser ? 'jarvis-comms-user' : 'jarvis-comms-assistant'}`}>
+      <p className="jarvis-comms-label text-[8px] uppercase tracking-[0.3em] mb-1">
+        {isUser ? 'Operator' : m.system ? 'System' : 'JARVIS'}
+      </p>
+      <div
+        className={`jarvis-comms-bubble text-[11px] leading-relaxed whitespace-pre-wrap ${
+          isUser ? 'jarvis-bubble-user' : isError ? 'jarvis-bubble-error' : m.system ? 'jarvis-bubble-system' : 'jarvis-bubble-assistant'
+        }`}
+      >
+        {isUser ? (
+          m.content
+        ) : m.content ? (
+          <JarvisMessageContent content={m.content} />
+        ) : streaming && m.role === 'assistant' ? (
+          <span className="inline-flex gap-1 items-center text-cyan-400/80">
+            <span className="jarvis-typing-dot" />
+            <span className="jarvis-typing-dot" style={{ animationDelay: '0.15s' }} />
+            <span className="jarvis-typing-dot" style={{ animationDelay: '0.3s' }} />
+          </span>
+        ) : (
+          ''
+        )}
+      </div>
+      {m.cards?.map((card, i) => (
+        <MessageCard key={`${m.id}-card-${i}`} card={card} />
+      ))}
+      {m.confirm && pendingAction?.command === m.confirm.command && (
+        <div className="mt-2 flex gap-2">
+          <button
+            type="button"
+            onClick={() => executeAction(m.confirm)}
+            className="flex-1 text-[9px] py-2 jarvis-btn-primary uppercase tracking-wider"
+          >
+            Execute
+          </button>
+          <button
+            type="button"
+            onClick={cancelAction}
+            className="flex-1 text-[9px] py-2 jarvis-btn-ghost uppercase tracking-wider"
+          >
+            Cancel
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -172,8 +204,8 @@ export default function JarvisFullPageHud() {
   const coreState = voiceState({ listening, streaming, speaking });
   const hudActive = listening || streaming || speaking;
   const activeClients = liveData?.activeClients ?? liveData?.clients?.length;
-  const recentMessages = messages.slice(-8);
-  const lastAssistant = [...messages].reverse().find((m) => m.role === 'assistant' && m.content);
+  const displayMessages = useMemo(() => dedupeMessages(messages).slice(-20), [messages]);
+  const systemOnline = !voiceError?.includes('denied');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -185,227 +217,195 @@ export default function JarvisFullPageHud() {
 
   return (
     <JarvisHudFrame>
-      <div className="jarvis-fullpage relative flex h-full flex-col overflow-hidden bg-[#020617]/95">
+      <div className="jarvis-fullpage jarvis-cockpit relative flex h-full flex-col overflow-hidden">
         <JarvisAmbient />
         <JarvisHudRings active={hudActive} />
 
-        <header className="relative z-20 flex shrink-0 items-center justify-between px-5 py-3 border-b border-sky-500/10">
-          <div>
-            <p className="text-[9px] tracking-[0.45em] uppercase text-cyan-500/50">Stark protocols engaged</p>
-            <h1 className="text-lg md:text-xl font-light tracking-[0.4em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-100 via-sky-300 to-blue-400">
-              J.A.R.V.I.S
-            </h1>
-          </div>
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            <StatusChip active={listening || continuousListen} label={listening ? 'Listening' : continuousListen ? 'Standby' : 'Mic'} />
-            <StatusChip active={streaming} label="Processing" />
-            <StatusChip active={speaking} label="Speaking" />
-            <button
-              type="button"
-              onClick={() => setMuted((m) => !m)}
-              className={`text-[10px] px-2.5 py-1 rounded-sm border tracking-wider uppercase transition ${
-                muted
-                  ? 'border-sky-600/40 text-sky-500/70'
-                  : 'border-cyan-400/50 text-cyan-300 bg-cyan-500/10'
-              }`}
-            >
-              {muted ? 'Voice off' : 'Voice on'}
-            </button>
-            <button
-              type="button"
-              onClick={() => setPresentationMode((p) => !p)}
-              className={`text-[10px] px-2.5 py-1 rounded-sm border tracking-wider uppercase transition ${
-                presentationMode
-                  ? 'border-cyan-400/50 text-cyan-300 bg-cyan-500/10'
-                  : 'border-sky-600/40 text-sky-500/70'
-              }`}
-            >
-              Demo
-            </button>
-            <Link
-              href="/dashboard/leads"
-              className="text-[10px] px-2.5 py-1 rounded-sm border border-sky-600/40 text-sky-400/80 tracking-wider uppercase hover:text-sky-100 transition"
-            >
-              Leads
-            </Link>
+        {/* Header */}
+        <header className="jarvis-cockpit-header relative z-20 shrink-0 px-4 md:px-6 py-3">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className={`jarvis-online-dot shrink-0 ${systemOnline ? 'jarvis-online-dot-live' : ''}`} />
+              <div className="min-w-0">
+                <p className="text-[8px] tracking-[0.5em] uppercase text-cyan-500/45 truncate">Stark Industries</p>
+                <h1 className="jarvis-title text-base md:text-xl font-light tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-50 via-sky-200 to-blue-400">
+                  J.A.R.V.I.S
+                </h1>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
+              <span className={`jarvis-pill hidden sm:inline ${listening ? 'jarvis-pill-active' : ''}`}>
+                {listening ? '◉ Live' : continuousListen ? '◎ Ready' : 'Mic'}
+              </span>
+              <span className={`jarvis-pill hidden sm:inline ${streaming ? 'jarvis-pill-active' : ''}`}>Proc</span>
+              <span className={`jarvis-pill hidden sm:inline ${speaking ? 'jarvis-pill-active' : ''}`}>Voice</span>
+              <button
+                type="button"
+                onClick={() => setMuted((m) => !m)}
+                className={`jarvis-pill jarvis-pill-btn ${!muted ? 'jarvis-pill-active' : ''}`}
+              >
+                {muted ? '🔇' : '🔊'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setPresentationMode((p) => !p)}
+                className={`jarvis-pill jarvis-pill-btn hidden lg:inline ${presentationMode ? 'jarvis-pill-active' : ''}`}
+              >
+                Demo
+              </button>
+              <Link href="/dashboard/leads" className="jarvis-pill jarvis-pill-btn hidden md:inline">
+                Leads
+              </Link>
+            </div>
           </div>
         </header>
 
-        <div className="relative z-10 flex flex-1 min-h-0 flex-col lg:flex-row gap-2 px-3 md:px-5 py-3">
+        {/* Mobile stats */}
+        <div className="jarvis-mobile-stats md:hidden relative z-10 grid grid-cols-3 gap-px mx-4 mb-2">
+          <div className="jarvis-stat-cell">
+            <span className="text-[8px] text-sky-500/60 uppercase">Leads</span>
+            <span className="text-cyan-300 text-lg font-light">{liveData?.leadsToday ?? '—'}</span>
+          </div>
+          <div className="jarvis-stat-cell">
+            <span className="text-[8px] text-sky-500/60 uppercase">Tasks</span>
+            <span className="text-cyan-300 text-lg font-light">{liveData?.tasksQueued ?? '—'}</span>
+          </div>
+          <div className="jarvis-stat-cell">
+            <span className="text-[8px] text-sky-500/60 uppercase">Clients</span>
+            <span className="text-cyan-300 text-lg font-light">{activeClients ?? '—'}</span>
+          </div>
+        </div>
+
+        {/* Main cockpit grid */}
+        <div className="relative z-10 flex flex-1 min-h-0 gap-3 px-3 md:px-5 pb-2">
           <JarvisHudPanel title="Telemetry" align="left">
-            <HudStat label="Leads today" value={liveData?.leadsToday} />
-            <HudStat label="Tasks queued" value={liveData?.tasksQueued} />
-            <HudStat label="Clients" value={activeClients} />
+            <JarvisHudStatBar label="Leads today" value={liveData?.leadsToday} max={10} />
+            <JarvisHudStatBar label="Tasks queued" value={liveData?.tasksQueued} max={20} />
+            <JarvisHudStatBar label="Active clients" value={activeClients} max={10} />
             {bootLine && bootTyped && (
-              <p className="text-[10px] text-sky-500/70 leading-relaxed border-t border-sky-500/10 pt-2 mt-1">
+              <p className="text-[9px] text-sky-500/60 leading-relaxed border-t border-sky-500/10 pt-2 mt-1 font-sans">
                 {bootLine}
               </p>
             )}
           </JarvisHudPanel>
 
-          <div className="relative flex flex-1 flex-col items-center justify-center min-h-[220px] min-w-0">
-            <div className="relative flex flex-col items-center w-full">
+          {/* Center stage */}
+          <div className="relative flex flex-1 flex-col items-center min-w-0 min-h-0">
+            <div className="flex flex-1 flex-col items-center justify-center w-full py-2">
               <JarvisVoiceCore
                 size="lg"
                 state={coreState}
-                label={bootTyped && bootLine ? undefined : 'Boot sequence'}
+                label={bootTyped && bootLine ? undefined : 'Initializing'}
               />
 
               {(listening || voiceInterim) && (
-                <div className="jarvis-interim-display mt-4 max-w-lg w-full px-4 py-3 text-center">
-                  <p className="text-[9px] uppercase tracking-[0.35em] text-cyan-400/60 mb-1">
-                    {listening ? 'Receiving audio' : 'Last heard'}
+                <div className="jarvis-interim-display mt-3 max-w-md w-full mx-3 px-4 py-3 text-center">
+                  <p className="text-[8px] uppercase tracking-[0.4em] text-cyan-400/50 mb-1.5">
+                    {listening ? '◉ Receiving' : 'Last signal'}
                   </p>
-                  <p className="text-sm md:text-base text-cyan-100/90 font-light tracking-wide min-h-[1.25rem]">
-                    {voiceInterim || (listening ? 'Speak now, sir…' : '…')}
+                  <p className="text-sm text-cyan-50/95 font-light leading-snug min-h-[1.25rem]">
+                    {voiceInterim || 'Speak now, sir…'}
                   </p>
                 </div>
               )}
 
-              {lastAssistant && !listening && !streaming && (
-                <p className="mt-3 max-w-md text-center text-xs text-sky-400/70 px-4 line-clamp-3">
-                  {stripJarvisMarkdown(lastAssistant.content)}
-                </p>
+              {!listening && !voiceInterim && !streaming && (
+                <JarvisCommandChips onSelect={sendMessage} disabled={streaming} />
               )}
             </div>
           </div>
 
-          <JarvisHudPanel title="Comms log" align="right">
-            {recentMessages.length === 0 ? (
-              <p className="text-sky-500/50 text-[10px] leading-relaxed">
-                Voice or text: <span className="text-cyan-400">status</span>,{' '}
-                <span className="text-cyan-400">search rtx 4060 price</span>,{' '}
-                <span className="text-cyan-400">open youtube</span>,{' '}
-                <span className="text-cyan-400">draw iron man hud</span>
-              </p>
-            ) : (
-              recentMessages.slice(-5).map((m) => (
-                <p
-                  key={m.id}
-                  className={`text-[10px] leading-snug ${
-                    m.role === 'user' ? 'text-cyan-200/90' : 'text-sky-400/80'
-                  }`}
-                >
-                  <span className="text-sky-600/80">{m.role === 'user' ? '▸ ' : '◂ '}</span>
-                  {stripJarvisMarkdown((m.content || '…').slice(0, 80))}
-                  {(m.content || '').length > 80 ? '…' : ''}
+          {/* Comms panel */}
+          <JarvisHudPanel title="Comms" align="right" className="min-h-0 max-h-full">
+            <div
+              className="jarvis-comms-feed flex-1 w-full space-y-3 overflow-y-auto pr-1 min-h-[120px] max-h-full"
+              onScroll={(e) => {
+                const el = e.currentTarget;
+                const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
+                userScrolledUpRef.current = !atBottom;
+              }}
+            >
+              {displayMessages.length === 0 ? (
+                <p className="text-sky-500/45 text-[10px] leading-relaxed font-sans">
+                  Voice or tap a command chip. Try <span className="text-cyan-400">status</span> or ask anything.
                 </p>
-              ))
-            )}
+              ) : (
+                displayMessages.map((m) => (
+                  <CommsMessage
+                    key={m.id}
+                    m={m}
+                    streaming={streaming}
+                    pendingAction={pendingAction}
+                    executeAction={executeAction}
+                    cancelAction={cancelAction}
+                  />
+                ))
+              )}
+            </div>
           </JarvisHudPanel>
         </div>
 
+        {/* Mobile comms strip */}
         <div
-          className="relative z-10 flex shrink-0 max-h-28 sm:max-h-36 w-full max-w-3xl mx-auto overflow-y-auto px-4 py-1 space-y-2"
+          className="jarvis-mobile-comms md:hidden relative z-10 mx-3 mb-2 max-h-24 overflow-y-auto space-y-2 shrink-0"
           onScroll={(e) => {
             const el = e.currentTarget;
-            const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
+            const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 32;
             userScrolledUpRef.current = !atBottom;
           }}
         >
-          {recentMessages.map((m) => (
-            <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className="max-w-[88%]">
-                <div
-                  className={`px-3 py-1.5 text-xs whitespace-pre-wrap ${
-                    m.role === 'user'
-                      ? 'jarvis-bubble-user text-sky-50'
-                      : m.system
-                        ? 'jarvis-bubble-system text-sky-300/70 italic'
-                        : 'jarvis-bubble-assistant text-sky-100/95'
-                  }`}
-                >
-                  {m.role === 'user' ? (
-                    m.content
-                  ) : m.content ? (
-                    <JarvisMessageContent content={m.content} />
-                  ) : streaming && m.role === 'assistant' ? (
-                    <span className="inline-flex gap-1 items-center text-cyan-400/80">
-                      <span className="jarvis-typing-dot" />
-                      <span className="jarvis-typing-dot" style={{ animationDelay: '0.15s' }} />
-                      <span className="jarvis-typing-dot" style={{ animationDelay: '0.3s' }} />
-                    </span>
-                  ) : (
-                    ''
-                  )}
-                </div>
-                {m.cards?.map((card, i) => (
-                  <MessageCard key={`${m.id}-card-${i}`} card={card} />
-                ))}
-                {m.confirm && pendingAction?.command === m.confirm.command && (
-                  <div className="mt-2 flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => executeAction(m.confirm)}
-                      className="flex-1 text-[10px] py-1.5 rounded-sm bg-cyan-600/80 text-white font-semibold uppercase tracking-wider"
-                    >
-                      Execute
-                    </button>
-                    <button
-                      type="button"
-                      onClick={cancelAction}
-                      className="flex-1 text-[10px] py-1.5 rounded-sm border border-sky-500/40 text-sky-300/80 uppercase tracking-wider"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
+          {displayMessages.slice(-4).map((m) => (
+            <CommsMessage
+              key={m.id}
+              m={m}
+              streaming={streaming}
+              pendingAction={pendingAction}
+              executeAction={executeAction}
+              cancelAction={cancelAction}
+            />
           ))}
-          <div ref={messagesEndRef} />
         </div>
 
-        <footer className="relative z-20 shrink-0 pb-[max(1rem,env(safe-area-inset-bottom))] px-4 space-y-3 border-t border-sky-500/10 pt-3">
-          <JarvisHudVisualizer active={hudActive} barCount={isMobileVoice ? 32 : 64} />
+        {/* Cockpit footer */}
+        <footer className="jarvis-cockpit-footer relative z-20 shrink-0 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2">
+          <div ref={messagesEndRef} className="h-px w-full" aria-hidden />
+          <JarvisHudVisualizer active={hudActive} barCount={isMobileVoice ? 40 : 72} />
 
-          <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
-            {voiceError && <p className="text-[10px] text-red-400 mb-2 text-center">{voiceError}</p>}
-            {!speechSupported && voicePlatformHint && (
-              <p className="text-[10px] text-amber-400/90 mb-2 text-center">{voicePlatformHint}</p>
-            )}
-            <div className="flex gap-2 items-stretch justify-center">
-              <input
-                type="text"
-                inputMode="text"
-                enterKeyHint="send"
-                autoComplete="off"
-                autoCorrect="off"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                disabled={streaming}
-                placeholder={
-                  speechSupported
-                    ? 'Speak anytime — or type here and press Send'
-                    : 'Type a command…'
-                }
-                className="flex-1 min-w-0 w-full rounded-sm bg-sky-950/70 border border-sky-500/20 text-sky-50 text-base px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 font-mono placeholder:text-sky-600/60"
-              />
-              {streaming ? (
-                <button
-                  type="button"
-                  onClick={stopGeneration}
-                  className="shrink-0 px-3 py-2.5 rounded-sm border border-red-400/40 text-red-300 text-xs uppercase tracking-wider"
-                >
-                  Stop
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  disabled={!input.trim()}
-                  className="shrink-0 px-4 py-2.5 rounded-sm bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-bold uppercase tracking-wider disabled:opacity-30"
-                  title="Typed text only — voice sends automatically"
-                >
-                  Send
-                </button>
-              )}
+          {(voiceError || (!speechSupported && voicePlatformHint)) && (
+            <div className="jarvis-alert max-w-2xl mx-auto mb-2 px-3 py-2 text-[10px] text-center">
+              {voiceError || voicePlatformHint}
             </div>
-            {speechSupported && (
-              <p className="text-center text-[9px] text-sky-600/80 uppercase tracking-widest mt-2">
-                Always listening · pause speaking to send
-              </p>
+          )}
+
+          <form onSubmit={handleSubmit} className="jarvis-input-dock max-w-2xl mx-auto">
+            <input
+              type="text"
+              inputMode="text"
+              enterKeyHint="send"
+              autoComplete="off"
+              autoCorrect="off"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              disabled={streaming}
+              placeholder="Speak anytime — or type here"
+              className="jarvis-input-field flex-1 min-w-0 bg-transparent border-0 outline-none text-sky-50 text-base font-mono placeholder:text-sky-600/50"
+            />
+            {streaming ? (
+              <button type="button" onClick={stopGeneration} className="jarvis-btn-stop shrink-0">
+                Stop
+              </button>
+            ) : (
+              <button type="submit" disabled={!input.trim()} className="jarvis-btn-send shrink-0 disabled:opacity-30">
+                Send
+              </button>
             )}
           </form>
+          {speechSupported && (
+            <p className="text-center text-[8px] text-sky-600/70 uppercase tracking-[0.35em] mt-2">
+              Continuous listen · pause to send
+            </p>
+          )}
         </footer>
       </div>
     </JarvisHudFrame>

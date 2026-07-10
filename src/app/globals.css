@@ -504,3 +504,214 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   border-bottom: 10px solid rgba(255, 255, 255, 0.5);
   top: 38%;
 }
+
+/* —— Next-gen cockpit UI —— */
+.jarvis-cockpit {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(14, 116, 178, 0.12), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 45%, rgba(34, 211, 238, 0.06), transparent 60%),
+    #020617;
+}
+.jarvis-cockpit-header {
+  background: linear-gradient(180deg, rgba(3, 7, 18, 0.92), rgba(3, 7, 18, 0.55));
+  border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+  backdrop-filter: blur(12px);
+}
+.jarvis-title {
+  text-shadow: 0 0 40px rgba(34, 211, 238, 0.25);
+}
+.jarvis-online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(100, 116, 139, 0.6);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1);
+}
+.jarvis-online-dot-live {
+  background: #22d3ee;
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.7);
+  animation: jarvis-online-pulse 2s ease-in-out infinite;
+}
+@keyframes jarvis-online-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(0.92); }
+}
+.jarvis-pill {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  color: rgba(100, 116, 139, 0.9);
+  border-radius: 2px;
+  background: rgba(8, 47, 73, 0.2);
+}
+.jarvis-pill-active {
+  border-color: rgba(34, 211, 238, 0.45);
+  color: #a5f3fc;
+  background: rgba(34, 211, 238, 0.08);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.12);
+}
+.jarvis-pill-btn {
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.jarvis-pill-btn:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  color: #e0f2fe;
+}
+.jarvis-mobile-stats {
+  border: 1px solid rgba(56, 189, 248, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(3, 7, 18, 0.6);
+}
+.jarvis-stat-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  background: rgba(8, 47, 73, 0.25);
+}
+.jarvis-hud-module {
+  border: 1px solid rgba(56, 189, 248, 0.14);
+  background: linear-gradient(145deg, rgba(3, 7, 18, 0.75), rgba(8, 47, 73, 0.35));
+  backdrop-filter: blur(10px);
+  border-radius: 2px;
+  padding: 0.85rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 8px 32px rgba(0, 0, 0, 0.35);
+  max-height: 100%;
+}
+.jarvis-hud-module-header {
+  border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+.jarvis-hud-module-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 6px #22d3ee;
+}
+.jarvis-stat-bar-fill {
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+}
+.jarvis-chip {
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  border-radius: 0;
+}
+.jarvis-command-chips {
+  margin-top: 0.75rem;
+}
+.jarvis-comms-feed {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.3) transparent;
+}
+.jarvis-comms-row {
+  animation: jarvis-comms-in 0.35s ease-out;
+}
+@keyframes jarvis-comms-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.jarvis-comms-label {
+  color: rgba(56, 189, 248, 0.45);
+}
+.jarvis-comms-user .jarvis-comms-label { color: rgba(125, 211, 252, 0.5); text-align: right; }
+.jarvis-comms-user { text-align: right; }
+.jarvis-comms-bubble {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+}
+.jarvis-comms-user .jarvis-comms-bubble {
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+.jarvis-bubble-error {
+  background: rgba(127, 29, 29, 0.35);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  color: #fecaca;
+}
+.jarvis-card {
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  background: rgba(3, 7, 18, 0.65);
+  border-radius: 2px;
+}
+.jarvis-card-search {
+  border-color: rgba(34, 211, 238, 0.25);
+  box-shadow: inset 0 0 20px rgba(34, 211, 238, 0.04);
+}
+.jarvis-mobile-comms {
+  border: 1px solid rgba(56, 189, 248, 0.1);
+  border-radius: 2px;
+  padding: 0.5rem;
+  background: rgba(3, 7, 18, 0.5);
+}
+.jarvis-cockpit-footer {
+  border-top: 1px solid rgba(56, 189, 248, 0.1);
+  background: linear-gradient(0deg, rgba(3, 7, 18, 0.95), rgba(3, 7, 18, 0.7));
+  backdrop-filter: blur(8px);
+}
+.jarvis-input-dock {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.35rem 0.35rem 1rem;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  background: rgba(8, 47, 73, 0.35);
+  border-radius: 2px;
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.06), inset 0 0 16px rgba(56, 189, 248, 0.03);
+}
+.jarvis-input-dock:focus-within {
+  border-color: rgba(34, 211, 238, 0.45);
+  box-shadow: 0 0 32px rgba(34, 211, 238, 0.12);
+}
+.jarvis-btn-send {
+  padding: 0.55rem 1rem;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #0c4a6e;
+  background: linear-gradient(135deg, #22d3ee, #38bdf8);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.jarvis-btn-stop {
+  padding: 0.55rem 0.85rem;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.4);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.jarvis-btn-primary {
+  background: rgba(8, 145, 178, 0.7);
+  color: white;
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  border-radius: 2px;
+}
+.jarvis-btn-ghost {
+  background: transparent;
+  color: rgba(125, 211, 252, 0.8);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 2px;
+}
+.jarvis-alert {
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  background: rgba(120, 53, 15, 0.25);
+  color: rgba(253, 230, 138, 0.9);
+  border-radius: 2px;
+}
+.jarvis-fullpage .jarvis-hud-rings {
+  opacity: 0.7;
+  top: 42%;
+  transform: translateY(-50%);
+}
