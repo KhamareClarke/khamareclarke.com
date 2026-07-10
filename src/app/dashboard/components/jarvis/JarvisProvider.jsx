@@ -13,6 +13,7 @@ import {
   pickBritishVoice,
   mapSpeechError,
   ensureMicPermission,
+  processRecognitionResult,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
 
@@ -89,6 +90,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const continuousListenRef = useRef(false);
   const scheduleRestartRef = useRef(null);
   const beginListeningRef = useRef(null);
+  const lastInterimRef = useRef('');
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
@@ -240,21 +242,17 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         setListening(true);
         setVoiceError(null);
         transcriptRef.current = '';
+        lastInterimRef.current = '';
         setVoiceInterim('');
       },
       onResult: (event) => {
-        let interim = '';
-        for (let i = event.resultIndex; i < event.results.length; i += 1) {
-          const piece = event.results[i][0]?.transcript || '';
-          if (event.results[i].isFinal) {
-            transcriptRef.current = `${transcriptRef.current} ${piece}`.trim();
-          } else {
-            interim += piece;
-          }
-        }
-        const display = interim
-          ? `${transcriptRef.current} ${interim}`.trim()
-          : transcriptRef.current;
+        const { accumulated, display, interim } = processRecognitionResult(
+          event,
+          transcriptRef.current
+        );
+        transcriptRef.current = accumulated;
+        if (interim) lastInterimRef.current = interim;
+        else if (display) lastInterimRef.current = display;
         if (display) setVoiceInterim(display);
       },
       onError: (code) => {
@@ -267,8 +265,13 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         recognizingRef.current = false;
         setListening(false);
 
-        const transcript = (transcriptRef.current || '').trim();
+        const transcript = (
+          transcriptRef.current ||
+          lastInterimRef.current ||
+          ''
+        ).trim();
         transcriptRef.current = '';
+        lastInterimRef.current = '';
         setVoiceInterim('');
 
         if (transcript && !streamingRef.current && !speakingRef.current) {

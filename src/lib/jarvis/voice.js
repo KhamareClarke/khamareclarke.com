@@ -83,8 +83,25 @@ export function extractTranscript(event) {
   return transcript.trim();
 }
 
+/** Process a SpeechRecognition result event into accumulated finals + display text. */
+export function processRecognitionResult(event, accumulated = '') {
+  let interim = '';
+  let finals = accumulated;
+  for (let i = event.resultIndex; i < event.results.length; i += 1) {
+    const piece = event.results[i][0]?.transcript || '';
+    if (event.results[i].isFinal) {
+      finals = `${finals} ${piece}`.trim();
+    } else {
+      interim += piece;
+    }
+  }
+  const display = (interim ? `${finals} ${interim}` : finals).trim();
+  return { accumulated: finals, display, interim: interim.trim() };
+}
+
 /**
  * Create a reusable SpeechRecognition instance (call once, reuse start/stop).
+ * onResult receives the raw SpeechRecognitionEvent.
  */
 export function createSpeechRecognition({ onResult, onError, onEnd, onStart, continuous = false }) {
   if (!isSpeechRecognitionSupported()) return null;
@@ -93,13 +110,12 @@ export function createSpeechRecognition({ onResult, onError, onEnd, onStart, con
   rec.continuous = continuous;
   rec.interimResults = true;
   rec.maxAlternatives = 1;
-  rec.lang = 'en-GB';
+  rec.lang = typeof navigator !== 'undefined' && navigator.language?.startsWith('en')
+    ? navigator.language
+    : 'en-GB';
 
   rec.onstart = () => onStart?.();
-  rec.onresult = (e) => {
-    const transcript = extractTranscript(e);
-    if (transcript) onResult?.(transcript);
-  };
+  rec.onresult = (e) => onResult?.(e);
   rec.onerror = (e) => onError?.(e.error || 'unknown');
   rec.onend = () => onEnd?.();
 

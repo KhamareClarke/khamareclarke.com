@@ -238,8 +238,8 @@ export default function JarvisFullPageHud() {
                   <p className="text-[9px] uppercase tracking-[0.35em] text-cyan-400/60 mb-1">
                     {listening ? 'Receiving audio' : 'Last heard'}
                   </p>
-                  <p className="text-sm md:text-base text-cyan-100/90 font-light tracking-wide">
-                    {voiceInterim || '…'}
+                  <p className="text-sm md:text-base text-cyan-100/90 font-light tracking-wide min-h-[1.25rem]">
+                    {voiceInterim || (listening ? 'Speak now, sir…' : '…')}
                   </p>
                 </div>
               )}
