@@ -252,6 +252,11 @@ export default function JarvisFullPageHud() {
         <JarvisHudVisualizer active={hudActive} />
 
         <form onSubmit={handleSubmit} className="max-w-xl mx-auto">
+          {muted && (
+            <p className="text-[10px] text-sky-500/60 text-center mb-1">
+              Voice is off — replies appear as text above. Tap &quot;Voice on&quot; to hear JARVIS.
+            </p>
+          )}
           {voiceError && <p className="text-[11px] text-red-400 mb-2 text-center">{voiceError}</p>}
           <div className="flex gap-3 items-center justify-center">
             {speechSupported && (

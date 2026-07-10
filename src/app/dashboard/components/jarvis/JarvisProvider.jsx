@@ -299,8 +299,16 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         });
 
         if (res.status === 401) {
-          window.location.href = '/login?callbackUrl=/dashboard';
+          window.location.href = '/login?callbackUrl=/dashboard/jarvis';
           return '';
+        }
+
+        if (res.status === 403) {
+          const denied = 'Access denied, sir. Admin session required — try logging in again.';
+          setMessages((prev) =>
+            prev.map((m) => (m.id === assistantId ? { ...m, content: denied } : m))
+          );
+          return denied;
         }
 
         if (!res.ok) {
@@ -503,6 +511,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   const sendMessage = useCallback(
     async (text) => {
+      try {
       const trimmed = text.trim();
       if (!trimmed) return;
       if (streamingRef.current) {
@@ -568,6 +577,12 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         .map((m) => ({ role: m.role, content: m.content }));
       const full = await streamLLM(history, assistantId);
       if (full) speakReply(full);
+      } catch (err) {
+        console.error('[jarvis] sendMessage', err);
+        appendAssistant(
+          `Something went wrong, sir. ${err?.message || 'Try help, status, or briefing for instant commands.'}`
+        );
+      }
     },
     [liveData, refreshData, messages, appendAssistant, speakReply, streamLLM, executeAction, appendSystemNote]
   );
