@@ -22,6 +22,7 @@ import {
   isSpeechAudioUnlocked,
   prepareSpeechOutput,
   handoffSpeechToMic,
+  primeMobileAudioSession,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
 import { summarizeForSpeech } from '@/lib/jarvis/speech-summary';
@@ -237,6 +238,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     const armMic = async () => {
       await new Promise((r) => setTimeout(r, 400));
       if (cancelled) return;
+      if (isMobileUserAgent() && !isSpeechAudioUnlocked()) return;
       await beginListeningRef.current?.();
     };
     armMic();
@@ -274,6 +276,21 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       }
     };
   }, [minimal, open]);
+
+  /** After mobile audio unlock tap, start the mic loop. */
+  useEffect(() => {
+    if (minimal || !open || !audioUnlocked) return;
+    if (!isMobileUserAgent()) return;
+    setContinuousListen(true);
+    continuousListenRef.current = true;
+    voiceAutoSendRef.current = true;
+    const t = setTimeout(() => {
+      if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
+        beginListeningRef.current?.();
+      }
+    }, 300);
+    return () => clearTimeout(t);
+  }, [minimal, open, audioUnlocked]);
 
   /** Double-clap activates JARVIS when hands are busy (full-page HUD only). */
   useEffect(() => {
@@ -354,7 +371,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     const rec = recognitionRef.current;
     if (!rec || recognizingRef.current) return false;
     if (streamingRef.current) return false;
+    if (pendingTtsRef.current && !speakingRef.current) {
+      pendingTtsRef.current = false;
+    }
     if (speakingRef.current && !interruptSpeech) return false;
+    if (isMobileUserAgent() && !isSpeechAudioUnlocked()) return false;
 
     if (interruptSpeech) {
       stopSpeaking();
@@ -406,12 +427,12 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   const scheduleRestartListening = useCallback(() => {
     if (!continuousListenRef.current) return;
-    if (pendingTtsRef.current || streamingRef.current || speakingRef.current) return;
-    const delay = isIOS() ? 1300 : isMobileUserAgent() ? 1000 : 500;
+    if (streamingRef.current || speakingRef.current) return;
+    const delay = isIOS() ? 700 : isMobileUserAgent() ? 550 : 500;
     setTimeout(async () => {
       if (!continuousListenRef.current) return;
       if (streamingRef.current || speakingRef.current || recognizingRef.current) return;
-      if (pendingTtsRef.current) return;
+      if (pendingTtsRef.current && !speakingRef.current) pendingTtsRef.current = false;
       if (isMobileUserAgent()) {
         await handoffSpeechToMic();
       }
@@ -489,7 +510,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
         // Continuous mode never fires onEnd per utterance — send after a pause in speech.
         if (display && (voiceAutoSendRef.current || continuousListenRef.current)) {
-          scheduleVoiceAutoSend(hadFinal ? 550 : 1100);
+          const pauseMs = hadFinal ? (isIOS() ? 380 : isMobileUserAgent() ? 480 : 550) : isMobileUserAgent() ? 900 : 1100;
+          scheduleVoiceAutoSend(pauseMs);
         }
       },
       onError: (code) => {
@@ -676,7 +698,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   }, []);
 
   const flushMessageQueue = useCallback(() => {
-    if (streamingRef.current || speakingRef.current || pendingTtsRef.current) return;
+    if (streamingRef.current || speakingRef.current) return;
+    if (pendingTtsRef.current) pendingTtsRef.current = false;
     const next = messageQueueRef.current.shift();
     if (next) {
       setTimeout(() => processUserMessageRef.current?.(next, { addUserBubble: false }), 80);
@@ -691,25 +714,24 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   const speakReply = useCallback(
     async (text, { writingTask = false, speakFull = false } = {}) => {
-      const finish = async () => {
-        if (isMobileUserAgent()) {
-          await handoffSpeechToMic();
-        }
+      const finish = () => {
         scheduleRestartRef.current?.();
         flushMessageQueueRef.current?.();
       };
       if (!text?.trim()) {
-        await finish();
+        finish();
         return;
       }
       if (muted) {
-        await finish();
+        finish();
         return;
       }
 
       pendingTtsRef.current = true;
       pauseListening();
       stopSpeaking();
+      unlockSpeechAudio({ prime: isMobileUserAgent() });
+      primeMobileAudioSession();
       prepareSpeechOutput();
       setAudioUnlocked(true);
 
@@ -717,19 +739,20 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       setLastReplyText(plain);
       const spoken = summarizeForSpeech(plain, { writingTask, speakFull });
 
-      const gap = isIOS() ? 360 : isMobileUserAgent() ? 300 : 200;
+      const gap = isIOS() ? 280 : isMobileUserAgent() ? 220 : 200;
       await new Promise((r) => setTimeout(r, gap));
 
       try {
         const safety = setTimeout(() => {
-          if (pendingTtsRef.current) {
+          if (pendingTtsRef.current || speakingRef.current) {
             pendingTtsRef.current = false;
             speakingRef.current = false;
             setSpeaking(false);
             finish();
           }
-        }, 45000);
+        }, isMobileUserAgent() ? 18000 : 45000);
 
+        primeMobileAudioSession();
         await speakJarvis(spoken, {
           muted: false,
           onStart: () => {
@@ -745,9 +768,14 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
             finish();
           },
         });
+        if (pendingTtsRef.current) {
+          clearTimeout(safety);
+          pendingTtsRef.current = false;
+          finish();
+        }
       } catch {
         pendingTtsRef.current = false;
-        await finish();
+        finish();
       }
     },
     [muted, pauseListening]
@@ -1291,7 +1319,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       const trimmed = text.trim();
       if (!trimmed) return;
       prefetchOpenFromTranscript(trimmed, prefetchedOpenUrlRef);
-      if (streamingRef.current || speakingRef.current || pendingTtsRef.current) {
+      if (streamingRef.current || speakingRef.current) {
         setMessages((prev) => [...prev, { id: `u-${Date.now()}`, role: 'user', content: trimmed }]);
         userScrolledUpRef.current = false;
         messageQueueRef.current.push(trimmed);
@@ -1372,12 +1400,15 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     return ok;
   }, [beginListening]);
 
-  const unlockAndPrimeAudio = useCallback(() => {
+  const unlockAndPrimeAudio = useCallback(async () => {
     unlockSpeechAudio({ prime: true });
+    primeMobileAudioSession();
     setAudioUnlocked(true);
-    if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
-      beginListeningRef.current?.();
-    }
+    setContinuousListen(true);
+    continuousListenRef.current = true;
+    voiceAutoSendRef.current = true;
+    await new Promise((r) => setTimeout(r, 200));
+    await beginListeningRef.current?.({ interruptSpeech: true });
   }, []);
 
   const clearComms = useCallback(() => {

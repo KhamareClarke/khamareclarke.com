@@ -151,6 +151,7 @@ export default function JarvisFullPageHud() {
   const [input, setInput] = useState('');
   const [settingsOpen, setSettingsOpen] = useState(false);
   const inputRef = useRef(null);
+  const mobileCommsRef = useRef(null);
   const sessionStartRef = useRef(Date.now());
   const [, tickUptime] = useState(0);
   const now = useLiveClock();
@@ -161,9 +162,8 @@ export default function JarvisFullPageHud() {
     return () => {
       clearInterval(id);
       setOpen(false);
-      stopListening();
     };
-  }, [setOpen, stopListening]);
+  }, [setOpen]);
 
   const coreState = activity || 'idle';
   const hudActive = coreState !== 'idle' || listening;
@@ -173,6 +173,11 @@ export default function JarvisFullPageHud() {
   const dateStr = now.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
   const uptime = formatUptime(Date.now() - sessionStartRef.current);
   const loadPct = Math.min(100, Math.round(((liveData?.tasksQueued || 0) / 20) * 100));
+
+  useEffect(() => {
+    if (!mobileCommsRef.current) return;
+    mobileCommsRef.current.scrollTop = mobileCommsRef.current.scrollHeight;
+  }, [displayMessages, streaming, speaking]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -199,9 +204,10 @@ export default function JarvisFullPageHud() {
     <JarvisHudFrame>
       <div className="jarvis-fullpage jarvis-cockpit jarvis-ref-ui relative flex h-full flex-col overflow-hidden" data-activity={coreState}>
         {isMobileVoice && !audioUnlocked && (
-          <button type="button" onClick={unlockAndPrimeAudio} className="jarvis-audio-unlock fixed inset-0 z-[60] flex flex-col items-center justify-center gap-3 bg-slate-950/92 backdrop-blur-sm border-0 cursor-pointer">
+          <button type="button" onClick={() => unlockAndPrimeAudio()} className="jarvis-audio-unlock fixed inset-0 z-[60] flex flex-col items-center justify-center gap-3 bg-slate-950/92 backdrop-blur-sm border-0 cursor-pointer">
             <span className="text-4xl">🔊</span>
             <span className="text-cyan-200 text-sm font-light tracking-[0.25em] uppercase">Tap to enable JARVIS voice</span>
+            <span className="text-sky-400/70 text-xs max-w-xs text-center px-6">Required on mobile. Turn off silent mode, then tap once to hear replies.</span>
           </button>
         )}
 
@@ -340,15 +346,40 @@ export default function JarvisFullPageHud() {
 
         {/* Mobile: conversation + input */}
         <div className="md:hidden shrink-0 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] space-y-2">
-          <div className="jarvis-mobile-comms max-h-36 overflow-y-auto space-y-2 text-xs">
-            {displayMessages.slice(-3).map((m) => (
-              <CommsMessage key={m.id} m={m} streaming={streaming} pendingAction={pendingAction} executeAction={executeAction} cancelAction={cancelAction} />
-            ))}
+          {(speaking || streaming || listening) && (
+            <p className="text-center text-[10px] uppercase tracking-widest text-cyan-300/80">
+              {speaking ? 'JARVIS speaking…' : streaming ? 'Thinking…' : 'Listening…'}
+            </p>
+          )}
+          <div ref={mobileCommsRef} className="jarvis-mobile-comms max-h-44 overflow-y-auto space-y-2 text-xs">
+            {displayMessages.length === 0 ? (
+              <p className="text-sky-400/70">Tap 🔊 above if you have not enabled voice yet.</p>
+            ) : (
+              displayMessages.slice(-5).map((m) => (
+                <CommsMessage key={m.id} m={m} streaming={streaming} pendingAction={pendingAction} executeAction={executeAction} cancelAction={cancelAction} />
+              ))
+            )}
           </div>
           <form onSubmit={handleSubmit} className="jarvis-convo-input flex items-center gap-2 px-3 py-2 rounded-lg border border-sky-500/15">
-            <input type="text" value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type a message…" className="flex-1 bg-transparent border-0 outline-none text-sm text-sky-50" />
-            <button type="submit" disabled={!input.trim()} className="jarvis-convo-send">➤</button>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onFocus={() => isMobileVoice && unlockAndPrimeAudio()}
+              placeholder="Type a message…"
+              className="flex-1 bg-transparent border-0 outline-none text-sm text-sky-50"
+            />
+            {streaming ? (
+              <button type="button" onClick={stopGeneration} className="jarvis-convo-send">■</button>
+            ) : speaking ? (
+              <button type="button" onClick={stopSpeakingReply} className="jarvis-convo-send">■</button>
+            ) : (
+              <button type="submit" disabled={!input.trim()} className="jarvis-convo-send disabled:opacity-30">➤</button>
+            )}
           </form>
+          {(voiceError || voicePlatformHint) && (
+            <p className="text-[10px] text-amber-200/80 text-center">{voiceError || voicePlatformHint}</p>
+          )}
         </div>
       </div>
     </JarvisHudFrame>

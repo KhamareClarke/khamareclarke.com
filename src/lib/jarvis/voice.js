@@ -2,9 +2,40 @@
 
 let preferredVoice = null;
 let speechAudioUnlocked = false;
+let sharedAudioContext = null;
 
 export function isSpeechAudioUnlocked() {
   return speechAudioUnlocked;
+}
+
+function getSharedAudioContext() {
+  if (typeof window === 'undefined') return null;
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return null;
+  if (!sharedAudioContext || sharedAudioContext.state === 'closed') {
+    try {
+      sharedAudioContext = new Ctx();
+    } catch {
+      return null;
+    }
+  }
+  return sharedAudioContext;
+}
+
+/** Play a silent blip so iOS/Android keep the audio session open for TTS. */
+export function primeMobileAudioSession() {
+  const ctx = getSharedAudioContext();
+  if (!ctx) return;
+  try {
+    if (ctx.state === 'suspended') ctx.resume();
+    const buffer = ctx.createBuffer(1, 1, 22050);
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(ctx.destination);
+    source.start(0);
+  } catch {
+    // optional
+  }
 }
 
 export function pickBritishVoice() {
@@ -51,17 +82,13 @@ export function waitForVoices(timeoutMs = 2500) {
 export function unlockSpeechAudio({ prime = false } = {}) {
   if (typeof window === 'undefined') return;
   try {
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    if (Ctx) {
-      const ctx = new Ctx();
-      if (ctx.state === 'suspended') ctx.resume();
-    }
+    primeMobileAudioSession();
     if (window.speechSynthesis) {
       window.speechSynthesis.resume();
       pickBritishVoice();
       if (prime) {
         const u = new SpeechSynthesisUtterance('Online.');
-        u.volume = 0.15;
+        u.volume = 0.12;
         u.rate = 1.2;
         const voice = pickBritishVoice();
         if (voice) u.voice = voice;
@@ -95,6 +122,7 @@ function speakingRefSafe(synth) {
 /** Resume TTS output after a user gesture (required on iOS/Android). */
 export function prepareSpeechOutput() {
   unlockSpeechAudio({ prime: false });
+  primeMobileAudioSession();
   if (typeof window === 'undefined' || !window.speechSynthesis) return;
   try {
     window.speechSynthesis.resume?.();
@@ -152,20 +180,27 @@ function speakSingleChunk(spoken, { onStart, onEnd, muted } = {}) {
   return new Promise((resolve) => {
     let started = false;
     let settled = false;
+    let iosKeepAlive = null;
+    let maxWait = null;
+
     const finish = (didStart) => {
       if (settled) return;
       settled = true;
+      if (maxWait) clearTimeout(maxWait);
+      if (iosKeepAlive) clearInterval(iosKeepAlive);
       onEnd?.();
       resolve(didStart);
     };
 
     const synth = window.speechSynthesis;
     synth.cancel();
+    maxWait = setTimeout(() => finish(started), isMobileUserAgent() ? 12000 : 8000);
 
     const runAttempt = (attempt = 0) => {
       if (settled) return;
       try {
         synth.resume?.();
+        primeMobileAudioSession();
       } catch {
         // ignore
       }
@@ -187,13 +222,25 @@ function speakSingleChunk(spoken, { onStart, onEnd, muted } = {}) {
 
       synth.speak(utterance);
 
+      if (isIOS()) {
+        iosKeepAlive = setInterval(() => {
+          try {
+            synth.resume?.();
+          } catch {
+            // ignore
+          }
+        }, 120);
+      }
+
       if (isMobileUserAgent()) {
         setTimeout(() => {
           if (settled || started) return;
           if (!speakingRefSafe(synth) && attempt < 2) {
             runAttempt(attempt + 1);
+          } else if (!started && attempt >= 2) {
+            finish(false);
           }
-        }, isIOS() ? 420 : 520);
+        }, isIOS() ? 900 : 700);
       }
     };
 
@@ -203,7 +250,11 @@ function speakSingleChunk(spoken, { onStart, onEnd, muted } = {}) {
 
 async function speakChunks(chunks, opts, index = 0, anyStarted = false) {
   if (index >= chunks.length) {
-    await waitUntilSpeechIdle(isIOS() ? 12000 : isMobileUserAgent() ? 9000 : 6000);
+    if (isMobileUserAgent()) {
+      await waitUntilSpeechIdle(isIOS() ? 4000 : 2500);
+    } else {
+      await waitUntilSpeechIdle(6000);
+    }
     opts.onEnd?.();
     return anyStarted;
   }
@@ -241,12 +292,11 @@ export function stopSpeaking() {
   }
 }
 
-/** Give the OS time to hand audio from TTS back to the mic (mobile Safari). */
+/** Brief pause after TTS before reopening the mic on mobile. */
 export async function handoffSpeechToMic() {
-  stopSpeaking();
   if (!isMobileUserAgent()) return;
-  await waitUntilSpeechIdle(4000);
-  await new Promise((r) => setTimeout(r, isIOS() ? 450 : 280));
+  await waitUntilSpeechIdle(isIOS() ? 2000 : 1200);
+  await new Promise((r) => setTimeout(r, isIOS() ? 200 : 120));
 }
 
 export function playBootChime(muted) {
