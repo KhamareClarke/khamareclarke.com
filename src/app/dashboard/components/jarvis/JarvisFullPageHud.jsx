@@ -105,6 +105,7 @@ export default function JarvisFullPageHud() {
     speechSupported,
     muted,
     setMuted,
+    setVoiceAutoSend,
     presentationMode,
     setPresentationMode,
     continuousListen,
