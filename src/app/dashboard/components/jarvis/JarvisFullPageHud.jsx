@@ -25,7 +25,6 @@ function HudStat({ label, value }) {
 }
 
 export default function JarvisFullPageHud() {
-  const router = useRouter();
   const {
     setOpen,
     messages,
