@@ -143,6 +143,9 @@ export default function JarvisFullPageHud() {
     cancelAction,
     audioUnlocked,
     unlockAndPrimeAudio,
+    voiceNeedsTap,
+    hearLastReply,
+    lastReplyText,
     clapWake,
     setClapWake,
     setPresentationMode,
@@ -207,7 +210,7 @@ export default function JarvisFullPageHud() {
           <button type="button" onClick={() => unlockAndPrimeAudio()} className="jarvis-audio-unlock fixed inset-0 z-[60] flex flex-col items-center justify-center gap-3 bg-slate-950/92 backdrop-blur-sm border-0 cursor-pointer">
             <span className="text-4xl">🔊</span>
             <span className="text-cyan-200 text-sm font-light tracking-[0.25em] uppercase">Tap to enable JARVIS voice</span>
-            <span className="text-sky-400/70 text-xs max-w-xs text-center px-6">Required on mobile. Turn off silent mode, then tap once to hear replies.</span>
+            <span className="text-sky-400/70 text-xs max-w-xs text-center px-6">Turn off silent mode. After each reply, tap 🔊 Hear to listen on mobile.</span>
           </button>
         )}
 
@@ -284,6 +287,16 @@ export default function JarvisFullPageHud() {
             {/* Bottom center dock — reference mic / keyboard */}
             <div className="jarvis-center-dock shrink-0 flex items-center justify-center gap-3 pb-2 pt-2">
               <button type="button" className="jarvis-dock-btn opacity-40 cursor-not-allowed" title="Camera (coming soon)" disabled aria-label="Camera">📷</button>
+              {isMobileVoice && (voiceNeedsTap || lastReplyText) && !speaking && !streaming && (
+                <button
+                  type="button"
+                  onClick={() => hearLastReply()}
+                  className={`jarvis-dock-btn jarvis-dock-btn--hear ${voiceNeedsTap ? 'jarvis-dock-btn--hear-pulse' : ''}`}
+                  aria-label="Hear JARVIS reply"
+                >
+                  🔊
+                </button>
+              )}
               <button
                 type="button"
                 onClick={toggleMic}
@@ -379,6 +392,15 @@ export default function JarvisFullPageHud() {
           </form>
           {(voiceError || voicePlatformHint) && (
             <p className="text-[10px] text-amber-200/80 text-center">{voiceError || voicePlatformHint}</p>
+          )}
+          {isMobileVoice && voiceNeedsTap && !speaking && (
+            <button
+              type="button"
+              onClick={() => hearLastReply()}
+              className="w-full py-2.5 rounded-lg border border-amber-400/40 bg-amber-950/40 text-amber-100 text-xs uppercase tracking-widest"
+            >
+              🔊 Tap to hear JARVIS
+            </button>
           )}
         </div>
       </div>

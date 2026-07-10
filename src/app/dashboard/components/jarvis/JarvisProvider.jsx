@@ -6,6 +6,7 @@ import { parseJarvisCommand } from '@/lib/jarvis/commands';
 import { composeReadResponse, normalizeJarvisContext } from '@/lib/jarvis/templates';
 import {
   speakJarvis,
+  speakJarvisFromGesture,
   stopSpeaking,
   playBootChime,
   createSpeechRecognition,
@@ -114,6 +115,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const [voiceError, setVoiceError] = useState(null);
   const [lastActivityTs, setLastActivityTs] = useState(null);
   const [lastReplyText, setLastReplyText] = useState('');
+  const [voiceNeedsTap, setVoiceNeedsTap] = useState(false);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   // Manual activity override for the HUD: 'searching' | 'opening' | 'drawing' | null.
   const [busyActivity, setBusyActivity] = useState(null);
@@ -141,6 +143,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const pendingTtsRef = useRef(false);
   const lastSearchQueryRef = useRef(null);
   const lastBrowseRef = useRef(null);
+  const lastSpeechTextRef = useRef('');
   const prefetchedOpenUrlRef = useRef(null);
   const messageQueueRef = useRef([]);
   const flushMessageQueueRef = useRef(null);
@@ -713,69 +716,96 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const processUserMessageRef = useRef(null);
 
   const speakReply = useCallback(
-    async (text, { writingTask = false, speakFull = false } = {}) => {
+    async (text, { writingTask = false, speakFull = false, fromGesture = false } = {}) => {
       const finish = () => {
         scheduleRestartRef.current?.();
         flushMessageQueueRef.current?.();
       };
       if (!text?.trim()) {
         finish();
-        return;
+        return false;
       }
       if (muted) {
         finish();
-        return;
+        return false;
+      }
+
+      const plain = stripJarvisMarkdown(text);
+      setLastReplyText(plain);
+      const spoken = summarizeForSpeech(plain, { writingTask, speakFull });
+      lastSpeechTextRef.current = spoken;
+
+      const mobile = isMobileUserAgent();
+      const shortAck = spoken.length <= 100;
+
+      // iOS/Android block auto-TTS after async LLM — prompt tap unless short ack or desktop.
+      if (mobile && !fromGesture && !shortAck) {
+        pendingTtsRef.current = false;
+        setVoiceNeedsTap(true);
+        finish();
+        return false;
       }
 
       pendingTtsRef.current = true;
       pauseListening();
       stopSpeaking();
-      unlockSpeechAudio({ prime: isMobileUserAgent() });
+      unlockSpeechAudio({ prime: fromGesture || mobile });
       primeMobileAudioSession();
       prepareSpeechOutput();
       setAudioUnlocked(true);
+      setVoiceNeedsTap(false);
 
-      const plain = stripJarvisMarkdown(text);
-      setLastReplyText(plain);
-      const spoken = summarizeForSpeech(plain, { writingTask, speakFull });
+      if (!fromGesture && !mobile) {
+        await new Promise((r) => setTimeout(r, 200));
+      }
 
-      const gap = isIOS() ? 280 : isMobileUserAgent() ? 220 : 200;
-      await new Promise((r) => setTimeout(r, gap));
-
+      let started = false;
       try {
         const safety = setTimeout(() => {
           if (pendingTtsRef.current || speakingRef.current) {
             pendingTtsRef.current = false;
             speakingRef.current = false;
             setSpeaking(false);
+            if (mobile) setVoiceNeedsTap(true);
             finish();
           }
-        }, isMobileUserAgent() ? 18000 : 45000);
+        }, mobile ? 15000 : 45000);
+
+        const onStart = () => {
+          started = true;
+          pendingTtsRef.current = false;
+          speakingRef.current = true;
+          setSpeaking(true);
+          setVoiceNeedsTap(false);
+        };
+        const onEnd = () => {
+          clearTimeout(safety);
+          speakingRef.current = false;
+          setSpeaking(false);
+          pendingTtsRef.current = false;
+          if (mobile && !started) setVoiceNeedsTap(true);
+          finish();
+        };
 
         primeMobileAudioSession();
-        await speakJarvis(spoken, {
-          muted: false,
-          onStart: () => {
-            pendingTtsRef.current = false;
-            speakingRef.current = true;
-            setSpeaking(true);
-          },
-          onEnd: () => {
-            clearTimeout(safety);
-            speakingRef.current = false;
-            setSpeaking(false);
-            pendingTtsRef.current = false;
-            finish();
-          },
-        });
+        if (fromGesture || mobile) {
+          started = await speakJarvisFromGesture(spoken, { muted: false, onStart, onEnd });
+        } else {
+          started = await speakJarvis(spoken, { muted: false, onStart, onEnd });
+        }
+
         if (pendingTtsRef.current) {
           clearTimeout(safety);
           pendingTtsRef.current = false;
+          if (mobile && !started) setVoiceNeedsTap(true);
           finish();
         }
+        return started;
       } catch {
         pendingTtsRef.current = false;
+        if (mobile) setVoiceNeedsTap(true);
         finish();
+        return false;
       }
     },
     [muted, pauseListening]
@@ -1416,28 +1446,19 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     setPendingAction(null);
   }, []);
 
-  const replayLastReply = useCallback(async () => {
-    if (!lastReplyText?.trim() || muted) return;
+  const hearLastReply = useCallback(() => {
+    const text = lastSpeechTextRef.current || lastReplyText;
+    if (!text?.trim() || muted) return;
     unlockSpeechAudio({ prime: true });
+    primeMobileAudioSession();
     setAudioUnlocked(true);
-    pauseListening();
-    stopSpeaking();
-    pendingTtsRef.current = true;
-    await speakJarvis(summarizeForSpeech(lastReplyText), {
-      muted: false,
-      onStart: () => {
-        pendingTtsRef.current = false;
-        speakingRef.current = true;
-        setSpeaking(true);
-      },
-      onEnd: () => {
-        speakingRef.current = false;
-        setSpeaking(false);
-        pendingTtsRef.current = false;
-        scheduleRestartRef.current?.();
-      },
-    });
-  }, [lastReplyText, muted, pauseListening]);
+    setVoiceNeedsTap(false);
+    speakReply(text, { fromGesture: true, speakFull: false });
+  }, [lastReplyText, muted, speakReply]);
+
+  const replayLastReply = useCallback(() => {
+    hearLastReply();
+  }, [hearLastReply]);
 
   const value = useMemo(
     () => ({
@@ -1497,6 +1518,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       audioUnlocked: audioUnlocked || isSpeechAudioUnlocked(),
       unlockAndPrimeAudio,
       lastReplyText,
+      voiceNeedsTap,
+      hearLastReply,
       replayLastReply,
     }),
     [
@@ -1534,6 +1557,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       audioUnlocked,
       unlockAndPrimeAudio,
       lastReplyText,
+      voiceNeedsTap,
+      hearLastReply,
       replayLastReply,
     ]
   );

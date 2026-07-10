@@ -1148,6 +1148,15 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   background: linear-gradient(180deg, rgba(180, 83, 9, 0.35), rgba(120, 53, 15, 0.3));
   box-shadow: 0 0 22px rgba(251, 191, 36, 0.35);
 }
+.jarvis-dock-btn--hear,
+.jarvis-dock-btn--hear-pulse {
+  border-color: rgba(251, 191, 36, 0.6);
+  background: linear-gradient(180deg, rgba(180, 83, 9, 0.4), rgba(120, 53, 15, 0.35));
+  box-shadow: 0 0 24px rgba(251, 191, 36, 0.4);
+}
+.jarvis-dock-btn--hear-pulse {
+  animation: jarvis-dock-mic-pulse 1.2s ease-in-out infinite;
+}
 @keyframes jarvis-dock-mic-pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }

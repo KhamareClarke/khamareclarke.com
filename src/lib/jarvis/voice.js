@@ -108,9 +108,10 @@ function ttsDelayMs() {
 }
 
 function splitForTts(text) {
-  const mobile = isMobileUserAgent();
-  const limit = isIOS() ? 160 : mobile ? 220 : 4000;
-  if (!mobile || text.length < limit) return [text];
+  // Mobile: one chunk — iOS loses the audio session between chunks.
+  if (isMobileUserAgent()) return [text];
+  const limit = isIOS() ? 160 : 4000;
+  if (text.length < limit) return [text];
   const parts = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g);
   return (parts || [text]).map((p) => p.trim()).filter(Boolean);
 }
@@ -193,7 +194,9 @@ function speakSingleChunk(spoken, { onStart, onEnd, muted } = {}) {
     };
 
     const synth = window.speechSynthesis;
-    synth.cancel();
+    if (speakingRefSafe(synth)) {
+      synth.cancel();
+    }
     maxWait = setTimeout(() => finish(started), isMobileUserAgent() ? 12000 : 8000);
 
     const runAttempt = (attempt = 0) => {
@@ -275,10 +278,24 @@ export function speakJarvis(text, { onStart, onEnd, muted } = {}) {
     return Promise.resolve(false);
   }
 
-  return waitForVoices().then(() => {
+  return waitForVoices(isMobileUserAgent() ? 4000 : 2500).then(() => {
     const chunks = splitForTts(spoken);
     return speakChunks(chunks, { onStart, onEnd, muted });
   });
+}
+
+/** Speak inside a user tap handler — required for reliable iOS/Android playback. */
+export function speakJarvisFromGesture(text, { onStart, onEnd, muted } = {}) {
+  const spoken = String(text || '').trim().slice(0, 4000);
+  if (muted || !spoken) {
+    onEnd?.();
+    return Promise.resolve(false);
+  }
+  unlockSpeechAudio({ prime: true });
+  primeMobileAudioSession();
+  prepareSpeechOutput();
+  pickBritishVoice();
+  return speakSingleChunk(spoken, { onStart, onEnd, muted });
 }
 
 export function stopSpeaking() {
@@ -358,7 +375,7 @@ export function getVoicePlatformHint() {
     return 'Voice needs Chrome or Edge, sir. Text commands work below.';
   }
   if (isMobileUserAgent()) {
-    return 'Tap Enable voice once, then speak. Turn off silent mode. Tap 🎤 to interrupt JARVIS and speak again.';
+    return 'Tap Enable voice once. After replies, tap 🔊 Hear — mobile browsers require a tap to play voice.';
   }
   return null;
 }
