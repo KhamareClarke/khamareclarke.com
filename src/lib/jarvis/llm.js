@@ -26,13 +26,16 @@ async function enrichPromptWithWebSearch(systemPrompt, messages) {
 export async function streamJarvisCompletion(systemPrompt, messages, options = {}) {
   const provider = getJarvisLlmProvider();
   const useGoogleSearch = options.useGoogleSearch !== false;
+  const lastUser = [...messages].reverse().find((m) => m.role === 'user')?.content || '';
 
   if (provider === 'gemini') {
+    let prompt = systemPrompt;
+    if (useGoogleSearch && messageNeedsWebSearch(lastUser)) {
+      prompt = await enrichPromptWithWebSearch(systemPrompt, messages);
+    }
     return {
       provider,
-      body: await streamGeminiCompletion(systemPrompt, messages, {
-        useGoogleSearch,
-      }),
+      body: await streamGeminiCompletion(prompt, messages, { useGoogleSearch: false }),
     };
   }
   if (provider === 'openrouter') {

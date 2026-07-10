@@ -1,12 +1,14 @@
 'use client';
 
 let preferredVoice = null;
+let speechAudioUnlocked = false;
 
 export function pickBritishVoice() {
   if (typeof window === 'undefined' || !window.speechSynthesis) return null;
   const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return preferredVoice;
   preferredVoice =
-    voices.find((v) => v.lang === 'en-GB' && /google|daniel|arthur|martha/i.test(v.name)) ||
+    voices.find((v) => v.lang === 'en-GB' && /google|daniel|arthur|martha|samantha/i.test(v.name)) ||
     voices.find((v) => v.lang.startsWith('en-GB')) ||
     voices.find((v) => v.lang.startsWith('en')) ||
     voices[0] ||
@@ -14,23 +16,94 @@ export function pickBritishVoice() {
   return preferredVoice;
 }
 
-export function speakJarvis(text, { onStart, onEnd, muted } = {}) {
-  if (muted || typeof window === 'undefined' || !window.speechSynthesis) return null;
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.voice = pickBritishVoice();
-  utterance.rate = 0.95;
-  utterance.pitch = 0.92;
-  utterance.onstart = () => onStart?.();
-  utterance.onend = () => onEnd?.();
-  utterance.onerror = () => onEnd?.();
-  // iOS requires speech to be queued after cancel in next tick
-  if (isIOS()) {
-    setTimeout(() => window.speechSynthesis.speak(utterance), 50);
-  } else {
-    window.speechSynthesis.speak(utterance);
+/** Prime audio + speech synthesis after a user gesture (required on iOS/Android). */
+export function unlockSpeechAudio() {
+  if (typeof window === 'undefined' || speechAudioUnlocked) return;
+  speechAudioUnlocked = true;
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (Ctx) {
+      const ctx = new Ctx();
+      if (ctx.state === 'suspended') ctx.resume();
+    }
+    if (window.speechSynthesis) {
+      window.speechSynthesis.resume();
+      pickBritishVoice();
+    }
+  } catch {
+    // optional
   }
-  return utterance;
+}
+
+function ttsDelayMs() {
+  if (isIOS()) return 320;
+  if (isMobileUserAgent()) return 220;
+  return 80;
+}
+
+export function speakJarvis(text, { onStart, onEnd, muted } = {}) {
+  if (muted || typeof window === 'undefined' || !window.speechSynthesis) {
+    onEnd?.();
+    return Promise.resolve(null);
+  }
+  const spoken = String(text || '').trim().slice(0, 4000);
+  if (!spoken) {
+    onEnd?.();
+    return Promise.resolve(null);
+  }
+
+  unlockSpeechAudio();
+
+  return new Promise((resolve) => {
+    const finish = () => {
+      onEnd?.();
+      resolve(null);
+    };
+
+    const synth = window.speechSynthesis;
+    synth.cancel();
+
+    const startSpeak = () => {
+      try {
+        synth.resume?.();
+      } catch {
+        // ignore
+      }
+
+      pickBritishVoice();
+      const utterance = new SpeechSynthesisUtterance(spoken);
+      const voice = pickBritishVoice();
+      if (voice) utterance.voice = voice;
+      utterance.rate = isMobileUserAgent() ? 1.0 : 0.95;
+      utterance.pitch = 0.95;
+      utterance.volume = 1;
+      utterance.onstart = () => onStart?.();
+      utterance.onend = finish;
+      utterance.onerror = () => finish();
+
+      synth.speak(utterance);
+
+      // iOS Safari often drops the first speak() after STT — nudge once if silent.
+      if (isIOS()) {
+        setTimeout(() => {
+          if (!speakingRefSafe(synth)) {
+            try {
+              synth.resume();
+              synth.speak(utterance);
+            } catch {
+              finish();
+            }
+          }
+        }, 400);
+      }
+    };
+
+    setTimeout(startSpeak, ttsDelayMs());
+  });
+}
+
+function speakingRefSafe(synth) {
+  return synth.speaking || synth.pending;
 }
 
 export function stopSpeaking() {
@@ -98,7 +171,7 @@ export function getVoicePlatformHint() {
     return 'Voice needs Chrome or Edge, sir. Text commands work below.';
   }
   if (isMobileUserAgent()) {
-    return 'Tap the mic once to allow voice — then speak anytime. Text Send works too.';
+    return 'Tap the screen once, then speak. Ensure Voice on is lit and phone is not on silent.';
   }
   return null;
 }

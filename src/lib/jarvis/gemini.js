@@ -1,6 +1,6 @@
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
 const DEFAULT_MODEL = 'gemini-2.5-flash';
-const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-1.5-flash'];
+const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash'];
 /** Shut down 2026-06-01 — skip even if still set in GEMINI_MODEL env. */
 const DEPRECATED_MODELS = new Set([
   'gemini-2.0-flash-lite',
@@ -16,21 +16,15 @@ function getApiKey() {
 }
 
 function getModel() {
-  return (process.env.GEMINI_MODEL || DEFAULT_MODEL).trim();
-}
-
-function isDeprecatedModel(model) {
-  if (DEPRECATED_MODELS.has(model)) return true;
-  return /^gemini-2\.0-/i.test(model);
+  const env = (process.env.GEMINI_MODEL || '').trim();
+  if (!env || isDeprecatedModel(env)) return DEFAULT_MODEL;
+  return env;
 }
 
 function modelsToTry() {
   const configured = getModel();
-  const candidates = [
-    ...(isDeprecatedModel(configured) ? [] : [configured]),
-    ...FALLBACK_MODELS,
-  ];
-  return [...new Set(candidates)];
+  const pool = [configured, ...FALLBACK_MODELS.filter((m) => m !== configured)];
+  return [...new Set(pool)];
 }
 
 function isQuotaError(err) {
@@ -48,11 +42,20 @@ function shouldTryNextModel(err, modelIndex, modelCount) {
   return isQuotaError(err) || isModelUnavailableError(err);
 }
 
-function throwGeminiExhausted(...errors) {
-  const last = errors.find(Boolean);
-  const mapped = errors.map(mapGeminiError).find(Boolean);
-  if (mapped) throw new Error(mapped);
-  throw last || new Error('Gemini request failed on all models');
+function isDeprecatedModel(model) {
+  if (DEPRECATED_MODELS.has(model)) return true;
+  return /^gemini-2\.0-/i.test(model);
+}
+
+function throwGeminiExhausted(modelsTried, lastError) {
+  console.error('[gemini] exhausted models:', modelsTried.join(', '), lastError?.message);
+  if (lastError && !isModelUnavailableError(lastError)) {
+    const mapped = mapGeminiError(lastError);
+    if (mapped) throw new Error(mapped);
+  }
+  throw new Error(
+    'Gemini is unreachable, sir. Verify GEMINI_API_KEY on Vercel, remove GEMINI_MODEL if set to an old 2.0 model, then redeploy.'
+  );
 }
 
 function buildPayload(systemPrompt, messages, { useGoogleSearch = false } = {}) {
@@ -199,7 +202,7 @@ export async function generateGeminiCompletion(systemPrompt, messages, options =
       throw err;
     }
   }
-  throwGeminiExhausted(lastError);
+  throwGeminiExhausted(models, lastError);
 }
 
 /** Fake SSE stream from complete text (fallback). */
@@ -267,7 +270,7 @@ export async function streamGeminiCompletion(systemPrompt, messages, options = {
     const text = await generateGeminiCompletion(systemPrompt, messages, options);
     return textToTokenStream(text);
   } catch (fallbackErr) {
-    throwGeminiExhausted(fallbackErr, lastError);
+    throwGeminiExhausted(models, fallbackErr || lastError);
   }
 }
 

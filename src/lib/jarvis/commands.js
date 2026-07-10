@@ -1,6 +1,7 @@
 import { EMPIRE_SKILL_IDS } from '@/lib/empire-skills';
 import { ALL_EMPIRE_PROJECT_IDS } from '@/lib/empire-projects';
 import { resolveSiteUrl } from '@/lib/jarvis/sites';
+import { extractSearchQueryFromTranscript, normalizeSearchQuery } from '@/lib/jarvis/web-search';
 
 const TAB_ROUTES = {
   fleet: '/dashboard/empire',
@@ -58,8 +59,7 @@ function fuzzyMatchClient(token, clients) {
  */
 export function parseJarvisCommand(input, clients = []) {
   let raw = String(input || '').trim();
-  // Voice often prefixes "hey jarvis"
-  raw = raw.replace(/^(hey\s+)?jarvis[,:\s]+/i, '').trim() || String(input || '').trim();
+  raw = raw.replace(/^(?:hello\s+)?(?:hey\s+)?jarvis[,:\s]+/i, '').trim() || String(input || '').trim();
   const text = norm(raw);
   if (!text) return null;
 
@@ -94,9 +94,16 @@ export function parseJarvisCommand(input, clients = []) {
     return { type: 'read', command: 'briefing' };
   }
 
-  const searchMatch = raw.match(/^(?:search|google)(?:\s+(?:for|the web for))?\s+(.+)$/i);
-  if (searchMatch) {
-    return { type: 'read', command: 'search', query: searchMatch[1].trim() };
+  const searchMatch = raw.match(
+    /^(?:search|google)(?:\s+on\s+google)?(?:\s+(?:for|about|the web for))*\s+(.+)$/i
+  );
+  const searchQuery = searchMatch
+    ? normalizeSearchQuery(searchMatch[1])
+    : /\bsearch\b/i.test(raw)
+      ? extractSearchQueryFromTranscript(raw)
+      : null;
+  if (searchQuery && searchQuery.length > 2) {
+    return { type: 'read', command: 'search', query: searchQuery };
   }
 
   const imageMatch = raw.match(

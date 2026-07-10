@@ -1,6 +1,6 @@
 import { requireAuth } from '@/lib/api-guard';
-import { generateGeminiCompletion } from '@/lib/jarvis/gemini';
-import { formatSearchResultsForPrompt, searchWeb } from '@/lib/jarvis/web-search';
+import { generateGeminiCompletion, isGeminiConfigured } from '@/lib/jarvis/gemini';
+import { formatSearchResultsForPrompt, normalizeSearchQuery, searchWeb } from '@/lib/jarvis/web-search';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -12,7 +12,7 @@ export async function POST(req) {
 
   try {
     const body = await req.json().catch(() => ({}));
-    const query = String(body.query || '').trim().slice(0, 500);
+    const query = normalizeSearchQuery(String(body.query || '').trim().slice(0, 500));
     if (!query) {
       return Response.json({ error: 'query is required' }, { status: 400 });
     }
@@ -21,29 +21,45 @@ export async function POST(req) {
     const block = formatSearchResultsForPrompt(results);
 
     let summary = '';
+    let geminiSource = source;
+
     try {
-      summary = await generateGeminiCompletion(
-        `You are JARVIS. Summarize web search results for the operator in plain text (no markdown). Be concise and cite key facts. If results are thin, say so.`,
-        [
-          {
-            role: 'user',
-            content: `Query: ${query}\n\nSearch results:\n${block}\n\nAnswer the query using these results.`,
-          },
-        ],
-        { useGoogleSearch: false }
-      );
-    } catch {
+      if (results.length) {
+        summary = await generateGeminiCompletion(
+          `You are JARVIS. Summarize web search results for the operator in plain text (no markdown). Be concise and cite key facts.`,
+          [
+            {
+              role: 'user',
+              content: `Query: ${query}\n\nSearch results:\n${block}\n\nAnswer the query using these results.`,
+            },
+          ],
+          { useGoogleSearch: false }
+        );
+      } else if (isGeminiConfigured()) {
+        summary = await generateGeminiCompletion(
+          `You are JARVIS. The operator needs a factual web-style answer. Plain text only, no markdown. Be concise. If unsure, say live data may vary, sir.`,
+          [{ role: 'user', content: query }],
+          { useGoogleSearch: false }
+        );
+        geminiSource = 'gemini';
+      } else {
+        summary = `No web results found for "${query}", sir. Set GEMINI_API_KEY for live search.`;
+      }
+    } catch (err) {
       if (results.length) {
         summary = `Found ${results.length} result(s) for "${query}", sir. Top hit: ${results[0].title}.`;
       } else {
-        summary = `No web results found for "${query}", sir.`;
+        return Response.json(
+          { error: err?.message || 'Search and Gemini fallback both failed' },
+          { status: 500 }
+        );
       }
     }
 
     return Response.json({
       ok: true,
       query,
-      source,
+      source: geminiSource,
       results: results.slice(0, 8),
       summary,
     });

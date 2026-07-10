@@ -17,6 +17,7 @@ import {
   isMobileUserAgent,
   speechRecognitionUsesContinuous,
   getVoicePlatformHint,
+  unlockSpeechAudio,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
 import { messageNeedsWebSearch } from '@/lib/jarvis/web-search';
@@ -97,6 +98,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const lastInterimRef = useRef('');
   const voiceSendTimerRef = useRef(null);
   const skipOnEndSendRef = useRef(false);
+  const pendingTtsRef = useRef(false);
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
@@ -159,17 +161,12 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       } catch {
         // ignore
       }
-    } else if (!speakingRef.current) {
-      scheduleRestartRef.current?.();
     }
   }, [streaming]);
 
   useEffect(() => {
     speakingRef.current = speaking;
-    if (!minimal && open && !speaking && !streaming) {
-      scheduleRestartRef.current?.();
-    }
-  }, [speaking, streaming, minimal, open]);
+  }, [speaking]);
 
   /** Full JARVIS page: always-on listen → reply → listen loop. */
   useEffect(() => {
@@ -191,6 +188,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     armMic();
 
     const onGesture = () => {
+      unlockSpeechAudio();
       if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
         beginListeningRef.current?.();
       }
@@ -200,6 +198,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     const keepalive = setInterval(() => {
       if (
         continuousListenRef.current &&
+        !pendingTtsRef.current &&
         !recognizingRef.current &&
         !streamingRef.current &&
         !speakingRef.current
@@ -269,8 +268,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   const scheduleRestartListening = useCallback(() => {
     if (!continuousListenRef.current) return;
-    if (streamingRef.current || speakingRef.current) return;
-    const delay = isMobileUserAgent() ? 700 : 400;
+    if (pendingTtsRef.current || streamingRef.current || speakingRef.current) return;
+    const delay = isMobileUserAgent() ? 900 : 500;
     setTimeout(() => {
       if (!continuousListenRef.current) return;
       if (streamingRef.current || speakingRef.current || recognizingRef.current) return;
@@ -492,9 +491,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   }, []);
 
   const speakReply = useCallback(
-    (text) => {
+    async (text) => {
       const finish = () => scheduleRestartRef.current?.();
-      if (!text) {
+      if (!text?.trim()) {
         finish();
         return;
       }
@@ -502,19 +501,43 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         finish();
         return;
       }
+
+      pendingTtsRef.current = true;
       pauseListening();
-      speakJarvis(stripJarvisMarkdown(text), {
-        muted,
-        onStart: () => {
-          speakingRef.current = true;
-          setSpeaking(true);
-        },
-        onEnd: () => {
-          speakingRef.current = false;
-          setSpeaking(false);
-          finish();
-        },
-      });
+      stopSpeaking();
+
+      const gap = isMobileUserAgent() ? 450 : 200;
+      await new Promise((r) => setTimeout(r, gap));
+
+      try {
+        const safety = setTimeout(() => {
+          if (pendingTtsRef.current) {
+            pendingTtsRef.current = false;
+            speakingRef.current = false;
+            setSpeaking(false);
+            finish();
+          }
+        }, 45000);
+
+        await speakJarvis(stripJarvisMarkdown(text), {
+          muted: false,
+          onStart: () => {
+            pendingTtsRef.current = false;
+            speakingRef.current = true;
+            setSpeaking(true);
+          },
+          onEnd: () => {
+            clearTimeout(safety);
+            speakingRef.current = false;
+            setSpeaking(false);
+            pendingTtsRef.current = false;
+            finish();
+          },
+        });
+      } catch {
+        pendingTtsRef.current = false;
+        finish();
+      }
     },
     [muted, pauseListening]
   );
@@ -625,9 +648,6 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       } finally {
         setStreaming(false);
         abortRef.current = null;
-        if (!speakingRef.current) {
-          scheduleRestartRef.current?.();
-        }
       }
     },
     []
@@ -924,7 +944,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         .filter((m) => typeof m.content === 'string' && m.content.trim())
         .map((m) => ({ role: m.role, content: m.content }));
       const full = await streamLLM(history, assistantId);
-      if (full) speakReply(full);
+      if (full) {
+        await speakReply(full);
+      } else {
+        scheduleRestartRef.current?.();
+      }
       } catch (err) {
         console.error('[jarvis] sendMessage', err);
         appendAssistant(
