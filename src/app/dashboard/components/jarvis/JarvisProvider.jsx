@@ -24,6 +24,7 @@ import {
   handoffSpeechToMic,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
+import { summarizeForSpeech } from '@/lib/jarvis/speech-summary';
 import {
   messageNeedsWebSearch,
   hasExplicitSearchIntent,
@@ -689,7 +690,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const processUserMessageRef = useRef(null);
 
   const speakReply = useCallback(
-    async (text) => {
+    async (text, { writingTask = false, speakFull = false } = {}) => {
       const finish = async () => {
         if (isMobileUserAgent()) {
           await handoffSpeechToMic();
@@ -714,6 +715,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
       const plain = stripJarvisMarkdown(text);
       setLastReplyText(plain);
+      const spoken = summarizeForSpeech(plain, { writingTask, speakFull });
 
       const gap = isIOS() ? 360 : isMobileUserAgent() ? 300 : 200;
       await new Promise((r) => setTimeout(r, gap));
@@ -728,7 +730,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           }
         }, 45000);
 
-        await speakJarvis(plain, {
+        await speakJarvis(spoken, {
           muted: false,
           onStart: () => {
             pendingTtsRef.current = false;
@@ -1246,7 +1248,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           .map((m) => ({ role: m.role, content: m.content }));
         const full = await streamLLM(history, assistantId, { writingTask });
         if (full?.trim()) {
-          await speakReply(full);
+          await speakReply(full, { writingTask });
         } else if (!full) {
           flushMessageQueueRef.current?.();
         } else {
@@ -1390,7 +1392,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     pauseListening();
     stopSpeaking();
     pendingTtsRef.current = true;
-    await speakJarvis(lastReplyText, {
+    await speakJarvis(summarizeForSpeech(lastReplyText), {
       muted: false,
       onStart: () => {
         pendingTtsRef.current = false;
