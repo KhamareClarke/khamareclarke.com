@@ -168,6 +168,7 @@ export default function JarvisFullPageHud() {
     streaming,
     sendMessage,
     stopGeneration,
+    stopSpeakingReply,
     messagesEndRef,
     userScrolledUpRef,
     bootLine,
@@ -237,6 +238,16 @@ export default function JarvisFullPageHud() {
 
         {/* Floating controls */}
         <div className="absolute top-3 right-3 md:top-4 md:right-5 z-30 flex items-center gap-1.5">
+          {speaking && (
+            <button
+              type="button"
+              onClick={stopSpeakingReply}
+              className="jarvis-pill jarvis-pill-btn jarvis-pill-active border-red-400/40 text-red-200"
+              aria-label="Stop JARVIS voice"
+            >
+              Stop voice
+            </button>
+          )}
           <button
             type="button"
             onClick={() => setMuted((m) => !m)}
@@ -390,6 +401,10 @@ export default function JarvisFullPageHud() {
             {streaming ? (
               <button type="button" onClick={stopGeneration} className="jarvis-btn-stop shrink-0">
                 Stop
+              </button>
+            ) : speaking ? (
+              <button type="button" onClick={stopSpeakingReply} className="jarvis-btn-stop shrink-0">
+                Stop voice
               </button>
             ) : (
               <button type="submit" disabled={!input.trim()} className="jarvis-btn-send shrink-0 disabled:opacity-30">

@@ -506,7 +506,17 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     abortRef.current = null;
     setStreaming(false);
     stopSpeaking();
+    speakingRef.current = false;
     setSpeaking(false);
+    pendingTtsRef.current = false;
+  }, []);
+
+  const stopSpeakingReply = useCallback(() => {
+    stopSpeaking();
+    speakingRef.current = false;
+    setSpeaking(false);
+    pendingTtsRef.current = false;
+    scheduleRestartRef.current?.();
   }, []);
 
   const appendAssistant = useCallback((content, extras = {}) => {
@@ -1097,6 +1107,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       streaming,
       sendMessage,
       stopGeneration,
+      stopSpeakingReply,
       bootLine,
       bootTyped,
       messagesEndRef,
@@ -1138,6 +1149,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       streaming,
       sendMessage,
       stopGeneration,
+      stopSpeakingReply,
       bootLine,
       bootTyped,
       pendingAction,

@@ -105,6 +105,7 @@ export default function JarvisDrawer() {
     streaming,
     sendMessage,
     stopGeneration,
+    stopSpeakingReply,
     messagesEndRef,
     userScrolledUpRef,
     pendingAction,
@@ -321,6 +322,14 @@ export default function JarvisDrawer() {
                     className="text-[10px] px-3 py-1 rounded-full border border-red-400/40 text-red-300 hover:bg-red-500/10"
                   >
                     Stop
+                  </button>
+                ) : speaking ? (
+                  <button
+                    type="button"
+                    onClick={stopSpeakingReply}
+                    className="text-[10px] px-3 py-1 rounded-full border border-red-400/40 text-red-300 hover:bg-red-500/10"
+                  >
+                    Stop voice
                   </button>
                 ) : (
                   <span className="text-[10px] text-sky-500/50">⌘J · Enter</span>
