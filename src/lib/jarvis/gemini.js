@@ -1,6 +1,6 @@
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
 const DEFAULT_MODEL = 'gemini-2.5-flash';
-const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-3.1-flash-lite'];
+const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-1.5-flash'];
 /** Shut down 2026-06-01 — skip even if still set in GEMINI_MODEL env. */
 const DEPRECATED_MODELS = new Set([
   'gemini-2.0-flash-lite',
@@ -19,10 +19,15 @@ function getModel() {
   return (process.env.GEMINI_MODEL || DEFAULT_MODEL).trim();
 }
 
+function isDeprecatedModel(model) {
+  if (DEPRECATED_MODELS.has(model)) return true;
+  return /^gemini-2\.0-/i.test(model);
+}
+
 function modelsToTry() {
   const configured = getModel();
   const candidates = [
-    ...(DEPRECATED_MODELS.has(configured) ? [] : [configured]),
+    ...(isDeprecatedModel(configured) ? [] : [configured]),
     ...FALLBACK_MODELS,
   ];
   return [...new Set(candidates)];
@@ -31,6 +36,23 @@ function modelsToTry() {
 function isQuotaError(err) {
   const em = err?.message || '';
   return em.includes('429') || em.includes('quota') || em.includes('RESOURCE_EXHAUSTED');
+}
+
+function isModelUnavailableError(err) {
+  const em = err?.message || '';
+  return em.includes('404') || em.includes('not found') || em.includes('is not found') || em.includes('NOT_FOUND');
+}
+
+function shouldTryNextModel(err, modelIndex, modelCount) {
+  if (modelIndex >= modelCount - 1) return false;
+  return isQuotaError(err) || isModelUnavailableError(err);
+}
+
+function throwGeminiExhausted(...errors) {
+  const last = errors.find(Boolean);
+  const mapped = errors.map(mapGeminiError).find(Boolean);
+  if (mapped) throw new Error(mapped);
+  throw last || new Error('Gemini request failed on all models');
 }
 
 function buildPayload(systemPrompt, messages, { useGoogleSearch = false } = {}) {
@@ -88,7 +110,8 @@ export async function pingGemini() {
   const models = modelsToTry();
   let lastError;
 
-  for (const model of models) {
+  for (let i = 0; i < models.length; i += 1) {
+    const model = models[i];
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 10_000);
     try {
@@ -105,7 +128,7 @@ export async function pingGemini() {
       if (!res.ok) {
         const t = await res.text().catch(() => '');
         const err = new Error(`Gemini ${res.status}: ${t.slice(0, 180)}`);
-        if (isQuotaError(err) && model !== models[models.length - 1]) {
+        if (shouldTryNextModel(err, i, models.length)) {
           lastError = err;
           continue;
         }
@@ -116,14 +139,19 @@ export async function pingGemini() {
       return { ok: true, model, sample: text.slice(0, 20) };
     } catch (err) {
       clearTimeout(timer);
-      if (isQuotaError(err) && model !== models[models.length - 1]) {
+      if (shouldTryNextModel(err, i, models.length)) {
         lastError = err;
         continue;
       }
       return { ok: false, error: err.message, model };
     }
   }
-  return { ok: false, error: lastError?.message || 'All models quota exhausted', model: models[0] };
+  const mapped = mapGeminiError(lastError);
+  return {
+    ok: false,
+    error: mapped || lastError?.message || 'All models failed',
+    model: models[0],
+  };
 }
 
 /**
@@ -136,7 +164,8 @@ export async function generateGeminiCompletion(systemPrompt, messages, options =
   const models = modelsToTry();
   let lastError;
 
-  for (const model of models) {
+  for (let i = 0; i < models.length; i += 1) {
+    const model = models[i];
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
     try {
@@ -151,7 +180,7 @@ export async function generateGeminiCompletion(systemPrompt, messages, options =
       if (!res.ok) {
         const errText = await res.text().catch(() => '');
         const err = new Error(`Gemini ${res.status}: ${errText.slice(0, 300)}`);
-        if (isQuotaError(err) && model !== models[models.length - 1]) {
+        if (shouldTryNextModel(err, i, models.length)) {
           lastError = err;
           continue;
         }
@@ -163,14 +192,14 @@ export async function generateGeminiCompletion(systemPrompt, messages, options =
       return text;
     } catch (err) {
       clearTimeout(timer);
-      if (isQuotaError(err) && model !== models[models.length - 1]) {
+      if (shouldTryNextModel(err, i, models.length)) {
         lastError = err;
         continue;
       }
       throw err;
     }
   }
-  throw lastError || new Error('Gemini quota exhausted on all models');
+  throwGeminiExhausted(lastError);
 }
 
 /** Fake SSE stream from complete text (fallback). */
@@ -195,7 +224,8 @@ export async function streamGeminiCompletion(systemPrompt, messages, options = {
   const models = modelsToTry();
   let lastError;
 
-  for (const model of models) {
+  for (let i = 0; i < models.length; i += 1) {
+    const model = models[i];
     for (let attempt = 0; attempt < 2; attempt += 1) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -211,9 +241,9 @@ export async function streamGeminiCompletion(systemPrompt, messages, options = {
         if (!res.ok) {
           const errText = await res.text().catch(() => '');
           const err = new Error(`Gemini ${res.status}: ${errText.slice(0, 300)}`);
-          if (isQuotaError(err)) {
+          if (shouldTryNextModel(err, i, models.length)) {
             lastError = err;
-            break; // try next model
+            break;
           }
           throw err;
         }
@@ -221,12 +251,13 @@ export async function streamGeminiCompletion(systemPrompt, messages, options = {
         return res.body;
       } catch (err) {
         clearTimeout(timer);
-        if (isQuotaError(err)) {
+        if (shouldTryNextModel(err, i, models.length)) {
           lastError = err;
           break;
         }
         lastError = err;
         if (attempt === 0) continue;
+        break;
       }
     }
   }
@@ -236,9 +267,7 @@ export async function streamGeminiCompletion(systemPrompt, messages, options = {
     const text = await generateGeminiCompletion(systemPrompt, messages, options);
     return textToTokenStream(text);
   } catch (fallbackErr) {
-    const mapped = mapGeminiError(fallbackErr) || mapGeminiError(lastError);
-    if (mapped) throw new Error(mapped);
-    throw lastError || fallbackErr;
+    throwGeminiExhausted(fallbackErr, lastError);
   }
 }
 
