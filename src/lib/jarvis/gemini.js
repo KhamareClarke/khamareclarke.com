@@ -1,6 +1,14 @@
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
-const DEFAULT_MODEL = 'gemini-2.0-flash-lite';
-const FALLBACK_MODELS = ['gemini-2.0-flash-lite', 'gemini-1.5-flash-8b', 'gemini-1.5-flash'];
+const DEFAULT_MODEL = 'gemini-2.5-flash';
+const FALLBACK_MODELS = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-3.1-flash-lite'];
+/** Shut down 2026-06-01 — skip even if still set in GEMINI_MODEL env. */
+const DEPRECATED_MODELS = new Set([
+  'gemini-2.0-flash-lite',
+  'gemini-2.0-flash-lite-001',
+  'gemini-2.0-flash',
+  'gemini-2.0-flash-001',
+  'gemini-1.5-flash-8b',
+]);
 const TIMEOUT_MS = 25_000;
 
 function getApiKey() {
@@ -12,7 +20,12 @@ function getModel() {
 }
 
 function modelsToTry() {
-  return [...new Set([getModel(), ...FALLBACK_MODELS])];
+  const configured = getModel();
+  const candidates = [
+    ...(DEPRECATED_MODELS.has(configured) ? [] : [configured]),
+    ...FALLBACK_MODELS,
+  ];
+  return [...new Set(candidates)];
 }
 
 function isQuotaError(err) {
@@ -46,8 +59,8 @@ function mapGeminiError(err) {
   if (em.includes('401') || em.includes('403') || em.includes('API key not valid')) {
     return 'Gemini credentials rejected, sir. Create a new key at aistudio.google.com — it must start with AIzaSy.';
   }
-  if (em.includes('404') || em.includes('not found')) {
-    return 'Gemini model unavailable, sir. Set GEMINI_MODEL=gemini-1.5-flash in Vercel and redeploy.';
+  if (em.includes('404') || em.includes('not found') || em.includes('is not found')) {
+    return 'Gemini model unavailable, sir. Remove GEMINI_MODEL from Vercel (uses gemini-2.5-flash) or set GEMINI_MODEL=gemini-2.5-flash.';
   }
   if (em.includes('429') || em.includes('quota') || em.includes('RESOURCE_EXHAUSTED')) {
     return 'Gemini quota reached for today, sir. Try again later or use a different key.';
@@ -316,7 +329,11 @@ export function transformGeminiStream(upstream) {
         controller.enqueue(encoder.encode('data: [DONE]\n\n'));
         controller.close();
       } catch (err) {
-        controller.error(err);
+        const mapped = mapGeminiError(err);
+        const msg = mapped || `Stream error, sir. ${String(err?.message || '').slice(0, 120)}`;
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ token: msg })}\n\n`));
+        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+        controller.close();
       } finally {
         reader.releaseLock();
       }

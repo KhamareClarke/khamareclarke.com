@@ -56,7 +56,10 @@ export async function POST(req) {
           { status: 503 }
         );
       }
-      let offlineMsg = mapGeminiError(err) || JARVIS_OFFLINE_MESSAGE;
+      let offlineMsg =
+        mapGeminiError(err) ||
+        (err?.message ? `LLM error: ${String(err.message).slice(0, 200)}` : null) ||
+        JARVIS_OFFLINE_MESSAGE;
       const stream = offlineStream(offlineMsg);
       return new Response(stream, {
         headers: {

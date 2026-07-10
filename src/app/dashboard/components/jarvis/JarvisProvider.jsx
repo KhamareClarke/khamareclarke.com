@@ -374,7 +374,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         return full;
       } catch (err) {
         if (err.name !== 'AbortError') {
-          const offline = 'Systems are momentarily offline, sir. Retrying shortly.';
+          const offline = err?.message
+            ? `Connection error, sir. ${String(err.message).slice(0, 160)}`
+            : 'Systems are momentarily offline, sir. Retrying shortly.';
           setMessages((prev) =>
             prev.map((m) => (m.id === assistantId ? { ...m, content: offline } : m))
           );
