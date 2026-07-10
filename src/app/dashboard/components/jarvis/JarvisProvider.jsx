@@ -83,7 +83,9 @@ export function JarvisProvider({ children, toastApi }) {
   const pendingQueryRef = useRef(null);
   const streamingRef = useRef(false);
 
-  const toggle = useCallback(() => setOpen((o) => !o), []);
+  const toggle = useCallback(() => {
+    router.push('/dashboard/jarvis');
+  }, [router]);
   const close = useCallback(() => setOpen(false), []);
 
   const refreshData = useCallback(async () => {

@@ -1,0 +1,46 @@
+# OpenJarvis — full stack from https://github.com/open-jarvis/OpenJarvis
+# Requires: npm run openjarvis:setup  (clones vendor/OpenJarvis)
+#
+# Usage:
+#   cp deploy/docker/.env.example vendor/OpenJarvis/deploy/docker/.env
+#   # Edit .env — set OPENJARVIS_API_KEY (jarvis auth generate-key)
+#   npm run openjarvis:start
+#
+# Then set in .env.local / Vercel:
+#   NEXT_PUBLIC_OPENJARVIS_URL=http://localhost:8000
+#   OPENJARVIS_URL=http://localhost:8000
+#   OPENJARVIS_API_KEY=<same key>
+
+services:
+  jarvis:
+    build:
+      context: ./vendor/OpenJarvis
+      dockerfile: deploy/docker/Dockerfile
+    ports:
+      - '8000:8000'
+    env_file:
+      - ./vendor/OpenJarvis/deploy/docker/.env
+    environment:
+      - OPENJARVIS_ENGINE_DEFAULT=ollama
+      - OLLAMA_HOST=http://ollama:11434
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:0.30.10
+    ports:
+      - '11434:11434'
+    volumes:
+      - ollama-models:/root/.ollama
+    healthcheck:
+      test: ['CMD', 'ollama', 'list']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+volumes:
+  ollama-models:

@@ -32,6 +32,9 @@ env.local
 # vercel
 .vercel
 
+# OpenJarvis vendor clone (npm run openjarvis:setup)
+/vendor/OpenJarvis
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

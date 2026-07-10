@@ -9,6 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "jarvis:exam": "node scripts/jarvis-exam.mjs",
+    "openjarvis:setup": "node scripts/setup-openjarvis.mjs",
+    "openjarvis:start": "docker compose -f docker-compose.openjarvis.yml up -d --build",
+    "openjarvis:stop": "docker compose -f docker-compose.openjarvis.yml down",
     "export": "next build && next export"
   },
   "dependencies": {
