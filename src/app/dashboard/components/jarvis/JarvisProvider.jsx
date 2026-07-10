@@ -242,10 +242,20 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         transcriptRef.current = '';
         setVoiceInterim('');
       },
-      onResult: (transcript) => {
-        if (!transcript) return;
-        transcriptRef.current = transcript;
-        setVoiceInterim(transcript);
+      onResult: (event) => {
+        let interim = '';
+        for (let i = event.resultIndex; i < event.results.length; i += 1) {
+          const piece = event.results[i][0]?.transcript || '';
+          if (event.results[i].isFinal) {
+            transcriptRef.current = `${transcriptRef.current} ${piece}`.trim();
+          } else {
+            interim += piece;
+          }
+        }
+        const display = interim
+          ? `${transcriptRef.current} ${interim}`.trim()
+          : transcriptRef.current;
+        if (display) setVoiceInterim(display);
       },
       onError: (code) => {
         if (code === 'no-speech' && continuousListenRef.current) return;
@@ -262,7 +272,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         setVoiceInterim('');
 
         if (transcript && !streamingRef.current && !speakingRef.current) {
-          if (voiceAutoSendRef.current) {
+          const autoSend = voiceAutoSendRef.current || continuousListenRef.current;
+          if (autoSend) {
             sendMessageRef.current?.(transcript);
           } else {
             onTranscriptRef.current?.(transcript);

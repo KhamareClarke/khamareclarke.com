@@ -107,8 +107,6 @@ export default function JarvisFullPageHud() {
     setMuted,
     presentationMode,
     setPresentationMode,
-    voiceAutoSend,
-    setVoiceAutoSend,
     continuousListen,
     voiceInterim,
     voiceError,
@@ -134,19 +132,14 @@ export default function JarvisFullPageHud() {
     let cancelled = false;
     (async () => {
       setMuted(false);
+      setVoiceAutoSend(true);
       await enableContinuousListen();
       if (!cancelled) setVoiceReady(true);
     })();
     return () => {
       cancelled = true;
     };
-  }, [speechSupported, voiceReady, enableContinuousListen]);
-
-  useEffect(() => {
-    if (listening && voiceInterim && !voiceAutoSend) {
-      setInput(voiceInterim);
-    }
-  }, [listening, voiceInterim, voiceAutoSend]);
+  }, [speechSupported, voiceReady, enableContinuousListen, setMuted, setVoiceAutoSend]);
 
   const coreState = voiceState({ listening, streaming, speaking });
   const hudActive = listening || streaming || speaking;
@@ -156,7 +149,7 @@ export default function JarvisFullPageHud() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const text = (listening && voiceAutoSend && voiceInterim ? voiceInterim : input).trim();
+    const text = input.trim();
     if (!text) return;
     setInput('');
     sendMessage(text);
@@ -365,14 +358,12 @@ export default function JarvisFullPageHud() {
               )}
               <input
                 type="text"
-                value={listening && voiceAutoSend && voiceInterim ? voiceInterim : input}
+                value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={streaming}
                 placeholder={
                   continuousListen
-                    ? listening
-                      ? 'Listening continuously…'
-                      : 'Voice standby — speak anytime'
+                    ? 'Type a written command — voice sends automatically'
                     : 'Type a command…'
                 }
                 className="flex-1 max-w-lg rounded-sm bg-sky-950/70 border border-sky-500/20 text-sky-50 text-sm px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 font-mono placeholder:text-sky-600/60"
@@ -388,23 +379,15 @@ export default function JarvisFullPageHud() {
               ) : (
                 <button
                   type="submit"
-                  disabled={!(listening && voiceAutoSend ? voiceInterim : input).trim()}
+                  disabled={!input.trim()}
                   className="shrink-0 px-4 py-2.5 rounded-sm bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-xs font-bold uppercase tracking-wider disabled:opacity-30"
+                  title="Send typed text only — voice sends automatically when you stop speaking"
                 >
                   Send
                 </button>
               )}
             </div>
-            <div className="flex items-center justify-center gap-5 mt-2">
-              <label className="flex items-center gap-1.5 text-[9px] text-sky-500/70 cursor-pointer uppercase tracking-wider">
-                <input
-                  type="checkbox"
-                  checked={voiceAutoSend}
-                  onChange={(e) => setVoiceAutoSend(e.target.checked)}
-                  className="rounded border-sky-600/40 bg-sky-950 text-cyan-500"
-                />
-                Auto-send
-              </label>
+            <div className="flex items-center justify-center mt-2">
               <label className="flex items-center gap-1.5 text-[9px] text-sky-500/70 cursor-pointer uppercase tracking-wider">
                 <input
                   type="checkbox"
@@ -412,7 +395,7 @@ export default function JarvisFullPageHud() {
                   onChange={(e) => (e.target.checked ? enableContinuousListen() : stopListening())}
                   className="rounded border-sky-600/40 bg-sky-950 text-cyan-500"
                 />
-                Always listen
+                Always listen — speak anytime, no Send needed
               </label>
             </div>
           </form>
