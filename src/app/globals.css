@@ -263,6 +263,15 @@ a {
   background: radial-gradient(circle at 35% 30%, #e9d5ff, #a855f7 45%, #6b21a8 100%);
   box-shadow: 0 0 42px rgba(168, 85, 247, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.15);
 }
+.jarvis-core-clap {
+  animation: jarvis-core-clap-flash 0.45s ease-in-out 3;
+  background: radial-gradient(circle at 35% 30%, #fef9c3, #facc15 45%, #ca8a04 100%);
+  box-shadow: 0 0 48px rgba(250, 204, 21, 0.95), inset 0 0 24px rgba(255, 255, 255, 0.2);
+}
+@keyframes jarvis-core-clap-flash {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
 @keyframes jarvis-core-breathe {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.06); }
@@ -542,6 +551,11 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   background: radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent 70%);
   animation: jarvis-reactor-listen 1s ease-in-out infinite;
 }
+.jarvis-reactor-clap {
+  opacity: 1;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.35), transparent 70%);
+  animation: jarvis-reactor-listen 0.45s ease-in-out infinite;
+}
 
 /* Activity status pill (full-page HUD) */
 .jarvis-activity-status {
@@ -569,6 +583,8 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
 .jarvis-activity-speaking { color: #7dd3fc; }
 .jarvis-activity-thinking { color: #38bdf8; }
 .jarvis-activity-listening { color: #22d3ee; }
+.jarvis-activity-clap { color: #fef08a; border-color: rgba(250, 204, 21, 0.65); background: rgba(66, 52, 6, 0.55); }
+.jarvis-activity-clap .jarvis-activity-dot { background: #fde047; animation-duration: 0.45s; }
 @keyframes jarvis-reactor-idle {
   0%, 100% { transform: scale(1); opacity: 0.35; }
   50% { transform: scale(1.05); opacity: 0.5; }

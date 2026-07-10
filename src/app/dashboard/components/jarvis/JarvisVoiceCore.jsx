@@ -10,11 +10,12 @@ const STATE_LABELS = {
   opening: 'Opening',
   drawing: 'Generating',
   speaking: 'Speaking',
+  clap: 'Activated',
   idle: 'Online',
 };
 
 export default function JarvisVoiceCore({ state = 'idle', label, size = 'md' }) {
-  const isListening = state === 'listening';
+  const isListening = state === 'listening' || state === 'clap';
   const isThinking = state === 'thinking';
   const isSpeaking = state === 'speaking';
   const isSearching = state === 'searching';
@@ -106,6 +107,8 @@ function hudActiveClass(state) {
       return 'jarvis-reactor-drawing';
     case 'speaking':
       return 'jarvis-reactor-speaking';
+    case 'clap':
+      return 'jarvis-reactor-clap';
     default:
       return 'jarvis-reactor-idle';
   }
@@ -125,6 +128,8 @@ function coreOrbClass(state) {
       return 'jarvis-core-drawing';
     case 'thinking':
       return 'jarvis-core-listening';
+    case 'clap':
+      return 'jarvis-core-clap';
     default:
       return 'jarvis-core-idle';
   }

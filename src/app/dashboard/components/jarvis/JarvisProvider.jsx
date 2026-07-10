@@ -22,12 +22,14 @@ import {
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
 import { messageNeedsWebSearch, extractSearchQueryFromTranscript, normalizeSearchQuery, summarizeSearchResults, isRealSearchResultSet } from '@/lib/jarvis/web-search';
+import { openExternalUrl } from '@/lib/jarvis/open-url';
 
 const JarvisContext = createContext(null);
 const PRESENTATION_KEY = 'jarvis-presentation';
 const MUTE_KEY = 'jarvis-mute';
 const VOICE_AUTO_SEND_KEY = 'jarvis-voice-auto-send';
 const CONTINUOUS_LISTEN_KEY = 'jarvis-continuous-listen';
+const CLAP_WAKE_KEY = 'jarvis-clap-wake';
 
 function readCookie(name) {
   if (typeof document === 'undefined') return null;
@@ -76,6 +78,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const [muted, setMuted] = useState(false);
   const [voiceAutoSend, setVoiceAutoSend] = useState(true);
   const [continuousListen, setContinuousListen] = useState(true);
+  const [clapWake, setClapWake] = useState(true);
+  const [clapActivated, setClapActivated] = useState(false);
   const [voiceInterim, setVoiceInterim] = useState('');
   const [voiceError, setVoiceError] = useState(null);
   const [lastActivityTs, setLastActivityTs] = useState(null);
@@ -108,6 +112,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const lastSearchQueryRef = useRef(null);
   const messageQueueRef = useRef([]);
   const flushMessageQueueRef = useRef(null);
+  const clapFlashTimerRef = useRef(null);
+  const clapDetectorRef = useRef(null);
+  const mutedRef = useRef(false);
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
@@ -133,6 +140,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     setPresentationMode(readCookie(PRESENTATION_KEY) === '1');
     if (readCookie(MUTE_KEY) === '1') setMuted(true);
     if (readCookie(VOICE_AUTO_SEND_KEY) === '0') setVoiceAutoSend(false);
+    if (readCookie(CLAP_WAKE_KEY) === '0') setClapWake(false);
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       window.speechSynthesis.onvoiceschanged = pickBritishVoice;
       pickBritishVoice();
@@ -150,6 +158,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   useEffect(() => {
     writeCookie(MUTE_KEY, muted ? '1' : '0');
+    mutedRef.current = muted;
   }, [muted]);
 
   useEffect(() => {
@@ -161,6 +170,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     voiceAutoSendRef.current = voiceAutoSend;
     writeCookie(VOICE_AUTO_SEND_KEY, voiceAutoSend ? '1' : '0');
   }, [voiceAutoSend]);
+
+  useEffect(() => {
+    writeCookie(CLAP_WAKE_KEY, clapWake ? '1' : '0');
+    clapDetectorRef.current?.setEnabled?.(clapWake);
+  }, [clapWake]);
 
   useEffect(() => {
     streamingRef.current = streaming;
@@ -229,6 +243,69 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       }
     };
   }, [minimal, open]);
+
+  /** Double-clap activates JARVIS when hands are busy (full-page HUD only). */
+  useEffect(() => {
+    if (minimal || !open || !clapWake) {
+      clapDetectorRef.current?.stop?.();
+      clapDetectorRef.current = null;
+      return undefined;
+    }
+
+    let cancelled = false;
+
+    (async () => {
+      const { createClapDetector } = await import('@/lib/jarvis/clap-detect');
+      if (cancelled) return;
+
+      const detector = await createClapDetector({
+        shouldListen: () =>
+          !speakingRef.current && !pendingTtsRef.current && !streamingRef.current,
+        onDoubleClap: () => {
+          unlockSpeechAudio({ prime: false });
+          setAudioUnlocked(true);
+          setClapActivated(true);
+          clearTimeout(clapFlashTimerRef.current);
+          clapFlashTimerRef.current = setTimeout(() => setClapActivated(false), 2000);
+
+          if (speakingRef.current) {
+            stopSpeaking();
+            speakingRef.current = false;
+            setSpeaking(false);
+            pendingTtsRef.current = false;
+          }
+
+          try {
+            recognitionRef.current?.stop();
+          } catch {
+            // ignore
+          }
+          recognizingRef.current = false;
+          setListening(false);
+
+          window.setTimeout(() => {
+            beginListeningRef.current?.({ interruptSpeech: true });
+            if (!mutedRef.current) {
+              speakJarvis('Yes, sir.', { muted: false });
+            }
+          }, 150);
+        },
+      });
+
+      if (cancelled) {
+        detector.stop();
+        return;
+      }
+      clapDetectorRef.current = detector;
+    })();
+
+    return () => {
+      cancelled = true;
+      clearTimeout(clapFlashTimerRef.current);
+      clapDetectorRef.current?.stop?.();
+      clapDetectorRef.current = null;
+    };
+  }, [minimal, open, clapWake]);
 
   const pauseListening = useCallback(() => {
     try {
@@ -638,6 +715,23 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     [appendAssistant, speakReply]
   );
 
+  const openBrowseUrl = useCallback(
+    (url, label) => {
+      beginActivity('opening');
+      const opened = openExternalUrl(url);
+      const name = label || url;
+      const msg = opened
+        ? `Opening ${name}, sir.`
+        : `Opening ${name}, sir — tap the link below if the tab did not open.`;
+      replyAssistant(msg, {
+        cards: [{ type: 'link', url, label: `Open ${name}` }],
+      });
+      endActivity(2500);
+      scheduleRestartRef.current?.();
+    },
+    [replyAssistant, beginActivity, endActivity]
+  );
+
   const streamLLM = useCallback(
     async (history, assistantId) => {
       const controller = new AbortController();
@@ -766,13 +860,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         }
 
         if (action.command === 'browse') {
-          beginActivity('opening');
-          window.open(action.url, '_blank', 'noopener,noreferrer');
-          const msg = `Opening ${action.label || action.url}, sir.`;
-          setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: msg, pending: false } : m)));
-          speakReply(msg);
-          endActivity(2500);
-          scheduleRestartRef.current?.();
+          openBrowseUrl(action.url, action.label || action.url);
+          setMessages((prev) => prev.filter((m) => m.id !== confirmId));
           return;
         }
 
@@ -868,7 +957,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         speakReply(msg);
       }
     },
-    [appendAssistant, liveData, router, speakReply, beginActivity, endActivity]
+    [appendAssistant, liveData, router, speakReply, beginActivity, endActivity, openBrowseUrl]
   );
 
   const cancelAction = useCallback(() => {
@@ -985,6 +1074,26 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           userScrolledUpRef.current = false;
         }
 
+        const parsedQuick = parseJarvisCommand(trimmed, liveData?.clients || []);
+
+        if (parsedQuick?.type === 'action' && parsedQuick.command === 'browse') {
+          openBrowseUrl(parsedQuick.url, parsedQuick.label || parsedQuick.url);
+          return;
+        }
+
+        if (parsedQuick?.type === 'action' && parsedQuick.command === 'image') {
+          await runImageGen(parsedQuick.prompt);
+          return;
+        }
+
+        if (parsedQuick?.type === 'action' && parsedQuick.command === 'open') {
+          beginActivity('opening');
+          router.push(parsedQuick.route);
+          replyAssistant(`Opening ${parsedQuick.tab} tab, sir.`);
+          endActivity(2500);
+          return;
+        }
+
         let data = normalizeJarvisContext(liveData || (await refreshData()));
         const clients = data?.clients || [];
         const parsed = parseJarvisCommand(trimmed, clients);
@@ -1027,14 +1136,6 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
         if (parsed?.type === 'action' && parsed.command === 'image') {
           await runImageGen(parsed.prompt);
-          return;
-        }
-
-        if (parsed?.type === 'action' && parsed.command === 'browse') {
-          beginActivity('opening');
-          window.open(parsed.url, '_blank', 'noopener,noreferrer');
-          replyAssistant(`Opening ${parsed.label || parsed.url}, sir.`);
-          endActivity(2500);
           return;
         }
 
@@ -1094,6 +1195,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       streamLLM,
       executeAction,
       pauseListening,
+      openBrowseUrl,
       runWebSearch,
       runImageGen,
       beginActivity,
@@ -1229,7 +1331,18 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       busyActivity,
       activity:
         busyActivity ||
-        (speaking ? 'speaking' : streaming ? 'thinking' : listening ? 'listening' : 'idle'),
+        (clapActivated
+          ? 'clap'
+          : speaking
+            ? 'speaking'
+            : streaming
+              ? 'thinking'
+              : listening
+                ? 'listening'
+                : 'idle'),
+      clapWake,
+      setClapWake,
+      clapActivated,
       startListening,
       speechSupported: isSpeechRecognitionSupported(),
       voicePlatformHint: getVoicePlatformHint(),
@@ -1271,6 +1384,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       speaking,
       listening,
       busyActivity,
+      clapWake,
+      clapActivated,
       startListening,
       muted,
       presentationMode,

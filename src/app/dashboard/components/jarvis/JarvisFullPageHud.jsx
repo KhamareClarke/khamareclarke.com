@@ -21,6 +21,7 @@ const ACTIVITY_LABELS = {
   opening: 'Opening',
   drawing: 'Generating',
   speaking: 'Speaking',
+  clap: 'Activated',
   idle: 'Online',
 };
 
@@ -105,6 +106,19 @@ function MessageCard({ card }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={card.dataUrl} alt={card.prompt || 'Generated'} className="w-full max-h-48 object-contain" />
       </div>
+    );
+  }
+
+  if (card.type === 'link' && card.url) {
+    return (
+      <a
+        href={card.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="jarvis-card jarvis-card-link mt-2 block p-3 text-xs text-cyan-300 hover:text-cyan-100 hover:border-cyan-400/50 transition font-medium"
+      >
+        ↗ {card.label || 'Open link'}
+      </a>
     );
   }
 
@@ -195,6 +209,9 @@ export default function JarvisFullPageHud() {
     unlockAndPrimeAudio,
     lastReplyText,
     replayLastReply,
+    clapWake,
+    setClapWake,
+    clapActivated,
   } = useJarvis();
 
   const [input, setInput] = useState('');
@@ -255,6 +272,15 @@ export default function JarvisFullPageHud() {
               Stop voice
             </button>
           )}
+          <button
+            type="button"
+            onClick={() => setClapWake((c) => !c)}
+            className={`jarvis-pill jarvis-pill-btn ${clapWake ? 'jarvis-pill-active' : ''}`}
+            aria-label={clapWake ? 'Disable clap wake' : 'Enable clap wake'}
+            title={clapWake ? 'Clap wake on — double-clap to activate' : 'Clap wake off'}
+          >
+            👏
+          </button>
           <button
             type="button"
             onClick={() => setMuted((m) => !m)}
@@ -319,6 +345,12 @@ export default function JarvisFullPageHud() {
                       {voiceInterim || 'Speak now, sir…'}
                     </p>
                   </div>
+                )}
+
+                {!listening && !voiceInterim && !streaming && clapWake && (
+                  <p className="mt-3 text-[9px] uppercase tracking-[0.35em] text-cyan-400/45 pointer-events-none">
+                    Double-clap to activate
+                  </p>
                 )}
 
                 {!listening && !voiceInterim && !streaming && (

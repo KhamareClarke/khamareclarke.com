@@ -21,9 +21,12 @@ export const POPULAR_SITES = {
 export function resolveSiteUrl(token) {
   const raw = String(token || '').trim();
   if (!raw) return null;
-  const lower = raw.toLowerCase().replace(/[.!?,;:]+$/g, '');
+  let lower = raw.toLowerCase().replace(/[.!?,;:]+$/g, '');
+  lower = lower.replace(/^the\s+/, '');
   if (/^https?:\/\//i.test(lower)) return lower;
   if (POPULAR_SITES[lower]) return POPULAR_SITES[lower];
+  const first = lower.split(/\s+/)[0]?.replace(/^the\s+/, '') || '';
+  if (first && POPULAR_SITES[first]) return POPULAR_SITES[first];
   if (/^[a-z0-9][-a-z0-9]*\.[a-z]{2,}/i.test(lower)) return `https://${lower}`;
   return null;
 }
