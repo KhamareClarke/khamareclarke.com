@@ -4,7 +4,7 @@ import { formatSearchResultsForPrompt, normalizeSearchQuery, searchWeb, summariz
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
-export const maxDuration = 45;
+export const maxDuration = 60;
 
 const SEARCH_SYSTEM_PROMPT = `You are JARVIS. Summarize the provided web search results for the operator.
 
@@ -36,29 +36,29 @@ export async function POST(req) {
       return Response.json({ error: 'query is required' }, { status: 400 });
     }
 
-    const { results, source } = await searchWeb(query);
+    const { results, source, prefSummary } = await searchWeb(query);
     const block = formatSearchResultsForPrompt(results);
 
     let summary = '';
     let llmSource = source;
 
     try {
-      if (results.length) {
-        if (source === 'fallback-links') {
-          summary = summarizeSearchResults(query, results);
-          llmSource = source;
-        } else {
-          summary = await generateJarvisCompletion(SEARCH_SYSTEM_PROMPT, [
-            {
-              role: 'user',
-              content: `Query: ${query}\n\nSearch results:\n${block}\n\nSummarize the answer to the query using these results.`,
-            },
-          ]);
-          if (isSearchRefusal(summary)) {
-            summary = fallbackSearchSummary(query, results);
-          }
-          llmSource = `${source}+${getJarvisLlmProvider()}`;
+      if (prefSummary && results.length) {
+        summary = prefSummary;
+        llmSource = source;
+      } else if (results.length && source === 'fallback-links') {
+        summary = `I couldn't fetch live snippets from search engines on this server, sir. Tap Google or Bing below, or add BRAVE_SEARCH_API_KEY in Vercel for direct results.`;
+      } else if (results.length) {
+        summary = await generateJarvisCompletion(SEARCH_SYSTEM_PROMPT, [
+          {
+            role: 'user',
+            content: `Query: ${query}\n\nSearch results:\n${block}\n\nSummarize the answer to the query using these results.`,
+          },
+        ]);
+        if (isSearchRefusal(summary)) {
+          summary = fallbackSearchSummary(query, results);
         }
+        llmSource = `${source}+${getJarvisLlmProvider()}`;
       } else if (getJarvisLlmProvider()) {
         summary = await generateJarvisCompletion(SEARCH_SYSTEM_PROMPT, [
           {

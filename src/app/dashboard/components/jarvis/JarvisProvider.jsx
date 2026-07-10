@@ -21,7 +21,7 @@ import {
   isSpeechAudioUnlocked,
 } from '@/lib/jarvis/voice';
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
-import { messageNeedsWebSearch, extractSearchQueryFromTranscript, normalizeSearchQuery, summarizeSearchResults } from '@/lib/jarvis/web-search';
+import { messageNeedsWebSearch, extractSearchQueryFromTranscript, normalizeSearchQuery, summarizeSearchResults, isRealSearchResultSet } from '@/lib/jarvis/web-search';
 
 const JarvisContext = createContext(null);
 const PRESENTATION_KEY = 'jarvis-presentation';
@@ -823,9 +823,12 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Search failed');
         lastSearchQueryRef.current = data.query || query;
-        let summary = data.summary || summarizeSearchResults(data.query || query, data.results || []);
-        if (!summary?.trim() || /\bcould not find results\b/i.test(summary)) {
+        let summary = data.summary || '';
+        if ((!summary?.trim() || /\bcould not find results\b/i.test(summary)) && isRealSearchResultSet(data.results)) {
           summary = summarizeSearchResults(data.query || query, data.results || []);
+        }
+        if (!summary?.trim()) {
+          summary = data.summary || `Search complete for "${query}", sir. See links in comms.`;
         }
         setMessages((prev) =>
           prev.map((m) =>

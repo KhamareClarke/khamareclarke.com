@@ -1,6 +1,12 @@
 const SEARCH_UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 const TIMEOUT_MS = 14_000;
+const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
+const SEARX_INSTANCES = [
+  'https://search.searxng.org',
+  'https://searx.be',
+  'https://search.bus-hit.me',
+];
 
 const SKIP_HOST =
   /duckduckgo|bing\.|microsoft\.|wikipedia|facebook|youtube|twitter|linkedin|accounts\.|login|google\.|gstatic\./i;
@@ -224,6 +230,149 @@ function fallbackSearchLinks(query) {
   ];
 }
 
+function isFallbackLinkResult(results) {
+  return (
+    results?.length > 0 &&
+    results.every((r) => /google\.com\/search|bing\.com\/search/i.test(r.url || ''))
+  );
+}
+
+function openRouterReferer() {
+  const url = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL;
+  if (url) return url.startsWith('http') ? url : `https://${url}`;
+  return 'https://khamareclarke.com';
+}
+
+function getOpenRouterKey() {
+  return (process.env.OPENROUTER_API_KEY || process.env.EMPIRE_LLM_API_KEY || '').trim();
+}
+
+function parseWebSearchPayload(text) {
+  const raw = String(text || '').trim();
+  const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+  try {
+    const json = JSON.parse(cleaned);
+    const results = (json.results || [])
+      .filter((r) => r?.url)
+      .slice(0, 8)
+      .map((r) => ({
+        title: String(r.title || r.url).slice(0, 200),
+        url: String(r.url),
+        snippet: String(r.snippet || '').slice(0, 300),
+      }));
+    if (results.length) {
+      return { summary: String(json.summary || '').slice(0, 700), results };
+    }
+  } catch {
+    // not JSON
+  }
+
+  const results = [];
+  const seen = new Set();
+  const urlRe = /https?:\/\/[^\s)\]"'<>]+/g;
+  for (const url of raw.match(urlRe) || []) {
+    const clean = url.replace(/[.,;]+$/, '');
+    if (seen.has(clean) || SKIP_HOST.test(clean)) continue;
+    seen.add(clean);
+    results.push({ title: clean.replace(/^https?:\/\/(www\.)?/, '').slice(0, 80), url: clean, snippet: '' });
+    if (results.length >= 6) break;
+  }
+  if (!results.length && raw.length > 20) {
+    return { summary: raw.slice(0, 700), results: [] };
+  }
+  return null;
+}
+
+/** SearXNG JSON — often works from serverless when HTML scrapers are blocked. */
+async function searchSearx(query) {
+  for (const base of SEARX_INSTANCES) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10_000);
+    try {
+      const res = await fetch(
+        `${base}/search?q=${encodeURIComponent(query)}&format=json&language=en`,
+        {
+          headers: { 'User-Agent': SEARCH_UA, Accept: 'application/json' },
+          signal: controller.signal,
+        }
+      );
+      clearTimeout(timer);
+      if (!res.ok) continue;
+      const json = await res.json();
+      const rows = (json.results || [])
+        .filter((r) => r.url && !SKIP_HOST.test(r.url))
+        .slice(0, 8)
+        .map((r) => ({
+          title: r.title || r.url,
+          url: r.url,
+          snippet: r.content || r.snippet || '',
+        }));
+      if (rows.length) return rows;
+    } catch {
+      clearTimeout(timer);
+    }
+  }
+  return [];
+}
+
+/** OpenRouter web model (Perplexity Sonar etc.) when scrapers return nothing. */
+async function searchOpenRouterWeb(query) {
+  const apiKey = getOpenRouterKey();
+  if (!apiKey) return null;
+
+  const model = process.env.OPENROUTER_SEARCH_MODEL || 'perplexity/sonar';
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 28_000);
+  try {
+    const res = await fetch(OPENROUTER_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+        'HTTP-Referer': openRouterReferer(),
+        'X-Title': 'Khamare Clarke JARVIS Search',
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          {
+            role: 'system',
+            content:
+              'You search the web and return ONLY valid JSON (no markdown): {"summary":"2-4 sentence factual answer","results":[{"title":"...","url":"https://...","snippet":"..."}]}. Include 5 real results with real https URLs and useful snippets.',
+          },
+          { role: 'user', content: `Search the web for: ${query}` },
+        ],
+        max_tokens: 1200,
+        temperature: 0.2,
+      }),
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    const json = await res.json();
+    const text = json.choices?.[0]?.message?.content;
+    if (!text) return null;
+    const parsed = parseWebSearchPayload(text);
+    if (!parsed) return null;
+    if (!parsed.results?.length && parsed.summary) {
+      return {
+        summary: parsed.summary,
+        results: [
+          {
+            title: `Web answer: ${query}`,
+            url: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
+            snippet: parsed.summary.slice(0, 280),
+          },
+        ],
+      };
+    }
+    return parsed;
+  } catch {
+    clearTimeout(timer);
+    return null;
+  }
+}
+
 /** Build a spoken summary from result rows without LLM. */
 export function summarizeSearchResults(query, results) {
   if (!results?.length) {
@@ -312,13 +461,16 @@ async function searchBing(query) {
   }
 }
 
-/** Run a web search — Brave → Bing → DDG API → DDG HTML → search links. */
+/** Run a web search — Brave → SearXNG → Bing → DDG → OpenRouter web → link fallback. */
 export async function searchWeb(query) {
   const q = normalizeSearchQuery(query);
   if (!q) return { query: q, results: [], source: 'none' };
 
   const brave = await searchBrave(q);
   if (brave?.length) return { query: q, results: brave, source: 'brave' };
+
+  const searx = await searchSearx(q);
+  if (searx?.length) return { query: q, results: searx, source: 'searxng' };
 
   const bing = await searchBing(q);
   if (bing?.length) return { query: q, results: bing, source: 'bing' };
@@ -329,7 +481,21 @@ export async function searchWeb(query) {
   const ddg = await searchDuckDuckGo(q);
   if (ddg?.length) return { query: q, results: ddg, source: 'duckduckgo' };
 
+  const orWeb = await searchOpenRouterWeb(q);
+  if (orWeb?.results?.length) {
+    return {
+      query: q,
+      results: orWeb.results,
+      source: 'openrouter-web',
+      prefSummary: orWeb.summary,
+    };
+  }
+
   return { query: q, results: fallbackSearchLinks(q), source: 'fallback-links' };
+}
+
+export function isRealSearchResultSet(results) {
+  return results?.length > 0 && !isFallbackLinkResult(results);
 }
 
 export function formatSearchResultsForPrompt(results) {

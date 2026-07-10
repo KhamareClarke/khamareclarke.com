@@ -101,11 +101,16 @@ export function parseJarvisCommand(input, clients = []) {
   const searchMatch = raw.match(
     /^(?:search|serach|google)(?:\s+on\s+google)?(?:\s+(?:for|about|the web for))*\s+(.+)$/i
   );
+  const intentSearch = raw.match(
+    /\b(?:search|serach)\b(?:\s+on\s+google)?(?:\s+(?:for|about|the web for))*\s+(.+)$/i
+  );
   const searchQuery = searchMatch
     ? normalizeSearchQuery(searchMatch[1])
-    : /\bsearch\b/i.test(raw)
-      ? extractSearchQueryFromTranscript(raw)
-      : null;
+    : intentSearch
+      ? normalizeSearchQuery(intentSearch[1])
+      : /\bsearch\b/i.test(raw)
+        ? extractSearchQueryFromTranscript(raw)
+        : null;
   if (searchQuery && searchQuery.length > 2) {
     return { type: 'read', command: 'search', query: searchQuery };
   }
