@@ -12,9 +12,9 @@ export default function JarvisToastStack({ toasts, onDismiss }) {
       {toasts.map((t) => (
         <div
           key={t.id}
-          className="pointer-events-auto rounded-lg border border-[#ffb700]/30 bg-[#1a1a1a]/95 px-4 py-2.5 text-sm text-[#ADB7BE] shadow-lg animate-fade-in flex items-start gap-2"
+          className="pointer-events-auto rounded-2xl border border-sky-400/30 bg-sky-950/95 px-4 py-2.5 text-sm text-sky-100/90 shadow-lg shadow-cyan-500/10 animate-fade-in flex items-start gap-2 backdrop-blur-md"
         >
-          <span className="text-[#ffb700] shrink-0">◆</span>
+          <span className="text-cyan-400 shrink-0">◆</span>
           <span className="flex-1">{t.message}</span>
           <button
             type="button"

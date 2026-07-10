@@ -65,7 +65,7 @@ export function JarvisProvider({ children, toastApi }) {
   const [pendingAction, setPendingAction] = useState(null);
   const [presentationMode, setPresentationMode] = useState(false);
   const [muted, setMuted] = useState(true);
-  const [voiceAutoSend, setVoiceAutoSend] = useState(false);
+  const [voiceAutoSend, setVoiceAutoSend] = useState(true);
   const [voiceInterim, setVoiceInterim] = useState('');
   const [voiceError, setVoiceError] = useState(null);
   const [lastActivityTs, setLastActivityTs] = useState(null);
