@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Section } from '../components/ui/Section';
-import { Container } from '../components/ui/Container';
+import { Section } from '../../components/ui/Section';
+import { Container } from '../../components/ui/Container';
 import {
   EnvelopeIcon,
   UserGroupIcon,
