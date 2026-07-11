@@ -10,6 +10,7 @@ import JarvisHudRings from './JarvisHudRings';
 import JarvisHudStatBar from './JarvisHudStatBar';
 import JarvisVoiceCore from './JarvisVoiceCore';
 import JarvisMessageContent from './JarvisMessageContent';
+import JarvisTopbarStatus from './JarvisTopbarStatus';
 
 function useLiveClock() {
   const [now, setNow] = useState(() => new Date());
@@ -229,7 +230,7 @@ export default function JarvisFullPageHud() {
             <span className="text-sky-400/80 text-xs">{dateStr}</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="jarvis-topbar-meta hidden lg:inline text-xs text-sky-400/70">Fleet online</span>
+            <JarvisTopbarStatus />
             <div className="relative">
               <button type="button" onClick={() => setSettingsOpen((o) => !o)} className="jarvis-dock-btn" aria-label="Settings">⚙</button>
               {settingsOpen && (
