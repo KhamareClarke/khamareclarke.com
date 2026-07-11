@@ -29,6 +29,16 @@ function daysAgoIso(n) {
   return d.toISOString();
 }
 
+function empireLeadCompany(row) {
+  const payload = row.payload || {};
+  return payload.company || payload.company_name || row.name || '—';
+}
+
+function empireLeadContact(row) {
+  const payload = row.payload || {};
+  return row.email || payload.contact || payload.phone || row.name || '—';
+}
+
 /**
  * Build deterministic live-data context for JARVIS (~2k tokens cap).
  * Priority: leads → tasks → clients → activity → GHL summaries.
@@ -75,6 +85,8 @@ export async function buildJarvisContext() {
     fleetRes,
     forms7dRes,
     onboard7dRes,
+    empireLeadsRecentRes,
+    empireLeadsMyapprovedCountRes,
   ] = await Promise.all([
     admin.from('form_submissions').select('id', { count: 'exact', head: true }).gte('created_at', todayStart),
     admin.from('form_submissions').select('id', { count: 'exact', head: true }),
@@ -119,6 +131,15 @@ export async function buildJarvisContext() {
       .in('project_id', DASHBOARD_PROJECT_IDS),
     admin.from('form_submissions').select('id', { count: 'exact', head: true }).gte('created_at', daysAgoIso(7)),
     admin.from('onboarding_clients').select('id', { count: 'exact', head: true }).gte('created_at', daysAgoIso(7)),
+    admin
+      .from('empire_leads')
+      .select('project_id, source, created_at, name, email, payload')
+      .order('created_at', { ascending: false })
+      .limit(20),
+    admin
+      .from('empire_leads')
+      .select('id', { count: 'exact', head: true })
+      .eq('project_id', 'myapproved'),
   ]);
 
   const formsToday = formsTodayRes.count ?? 0;
@@ -143,6 +164,8 @@ export async function buildJarvisContext() {
     project_id,
     ...(fleetByProject[project_id] || { summary: null, status: 'pending', error_message: null, updated_at: null }),
   }));
+  const empireLeadsRecent = empireLeadsRecentRes.data || [];
+  const empireLeadsMyapprovedTotal = empireLeadsMyapprovedCountRes.count ?? 0;
 
   const recentLeads = [
     ...(formsRecentRes.data || []).map((s) => ({
@@ -205,6 +228,20 @@ export async function buildJarvisContext() {
     }
   } else {
     lines.push('Activity events: none');
+  }
+
+  lines.push(`Empire scraped leads (empire_leads) total for myapproved: ${empireLeadsMyapprovedTotal}`);
+  if (empireLeadsRecent.length) {
+    lines.push('Last 20 empire_leads rows (company | contact | source | created_at):');
+    for (const row of empireLeadsRecent) {
+      const company = empireLeadCompany(row);
+      const contact = empireLeadContact(row);
+      const source = row.source || '—';
+      const created = row.created_at?.slice(0, 16) || '?';
+      lines.push(`  - [${row.project_id}] ${company} | ${contact} | ${source} | ${created}`);
+    }
+  } else {
+    lines.push('Last 20 empire_leads rows: none');
   }
 
   // GHL summaries (max 5 clients with ghl_contact_id)
