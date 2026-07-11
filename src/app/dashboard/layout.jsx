@@ -16,9 +16,11 @@ function JarvisShell({ children }) {
       {children}
       {!isFullJarvis && <JarvisOrb />}
       {!isFullJarvis && <JarvisCommandPalette />}
-      {!isFullJarvis && (
-        <JarvisToastStack toasts={toastApi.toasts} onDismiss={toastApi.dismissToast} />
-      )}
+      <JarvisToastStack
+        toasts={toastApi.toasts}
+        onDismiss={toastApi.dismissToast}
+        className={isFullJarvis ? '!bottom-auto top-20 right-6 md:right-8' : ''}
+      />
     </JarvisProvider>
   );
 }

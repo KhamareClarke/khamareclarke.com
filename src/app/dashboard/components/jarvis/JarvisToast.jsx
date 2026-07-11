@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 
-export default function JarvisToastStack({ toasts, onDismiss }) {
+export default function JarvisToastStack({ toasts, onDismiss, className = '' }) {
   if (!toasts?.length) return null;
   return (
     <div
-      className="fixed bottom-24 right-6 z-50 flex flex-col gap-2 max-w-sm pointer-events-none"
+      className={`fixed bottom-24 right-6 z-50 flex flex-col gap-2 max-w-sm pointer-events-none ${className}`}
       aria-live="polite"
     >
       {toasts.map((t) => (

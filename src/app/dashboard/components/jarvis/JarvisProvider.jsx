@@ -38,6 +38,7 @@ import {
   isRealSearchResultSet,
 } from '@/lib/jarvis/web-search';
 import { navigateExternalUrl } from '@/lib/jarvis/open-url';
+import { getSupabaseBrowser } from '@/lib/supabase-browser';
 
 function resolveOpenUrlFromParsed(parsed) {
   if (!parsed || parsed.type !== 'action') return null;
@@ -150,6 +151,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const clapFlashTimerRef = useRef(null);
   const clapDetectorRef = useRef(null);
   const mutedRef = useRef(false);
+  const refreshDataRef = useRef(null);
+  const speakReplyRef = useRef(null);
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
@@ -170,6 +173,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     }
     return null;
   }, []);
+
+  useEffect(() => {
+    refreshDataRef.current = refreshData;
+  }, [refreshData]);
 
   useEffect(() => {
     setPresentationMode(readCookie(PRESENTATION_KEY) === '1');
@@ -810,6 +817,48 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     },
     [muted, pauseListening]
   );
+
+  useEffect(() => {
+    speakReplyRef.current = speakReply;
+  }, [speakReply]);
+
+  useEffect(() => {
+    if (minimal) return undefined;
+
+    let supabase;
+    try {
+      supabase = getSupabaseBrowser();
+    } catch {
+      return undefined;
+    }
+
+    const LEAD_MESSAGE = 'New lead, sir.';
+    const notifyNewLead = () => {
+      toastApi?.pushToast?.(LEAD_MESSAGE);
+      refreshDataRef.current?.();
+      if (!mutedRef.current) {
+        speakReplyRef.current?.(LEAD_MESSAGE, { speakFull: true });
+      }
+    };
+
+    const channel = supabase
+      .channel('jarvis-new-leads')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'form_submissions' },
+        notifyNewLead
+      )
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'onboarding_clients' },
+        notifyNewLead
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [minimal, toastApi]);
 
   const replyAssistant = useCallback(
     (content, extras = {}) => {
