@@ -261,23 +261,23 @@ export default function JarvisFullPageHud() {
             <WidgetCard title="System Uptime">
               <p className="jarvis-uptime tabular-nums">{uptime}</p>
               <div className="mt-3">
-                <div className="flex justify-between text-[9px] uppercase tracking-wider text-sky-500/60 mb-1"><span>System load</span><span>{loadPct}%</span></div>
+                <div className="flex justify-between text-[10px] uppercase tracking-wider text-sky-400/80 mb-1"><span>System load</span><span>{loadPct}%</span></div>
                 <div className="jarvis-stat-bar h-1 w-full bg-sky-900/80 rounded-full overflow-hidden">
                   <div className="jarvis-stat-bar-fill h-full bg-gradient-to-r from-cyan-600 to-emerald-400" style={{ width: `${loadPct}%` }} />
                 </div>
               </div>
-              {bootLine && bootTyped && <p className="text-[9px] text-sky-500/55 mt-3 leading-relaxed border-t border-sky-500/10 pt-2">{bootLine}</p>}
+              {bootLine && bootTyped && <p className="jarvis-boot-line text-[10px] text-sky-400/75 mt-3 leading-relaxed border-t border-sky-500/10 pt-2">{bootLine}</p>}
             </WidgetCard>
           </aside>
 
           {/* Center stage */}
-          <div className="jarvis-center-stage relative flex flex-1 flex-col items-center min-w-0 min-h-0">
-            <div className="relative flex flex-1 w-full items-center justify-center min-h-0">
+          <div className="jarvis-center-stage relative flex flex-1 flex-col items-center justify-center min-w-0 min-h-0">
+            <div className="relative flex flex-1 w-full max-w-2xl mx-auto items-center justify-center min-h-0">
               <JarvisHudRings active={hudActive} listening={coreState === 'listening'} className="jarvis-hud-rings-stage absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
-              <div className="relative z-10 flex flex-col items-center justify-center">
+              <div className="relative z-10 flex w-full flex-col items-center justify-center text-center">
                 <JarvisVoiceCore size="lg" state={coreState} label={bootTyped && bootLine ? undefined : undefined} />
                 {(listening || voiceInterim) && (
-                  <div className="jarvis-interim-display mt-3 max-w-sm w-full px-4 py-2 text-center">
+                  <div className="jarvis-interim-display mt-3 max-w-sm w-full px-4 py-2 text-center mx-auto">
                     <p className="text-sm text-cyan-50/90 font-light">{voiceInterim || 'Speak now, sir…'}</p>
                   </div>
                 )}

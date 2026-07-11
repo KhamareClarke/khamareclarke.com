@@ -7,8 +7,8 @@ export default function JarvisHudStatBar({ label, value, max = 20 }) {
   return (
     <div className="jarvis-hud-stat w-full">
       <div className="flex justify-between items-baseline gap-2">
-        <p className="text-[9px] uppercase tracking-[0.28em] text-sky-500/65">{label}</p>
-        <p className="text-lg font-light text-cyan-300 tabular-nums">{value ?? '—'}</p>
+        <p className="jarvis-stat-label">{label}</p>
+        <p className="jarvis-stat-value tabular-nums">{value ?? '—'}</p>
       </div>
       <div className="jarvis-stat-bar mt-1.5 h-0.5 w-full bg-sky-900/80 overflow-hidden rounded-full">
         <div

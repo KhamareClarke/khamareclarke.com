@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Central voice orb — arc reactor style. size="lg" for full-page HUD.
+ * Central voice orb — refined arc-reactor core. size="lg" for full-page HUD.
  */
 const STATE_LABELS = {
   listening: 'J.A.R.V.I.S',
@@ -26,7 +26,7 @@ const STATE_SUBLABELS = {
 
 function CoreDots({ active, count = 5 }) {
   return (
-    <div className="jarvis-core-dots absolute inset-0 flex items-center justify-center gap-2 sm:gap-2.5 z-20 pointer-events-none" aria-hidden>
+    <div className="jarvis-core-dots absolute inset-0 flex items-center justify-center gap-1.5 sm:gap-2 z-20 pointer-events-none" aria-hidden>
       {Array.from({ length: count }).map((_, i) => (
         <span
           key={i}
@@ -50,29 +50,29 @@ export default function JarvisVoiceCore({ state = 'idle', label, size = 'md' }) 
 
   return (
     <div
-      className={`jarvis-voice-core flex flex-col items-center ${lg ? 'py-0' : 'py-6'} ${
-        isListening ? 'jarvis-voice-core--listening' : ''
-      }`}
+      className={`jarvis-voice-core flex w-full flex-col items-center text-center ${
+        lg ? 'py-0' : 'py-6'
+      } ${isListening ? 'jarvis-voice-core--listening' : ''}`}
     >
       <div
-        className={`jarvis-voice-core-stage relative flex items-center justify-center ${
+        className={`jarvis-voice-core-stage relative mx-auto flex items-center justify-center ${
           lg
             ? isListening
-              ? 'w-64 h-64 sm:w-72 sm:h-72 md:w-[22rem] md:h-[22rem]'
-              : 'w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72'
-            : 'w-36 h-36'
+              ? 'w-52 h-52 sm:w-56 sm:h-56 md:w-60 md:h-60'
+              : 'w-48 h-48 sm:w-52 sm:h-52 md:w-56 md:h-56'
+            : 'w-32 h-32'
         }`}
       >
         {isListening && (
           <>
-            <span className="jarvis-listen-aura jarvis-listen-aura-1 absolute inset-[-8%] rounded-full" aria-hidden />
-            <span className="jarvis-listen-aura jarvis-listen-aura-2 absolute inset-[-18%] rounded-full" aria-hidden />
-            <span className="jarvis-listen-scan absolute inset-2 rounded-full" aria-hidden />
+            <span className="jarvis-listen-aura jarvis-listen-aura-1 absolute inset-[-6%] rounded-full" aria-hidden />
+            <span className="jarvis-listen-aura jarvis-listen-aura-2 absolute inset-[-14%] rounded-full" aria-hidden />
+            <span className="jarvis-listen-scan absolute inset-3 rounded-full" aria-hidden />
           </>
         )}
 
         <span
-          className={`jarvis-arc-reactor-glow absolute rounded-full inset-2 ${hudActiveClass(state)}`}
+          className={`jarvis-arc-reactor-glow absolute rounded-full inset-3 ${hudActiveClass(state)}`}
           aria-hidden
         />
 
@@ -81,40 +81,43 @@ export default function JarvisVoiceCore({ state = 'idle', label, size = 'md' }) 
             <span className="jarvis-ring jarvis-ring-listen jarvis-ring-1 absolute inset-0 rounded-full" />
             <span className="jarvis-ring jarvis-ring-listen jarvis-ring-2 absolute inset-0 rounded-full" />
             <span className="jarvis-ring jarvis-ring-listen jarvis-ring-3 absolute inset-0 rounded-full" />
-            <span className="jarvis-ring jarvis-ring-listen jarvis-ring-1 absolute inset-[-16px] rounded-full" />
-            <span className="jarvis-ring jarvis-ring-listen jarvis-ring-2 absolute inset-[-28px] rounded-full opacity-60" />
+            <span className="jarvis-ring jarvis-ring-listen jarvis-ring-1 absolute inset-[-12px] rounded-full" />
+            <span className="jarvis-ring jarvis-ring-listen jarvis-ring-2 absolute inset-[-20px] rounded-full opacity-50" />
           </>
         )}
 
         {showSpinner && (
           <svg className="jarvis-arc-spinner absolute inset-0 w-full h-full" viewBox="0 0 100 100" aria-hidden>
-            <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(56,189,248,0.15)" strokeWidth="2" />
+            <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(56,189,248,0.12)" strokeWidth="1.5" />
             <circle
               cx="50"
               cy="50"
               r="44"
               fill="none"
               stroke="url(#jarvisArcGrad)"
-              strokeWidth="2.5"
+              strokeWidth="2"
               strokeLinecap="round"
-              strokeDasharray="60 220"
+              strokeDasharray="48 232"
             />
             <defs>
               <linearGradient id="jarvisArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#38bdf8" />
-                <stop offset="100%" stopColor="#22d3ee" />
+                <stop offset="0%" stopColor="var(--jarvis-sky)" />
+                <stop offset="100%" stopColor="var(--jarvis-cyan)" />
               </linearGradient>
             </defs>
           </svg>
         )}
 
+        {/* Outer precision ring */}
+        <span className="jarvis-core-ring absolute inset-[18%] rounded-full z-[5]" aria-hidden />
+
         <div
           className={`jarvis-core-orb relative z-10 rounded-full overflow-hidden ${
             lg
               ? isListening
-                ? 'w-40 h-40 sm:w-44 sm:h-44 md:w-48 md:h-48'
-                : 'w-36 h-36 sm:w-40 sm:h-40 md:w-44 md:h-44'
-              : 'w-20 h-20'
+                ? 'w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36'
+                : 'w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32'
+              : 'w-16 h-16'
           } ${coreOrbClass(state)}`}
         >
           <div className="jarvis-core-inner absolute inset-0 rounded-full" />
@@ -124,15 +127,15 @@ export default function JarvisVoiceCore({ state = 'idle', label, size = 'md' }) 
       </div>
 
       <p
-        className={`jarvis-core-title mt-5 font-bold tracking-[0.28em] uppercase ${
-          isListening || state !== 'idle' ? 'jarvis-core-title--listening' : 'text-sky-300/90'
-        } ${lg ? 'text-base md:text-lg' : 'text-xs'}`}
+        className={`jarvis-core-title mt-4 w-full text-center font-bold tracking-[0.24em] uppercase ${
+          isListening || state !== 'idle' ? 'jarvis-core-title--listening' : ''
+        } ${lg ? 'text-sm md:text-base' : 'text-xs'}`}
       >
         {label || STATE_LABELS[state] || 'J.A.R.V.I.S'}
       </p>
 
       {!label && STATE_SUBLABELS[state] && (
-        <div className="jarvis-listen-pill mt-3">
+        <div className="jarvis-listen-pill mt-2.5 mx-auto">
           <span className="jarvis-listen-pill-dot" aria-hidden />
           <span>{STATE_SUBLABELS[state]}</span>
         </div>

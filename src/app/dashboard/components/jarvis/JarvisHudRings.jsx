@@ -9,8 +9,8 @@ export default function JarvisHudRings({ active, listening = false, className = 
       aria-hidden
     >      <defs>
         <radialGradient id="jarvisHudGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="rgba(56,189,248,0.35)" />
-          <stop offset="70%" stopColor="rgba(14,165,233,0.08)" />
+          <stop offset="0%" stopColor="rgba(56,189,248,0.18)" />
+          <stop offset="70%" stopColor="rgba(14,165,233,0.05)" />
           <stop offset="100%" stopColor="transparent" />
         </radialGradient>
         <filter id="jarvisHudBlur">
@@ -37,8 +37,8 @@ export default function JarvisHudRings({ active, listening = false, className = 
               y1={200 + Math.sin(a) * r1}
               x2={200 + Math.cos(a) * r2}
               y2={200 + Math.sin(a) * r2}
-              stroke="rgba(56,189,248,0.45)"
-              strokeWidth={i % 5 === 0 ? 1.5 : 0.8}
+              stroke="rgba(56,189,248,0.32)"
+              strokeWidth={i % 5 === 0 ? 1.2 : 0.65}
             />
           );
         })}
