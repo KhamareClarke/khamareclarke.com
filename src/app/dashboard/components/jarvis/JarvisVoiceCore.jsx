@@ -15,7 +15,7 @@ const STATE_LABELS = {
 };
 
 const STATE_SUBLABELS = {
-  listening: 'Listening for wake word…',
+  listening: 'Listening…',
   speaking: 'Transmitting response…',
   thinking: 'Processing request…',
   searching: 'Searching the web…',
@@ -45,21 +45,17 @@ export default function JarvisVoiceCore({ state = 'idle', label, size = 'md' }) 
   const isSearching = state === 'searching';
   const isDrawing = state === 'drawing';
   const showSpinner = isThinking || isSearching || isDrawing;
-  const showDots = isListening || isSpeaking || state === 'idle';
+  const showDots = isListening || isSpeaking;
   const lg = size === 'lg';
 
   return (
     <div
-      className={`jarvis-voice-core flex flex-col items-center ${lg ? 'py-0 relative' : 'py-6'} ${
-        isListening ? 'jarvis-voice-core--listening' : ''
-      }`}
+      className={`jarvis-voice-core flex flex-col items-center ${lg ? 'py-0 relative' : 'py-6'} jarvis-voice-core--${state}`}
     >
       <div
         className={`jarvis-voice-core-stage relative flex items-center justify-center ${
           lg
-            ? isListening
-              ? 'w-48 h-48 sm:w-52 sm:h-52 md:w-[13.5rem] md:h-[13.5rem]'
-              : 'w-44 h-44 sm:w-48 sm:h-48 md:w-56 md:h-56'
+            ? 'w-48 h-48 sm:w-52 sm:h-52 md:w-56 md:h-56'
             : 'w-36 h-36'
         }`}
       >
@@ -111,13 +107,33 @@ export default function JarvisVoiceCore({ state = 'idle', label, size = 'md' }) 
         <div
           className={`jarvis-core-orb relative z-10 rounded-full overflow-hidden ${
             lg
-              ? isListening
-                ? 'w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40'
-                : 'w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36'
+              ? 'w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40'
               : 'w-20 h-20'
           } ${coreOrbClass(state)}`}
         >
           <div className="jarvis-core-inner absolute inset-0 rounded-full" />
+          {/* Precision intelligence rings — thin SVG arcs give instrument-grade depth */}
+          <svg className="jarvis-core-precision absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" aria-hidden>
+            <defs>
+              <linearGradient id="jvcPrimaryArc" gradientTransform="rotate(45,0.5,0.5)">
+                <stop offset="0%"   stopColor="rgba(255,140,0,0)" />
+                <stop offset="45%"  stopColor="rgba(255,183,0,0.48)" />
+                <stop offset="60%"  stopColor="rgba(255,220,100,0.55)" />
+                <stop offset="100%" stopColor="rgba(255,140,0,0)" />
+              </linearGradient>
+            </defs>
+            {/* Outermost boundary ring */}
+            <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(255,183,0,0.14)" strokeWidth="0.4" />
+            {/* Primary rotating arc */}
+            <circle cx="50" cy="50" r="41" fill="none" stroke="url(#jvcPrimaryArc)" strokeWidth="0.9" strokeLinecap="round" strokeDasharray="22 108" className="jarvis-core-arc-primary" />
+            {/* Counter-rotating detail arc */}
+            <circle cx="50" cy="50" r="35" fill="none" stroke="rgba(255,183,0,0.18)" strokeWidth="0.55" strokeLinecap="round" strokeDasharray="10 70" className="jarvis-core-arc-counter" />
+            {/* Inner fine dashed ring */}
+            <circle cx="50" cy="50" r="27" fill="none" stroke="rgba(255,183,0,0.08)" strokeWidth="0.35" strokeDasharray="4 8" />
+            {/* Center energy point */}
+            <circle cx="50" cy="50" r="3" fill="rgba(255,183,0,0.30)" className="jarvis-core-center-dot" />
+            <circle cx="50" cy="50" r="1.4" fill="rgba(255,220,120,0.55)" />
+          </svg>
           <div className="jarvis-core-shine absolute inset-0 rounded-full" aria-hidden />
           {showDots ? <CoreDots active={isListening || isSpeaking} /> : null}
         </div>

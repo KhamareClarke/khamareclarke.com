@@ -9,6 +9,8 @@ import {
   speakJarvisFromGesture,
   stopSpeaking,
   playBootChime,
+  playListenChime,
+  playStopChime,
   createSpeechRecognition,
   isSpeechRecognitionSupported,
   pickBritishVoice,
@@ -61,6 +63,7 @@ const MUTE_KEY = 'jarvis-mute';
 const VOICE_AUTO_SEND_KEY = 'jarvis-voice-auto-send';
 const CONTINUOUS_LISTEN_KEY = 'jarvis-continuous-listen';
 const CLAP_WAKE_KEY = 'jarvis-clap-wake';
+const IDLE_MS = 5 * 60 * 1000; // idle → clapWake standby threshold
 
 function readCookie(name) {
   if (typeof document === 'undefined') return null;
@@ -150,11 +153,30 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const clapFlashTimerRef = useRef(null);
   const clapDetectorRef = useRef(null);
   const mutedRef = useRef(false);
+  const clapWakeRef = useRef(true);
+  const bargeInTimerRef = useRef(null);   // scheduled desktop barge-in mic start
+  const bargeInActiveRef = useRef(false); // true while recognition is running in barge-in mode
+  const hadSpeechRef = useRef(false);     // true if current recognition session got any result
+  const idleTimerRef = useRef(null);      // drops to standby after IDLE_MS of no operator input
+  const resetIdleTimerRef = useRef(null); // stable ref to resetIdleTimer callback
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
   }, [router]);
   const close = useCallback(() => setOpen(false), []);
+
+  const resetIdleTimer = useCallback(() => {
+    clearTimeout(idleTimerRef.current);
+    idleTimerRef.current = setTimeout(() => {
+      if (continuousListenRef.current) {
+        clapWakeRef.current = true;
+        setClapWake(true);
+        try { recognitionRef.current?.stop(); } catch { /* ignore */ }
+        recognizingRef.current = false;
+        setListening(false);
+      }
+    }, IDLE_MS);
+  }, []);
 
   const refreshData = useCallback(async () => {
     try {
@@ -209,6 +231,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   useEffect(() => {
     writeCookie(CLAP_WAKE_KEY, clapWake ? '1' : '0');
     clapDetectorRef.current?.setEnabled?.(clapWake);
+    clapWakeRef.current = clapWake;
   }, [clapWake]);
 
   useEffect(() => {
@@ -226,12 +249,29 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     speakingRef.current = speaking;
   }, [speaking]);
 
-  /** Full JARVIS page: always-on listen → reply → listen loop. */
+  /** Full JARVIS page: always-on listen → reply → listen loop.
+      When clapWake is on the mic stays silent until 3 claps fire — only
+      audio unlock is wired so the first pointer interaction primes the context. */
   useEffect(() => {
     if (minimal || !open) return undefined;
     if (!isSpeechRecognitionSupported()) return undefined;
 
     setMuted((m) => (readCookie(MUTE_KEY) === '1' ? m : false));
+
+    // Clap-wake mode: standby only — do NOT auto-arm the mic.
+    if (clapWake) {
+      const onGesture = () => {
+        unlockSpeechAudio({ prime: isMobileUserAgent() });
+        setAudioUnlocked(true);
+      };
+      const opts = isMobileUserAgent()
+        ? { passive: true }
+        : { once: true, passive: true };
+      document.addEventListener('pointerdown', onGesture, opts);
+      return () => document.removeEventListener('pointerdown', onGesture);
+    }
+
+    // Always-on mode (clapWake disabled).
     setVoiceAutoSend(true);
     setContinuousListen(true);
     continuousListenRef.current = true;
@@ -278,12 +318,13 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         document.removeEventListener('pointerdown', onGesture);
       }
     };
-  }, [minimal, open]);
+  }, [minimal, open, clapWake]);
 
-  /** After mobile audio unlock tap, start the mic loop. */
+  /** After mobile audio unlock tap, start the mic loop (only in always-on mode). */
   useEffect(() => {
     if (minimal || !open || !audioUnlocked) return;
     if (!isMobileUserAgent()) return;
+    if (clapWakeRef.current) return; // standby — clap to activate
     setContinuousListen(true);
     continuousListenRef.current = true;
     voiceAutoSendRef.current = true;
@@ -312,10 +353,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       const detector = await createClapDetector({
         shouldListen: () =>
           !speakingRef.current && !pendingTtsRef.current && !streamingRef.current,
-        onDoubleClap: () => {
+        onTripleClap: () => {
           unlockSpeechAudio({ prime: false });
           setAudioUnlocked(true);
           setClapActivated(true);
+          resetIdleTimerRef.current?.();
           clearTimeout(clapFlashTimerRef.current);
           clapFlashTimerRef.current = setTimeout(() => setClapActivated(false), 2000);
 
@@ -429,6 +471,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   }, []);
 
   const scheduleRestartListening = useCallback(() => {
+    if (clapWakeRef.current) return; // standby — wait for next 3-clap
     if (!continuousListenRef.current) return;
     if (streamingRef.current || speakingRef.current) return;
     const delay = isIOS() ? 700 : isMobileUserAgent() ? 550 : 500;
@@ -450,6 +493,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   }, [beginListening, scheduleRestartListening]);
 
   useEffect(() => {
+    resetIdleTimerRef.current = resetIdleTimer;
+  }, [resetIdleTimer]);
+
+  useEffect(() => {
     if (minimal) return undefined;
     if (!isSpeechRecognitionSupported()) return undefined;
 
@@ -467,6 +514,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         voiceSendTimerRef.current = null;
         const transcript = (transcriptRef.current || lastInterimRef.current || '').trim();
         if (!transcript) return;
+        // Mis-fire guard: ignore noise bursts too short to be a real command.
+        if (transcript.length < 2) return;
+        if (/^\S+$/.test(transcript) && transcript.length < 3) return;
 
         transcriptRef.current = '';
         lastInterimRef.current = '';
@@ -496,6 +546,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         transcriptRef.current = '';
         lastInterimRef.current = '';
         setVoiceInterim('');
+        hadSpeechRef.current = false;
+        if (!bargeInActiveRef.current) playListenChime(mutedRef.current);
       },
       onResult: (event) => {
         const { accumulated, display, interim, hadFinal } = processRecognitionResult(
@@ -507,13 +559,28 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         else if (display) lastInterimRef.current = display;
         if (display) setVoiceInterim(display);
 
+        if (display) {
+          hadSpeechRef.current = true;
+          // Barge-in: operator spoke while JARVIS was replying — stop TTS immediately.
+          if (bargeInActiveRef.current && speakingRef.current && display.length > 4) {
+            stopSpeaking();
+            speakingRef.current = false;
+            setSpeaking(false);
+            pendingTtsRef.current = false;
+          }
+        }
+
         if (hadFinal && accumulated.trim()) {
           prefetchOpenFromTranscript(accumulated, prefetchedOpenUrlRef);
         }
 
         // Continuous mode never fires onEnd per utterance — send after a pause in speech.
+        // 1.5s after a final result on desktop (~1.2-1.5s spec); longer during interim to
+        // avoid cutting off mid-thought when the speaker pauses between clauses.
         if (display && (voiceAutoSendRef.current || continuousListenRef.current)) {
-          const pauseMs = hadFinal ? (isIOS() ? 380 : isMobileUserAgent() ? 480 : 550) : isMobileUserAgent() ? 900 : 1100;
+          const pauseMs = hadFinal
+            ? (isIOS() ? 900 : isMobileUserAgent() ? 1200 : 1500)
+            : (isMobileUserAgent() ? 1400 : 1800);
           scheduleVoiceAutoSend(pauseMs);
         }
       },
@@ -533,6 +600,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         recognizingRef.current = false;
         setListening(false);
         clearVoiceSendTimer();
+        if (hadSpeechRef.current) playStopChime(mutedRef.current);
+        hadSpeechRef.current = false;
+        bargeInActiveRef.current = false;
 
         if (skipOnEndSendRef.current) {
           skipOnEndSendRef.current = false;
@@ -580,13 +650,20 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   useEffect(() => {
     if (minimal) return;
     refreshData().then((d) => {
-      if (d) {
+      if (!d) return;
+      // Only greet once per browser session — skip on page-navigation refreshes.
+      let alreadyGreeted = false;
+      try { alreadyGreeted = !!sessionStorage.getItem('jarvis-greeted'); } catch { /* ignore */ }
+      if (!alreadyGreeted) {
         setBootLine(`JARVIS online. ${d.leadsToday ?? 0} leads today, ${d.tasksQueued ?? 0} tasks queued.`);
+        try { sessionStorage.setItem('jarvis-greeted', '1'); } catch { /* ignore */ }
         if (!bootPlayedRef.current && readCookie(PRESENTATION_KEY) === '1' && readCookie(MUTE_KEY) === '0') {
           playBootChime(false);
           bootPlayedRef.current = true;
         }
         setTimeout(() => setBootTyped(true), 1200);
+      } else {
+        setBootTyped(true);
       }
     });
   }, [refreshData, minimal]);
@@ -777,8 +854,17 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           speakingRef.current = true;
           setSpeaking(true);
           setVoiceNeedsTap(false);
+          // Desktop-only barge-in: arm mic after brief delay so operator can interrupt.
+          if (!mobile && !clapWakeRef.current) {
+            bargeInTimerRef.current = setTimeout(() => {
+              bargeInActiveRef.current = true;
+              try { recognitionRef.current?.start(); } catch { /* ignore */ }
+            }, 400);
+          }
         };
         const onEnd = () => {
+          clearTimeout(bargeInTimerRef.current);
+          bargeInActiveRef.current = false;
           clearTimeout(safety);
           speakingRef.current = false;
           setSpeaking(false);
@@ -961,7 +1047,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const executeAction = useCallback(
     async (action) => {
       setPendingAction(null);
-      const confirmId = appendAssistant('Executing…', { pending: true });
+      const confirmId = appendAssistant('On it, sir.', { pending: true });
 
       try {
         if (action.command === 'open') {
@@ -1006,16 +1092,20 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
               throw new Error(runData.error);
             }
           }
-          let msg = `Task queued${taskId ? ` (#${String(taskId).slice(0, 8)})` : ''} for ${action.skill} on ${action.project}, sir.`;
-          setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: msg, pending: false } : m)));
+          const queuedMsg = `Queued, sir. Task ${taskId ? `#${String(taskId).slice(0, 8)}` : 'initiated'} for ${action.skill} on ${action.project}.`;
+          setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: queuedMsg, pending: false } : m)));
+          speakReply(queuedMsg);
           if (taskId) {
             const outcome = await pollTaskOutcome(taskId);
             if (outcome) {
-              msg = `Task ${outcome.status}: ${(outcome.result_message || outcome.task_description || '').slice(0, 200)}`;
-              appendAssistant(msg);
+              const label = `${action.skill} on ${action.project}`;
+              const statusWord = /^(complete|completed|done)$/i.test(outcome.status) ? 'complete' : outcome.status;
+              const outcomeMsg = `${label} ${statusWord}, sir.${outcome.result_message ? ` ${outcome.result_message.slice(0, 160)}` : ''}`;
+              appendAssistant(outcomeMsg);
+              speakReply(outcomeMsg);
+              toastApi?.pushToast?.(outcomeMsg);
             }
           }
-          speakReply(msg);
           return;
         }
 
@@ -1066,7 +1156,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           speakReply(msg);
         }
       } catch (err) {
-        const msg = `That action could not complete, sir. ${err.message || 'Please try from the dashboard.'}`;
+        const raw = String(err?.message || '').slice(0, 140);
+        const msg = raw
+          ? `That could not be completed, sir — ${raw}.`
+          : `Unable to complete that, sir. Try again from the dashboard.`;
         setMessages((prev) => prev.map((m) => (m.id === confirmId ? { ...m, content: msg, pending: false } : m)));
         speakReply(msg);
       }
@@ -1180,6 +1273,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     async (trimmed, { addUserBubble = true } = {}) => {
       try {
         if (!trimmed) return;
+        resetIdleTimerRef.current?.();
         pauseListening();
 
         const userMsg = { id: `u-${Date.now()}`, role: 'user', content: trimmed };
