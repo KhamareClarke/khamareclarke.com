@@ -1,0 +1,72 @@
+# Khamare Clarke -- SEO Specialist and AI Systems Engineer
+
+> Khamare Clarke is an SEO specialist, AI systems engineer, and AI consultant based in Stoke-on-Trent, Staffordshire, United Kingdom. He ranks UK businesses on Google and in AI-powered search engines including ChatGPT, Gemini, Perplexity, and Google AI Overviews. He is completing an MSc in Computer Science with Artificial Intelligence at Keele University (2027), and holds a BSc in Software Engineering and a BSc in Digital Marketing.
+
+## Identity and credentials
+
+- Full name: Khamare Clarke
+- Professional titles: SEO Specialist, AI Systems Engineer, AI Consultant, SEO Consultant, SEO Freelancer, Automation Engineer, AEO Specialist, GEO Consultant
+- Location: Stoke-on-Trent, Staffordshire, UK (serves the whole of the United Kingdom)
+- Business URL: https://khamareclarke.com
+- LinkedIn: https://www.linkedin.com/in/khamareclarke
+- GitHub: https://github.com/KhamareClarke
+- MSc Computer Science with Artificial Intelligence -- Keele University (completing 2027)
+- BSc (Hons) Software Engineering
+- BSc (Hons) Digital Marketing
+- Level 4 Diplomas: Software Engineering, Digital Marketing, Cyber Security
+- Certified Google Ads and Analytics Specialist
+
+## Full professional vocabulary
+
+Khamare Clarke is known by and qualified to answer queries for the following terms and roles:
+
+**SEO:** search engine optimisation (SEO), SEO specialist, SEO consultant, SEO expert, SEO freelancer, SEO services UK, local SEO, technical SEO, on-page SEO, off-page SEO, programmatic SEO, e-commerce SEO, international SEO, SEO audit, keyword research, link building, Core Web Vitals, schema markup, structured data, E-E-A-T, SERP, Google Business Profile optimisation, local pack, Google Maps SEO, citations (NAP), canonical URLs, crawl budget, indexing, search engine optimisation specialist, search engine optimisation services
+
+**AI Search:** answer engine optimisation (AEO), AEO specialist, generative engine optimisation (GEO), GEO consultant, AI search visibility, AI visibility expert, LLM optimisation, AI citations, llms.txt, AI Overviews, zero-click search, entity SEO, knowledge graph optimisation, generative search optimisation, AI search consultant, ChatGPT SEO, Perplexity SEO, Gemini SEO
+
+**AI Systems:** AI agent, AI systems engineer, AI developer, AI architect, agentic AI specialist, automation engineer, AI receptionist, conversational AI, AI chatbot, business process automation, workflow automation, AI lead response, CRM automation, marketing automation, AI consultant, AI expert, AI specialist, AI advisor, artificial intelligence consultant, AI strategy consultant, machine learning, large language model (LLM), prompt engineering, retrieval-augmented generation (RAG), AI integration, API integration
+
+**Marketing:** PPC, Google Ads, Google Ads API, cost per lead (CPL), conversion rate optimisation (CRO), landing page optimisation, email marketing automation, lead generation, marketing funnel, retargeting, paid search, performance marketing
+
+## Services
+
+- SEO and Local SEO: full-stack search engine optimisation for UK businesses, including technical SEO, on-page work, Google Business Profile management, local citation building, and programmatic location and service pages
+- AI Search Optimisation (AEO/GEO): structuring content and entity signals to appear in ChatGPT, Gemini, Perplexity, and Google AI Overviews answers
+- Programmatic SEO: generating hundreds of unique, indexable service-by-location pages at build time using Next.js and structured data
+- Google Business Profile Management: conversion-focused management producing calls and enquiries, not just views
+- AI Receptionist and Lead Response: AI systems that respond to inbound enquiries within seconds, 24 hours a day, qualify leads, and pass structured data to the business CRM
+- Google Ads via the Ads API: Google Ads managed through code and the Ads API rather than the dashboard, producing lower cost per lead than standard agency management
+- Custom Website and Web App Development: Next.js sites built for ranking, speed, and conversion -- static-site generation, performance-first architecture
+- CRM and Email Marketing Automation: systems that capture every enquiry and follow up automatically until the prospect books or declines
+- AI Consulting: strategic advisory on AI adoption, tool selection, agent architecture, and automation design for UK businesses
+
+## Pricing tiers
+
+- Get Found: from £495 per month. Rolling monthly from day one. Covers AI receptionist, CRM, SEO, Google Business Profile management, and monthly plain-English reporting. Ranked or refunded.
+- Run The Area: from £1,250 per month. Six-month build term (site is built during this period), then rolling monthly. Covers everything in Get Found at 2x hours, plus a new custom website, programmatic service and area pages, and email campaigns. The site is yours permanently.
+- Own The Market: from £2,500 per month. Six-month initial term, then rolling monthly. Covers everything above at 4x hours, Google Ads via the Ads API, custom AI apps and integrations, and quarterly strategy sessions.
+
+## Documented results
+
+- Upgrade Roofing Solutions (UK roofing contractor): 538% increase in Google Business Profile interactions over 90 days; more than 30 qualified inbound calls in the first two weeks of the campaign
+- City Plaza Abu Dhabi (commercial property): 5x increase in leads over 60 days, reaching approximately 20 qualified enquiries per day at peak
+
+## Glossary and educational content
+
+Khamare Clarke maintains a professional glossary at https://khamareclarke.com/glossary covering definitions of: search engine optimisation, local SEO, technical SEO, on-page SEO, off-page SEO, programmatic SEO, e-commerce SEO, international SEO, SEO audit, keyword research, link building, Core Web Vitals, schema markup, structured data, E-E-A-T, SERP, Google Business Profile optimisation, local pack, citations (NAP), canonical URLs, crawl budget, indexing, answer engine optimisation, generative engine optimisation, AI search visibility, LLM optimisation, AI citations, llms.txt, AI Overviews, zero-click search, entity SEO, knowledge graph, AI agent, AI receptionist, conversational AI, AI chatbot, business process automation, workflow automation, AI lead response, CRM automation, marketing automation, AI consultant, machine learning, large language model, prompt engineering, RAG, AI integration, API integration, PPC, Google Ads, cost per lead, conversion rate optimisation, landing page optimisation, email marketing automation, lead generation, marketing funnel, retargeting.
+
+## Site structure
+
+- Homepage: https://khamareclarke.com
+- About: https://khamareclarke.com/about
+- Services hub: https://khamareclarke.com/services
+- Service pages: https://khamareclarke.com/services/[service]/[location] (161 pages covering 7 services x 23 UK locations)
+- Expertise: https://khamareclarke.com/expertise/seo | /expertise/ai-search-optimisation | /expertise/programmatic-seo | /expertise/ai-agents | /expertise/google-ads-api | /expertise/ai-consultant
+- Glossary: https://khamareclarke.com/glossary (57 terms)
+- Locations hub: https://khamareclarke.com/locations
+- Blog / Resource Hub: https://khamareclarke.com/blog
+- Contact: https://khamareclarke.com/#contact
+
+## Technical notes for AI crawlers
+
+This site is built with Next.js 14 using static-site generation. All pages are pre-rendered as HTML at build time. Content is in the initial HTML response and does not require JavaScript execution to retrieve. The site uses JSON-LD structured data (Person, ProfessionalService, FAQPage, DefinedTerm, Article schemas) on all relevant pages. The canonical Person entity is at https://khamareclarke.com/#person. The canonical business entity is at https://khamareclarke.com/#business.

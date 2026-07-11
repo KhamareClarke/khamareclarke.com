@@ -1,0 +1,70 @@
+{
+  "empire_config": {
+    "supervisor_id": "MASTER_GENERAL_01",
+    "heartbeat_interval": "60s",
+    "domains": [
+      "myapproved",
+      "khamareclarke",
+      "omniwtms",
+      "leverageacademy",
+      "fliprepublic",
+      "leveragejournal",
+      "inboker",
+      "identitymarketing",
+      "adstarter",
+      "seoinforce",
+      "alkemmy"
+    ],
+    "teams": {
+      "GROWTH_TEAM": {
+        "manager": "Lead_SEO",
+        "skills": [
+          "ai-seo",
+          "seo-audit",
+          "keyword-research",
+          "backlink-builder",
+          "site-speed-optimizer",
+          "content-refresh",
+          "meta-tag-master",
+          "technical-seo"
+        ]
+      },
+      "SALES_TEAM": {
+        "manager": "Lead_Sales",
+        "skills": [
+          "lead-gen",
+          "cold-email",
+          "email-sequence",
+          "sales-copy",
+          "crm-sync",
+          "linkedin-outreach",
+          "ad-copy-generator"
+        ]
+      },
+      "OPS_TEAM": {
+        "manager": "Lead_Ops",
+        "skills": [
+          "onboarding-cro",
+          "signup-flow-cro",
+          "ux-audit",
+          "page-cro",
+          "customer-support-bot",
+          "bug-hunter",
+          "form-optimizer"
+        ]
+      },
+      "INTEL_TEAM": {
+        "manager": "Lead_Intel",
+        "skills": [
+          "copy-editing",
+          "competitor-intel",
+          "market-analysis",
+          "brand-voice-check",
+          "social-media-post",
+          "review-manager",
+          "legal-compliance"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Audit — khamareclarke.com</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #e5e5e5;
+    --muted: #888;
+    --gold: #ffb700;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --green: #22c55e;
+    --cyan: #06b6d4;
+    --purple: #a855f7;
+  }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; font-size: 14px; line-height: 1.6; padding: 32px 24px; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+
+  /* HEADER */
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 32px; }
+  .header h1 { font-size: 28px; font-weight: 800; color: var(--gold); margin-bottom: 4px; }
+  .header .meta { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  .verdict-pill { display: inline-block; padding: 6px 18px; border-radius: 999px; font-weight: 700; font-size: 13px; letter-spacing: .05em; text-transform: uppercase; }
+  .verdict-rebuild { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+  .verdict-salvage { background: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
+  .verdict-solid   { background: #22c55e20; color: #22c55e; border: 1px solid #22c55e40; }
+
+  /* ALERT BOX */
+  .alert { border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; }
+  .alert-red   { background: #ef444410; border: 1px solid #ef444440; }
+  .alert-amber { background: #f59e0b10; border: 1px solid #f59e0b40; }
+  .alert h2 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  .alert-red h2   { color: #ef4444; }
+  .alert-amber h2 { color: #f59e0b; }
+
+  /* SCORECARD */
+  .scorecard { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .score-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .score-card .num { font-size: 32px; font-weight: 800; }
+  .score-card .lbl { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-top: 4px; }
+  .num-green  { color: var(--green); }
+  .num-amber  { color: var(--amber); }
+  .num-red    { color: var(--red); }
+  .num-gold   { color: var(--gold); }
+
+  /* SECTIONS */
+  section { margin-bottom: 40px; }
+  section h2 { font-size: 18px; font-weight: 700; color: var(--gold); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
+  /* ARCHITECTURE MAP */
+  .arch { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+  .arch-grid { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
+  .arch-col { display: flex; flex-direction: column; gap: 12px; }
+  .arch-center { margin: 0 40px; }
+  .arch-box { border-radius: 8px; padding: 10px 14px; font-size: 12px; font-weight: 600; text-align: center; min-width: 140px; }
+  .arch-main { background: #ffb70020; border: 2px solid #ffb700; color: #ffb700; font-size: 14px; padding: 16px 24px; min-width: 200px; text-align: center; border-radius: 12px; font-weight: 800; }
+  .arch-green  { background: #22c55e15; border: 1px solid #22c55e60; color: #22c55e; }
+  .arch-amber  { background: #f59e0b15; border: 1px solid #f59e0b60; color: #f59e0b; }
+  .arch-red    { background: #ef444415; border: 1px solid #ef444460; color: #ef4444; }
+  .arch-arrow { color: var(--muted); font-size: 20px; display: flex; align-items: center; padding: 0 8px; }
+  .arch-legend { display: flex; gap: 20px; margin-top: 20px; font-size: 12px; flex-wrap: wrap; }
+  .arch-legend span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-green { background: var(--green); }
+  .dot-amber { background: var(--amber); }
+  .dot-red { background: var(--red); }
+
+  /* TABLES */
+  table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+  th { text-align: left; padding: 10px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-bottom: 1px solid var(--border); background: var(--surface2); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #ffffff05; }
+  .tbl-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+
+  /* PILLS */
+  .pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+  .pill-green  { background: #22c55e20; color: #22c55e; border: 1px solid #22c55e40; }
+  .pill-amber  { background: #f59e0b20; color: #f59e0b; border: 1px solid #f59e0b40; }
+  .pill-red    { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+  .pill-cyan   { background: #06b6d420; color: #06b6d4; border: 1px solid #06b6d440; }
+  .pill-gray   { background: #44444420; color: #888; border: 1px solid #44444440; }
+  .pill-purple { background: #a855f720; color: #a855f7; border: 1px solid #a855f740; }
+
+  /* CODE */
+  code { background: #ffffff10; padding: 1px 6px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 12px; color: #f59e0b; }
+
+  /* VERDICT */
+  .verdict-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+  .verdict-box p { margin-bottom: 12px; color: #ccc; line-height: 1.7; }
+  .verdict-box ol { padding-left: 20px; }
+  .verdict-box li { margin-bottom: 8px; color: #ccc; }
+  .verdict-box li strong { color: var(--text); }
+
+  /* BOUNDARY */
+  .boundary { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .boundary-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .boundary-box h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
+  .boundary-box.public h3  { color: var(--cyan); }
+  .boundary-box.control h3 { color: var(--gold); }
+  .boundary-box ul { list-style: none; }
+  .boundary-box li { padding: 4px 0; font-size: 13px; color: var(--muted); }
+  .boundary-box li::before { content: '→ '; color: var(--border); }
+  .boundary-box.control li::before { color: #ffb70060; }
+
+  @media (max-width: 700px) {
+    .boundary { grid-template-columns: 1fr; }
+    .arch-grid { flex-direction: column; }
+    .arch-arrow { transform: rotate(90deg); }
+    .arch-center { margin: 16px 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>khamareclarke.com — Dashboard Audit</h1>
+    <div class="meta">Audit date: 2026-07-08 &nbsp;·&nbsp; Repo: khamareclarke.com-main &nbsp;·&nbsp; Stack: Next.js 13 · Supabase · Vercel</div>
+    <span class="verdict-pill verdict-rebuild">⚠ Rebuild Recommended</span>
+  </div>
+
+  <!-- ============================================================
+       PRIORITY SECTION 1: LIVE SECURITY — ROUTE PROTECTION STATUS
+       ============================================================ -->
+  <section>
+    <h2>🔴 Priority: Live Security — Dashboard Route Protection (Production)</h2>
+
+    <div class="alert alert-red">
+      <h2>CRITICAL — Multiple dashboard routes are live and unprotected right now</h2>
+      <p style="color:#ccc;margin-bottom:12px;">
+        <code>middleware.js</code> returns <code>Response.next()</code> with an empty matcher (<code>[]</code>). This means <strong>Next.js middleware enforces zero route protection on any URL</strong>. Every dashboard route listed below is reachable by the public without authentication.
+      </p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Route</th>
+            <th>Type</th>
+            <th>Auth Check?</th>
+            <th>Protection Status</th>
+            <th>Risk</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/login</code></td>
+            <td>Page</td>
+            <td>N/A — it IS the login page</td>
+            <td><span class="pill pill-green">PUBLIC (intended)</span></td>
+            <td>Default password <code>admin123</code> if env var not set</td>
+          </tr>
+          <tr>
+            <td><code>/onboarding</code></td>
+            <td>Page</td>
+            <td>None — completely open</td>
+            <td><span class="pill pill-amber">PUBLIC (unintended)</span></td>
+            <td>Anyone can access. Intended for clients, but no auth gate or invite system.</td>
+          </tr>
+          <tr>
+            <td><code>/dashboard</code></td>
+            <td>Page</td>
+            <td>Client-side JS redirect only</td>
+            <td><span class="pill pill-amber">PARTIAL PROTECTION</span></td>
+            <td>HTML is served to unauthenticated users. JS redirect can be bypassed by disabling JS or scraping the page source.</td>
+          </tr>
+          <tr>
+            <td><code>/dashboard/empire</code></td>
+            <td>Page</td>
+            <td><strong>None — no auth check at all</strong></td>
+            <td><span class="pill pill-red">UNPROTECTED</span></td>
+            <td>Empire OS control panel fully accessible to anyone. Lead data, agent controls, git push visible.</td>
+          </tr>
+          <tr>
+            <td><code>/dashboard/empire/activity</code></td>
+            <td>Page</td>
+            <td><strong>None — no auth check at all</strong></td>
+            <td><span class="pill pill-red">UNPROTECTED</span></td>
+            <td>Live feed of user emails, IPs, sign-ins, payments across all projects — fully public.</td>
+          </tr>
+          <tr>
+            <td><code>/api/auth/login</code></td>
+            <td>API</td>
+            <td>This IS the auth endpoint</td>
+            <td><span class="pill pill-green">PUBLIC (intended)</span></td>
+            <td>Brute-forceable — no rate limiting, no lockout. Default password <code>admin123</code>.</td>
+          </tr>
+          <tr>
+            <td><code>/api/submissions</code> GET</td>
+            <td>API</td>
+            <td>Server-side <code>isAuthenticated()</code> ✓</td>
+            <td><span class="pill pill-green">PROTECTED</span></td>
+            <td>Correctly returns 401 if no valid session cookie.</td>
+          </tr>
+          <tr>
+            <td><code>/api/submissions</code> POST</td>
+            <td>API</td>
+            <td>None — open write endpoint</td>
+            <td><span class="pill pill-amber">PUBLIC (intentional)</span></td>
+            <td>Contact forms POST here — being open is correct. No validation though.</td>
+          </tr>
+          <tr>
+            <td><code>/api/onboarding</code> GET</td>
+            <td>API</td>
+            <td>Server-side <code>isAuthenticated()</code> ✓</td>
+            <td><span class="pill pill-green">PROTECTED</span></td>
+            <td>Returns 401 if no session.</td>
+          </tr>
+          <tr>
+            <td><code>/api/onboarding</code> POST</td>
+            <td>API</td>
+            <td>None — open write endpoint</td>
+            <td><span class="pill pill-amber">PUBLIC</span></td>
+            <td>Anyone can POST fake client records to your Supabase onboarding table.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/worker/run</code></td>
+            <td>API</td>
+            <td><strong>None</strong></td>
+            <td><span class="pill pill-red">UNPROTECTED</span></td>
+            <td>CRITICAL — runs LLM-powered code editing agent against your repos. Anyone can call this.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/worker/push</code></td>
+            <td>API</td>
+            <td><strong>None</strong> (env var flag only)</td>
+            <td><span class="pill pill-red">UNPROTECTED</span></td>
+            <td>CRITICAL — git commit and push to your repos. If <code>EMPIRE_WORKER_PUSH_ENABLED=true</code>, anyone can trigger a push.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/leads/send-outreach</code></td>
+            <td>API</td>
+            <td><strong>None</strong></td>
+            <td><span class="pill pill-red">UNPROTECTED</span></td>
+            <td>Anyone can trigger mass outreach emails from your Gmail account.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/activity/list</code></td>
+            <td>API</td>
+            <td><strong>None</strong></td>
+            <td><span class="pill pill-red">UNPROTECTED</span></td>
+            <td>Exposes emails, IPs, user activity across all projects to the public.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/supervisor/run-team</code></td>
+            <td>API</td>
+            <td><strong>None</strong></td>
+            <td><span class="pill pill-red">UNPROTECTED</span></td>
+            <td>Anyone can fire agent teams against any project in your fleet.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/run-task</code></td>
+            <td>API</td>
+            <td><strong>None</strong></td>
+            <td><span class="pill pill-red">UNPROTECTED</span></td>
+            <td>Runs pending tasks, consuming LLM API credits. Open to anyone.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/cron/*</code></td>
+            <td>API</td>
+            <td><strong>None (no CRON_SECRET check)</strong></td>
+            <td><span class="pill pill-red">UNPROTECTED</span></td>
+            <td>Cron endpoints are publicly triggerable — anyone can spam-run your auto-24h cycles.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/analyze-all</code></td>
+            <td>API</td>
+            <td><strong>None</strong></td>
+            <td><span class="pill pill-amber">UNPROTECTED</span></td>
+            <td>Read-ish, but triggers analysis across fleet — open to public.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/fleet-status</code></td>
+            <td>API</td>
+            <td><strong>None</strong></td>
+            <td><span class="pill pill-amber">UNPROTECTED</span></td>
+            <td>Exposes project intelligence data — open to public.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/webhook/trigger</code></td>
+            <td>API</td>
+            <td>Bearer <code>EMPIRE_WEBHOOK_SECRET</code> ✓</td>
+            <td><span class="pill pill-green">PROTECTED</span></td>
+            <td>Correctly checked — only if <code>EMPIRE_WEBHOOK_SECRET</code> is set in env.</td>
+          </tr>
+          <tr>
+            <td><code>/api/empire/activity/ingest</code></td>
+            <td>API</td>
+            <td>Bearer <code>EMPIRE_INGEST_SECRET</code> ✓</td>
+            <td><span class="pill pill-green">PROTECTED</span></td>
+            <td>Correctly checked — only if secret is set in env.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       AT-A-GLANCE SCORECARD
+       ============================================================ -->
+  <section>
+    <h2>At-a-Glance Scorecard</h2>
+    <div class="scorecard">
+      <div class="score-card">
+        <div class="num num-green">2</div>
+        <div class="lbl">Features Working</div>
+      </div>
+      <div class="score-card">
+        <div class="num num-amber">3</div>
+        <div class="lbl">Features Partial</div>
+      </div>
+      <div class="score-card">
+        <div class="num num-red">4</div>
+        <div class="lbl">Features Broken / Dead</div>
+      </div>
+      <div class="score-card">
+        <div class="num num-amber">2</div>
+        <div class="lbl">Connectors Configured</div>
+      </div>
+      <div class="score-card">
+        <div class="num num-red">6</div>
+        <div class="lbl">Connectors Missing Creds</div>
+      </div>
+      <div class="score-card">
+        <div class="num num-red">1</div>
+        <div class="lbl">Hardcoded Secrets Found</div>
+      </div>
+      <div class="score-card">
+        <div class="num num-red">10</div>
+        <div class="lbl">Unprotected API Routes</div>
+      </div>
+      <div class="score-card">
+        <div class="num num-red">0</div>
+        <div class="lbl">Client Login System</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CODEBASE BOUNDARY MAP
+       ============================================================ -->
+  <section>
+    <h2>Codebase Boundary — Public Site vs Control Panel</h2>
+    <div class="boundary">
+      <div class="boundary-box public">
+        <h3>Public Marketing Site</h3>
+        <ul>
+          <li>/  (homepage)</li>
+          <li>/about</li>
+          <li>/services/[service]</li>
+          <li>/services/[service]/[location]</li>
+          <li>/expertise/[topic]</li>
+          <li>/glossary · /glossary/[term]</li>
+          <li>/blog · /blog/[slug]</li>
+          <li>/case-studies</li>
+          <li>/locations</li>
+          <li>/business-bundle</li>
+          <li>/privacy-policy · /terms</li>
+          <li>/sitemap-page</li>
+          <li>/api/send · /api/send-email (contact forms)</li>
+          <li>/api/submissions POST (form intake)</li>
+          <li>/api/chat (AI chatbot)</li>
+        </ul>
+      </div>
+      <div class="boundary-box control">
+        <h3>Control Panel / Dashboard</h3>
+        <ul>
+          <li>/login</li>
+          <li>/dashboard (leads + onboarding viewer)</li>
+          <li>/dashboard/empire (Empire OS control)</li>
+          <li>/dashboard/empire/activity (user event feed)</li>
+          <li>/onboarding (client intake form)</li>
+          <li>/api/auth/* (login, logout, check)</li>
+          <li>/api/submissions GET</li>
+          <li>/api/onboarding GET + POST</li>
+          <li>/api/empire/* (29+ AI agent routes)</li>
+          <li>src/lib/auth.js</li>
+          <li>src/lib/supabase.js</li>
+          <li>src/lib/empire-*.js</li>
+          <li>middleware.js (empty)</li>
+          <li>scripts/empire-*.js</li>
+          <li>supabase/migrations/*</li>
+          <li>config/teams.json · worker.json</li>
+          <li>.agents/skills/* (29 skill definitions)</li>
+          <li>docs/EMPIRE_*.md</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ARCHITECTURE DIAGRAM
+       ============================================================ -->
+  <section>
+    <h2>Architecture Map</h2>
+    <div class="arch">
+      <div class="arch-grid">
+        <div class="arch-col">
+          <div class="arch-box arch-green">Supabase DB<br><small style="opacity:.7">form_submissions, onboarding_clients, empire_*</small></div>
+          <div class="arch-box arch-amber">OpenRouter / LLM<br><small style="opacity:.7">OPENROUTER_API_KEY missing</small></div>
+          <div class="arch-box arch-amber">Gmail SMTP<br><small style="opacity:.7">EMAIL_USER / EMAIL_PASS missing</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-center">
+          <div class="arch-main">khamareclarke.com<br><small style="font-weight:400;opacity:.7">Next.js 13 · Vercel</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-col">
+          <div class="arch-box arch-amber">Vercel API<br><small style="opacity:.7">VERCEL_TOKEN missing</small></div>
+          <div class="arch-box arch-red">ZeroClaw<br><small style="opacity:.7">ZEROCLAW_URL placeholder only</small></div>
+          <div class="arch-box arch-red">GoHighLevel<br><small style="opacity:.7">No integration exists</small></div>
+          <div class="arch-box arch-red">WhatsApp<br><small style="opacity:.7">No integration exists</small></div>
+        </div>
+      </div>
+      <div class="arch-legend">
+        <span><span class="dot dot-green"></span> Connected &amp; working</span>
+        <span><span class="dot dot-amber"></span> Integrated, needs credentials</span>
+        <span><span class="dot dot-red"></span> Missing / not built</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       AUTH SYSTEM
+       ============================================================ -->
+  <section>
+    <h2>Auth System</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td>Login mechanism</td><td>Single admin password → HMAC-SHA256 cookie token (<code>admin_session</code>). No username, no roles, no sessions table.</td></tr>
+          <tr><td>Where password lives</td><td>Env var <code>ADMIN_PASSWORD</code>. Hardcoded fallback: <code>'admin123'</code> at <code>src/lib/auth.js:4</code>, <code>src/app/api/auth/login/route.js:5</code>, <code>src/app/api/auth/check/route.js:5</code>.</td></tr>
+          <tr><td>User database</td><td><strong>None.</strong> There is no users table. One password, one person.</td></tr>
+          <tr><td>Role system</td><td><strong>None.</strong> Admin only. No client role, no client login.</td></tr>
+          <tr><td>Session expiry</td><td>24 hours (httpOnly cookie).</td></tr>
+          <tr><td>Middleware protection</td><td><strong>Absent.</strong> <code>middleware.js</code> runs but does nothing. Matcher is empty array.</td></tr>
+          <tr><td>Dashboard auth</td><td>Client-side JS redirect only on <code>/dashboard</code>. <code>/dashboard/empire</code> and <code>/dashboard/empire/activity</code> have <strong>zero auth check</strong>.</td></tr>
+          <tr><td>How to create admin user</td><td>Set <code>ADMIN_PASSWORD=your_password</code> in Vercel env vars. Redeploy. That's it — there is no "create user" flow.</td></tr>
+          <tr><td>Rate limiting / brute force protection</td><td>None. Login endpoint can be brute-forced indefinitely.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONNECTORS & CREDENTIALS
+       ============================================================ -->
+  <section>
+    <h2>Connectors &amp; Credentials</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Service</th><th>Purpose</th><th>Env Var(s)</th><th>Configured?</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Supabase</td>
+            <td>Primary DB — forms, onboarding, empire leads, tasks, activity</td>
+            <td><code>NEXT_PUBLIC_SUPABASE_URL</code><br><code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code><br><code>SUPABASE_SERVICE_ROLE_KEY</code></td>
+            <td><span class="pill pill-amber">Partial</span></td>
+            <td>Codebase sets up client conditionally — if vars are missing, app degrades gracefully. Empire dashboard requires all three.</td>
+          </tr>
+          <tr>
+            <td>OpenRouter / LLM</td>
+            <td>Powers 29 Empire AI agents (SEO, leads, ops, code editing)</td>
+            <td><code>OPENROUTER_API_KEY</code><br><code>EMPIRE_LLM_API_KEY</code></td>
+            <td><span class="pill pill-red">Not set</span></td>
+            <td>Workers return error if neither key is present. ZeroClaw is an alternative (local only).</td>
+          </tr>
+          <tr>
+            <td>Gmail SMTP</td>
+            <td>Outreach emails to leads + admin notifications</td>
+            <td><code>EMAIL_USER</code><br><code>EMAIL_PASS</code></td>
+            <td><span class="pill pill-red">Not set</span></td>
+            <td>Needs a Gmail App Password (not account password). Route will 500 without these.</td>
+          </tr>
+          <tr>
+            <td>Vercel API</td>
+            <td>Deploy status polling + auto-fix build errors</td>
+            <td><code>VERCEL_TOKEN</code><br><code>VERCEL_PROJECT_ID_*</code></td>
+            <td><span class="pill pill-red">Not set</span></td>
+            <td>Deploy-status route returns <code>needPaste: true</code> without token — falls back to manual paste.</td>
+          </tr>
+          <tr>
+            <td>ZeroClaw</td>
+            <td>Optional local LLM agent runner (Rust app)</td>
+            <td><code>ZEROCLAW_URL</code></td>
+            <td><span class="pill pill-red">Placeholder only</span></td>
+            <td>Set to <code>https://your-zeroclaw-host</code> in example. Not functional unless installed separately.</td>
+          </tr>
+          <tr>
+            <td>PageSpeed Insights</td>
+            <td>CWV audit script (<code>scripts/check-cwv.js</code>)</td>
+            <td><code>PAGESPEED_API_KEY</code></td>
+            <td><span class="pill pill-green">Set (in .env.local)</span></td>
+            <td>Key present in <code>.env.local</code>. File is gitignored so not in repo — OK.</td>
+          </tr>
+          <tr>
+            <td>Resend</td>
+            <td>Email sending (<code>/api/send</code> contact form)</td>
+            <td><code>RESEND_API_KEY</code></td>
+            <td><span class="pill pill-amber">Unknown</span></td>
+            <td>Package installed, route exists. Key not visible in local env.</td>
+          </tr>
+          <tr>
+            <td>@empire/bridge</td>
+            <td>Cross-repo Empire package</td>
+            <td>N/A — local path dependency</td>
+            <td><span class="pill pill-red">Likely broken</span></td>
+            <td><code>package.json</code> lists <code>"@empire/bridge": "file:../shared/empire-bridge"</code> — relative path won't exist on Vercel. Build may fail.</td>
+          </tr>
+          <tr>
+            <td>GoHighLevel</td>
+            <td>Client project status (target capability)</td>
+            <td>N/A</td>
+            <td><span class="pill pill-red">Not built</span></td>
+            <td>Zero references in codebase.</td>
+          </tr>
+          <tr>
+            <td>WhatsApp</td>
+            <td>Empire OS interface (target capability)</td>
+            <td>N/A</td>
+            <td><span class="pill pill-red">Not built</span></td>
+            <td>Zero references in codebase.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECURITY SECTION
+       ============================================================ -->
+  <section>
+    <h2>Security Findings</h2>
+
+    <div class="alert alert-red" style="margin-bottom:16px;">
+      <h2>Hardcoded Credentials / Default Secrets</h2>
+      <p style="color:#ccc;">The following require immediate attention before any sensitive data enters the system.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Finding</th><th>Location</th><th>Severity</th><th>Fix</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Default admin password <code>'admin123'</code> hardcoded as fallback</td>
+            <td><code>src/lib/auth.js:4</code><br><code>src/app/api/auth/login/route.js:5</code><br><code>src/app/api/auth/check/route.js:5</code></td>
+            <td><span class="pill pill-red">CRITICAL</span></td>
+            <td>Set <code>ADMIN_PASSWORD</code> env var in Vercel to a strong password immediately. Remove the <code>|| 'admin123'</code> fallback from all three files.</td>
+          </tr>
+          <tr>
+            <td><code>env.local</code> (no dot prefix) committed to git</td>
+            <td><code>env.local</code> (root)</td>
+            <td><span class="pill pill-amber">Medium</span></td>
+            <td>File is tracked by git (confirmed via <code>git ls-files</code>). Currently empty — ensure it stays that way or add it to <code>.gitignore</code>.</td>
+          </tr>
+          <tr>
+            <td><code>EMPIRE_INGEST_SECRET</code> and <code>EMPIRE_WEBHOOK_SECRET</code> — not set = endpoint disabled</td>
+            <td><code>/api/empire/activity/ingest</code><br><code>/api/empire/webhook/trigger</code></td>
+            <td><span class="pill pill-amber">Medium</span></td>
+            <td>When unset, ingest returns 500 (safe). Set both secrets before exposing ingest to sister projects.</td>
+          </tr>
+          <tr>
+            <td>No rate limiting on <code>/api/auth/login</code></td>
+            <td><code>src/app/api/auth/login/route.js</code></td>
+            <td><span class="pill pill-amber">Medium</span></td>
+            <td>Add Vercel Edge rate limiting or use Upstash Redis + ratelimit package. Without it, password is brute-forceable.</td>
+          </tr>
+          <tr>
+            <td>10+ Empire API routes callable by anyone on the internet</td>
+            <td><code>src/app/api/empire/*/route.js</code></td>
+            <td><span class="pill pill-red">CRITICAL</span></td>
+            <td>Add <code>isAuthenticated()</code> check (or a cron secret check for cron routes) to every Empire API route. See Next Actions.</td>
+          </tr>
+          <tr>
+            <td><code>/api/onboarding</code> POST is open — anyone can insert fake records</td>
+            <td><code>src/app/api/onboarding/route.js:33</code></td>
+            <td><span class="pill pill-amber">Low–Medium</span></td>
+            <td>Add basic validation (email format check, honeypot field) or a CAPTCHA if the form is truly public.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURE INVENTORY
+       ============================================================ -->
+  <section>
+    <h2>Feature Inventory (Dashboard / Control Panel)</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>Route(s)</th><th>Status</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Admin login</td>
+            <td><code>/login</code><br><code>/api/auth/*</code></td>
+            <td><span class="pill pill-green">WORKING</span></td>
+            <td>Single-password login, HMAC cookie, logout. Works end-to-end. Default password risk.</td>
+          </tr>
+          <tr>
+            <td>Client intake form (onboarding)</td>
+            <td><code>/onboarding</code></td>
+            <td><span class="pill pill-green">WORKING</span></td>
+            <td>4-step form, saves to Supabase <code>onboarding_clients</code>. Functional but publicly accessible — no client account tied to submission.</td>
+          </tr>
+          <tr>
+            <td>Leads &amp; submissions viewer</td>
+            <td><code>/dashboard</code></td>
+            <td><span class="pill pill-amber">PARTIAL</span></td>
+            <td>UI works. Auth is client-side only. Requires Supabase to actually show data; shows empty state without it.</td>
+          </tr>
+          <tr>
+            <td>Empire OS control panel</td>
+            <td><code>/dashboard/empire</code></td>
+            <td><span class="pill pill-amber">PARTIAL</span></td>
+            <td>Extensive UI for agents, leads, SEO, ops, worker tasks. Requires Supabase + OpenRouter + Gmail. No auth check on the page. Broken if these aren't configured.</td>
+          </tr>
+          <tr>
+            <td>User activity feed (all projects)</td>
+            <td><code>/dashboard/empire/activity</code></td>
+            <td><span class="pill pill-amber">PARTIAL</span></td>
+            <td>Live event feed for sign-ins, payments, etc. Requires Supabase service role. No auth check on the page.</td>
+          </tr>
+          <tr>
+            <td>AI agent task runner (29 skills)</td>
+            <td><code>/api/empire/run-task</code></td>
+            <td><span class="pill pill-red">BROKEN</span></td>
+            <td>Requires <code>OPENROUTER_API_KEY</code>. Not set = 500 error. Also unauthenticated.</td>
+          </tr>
+          <tr>
+            <td>Empire worker (code editing + git push)</td>
+            <td><code>/api/empire/worker/*</code></td>
+            <td><span class="pill pill-red">BROKEN</span></td>
+            <td>Requires LLM key + <code>EMPIRE_WORKER_PUSH_ENABLED=true</code>. On Vercel it cannot access local repo folders — only works when running locally. Also unauthenticated.</td>
+          </tr>
+          <tr>
+            <td>Lead scraping + outreach (MyApproved)</td>
+            <td><code>/api/empire/leads/*</code></td>
+            <td><span class="pill pill-red">BROKEN</span></td>
+            <td>Requires Gmail SMTP creds. Scraping also requires <code>EMPIRE_LEAD_SOURCE_URL</code> to return useful results. Routes unauthenticated.</td>
+          </tr>
+          <tr>
+            <td>SEO auto-improvement cron</td>
+            <td><code>/api/empire/cron/seo-myapproved</code></td>
+            <td><span class="pill pill-red">BROKEN</span></td>
+            <td>Cannot run <code>npm run build</code> in MyApproved folder from Vercel. Only works from a machine with both repos. Worker cron has no CRON_SECRET guard.</td>
+          </tr>
+          <tr>
+            <td>Fleet status / project health view</td>
+            <td><code>/api/empire/fleet-status</code><br><code>/api/empire/analyze-all</code></td>
+            <td><span class="pill pill-amber">PARTIAL</span></td>
+            <td>Reads <code>empire_project_analysis</code> table. Works if Supabase configured and table seeded. Open to public.</td>
+          </tr>
+          <tr>
+            <td>Client portal (per-client login)</td>
+            <td>N/A</td>
+            <td><span class="pill pill-red">MISSING</span></td>
+            <td>Does not exist. No user table, no invite system, no per-client views.</td>
+          </tr>
+          <tr>
+            <td>Contract / document storage</td>
+            <td>N/A</td>
+            <td><span class="pill pill-red">MISSING</span></td>
+            <td>No file upload, no document model, no Supabase Storage integration.</td>
+          </tr>
+          <tr>
+            <td>GoHighLevel live project status</td>
+            <td>N/A</td>
+            <td><span class="pill pill-red">MISSING</span></td>
+            <td>Zero references in codebase.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       GAP ANALYSIS
+       ============================================================ -->
+  <section>
+    <h2>Gap Analysis — Target Capabilities</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Target Capability</th><th>Status</th><th>What Exists</th><th>Shortest Build Path</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Client onboarding with their own login</td>
+            <td><span class="pill pill-red">MISSING</span></td>
+            <td>Single admin password only. No user table, no invite flow.</td>
+            <td>Supabase Auth (already imported) with magic link or email+password. Add a <code>profiles</code> table. 2–3 days to wire correctly.</td>
+          </tr>
+          <tr>
+            <td>Intake questions / forms</td>
+            <td><span class="pill pill-amber">PARTIAL</span></td>
+            <td><code>/onboarding</code> form exists and saves to Supabase. Not linked to a client account.</td>
+            <td>Add a <code>user_id</code> foreign key to <code>onboarding_clients</code>. Gate the page behind Supabase Auth session. 1 day.</td>
+          </tr>
+          <tr>
+            <td>Contracts &amp; documents stored per client</td>
+            <td><span class="pill pill-red">MISSING</span></td>
+            <td>Nothing. No file model, no storage.</td>
+            <td>Supabase Storage bucket + <code>documents</code> table (client_id, file_path, type). Upload component. 2–3 days.</td>
+          </tr>
+          <tr>
+            <td>Live project status from GoHighLevel</td>
+            <td><span class="pill pill-red">MISSING</span></td>
+            <td>Nothing in codebase.</td>
+            <td>GHL REST API (OAuth or API key) → Next.js route → client dashboard widget. 2–4 days depending on GHL data model.</td>
+          </tr>
+          <tr>
+            <td>Central view across all projects (empire fleet)</td>
+            <td><span class="pill pill-amber">PARTIAL</span></td>
+            <td>Empire OS dashboard shows fleet status and agent logs. Needs Supabase + LLM creds and requires fixing auth.</td>
+            <td>Configure env vars and fix auth on Empire routes. The UI is built — 1–2 days to make it secure and functional.</td>
+          </tr>
+          <tr>
+            <td>Empire OS / ZeroClaw agent / WhatsApp interface</td>
+            <td><span class="pill pill-amber">PARTIAL</span></td>
+            <td>Empire OS agent infrastructure (29 skills, supervisor, worker) is the most complete part. ZeroClaw URL hookup exists. WhatsApp absent.</td>
+            <td>ZeroClaw: set URL, test locally. WhatsApp: Twilio/Meta Cloud API → new route → Empire webhook trigger. 3–5 days for WhatsApp.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       IDENTITY / STACK SECTION
+       ============================================================ -->
+  <section>
+    <h2>Identity &amp; Stack</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td>Framework</td><td>Next.js 13.4.15 (App Router) — note: this is ~3 major versions behind current (15.x)</td></tr>
+          <tr><td>Language</td><td>JavaScript (no TypeScript)</td></tr>
+          <tr><td>Database</td><td>Supabase (PostgreSQL)</td></tr>
+          <tr><td>Styling</td><td>Tailwind CSS 3.3.3 + custom design tokens</td></tr>
+          <tr><td>Package manager</td><td>npm</td></tr>
+          <tr><td>Hosting</td><td>Vercel (crons configured in <code>vercel.json</code>)</td></tr>
+          <tr><td>Run locally</td><td><code>npm install &amp;&amp; npm run dev</code> (may fail due to <code>@empire/bridge</code> local path dep)</td></tr>
+          <tr><td>Local run risk</td><td><code>@empire/bridge</code> points to <code>file:../shared/empire-bridge</code> — this path likely doesn't exist. Run <code>npm install --ignore-scripts</code> and remove the bridge dependency to get dev running.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VERDICT
+       ============================================================ -->
+  <section>
+    <h2>Verdict</h2>
+    <div class="verdict-box">
+      <p>
+        The marketing site half of this repo is clean and solid — the SEO content machine, glossary, services, and blog are production-ready and should not be touched. The "control panel" layer, however, is not a sound foundation for what you need. It is a personal admin panel for one person (you), built around a single hardcoded password, where the Empire OS automation routes — including a live code-editing agent and a git-push endpoint — are completely unauthenticated and reachable by anyone on the internet right now. There is no concept of a client, no user table, no role system, no document storage, and no GoHighLevel integration. The path from here to a multi-client portal requires rebuilding every auth and data-model assumption the current code makes.
+      </p>
+      <p>
+        <strong>Recommendation: Rebuild the portal layer on your existing Supabase + Next.js stack.</strong> You already have all the right pieces — Supabase Auth (which supports magic links, OAuth, email+password out of the box), Supabase Storage for documents, and the Next.js App Router. The rebuild is not starting from scratch: the public site stays untouched, the onboarding UI is reusable, and the Empire OS infrastructure (agent skills, supervisor, task runner) is the strongest part of the codebase and should be preserved and secured, not discarded. What you rebuild is specifically the auth layer and client-data model — roughly 5–7 days of focused work.
+      </p>
+      <h3 style="color:var(--gold);margin-top:20px;margin-bottom:12px;">Top 5 Next Actions (Priority Order)</h3>
+      <ol>
+        <li><strong>TODAY — Set ADMIN_PASSWORD in Vercel env vars.</strong> Remove the <code>|| 'admin123'</code> fallback from all three auth files. This takes 10 minutes.</li>
+        <li><strong>TODAY — Add <code>isAuthenticated()</code> to every <code>/api/empire/*</code> route</strong> (or a shared middleware wrapper). Until this is done, anyone can trigger code editing, git pushes, and mass emails from your server. Add a <code>CRON_SECRET</code> check to cron routes instead of the session check.</li>
+        <li><strong>THIS WEEK — Replace client-side auth redirect with server-side protection.</strong> Either populate the middleware matcher (<code>/dashboard/:path*</code>) or add <code>isAuthenticated()</code> at the top of each dashboard page server component. <code>/dashboard/empire</code> and <code>/dashboard/empire/activity</code> must be protected.</li>
+        <li><strong>THIS WEEK — Migrate auth to Supabase Auth.</strong> Drop the single-password system; use Supabase's built-in auth with email+password or magic link. This gives you a real users table and unlocks the client portal entirely (each client gets their own account).</li>
+        <li><strong>NEXT SPRINT — Build the client portal data model:</strong> <code>profiles</code>, <code>client_projects</code>, <code>documents</code> tables in Supabase → add <code>user_id</code> FK to <code>onboarding_clients</code> → add GoHighLevel API connector → wire project status to client dashboard view.</li>
+      </ol>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

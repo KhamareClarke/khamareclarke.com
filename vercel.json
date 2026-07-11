@@ -1,0 +1,20 @@
+{
+  "crons": [
+    {
+      "path": "/api/empire/cron/run-auto-24h",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/empire/cron/seo-myapproved",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/empire/cron/ops-myapproved",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/empire/leads/cron",
+      "schedule": "* * * * *"
+    }
+  ]
+}
