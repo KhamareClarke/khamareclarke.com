@@ -112,7 +112,15 @@ function CommsMessage({ m, streaming, pendingAction, executeAction, cancelAction
     <div className={`jarvis-comms-row ${isUser ? 'jarvis-comms-user' : 'jarvis-comms-assistant'}`}>
       <p className="jarvis-comms-label mb-1">{isUser ? 'Operator' : m.system ? 'System' : 'JARVIS'}</p>
       <div className={`jarvis-comms-bubble whitespace-pre-wrap ${isUser ? 'jarvis-bubble-user' : 'jarvis-bubble-assistant'}`}>
-        {isUser ? m.content : m.content ? <JarvisMessageContent content={m.content} /> : streaming ? '…' : ''}
+        {isUser ? m.content : m.content ? (
+          <JarvisMessageContent content={m.content} />
+        ) : streaming ? (
+          <span className="jarvis-typing-indicator" aria-label="JARVIS is thinking">
+            <span className="jarvis-typing-dot" />
+            <span className="jarvis-typing-dot" style={{ animationDelay: '0.22s' }} />
+            <span className="jarvis-typing-dot" style={{ animationDelay: '0.44s' }} />
+          </span>
+        ) : ''}
       </div>
       {m.cards?.map((card, i) => (
         <MessageCard key={`${m.id}-card-${i}`} card={card} />
@@ -172,6 +180,7 @@ export default function JarvisFullPageHud() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [activePanel, setActivePanel] = useState(null);
   const [localStats, setLocalStats] = useState({ formCount: null, onboardingCount: null });
+  const [emptyGreeting, setEmptyGreeting] = useState('Hello, I am JARVIS. How can I assist you today, sir?');
   const inputRef = useRef(null);
   const mobileCommsRef = useRef(null);
   const sessionStartRef = useRef(Date.now());
@@ -186,6 +195,15 @@ export default function JarvisFullPageHud() {
       setOpen(false);
     };
   }, [setOpen]);
+
+  useEffect(() => {
+    const key = 'jarvis-greeted';
+    if (sessionStorage.getItem(key)) {
+      setEmptyGreeting('Standing by, sir.');
+    } else {
+      sessionStorage.setItem(key, '1');
+    }
+  }, []);
 
   /* Fetch real counts for left rail — same endpoints as /dashboard/leads page
      API returns { submissions: [...] } and { clients: [...] } (not .data) */
@@ -443,7 +461,7 @@ export default function JarvisFullPageHud() {
               }}
             >
               {displayMessages.length === 0 ? (
-                <p className="text-[#ffb700]/70 text-xs leading-relaxed">Hello, I am JARVIS. How can I assist you today, sir?</p>
+                <p className="text-[#ffb700]/70 text-xs leading-relaxed">{emptyGreeting}</p>
               ) : (
                 displayMessages.map((m) => (
                   <CommsMessage key={m.id} m={m} streaming={streaming} pendingAction={pendingAction} executeAction={executeAction} cancelAction={cancelAction} />
