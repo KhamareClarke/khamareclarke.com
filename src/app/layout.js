@@ -5,6 +5,7 @@ import PerformanceOptimizer from './components/PerformanceOptimizer'
 import AccessibilityEnhancer from './components/AccessibilityEnhancer'
 import SimpleChatBot from './components/SimpleChatBot'
 import ConditionalChatBot from './components/ConditionalChatBot'
+import Preloader from './components/Preloader'
 import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from '../lib/schema'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -216,6 +217,7 @@ export default function RootLayout({ children }) {
         />
         {/* END: GA4 + GTM Scripts with GDPR Consent */}
 
+        <Preloader />
         <PerformanceOptimizer />
         <AccessibilityEnhancer />
 

@@ -1,46 +1,96 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <radialGradient id="lionGradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+    <!-- Face: warm radial gradient with bright specular at top-centre -->
+    <radialGradient id="rg-face" cx="50%" cy="36%" r="54%">
+      <stop offset="0%"   stop-color="#fff9c4"/>
+      <stop offset="22%"  stop-color="#ffde57"/>
+      <stop offset="55%"  stop-color="#ffb700"/>
+      <stop offset="100%" stop-color="#c85800"/>
     </radialGradient>
-    <radialGradient id="maneGradient" cx="50%" cy="50%" r="70%">
-      <stop offset="0%" style="stop-color:#FFE55C;stop-opacity:1" />
-      <stop offset="70%" style="stop-color:#D4A017;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
-    </radialGradient>
+    <!-- Mane: diagonal gold sweep -->
+    <linearGradient id="lg-mane" x1="10" y1="16" x2="54" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#ffde57"/>
+      <stop offset="48%"  stop-color="#ffb700"/>
+      <stop offset="100%" stop-color="#d45f00"/>
+    </linearGradient>
+    <!-- Crown: bright-to-gold top-down -->
+    <linearGradient id="lg-crown" x1="32" y1="2" x2="32" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#fff9c4"/>
+      <stop offset="60%"  stop-color="#ffca28"/>
+      <stop offset="100%" stop-color="#ffb700"/>
+    </linearGradient>
+    <!-- Outer ring: subtle gold -->
+    <linearGradient id="lg-ring" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#ffde57" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#d45f00" stop-opacity="0.2"/>
+    </linearGradient>
   </defs>
-  
-  <!-- Lion mane (outer) -->
-  <circle cx="32" cy="32" r="30" fill="url(#maneGradient)" opacity="0.9"/>
-  
-  <!-- Mane details -->
-  <path d="M32 2 L36 8 L44 4 L42 12 L52 10 L48 18 L58 18 L52 26 L60 28 L54 36 L62 40 L54 46 L60 52 L52 54 L56 62 L46 58 L48 66 L38 62 L36 70 L28 66 L26 70 L18 66 L16 58 L6 62 L8 54 L2 52 L8 46 L2 40 L10 36 L4 28 L12 26 L6 18 L16 18 L12 10 L22 12 L20 4 L28 8 Z" fill="url(#maneGradient)" opacity="0.7"/>
-  
-  <!-- Lion face -->
-  <circle cx="32" cy="32" r="18" fill="url(#lionGradient)"/>
-  
-  <!-- Eyes -->
-  <ellipse cx="26" cy="28" rx="2" ry="3" fill="#2C1810"/>
-  <ellipse cx="38" cy="28" rx="2" ry="3" fill="#2C1810"/>
-  <ellipse cx="26" cy="27" rx="0.8" ry="1" fill="#FFFFFF"/>
-  <ellipse cx="38" cy="27" rx="0.8" ry="1" fill="#FFFFFF"/>
-  
-  <!-- Nose -->
-  <path d="M32 34 L30 36 L34 36 Z" fill="#2C1810"/>
-  
-  <!-- Mouth -->
-  <path d="M32 36 Q28 40 24 38" stroke="#2C1810" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M32 36 Q36 40 40 38" stroke="#2C1810" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  
-  <!-- Whiskers -->
-  <line x1="18" y1="32" x2="22" y2="31" stroke="#2C1810" stroke-width="1" stroke-linecap="round"/>
-  <line x1="18" y1="36" x2="22" y2="36" stroke="#2C1810" stroke-width="1" stroke-linecap="round"/>
-  <line x1="42" y1="31" x2="46" y2="32" stroke="#2C1810" stroke-width="1" stroke-linecap="round"/>
-  <line x1="42" y1="36" x2="46" y2="36" stroke="#2C1810" stroke-width="1" stroke-linecap="round"/>
-  
-  <!-- Inner mane details -->
-  <circle cx="32" cy="32" r="25" fill="none" stroke="url(#maneGradient)" stroke-width="2" opacity="0.5"/>
-  <circle cx="32" cy="32" r="22" fill="none" stroke="url(#maneGradient)" stroke-width="1" opacity="0.3"/>
+
+  <!-- ── Outer decorative ring ───────────────────────────────────────────── -->
+  <circle cx="32" cy="36" r="30" fill="none" stroke="url(#lg-ring)" stroke-width="1"/>
+
+  <!-- ── 8-pointed mane star ────────────────────────────────────────────── -->
+  <!-- Points: 8 outer tips at r=21, 8 inner at r=15, centre at (32,36) -->
+  <polygon
+    points="
+      32,15   37.5,22.1  45.9,21.2  45,30.1
+      53,36   45,41.9   45.9,50.8  37.5,49.9
+      32,57   26.5,49.9  18.1,50.8  19,41.9
+      11,36   19,30.1   18.1,21.2  26.5,22.1
+    "
+    fill="url(#lg-mane)"
+    opacity="0.42"
+  />
+  <!-- Soft mane halo circle -->
+  <circle cx="32" cy="36" r="19" fill="url(#lg-mane)" opacity="0.18"/>
+
+  <!-- ── Ears (behind face) ─────────────────────────────────────────────── -->
+  <path d="M18 30 C15 22 23 18 25 25 C23 28 21 31 18 30 Z" fill="url(#rg-face)"/>
+  <path d="M46 30 C49 22 41 18 39 25 C41 28 43 31 46 30 Z" fill="url(#rg-face)"/>
+  <!-- Inner ear warmth -->
+  <path d="M19 29 C17 23 23 19.5 24.5 25 C23 27.5 21.5 30 19 29 Z" fill="#e07000" opacity="0.3"/>
+  <path d="M45 29 C47 23 41 19.5 39.5 25 C41 27.5 42.5 30 45 29 Z" fill="#e07000" opacity="0.3"/>
+
+  <!-- ── Face ───────────────────────────────────────────────────────────── -->
+  <circle cx="32" cy="36" r="15.5" fill="url(#rg-face)"/>
+
+  <!-- ── Crown ─────────────────────────────────────────────────────────── -->
+  <!-- Crown base band -->
+  <rect x="17" y="15" width="30" height="6" rx="1.8" fill="url(#lg-crown)"/>
+  <!-- Left point -->
+  <polygon points="19,15 22.5,7  26,15" fill="url(#lg-crown)"/>
+  <!-- Centre point — tallest -->
+  <polygon points="28,15 32,2   36,15" fill="url(#lg-crown)"/>
+  <!-- Right point -->
+  <polygon points="38,15 41.5,7 45,15" fill="url(#lg-crown)"/>
+  <!-- Crown jewel highlights -->
+  <circle cx="22.5" cy="7.5" r="1.4" fill="#fffde7" opacity="0.92"/>
+  <circle cx="32"   cy="3"   r="1.8" fill="#fffde7" opacity="0.92"/>
+  <circle cx="41.5" cy="7.5" r="1.4" fill="#fffde7" opacity="0.92"/>
+  <!-- Crown band highlight -->
+  <rect x="17" y="15" width="30" height="2" rx="1" fill="rgba(255,255,255,0.18)"/>
+
+  <!-- ── Eyes ───────────────────────────────────────────────────────────── -->
+  <ellipse cx="25.5" cy="33.5" rx="2.6" ry="3.1" fill="#1a0800"/>
+  <ellipse cx="38.5" cy="33.5" rx="2.6" ry="3.1" fill="#1a0800"/>
+  <!-- Amber iris -->
+  <ellipse cx="25.5" cy="33.8" rx="1.6" ry="1.9"  fill="#b85000" opacity="0.38"/>
+  <ellipse cx="38.5" cy="33.8" rx="1.6" ry="1.9"  fill="#b85000" opacity="0.38"/>
+  <!-- Specular highlight -->
+  <ellipse cx="24.7" cy="32.3" rx="0.9" ry="1.1"  fill="rgba(255,255,255,0.42)"/>
+  <ellipse cx="37.7" cy="32.3" rx="0.9" ry="1.1"  fill="rgba(255,255,255,0.42)"/>
+
+  <!-- ── Nose ───────────────────────────────────────────────────────────── -->
+  <path d="M32 39 L29.5 42 L34.5 42 Z" fill="#1a0800"/>
+  <path d="M29.5 42 Q32 43.2 34.5 42" stroke="#1a0800" stroke-width="0.7" fill="none"/>
+
+  <!-- ── Mouth ──────────────────────────────────────────────────────────── -->
+  <path d="M32 42 Q28 46.5 25 45"  stroke="#1a0800" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <path d="M32 42 Q36 46.5 39 45"  stroke="#1a0800" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+  <!-- ── Whiskers ───────────────────────────────────────────────────────── -->
+  <line x1="13" y1="39"  x2="22" y2="38"  stroke="#3d1a00" stroke-width="0.85" stroke-linecap="round" opacity="0.6"/>
+  <line x1="13" y1="42"  x2="22" y2="41.5" stroke="#3d1a00" stroke-width="0.85" stroke-linecap="round" opacity="0.6"/>
+  <line x1="42" y1="38"  x2="51" y2="39"  stroke="#3d1a00" stroke-width="0.85" stroke-linecap="round" opacity="0.6"/>
+  <line x1="42" y1="41.5" x2="51" y2="42"  stroke="#3d1a00" stroke-width="0.85" stroke-linecap="round" opacity="0.6"/>
 </svg>

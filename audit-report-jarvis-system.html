@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS — Complete System Audit</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold:    #ffb700;
+    --amber:   #ff8c00;
+    --gold-lt: #ffca28;
+    --cream:   #fff8e1;
+    --bg:      #080600;
+    --surface: #0f0a00;
+    --card:    #140d00;
+    --border:  rgba(255,183,0,0.18);
+    --muted:   rgba(255,183,0,0.55);
+    --danger:  #ff4d4d;
+    --warn:    #ffb700;
+    --ok:      #4ade80;
+    --partial: #fb923c;
+  }
+
+  html { font-size: 15px; }
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.65;
+    padding: 0 0 6rem;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(180deg, rgba(255,140,0,0.13) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+  }
+  .header-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+  .header h1 {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-lt);
+    text-shadow: 0 0 40px rgba(255,183,0,0.4);
+  }
+  .header-sub {
+    margin-top: 0.6rem;
+    font-size: 0.8rem;
+    color: rgba(255,183,0,0.6);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .git-line {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.72rem;
+    color: rgba(255,183,0,0.5);
+    background: rgba(255,183,0,0.06);
+    border: 1px solid rgba(255,183,0,0.12);
+    padding: 0.35rem 0.9rem;
+    border-radius: 4px;
+  }
+
+  /* ── LAYOUT ── */
+  .toc-wrapper {
+    max-width: 900px;
+    margin: 2.5rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .page { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 3rem;
+  }
+  .toc-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .toc ol { padding-left: 1.25rem; }
+  .toc li { margin-bottom: 0.35rem; }
+  .toc a { color: var(--gold); text-decoration: none; font-size: 0.85rem; }
+  .toc a:hover { color: var(--cream); }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 2rem;
+  }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold-lt);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .card-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  /* ── GRID ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
+
+  /* ── STATUS BADGES ── */
+  .badge {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .badge-live    { background: rgba(74,222,128,0.15);  color: var(--ok);      border: 1px solid rgba(74,222,128,0.35); }
+  .badge-partial { background: rgba(251,146,60,0.15);  color: var(--partial); border: 1px solid rgba(251,146,60,0.35); }
+  .badge-creds   { background: rgba(255,183,0,0.1);    color: var(--gold);    border: 1px solid rgba(255,183,0,0.3); }
+  .badge-stubbed { background: rgba(255,77,77,0.1);    color: var(--danger);  border: 1px solid rgba(255,77,77,0.25); }
+  .badge-done    { background: rgba(74,222,128,0.1);   color: var(--ok);      border: 1px solid rgba(74,222,128,0.3); }
+  .badge-missing { background: rgba(255,77,77,0.08);   color: var(--danger);  border: 1px solid rgba(255,77,77,0.2); }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  thead th {
+    background: rgba(255,183,0,0.07);
+    color: var(--muted);
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 0.65rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid rgba(255,183,0,0.06);
+    vertical-align: top;
+    color: rgba(255,248,225,0.85);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: rgba(255,183,0,0.03); }
+
+  /* ── CODE ── */
+  .code-block {
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(255,183,0,0.12);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.72rem;
+    line-height: 1.7;
+    color: rgba(255,248,225,0.82);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0.75rem 0;
+  }
+  .code-block .hl { color: var(--gold-lt); font-weight: 600; }
+  .code-block .comment { color: rgba(255,183,0,0.4); }
+  code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.8em;
+    background: rgba(255,183,0,0.08);
+    color: var(--gold);
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+  }
+
+  /* ── FLOW PATHS ── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0.75rem 0;
+  }
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.55rem 0;
+  }
+  .flow-step + .flow-step { border-top: 1px solid rgba(255,183,0,0.07); }
+  .flow-arrow { color: var(--amber); font-size: 0.9rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .flow-label { font-size: 0.82rem; color: rgba(255,248,225,0.8); }
+  .flow-code  { font-size: 0.72rem; color: var(--muted); font-family: monospace; }
+  .flow-status-ok      { color: var(--ok); }
+  .flow-status-broken  { color: var(--danger); }
+  .flow-status-partial { color: var(--partial); }
+
+  /* ── VERDICT BOX ── */
+  .verdict {
+    background: linear-gradient(135deg, rgba(255,183,0,0.1), rgba(255,140,0,0.05));
+    border: 1px solid rgba(255,183,0,0.35);
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    margin-top: 1.5rem;
+  }
+  .verdict p { font-size: 0.95rem; line-height: 1.75; color: var(--cream); }
+
+  /* ── ALERT BOX ── */
+  .alert {
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+    font-size: 0.85rem;
+  }
+  .alert-safe    { background: rgba(74,222,128,0.07); border-left: 3px solid var(--ok);      color: rgba(255,248,225,0.85); }
+  .alert-risk    { background: rgba(255,77,77,0.07);  border-left: 3px solid var(--danger);   color: rgba(255,248,225,0.85); }
+  .alert-warn    { background: rgba(255,183,0,0.07);  border-left: 3px solid var(--gold);     color: rgba(255,248,225,0.85); }
+
+  /* ── PRIORITY LIST ── */
+  .priority-item {
+    display: flex;
+    gap: 1rem;
+    padding: 0.9rem 1.1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 0.6rem;
+    align-items: flex-start;
+  }
+  .priority-num {
+    flex-shrink: 0;
+    width: 1.6rem;
+    height: 1.6rem;
+    background: rgba(255,183,0,0.15);
+    border: 1px solid rgba(255,183,0,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-top: 0.1rem;
+  }
+  .priority-body { flex: 1; }
+  .priority-title { font-size: 0.88rem; font-weight: 600; color: var(--cream); margin-bottom: 0.2rem; }
+  .priority-desc  { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── FILE PATH ── */
+  .filepath { color: rgba(255,202,40,0.7); font-family: monospace; font-size: 0.78rem; }
+
+  /* ── MISC ── */
+  p  { margin-bottom: 0.75rem; font-size: 0.88rem; color: rgba(255,248,225,0.85); }
+  h3 { font-size: 0.85rem; font-weight: 700; color: var(--gold-lt); letter-spacing: 0.08em; text-transform: uppercase; margin: 1.5rem 0 0.6rem; }
+  h4 { font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin: 1.1rem 0 0.4rem; }
+  ul, ol { padding-left: 1.4rem; margin-bottom: 0.75rem; }
+  li { font-size: 0.85rem; color: rgba(255,248,225,0.82); margin-bottom: 0.25rem; line-height: 1.55; }
+  strong { color: var(--cream); font-weight: 600; }
+  .dim { color: rgba(255,183,0,0.45); font-size: 0.78rem; }
+  .rule-quote {
+    border-left: 3px solid var(--gold);
+    padding: 0.9rem 1.25rem;
+    background: rgba(255,183,0,0.05);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    font-size: 0.84rem;
+    color: rgba(255,248,225,0.9);
+    line-height: 1.7;
+    margin: 0.75rem 0;
+  }
+  .env-var { color: var(--gold-lt); font-family: monospace; font-size: 0.78rem; background: rgba(255,183,0,0.08); padding: 0.1em 0.4em; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════════════════════ -->
+<div class="header">
+  <div class="header-eyebrow">Read-only · Repo audit · 2026-07-11</div>
+  <h1>J.A.R.V.I.S — Complete System Audit</h1>
+  <div class="header-sub">Full anatomy · integrations · data flows · hallucination guard · gap analysis</div>
+  <div class="git-line">git log: 957fb70 — Make JARVIS HUD fully mobile responsive (only commit — fresh repo init)</div>
+</div>
+
+<div class="toc-wrapper">
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#s1">What JARVIS Is — Complete Anatomy</a></li>
+      <li><a href="#s2">What It's Connected To — The Truth Per Connection</a></li>
+      <li><a href="#s3">Data Flow — Each Path Traced End to End</a></li>
+      <li><a href="#s4">Hallucination Audit</a></li>
+      <li><a href="#s5">The Gap to Fully Operational</a></li>
+      <li><a href="#s6">Verdict</a></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ══ SECTION 1 ════════════════════════════════════════════════════════════ -->
+<div class="page">
+<div class="section" id="s1">
+  <div class="section-header">
+    <span class="section-num">Section 01</span>
+    <span class="section-title">What JARVIS Is — Complete Anatomy</span>
+  </div>
+
+  <h3>The Brain</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Primary LLM</div>
+      <p><strong>OpenRouter → gpt-4o-mini</strong> (default)<br>
+      <span class="filepath">src/lib/jarvis/openrouter.js</span><br>
+      Endpoint: <code>https://openrouter.ai/api/v1/chat/completions</code><br>
+      Override via <span class="env-var">OPENROUTER_MODEL</span></p>
+    </div>
+    <div class="card">
+      <div class="card-title">Fallback LLM</div>
+      <p><strong>Google Gemini 2.5 Flash</strong><br>
+      <span class="filepath">src/lib/jarvis/gemini.js</span><br>
+      Endpoint: <code>https://generativelanguage.googleapis.com/v1beta</code><br>
+      Force via <span class="env-var">JARVIS_LLM_PROVIDER=gemini</span></p>
+    </div>
+  </div>
+
+  <h3>The System Prompt (exact, verbatim)</h3>
+  <div class="code-block"><span class="hl">// src/lib/jarvis/prompt.js — JARVIS_SYSTEM_PROMPT</span>
+
+You are JARVIS, operations intelligence for Khamare Clarke's business fleet.
+
+Role: advise the operator on leads, clients, tasks, and fleet activity using ONLY
+the live data block appended below.
+
+Personality: composed, capable, concise, dry British precision. Never sycophantic.
+Address the operator as "sir" sparingly — not every message.
+
+<span class="hl">HARD RULE (non-negotiable): The "not tracked yet, sir" rule applies ONLY to
+fleet/leads/client ops metrics (counts, task IDs, client names in the dashboard).
+Only report ops metrics present in the provided context. If an ops metric is missing,
+say "not tracked yet, sir." NEVER estimate, infer, or fabricate ops numbers. Never
+invent client names, task IDs, or counts.</span>
+
+Writing, drafting, or composing text is NOT an ops metric. If the operator asks
+you to write, draft, or prepare anything (sick leave application, email, letter,
+message, document), produce the full draft. NEVER say "not tracked yet" for writing.
+
+Web search, browsing/opening sites, and image generation are NOT ops metrics.
+NEVER answer a search, "open"/"browse", "play", or "draw"/"image" request with
+"not tracked yet." Those are handled by dedicated tools that run automatically.
+
+FORMAT: Plain text only. Never use markdown syntax. For lists, put one item per
+line starting with a middle dot.</div>
+
+  <h3>Context Injection — How Live Data Reaches the LLM</h3>
+  <div class="card">
+    <div class="card-title">buildJarvisContext() — src/lib/jarvis/context.js</div>
+    <p>Called on every chat request. Queries 7 Supabase tables, builds a ~7,500-character plain-text block, and prepends it to the system prompt as a live data attachment. The LLM only ever sees this block — it cannot query the database itself.</p>
+    <div class="flow">
+      <div class="flow-step"><span class="flow-arrow">→</span><div><div class="flow-label">Query <code>form_submissions</code> — today's count + total</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">→</span><div><div class="flow-label">Query <code>onboarding_clients</code> — today's count + total</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">→</span><div><div class="flow-label">Query <code>empire_tasks</code> — pending + running count</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">→</span><div><div class="flow-label">Query <code>profiles</code> (role=client) — all active clients</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">→</span><div><div class="flow-label">Query <code>client_projects</code> — all projects with status</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">→</span><div><div class="flow-label">Query <code>empire_user_activity</code> — last 10 events</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">→</span><div><div class="flow-label">Query <code>empire_project_analysis</code> — latest analysis per project</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">→</span><div><div class="flow-label">Fetch GHL status (5 clients with ghl_contact_id, 5-min cache)</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">→</span><div><div class="flow-label">Build text block → inject as system-prompt data attachment</div></div></div>
+    </div>
+  </div>
+
+  <h3>Chat Route</h3>
+  <div class="card">
+    <div class="card-title">src/app/api/jarvis/chat/route.js</div>
+    <p>Admin-only POST endpoint. Calls <code>buildJarvisContext()</code>, decides if web search is needed (<code>messageNeedsWebSearch()</code>), streams LLM completion back as SSE (<code>data: {"token":"..."}</code> lines), falls back gracefully between OpenRouter → Gemini.</p>
+  </div>
+
+  <h3>Complete File Inventory</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Layer</th><th>File</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>API Route</td><td class="filepath">src/app/api/jarvis/chat/route.js</td><td>Streaming LLM chat with live context injection</td></tr>
+        <tr><td>API Route</td><td class="filepath">src/app/api/jarvis/snapshot/route.js</td><td>Admin KPI snapshot for HUD boot and stat bars</td></tr>
+        <tr><td>API Route</td><td class="filepath">src/app/api/jarvis/search/route.js</td><td>Web search endpoint — multi-source, summarised</td></tr>
+        <tr><td>API Route</td><td class="filepath">src/app/api/jarvis/leads/route.js</td><td>Lead count for arbitrary date range (1–90 days)</td></tr>
+        <tr><td>API Route</td><td class="filepath">src/app/api/jarvis/image/route.js</td><td>Image generation via OpenRouter or Gemini native</td></tr>
+        <tr><td>API Route</td><td class="filepath">src/app/api/jarvis/verify/route.js</td><td>KPI alignment test — snapshot vs independent queries</td></tr>
+        <tr><td>API Route</td><td class="filepath">src/app/api/jarvis/llm-status/route.js</td><td>Live provider health check endpoint</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/prompt.js</td><td>System prompt + offline message constants</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/context.js</td><td>buildJarvisContext() — all Supabase + GHL queries</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/commands.js</td><td>Command parser — maps voice/text to typed actions</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/templates.js</td><td>Read-command response composers (status, briefing…)</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/llm.js</td><td>Provider selector + stream normaliser</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/openrouter.js</td><td>OpenRouter REST client (streaming + non-streaming)</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/gemini.js</td><td>Gemini client with model-fallback retry logic</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/voice.js</td><td>Full TTS + speech recognition stack (457 lines)</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/web-search.js</td><td>Multi-source search: Brave → SearXNG → Bing → DDG → fallback</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/image.js</td><td>Image gen via OpenRouter Flux or Gemini native</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/kpi.js</td><td>KPI helpers: lead counts, snapshot verification</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/sites.js</td><td>Site shortcut map — "open youtube" → URL</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/clap-detect.js</td><td>Triple-clap wake detector via Web Audio API</td></tr>
+        <tr><td>Library</td><td class="filepath">src/lib/jarvis/speech-summary.js</td><td>Truncates long replies for TTS output</td></tr>
+        <tr><td>UI — Page</td><td class="filepath">src/app/dashboard/jarvis/page.jsx</td><td>Auth gate + renders JarvisFullPageHud</td></tr>
+        <tr><td>UI — HUD</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisFullPageHud.jsx</td><td>Root HUD layout: topbar, left rail, orb stage, convo, dock</td></tr>
+        <tr><td>UI — Orb</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisVoiceCore.jsx</td><td>Arc-reactor orb with state animations</td></tr>
+        <tr><td>UI — Rings</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisHudRings.jsx</td><td>Concentric spinning SVG rings</td></tr>
+        <tr><td>UI — Data</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisDataPanels.jsx</td><td>Slide-up panels: Leads, Clients, Empire, Activity</td></tr>
+        <tr><td>UI — Weather</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisWeather.jsx</td><td>Open-Meteo weather widget (no API key)</td></tr>
+        <tr><td>UI — Frame</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisHudFrame.jsx</td><td>Decorative cockpit corner brackets + scan grid</td></tr>
+        <tr><td>UI — Stats</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisHudStatBar.jsx</td><td>Gold bar metric with live/max fill</td></tr>
+        <tr><td>UI — Msg</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisMessageContent.jsx</td><td>Message renderer with markdown stripping</td></tr>
+        <tr><td>UI — Ambient</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisAmbient.jsx</td><td>Background particle/glow ambient layer</td></tr>
+        <tr><td>State</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisProvider.jsx</td><td>All state, voice lifecycle, message handling, clap-wake</td></tr>
+        <tr><td>State</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisOrb.jsx</td><td>Mini orb for non-JARVIS dashboard pages</td></tr>
+        <tr><td>State</td><td class="filepath">src/app/dashboard/components/jarvis/JarvisCommandPalette.jsx</td><td>Keyboard shortcut palette (Ctrl+J)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Command Vocabulary — Every Parsed Command</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Read Commands (instant — no LLM)</div>
+      <ul>
+        <li><code>status</code> — fleet + lead count summary</li>
+        <li><code>fleet</code> — all projects + agent status</li>
+        <li><code>briefing</code> — full operational briefing</li>
+        <li><code>leads</code> — lead count (today / N days)</li>
+        <li><code>help</code> — command list</li>
+        <li><code>search [query]</code> — triggers web search</li>
+        <li><code>search-retry</code> — re-runs last search</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Action Commands (confirm required)</div>
+      <ul>
+        <li><code>run [skill] [project]</code> — queues empire agent</li>
+        <li><code>report [client]</code> — generates monthly report</li>
+        <li><code>pause [agent]</code> — pauses empire agent</li>
+        <li><code>resume [agent]</code> — resumes empire agent</li>
+        <li><code>open [tab]</code> — navigates within app</li>
+        <li><code>browse [url/site]</code> — opens external URL</li>
+        <li><code>draw [prompt]</code> — image generation</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 2 ════════════════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <span class="section-num">Section 02</span>
+    <span class="section-title">What It's Connected To — The Truth Per Connection</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Connection</th>
+          <th>Status</th>
+          <th>What Works / What's Missing</th>
+          <th>File</th>
+          <th>Env Var(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Supabase DB</strong></td>
+          <td><span class="badge badge-live">Connected & Live</span></td>
+          <td>All 7 tables queried per chat request. Auth via service-role key. Reads: form_submissions, onboarding_clients, empire_tasks, profiles, client_projects, empire_user_activity, empire_project_analysis</td>
+          <td class="filepath">src/lib/jarvis/context.js<br>src/lib/supabase.js</td>
+          <td><span class="env-var">NEXT_PUBLIC_SUPABASE_URL</span><br><span class="env-var">SUPABASE_SERVICE_ROLE_KEY</span></td>
+        </tr>
+        <tr>
+          <td><strong>OpenRouter (LLM)</strong></td>
+          <td><span class="badge badge-creds">Needs Credentials</span></td>
+          <td>Client fully built, streaming works. Falls back to Gemini if key absent. To use gpt-4o-mini or better, set the key.</td>
+          <td class="filepath">src/lib/jarvis/openrouter.js</td>
+          <td><span class="env-var">OPENROUTER_API_KEY</span><br><span class="env-var">OPENROUTER_MODEL</span> (opt)</td>
+        </tr>
+        <tr>
+          <td><strong>Gemini (LLM fallback)</strong></td>
+          <td><span class="badge badge-creds">Needs Credentials</span></td>
+          <td>Full client with model-fallback retry. Targets gemini-2.5-flash. Uses same key as image gen.</td>
+          <td class="filepath">src/lib/jarvis/gemini.js</td>
+          <td><span class="env-var">GEMINI_API_KEY</span></td>
+        </tr>
+        <tr>
+          <td><strong>Empire OS — 44 Agent Skills</strong></td>
+          <td><span class="badge badge-live">Connected & Live</span></td>
+          <td>JARVIS can trigger agents via "run [skill] [project]". Command parser fuzzy-matches skills, confirms with user, POSTs to /api/empire/supervisor/run-team which inserts into empire_tasks. Actual execution via executeOneTask(). Full bidirectional: trigger → poll → report outcome.</td>
+          <td class="filepath">src/lib/empire-skills.js<br>src/app/api/empire/run-task/route.js<br>src/app/api/empire/supervisor/run-team/route.js</td>
+          <td>None (internal Supabase)</td>
+        </tr>
+        <tr>
+          <td><strong>GoHighLevel CRM</strong></td>
+          <td><span class="badge badge-creds">Wired — Needs API Key</span></td>
+          <td>REST client is LIVE code — makes real API calls to rest.gohighlevel.com/v1. Returns contact, opportunities, and appointments. 5-minute in-memory cache. Attached to JARVIS context for clients who have a ghl_contact_id. Without GHL_API_KEY all calls return null silently.</td>
+          <td class="filepath">src/lib/ghl.js</td>
+          <td><span class="env-var">GHL_API_KEY</span></td>
+        </tr>
+        <tr>
+          <td><strong>Contact Form → Lead Capture</strong></td>
+          <td><span class="badge badge-live">Connected & Live</span></td>
+          <td>Public POST /api/submissions validates + inserts to form_submissions. buildJarvisContext() reads this table on every request. New leads appear in JARVIS Leads tab and stat bar within the next chat interaction.</td>
+          <td class="filepath">src/app/api/submissions/route.js</td>
+          <td>None (Supabase service role)</td>
+        </tr>
+        <tr>
+          <td><strong>Client Onboarding Intake</strong></td>
+          <td><span class="badge badge-live">Connected & Live</span></td>
+          <td>Public POST /api/onboarding validates + inserts to onboarding_clients. Surfaces in JARVIS Leads panel (merged with form_submissions) and the onboardingCount stat bar.</td>
+          <td class="filepath">src/app/api/onboarding/route.js</td>
+          <td>None (Supabase service role)</td>
+        </tr>
+        <tr>
+          <td><strong>Web Search</strong></td>
+          <td><span class="badge badge-live">Connected & Live</span></td>
+          <td>Cascading: Brave (best) → SearXNG → Bing HTML → DuckDuckGo API → DDG HTML → OpenRouter web model → link fallback. Works without any key via public scrapers. Brave key gives fastest, cleanest results.</td>
+          <td class="filepath">src/lib/jarvis/web-search.js</td>
+          <td><span class="env-var">BRAVE_SEARCH_API_KEY</span> (optional)</td>
+        </tr>
+        <tr>
+          <td><strong>Image Generation</strong></td>
+          <td><span class="badge badge-creds">Wired — Needs Key</span></td>
+          <td>Tries OpenRouter (Flux/Gemini image models) then Gemini native. No key → returns error. Requires either OPENROUTER_API_KEY or GEMINI_API_KEY.</td>
+          <td class="filepath">src/lib/jarvis/image.js</td>
+          <td><span class="env-var">OPENROUTER_API_KEY</span> or <span class="env-var">GEMINI_API_KEY</span></td>
+        </tr>
+        <tr>
+          <td><strong>Weather (Open-Meteo)</strong></td>
+          <td><span class="badge badge-live">Connected & Live</span></td>
+          <td>Free API, no key required. Uses browser geolocation. Shows temp, condition, and city derived from IANA timezone. Fully operational.</td>
+          <td class="filepath">src/app/dashboard/components/jarvis/JarvisWeather.jsx</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td><strong>Live Clock</strong></td>
+          <td><span class="badge badge-live">Real</span></td>
+          <td>JS <code>new Date()</code> with 1s interval. Displays time, date, and session uptime. Not cosmetic.</td>
+          <td class="filepath">JarvisFullPageHud.jsx</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td><strong>Status Dots (Fleet / Empire OS / Supabase)</strong></td>
+          <td><span class="badge badge-partial">Partial — 2 of 3 Cosmetic</span></td>
+          <td>Empire OS dot reads from <code>liveData?.ok</code> (real). Fleet and Supabase dots are hardcoded <code>online={true}</code> — always green regardless of actual status.</td>
+          <td class="filepath">JarvisFullPageHud.jsx</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td><strong>Voice — Speech Recognition</strong></td>
+          <td><span class="badge badge-live">Connected & Live</span></td>
+          <td>Web Speech API (SpeechRecognition). Continuous mode. Mobile-optimised (iOS/Android special handling). Activated by 3-clap (Web Audio API clap detector). Auto-send on pause-in-speech.</td>
+          <td class="filepath">src/lib/jarvis/voice.js<br>src/lib/jarvis/clap-detect.js</td>
+          <td>None (browser API)</td>
+        </tr>
+        <tr>
+          <td><strong>Voice — Text-to-Speech</strong></td>
+          <td><span class="badge badge-live">Connected & Live</span></td>
+          <td>Web Speech API (SpeechSynthesis). Targets British en-GB voice. Mobile audio session primed. Mutable. Reply-length aware (truncation for TTS).</td>
+          <td class="filepath">src/lib/jarvis/voice.js</td>
+          <td>None (browser API)</td>
+        </tr>
+        <tr>
+          <td><strong>Empire OS Lead Scraper</strong></td>
+          <td><span class="badge badge-partial">Partial — Separate Process</span></td>
+          <td>Worker scrapes Google/Bing/DDG for leads, saves to empire_leads table. JARVIS reads empire_user_activity which logs scrape events. JARVIS can see that scraping happened but cannot query empire_leads directly — it surfaces via the Activity tab only.</td>
+          <td class="filepath">src/lib/empire-tools.js<br>scripts/empire-worker.js</td>
+          <td><span class="env-var">EMPIRE_LLM_API_KEY</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ SECTION 3 ════════════════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <span class="section-num">Section 03</span>
+    <span class="section-title">Data Flow — Each Path Traced End to End</span>
+  </div>
+
+  <!-- PATH A -->
+  <h3>Path A — Website visitor submits contact form → JARVIS</h3>
+  <div class="alert alert-safe">Status: <strong>COMPLETE</strong></div>
+  <div class="card">
+    <div class="flow">
+      <div class="flow-step"><span class="flow-arrow">1</span><div><div class="flow-label"><strong>Visitor fills contact form</strong> — <span class="filepath">src/app/components/ContactForm.jsx</span></div><div class="flow-code">POST /api/submissions</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">2</span><div><div class="flow-label"><strong>API validates</strong> — honeypot check, email format, rate-limit headers</div><div class="flow-code">src/app/api/submissions/route.js</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">3</span><div><div class="flow-label"><strong>Stored in Supabase</strong> — <code>form_submissions</code> table, including name/email/message in a <code>data</code> JSONB column</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">4</span><div><div class="flow-label"><strong>Next JARVIS chat request</strong> — buildJarvisContext() queries form_submissions, increments leadsToday and formsTotal</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">5</span><div><div class="flow-label"><strong>Visible in HUD</strong> — stat bar "Form submissions" updates, Leads panel shows the row with name/email/date</div></div></div>
+    </div>
+    <div class="alert alert-warn" style="margin-top:0.75rem;">Gap: JARVIS is not push-notified. It sees the lead at next chat interaction or page refresh, not in real-time. No webhook triggers on new submission.</div>
+  </div>
+
+  <!-- PATH B -->
+  <h3>Path B — Lead captured → stored → visible → actionable</h3>
+  <div class="alert alert-safe">Status: <strong>COMPLETE</strong> (display + manual action); real-time alert missing</div>
+  <div class="card">
+    <div class="flow">
+      <div class="flow-step"><span class="flow-arrow">1</span><div><div class="flow-label"><strong>Lead arrives</strong> (contact form OR onboarding intake)</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">2</span><div><div class="flow-label"><strong>Stored in Supabase</strong> — <code>form_submissions</code> or <code>onboarding_clients</code></div></div></div>
+      <div class="flow-step"><span class="flow-arrow">3</span><div><div class="flow-label"><strong>JARVIS Leads tab</strong> — JarvisDataPanels LeadsPanel() fetches both endpoints, merges and sorts by date, shows name + email + source + date</div><div class="flow-code">GET /api/submissions → { submissions: [] }<br>GET /api/onboarding → { clients: [] }</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">4</span><div><div class="flow-label"><strong>Left-rail stat bars</strong> — formCount + onboardingCount + totalLeads all from real DB queries, not cached</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">5</span><div><div class="flow-label"><strong>Can JARVIS act?</strong> — Yes, indirectly. Say "run outreach myapproved" → queues outreach skill agent on a project. No direct "email this lead" command exists yet.</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATH C -->
+  <h3>Path C — Client invited → onboards → shown in JARVIS</h3>
+  <div class="alert alert-partial" style="background:rgba(251,146,60,0.07); border-left:3px solid var(--partial); padding:0.75rem 1rem; border-radius:0 6px 6px 0; margin-bottom:0.75rem;">Status: <strong>PARTIAL</strong> — onboarding visible; portal invite flow not audited as separate system</div>
+  <div class="card">
+    <div class="flow">
+      <div class="flow-step"><span class="flow-arrow">1</span><div><div class="flow-label"><strong>Admin invites client</strong> via /api/admin/invite — creates Supabase auth user with role=client</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">2</span><div><div class="flow-label"><strong>Client fills onboarding</strong> at /onboarding — POST /api/onboarding inserts to onboarding_clients</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">3</span><div><div class="flow-label"><strong>Client appears in JARVIS Clients tab</strong> — ClientsPanel() fetches /api/admin/clients which JOINs profiles + client_projects + onboarding_clients</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">4</span><div><div class="flow-label"><strong>Project created</strong> — admin creates client_project row → appears in JARVIS Empire tab and LLM context</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">5</span><div><div class="flow-label"><strong>JARVIS briefing</strong> — "briefing" command reads project count, active agents, tasks queued for that client from context</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">6</span><div><div class="flow-label"><strong>GHL linkage</strong> — if client has ghl_contact_id, JARVIS also fetches CRM status (opportunities + appointments) via ghl.js</div><div class="flow-code flow-status-partial">Requires GHL_API_KEY</div></div></div>
+    </div>
+  </div>
+
+  <!-- PATH D -->
+  <h3>Path D — Empire OS scrapes/contacts lead → JARVIS sees it</h3>
+  <div class="alert alert-partial" style="background:rgba(251,146,60,0.07); border-left:3px solid var(--partial); padding:0.75rem 1rem; border-radius:0 6px 6px 0; margin-bottom:0.75rem;">Status: <strong>PARTIAL</strong> — activity visible; scraped lead details not surfaced</div>
+  <div class="card">
+    <div class="flow">
+      <div class="flow-step"><span class="flow-arrow">1</span><div><div class="flow-label"><strong>Empire worker runs</strong> — scripts/empire-worker.js runs autonomously, calls scraping tools in empire-tools.js</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">2</span><div><div class="flow-label"><strong>Leads saved</strong> to <code>empire_leads</code> table (via save_leads tool in empire-tools.js)</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">3</span><div><div class="flow-label"><strong>Activity logged</strong> to <code>empire_user_activity</code> with event_type + project_id + status</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">4</span><div><div class="flow-label"><strong>JARVIS Activity tab</strong> — shows "scrape on myapproved (completed)" but NOT the individual leads captured</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">5</span><div><div class="flow-label"><strong>LLM context</strong> — empire_user_activity last 10 events included. JARVIS can say "Empire scraped 3 events in the last hour" from context</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">6</span><div><div class="flow-label flow-status-partial"><strong>Missing</strong> — buildJarvisContext() does NOT query empire_leads. Scraped lead names/emails/companies are invisible to JARVIS.</div></div></div>
+    </div>
+    <div class="alert alert-warn" style="margin-top:0.75rem;">To fix: add <code>empire_leads</code> query to buildJarvisContext() in context.js — last N leads, deduped. No backend changes required — pure context addition.</div>
+  </div>
+
+  <!-- PATH E -->
+  <h3>Path E — I type/speak a command → execution path</h3>
+  <div class="alert alert-safe">Status: <strong>COMPLETE</strong> for known commands; LLM-routed for free text</div>
+  <div class="card">
+    <div class="flow">
+      <div class="flow-step"><span class="flow-arrow">1</span><div><div class="flow-label"><strong>Input arrives</strong> (typed or voice via SpeechRecognition)</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">2</span><div><div class="flow-label"><strong>parseJarvisCommand()</strong> — deterministic regex + fuzzy matching. Returns typed action object or null</div><div class="flow-code">src/lib/jarvis/commands.js — runs CLIENT-SIDE before any API call</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">3a</span><div><div class="flow-label"><strong>Read command matched</strong> (status/briefing/leads/fleet/help) → composeReadResponse() builds answer from real liveData — LLM never involved</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">3b</span><div><div class="flow-label"><strong>Action command matched</strong> (run/report/pause/open/browse/draw) → user sees confirm dialog → POST to empire or external endpoint</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">3c</span><div><div class="flow-label"><strong>Search intent detected</strong> — POST /api/jarvis/search → cascading web search → summary returned to LLM context</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">3d</span><div><div class="flow-label"><strong>Free text / question</strong> → POST /api/jarvis/chat with live context block → LLM streams reply using only injected data</div></div></div>
+      <div class="flow-step"><span class="flow-arrow">4</span><div><div class="flow-label"><strong>Reply spoken</strong> via SpeechSynthesis (TTS). Mobile requires tap for long replies. Short acks play automatically.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 4 ════════════════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <span class="section-num">Section 04</span>
+    <span class="section-title">Hallucination Audit</span>
+  </div>
+
+  <h3>The Exact Anti-Hallucination Rule</h3>
+  <div class="rule-quote">
+    "HARD RULE (non-negotiable): The 'not tracked yet, sir' rule applies ONLY to fleet/leads/client ops metrics (counts, task IDs, client names in the dashboard). Only report ops metrics present in the provided context. If an ops metric is missing, say 'not tracked yet, sir.' NEVER estimate, infer, or fabricate ops numbers. Never invent client names, task IDs, or counts."
+    <br><br>
+    <span class="dim">— src/lib/jarvis/prompt.js, JARVIS_SYSTEM_PROMPT, lines 12–16</span>
+  </div>
+
+  <h3>Every Number JARVIS Can Report — Source Verified</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Metric</th><th>Source</th><th>Grounded?</th><th>Risk</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Form submissions today</td>
+          <td><code>form_submissions</code> count WHERE created_at &gt; today</td>
+          <td><span class="badge badge-live">Real query</span></td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Onboarding clients today</td>
+          <td><code>onboarding_clients</code> count WHERE created_at &gt; today</td>
+          <td><span class="badge badge-live">Real query</span></td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Total leads today</td>
+          <td>Sum of above two at context build time</td>
+          <td><span class="badge badge-live">Real query</span></td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Tasks queued</td>
+          <td><code>empire_tasks</code> WHERE status IN ('pending','running')</td>
+          <td><span class="badge badge-live">Real query</span></td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Active clients</td>
+          <td><code>profiles</code> WHERE role = 'client' — full list in context</td>
+          <td><span class="badge badge-live">Real query</span></td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Project names + status</td>
+          <td><code>client_projects</code> — all rows in context</td>
+          <td><span class="badge badge-live">Real query</span></td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Leads last 7 days</td>
+          <td><code>leadsHistory[7]</code> pre-fetched in snapshot</td>
+          <td><span class="badge badge-live">Real query</span></td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Leads for custom date range (e.g. last 30 days)</td>
+          <td>On-demand fetch via /api/jarvis/leads?days=30 when triggered by "leads last 30 days" command</td>
+          <td><span class="badge badge-live">Real query</span></td>
+          <td>Minor: only triggered by exact "leads N days" pattern. Conversational variant ("how many leads this month") goes to LLM free-text path — LLM sees only the 7-day figure in context and must say "not tracked yet" for other ranges.</td>
+        </tr>
+        <tr>
+          <td>GHL opportunities / appointments</td>
+          <td>Live REST call to GoHighLevel API (5-min cache)</td>
+          <td><span class="badge badge-creds">Real if GHL_API_KEY set</span></td>
+          <td>Without key, returns null — LLM will say "not tracked yet" for GHL data</td>
+        </tr>
+        <tr>
+          <td>Empire scrape lead count</td>
+          <td>NOT in context — empire_leads table not queried</td>
+          <td><span class="badge badge-stubbed">Not grounded</span></td>
+          <td><strong>Risk:</strong> If asked "how many leads did the scraper find for MyApproved?", LLM sees only activity events, not the actual count. Could estimate from activity text.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Read Commands — Do They Bypass the LLM?</h3>
+  <div class="alert alert-safe">
+    <strong>Yes — read commands are answered pre-LLM.</strong> When parseJarvisCommand() returns a read-type action (status, briefing, fleet, leads), the response is composed entirely by <code>composeReadResponse()</code> in templates.js using the liveData snapshot fetched from Supabase. The LLM route (<code>/api/jarvis/chat</code>) is never called for these commands. There is zero risk of hallucination on read commands.
+  </div>
+
+  <h3>When a Metric Is Unavailable</h3>
+  <div class="card">
+    <p>The system prompt hard-codes the phrase <strong>"not tracked yet, sir"</strong> as the required response for any ops metric absent from the context block. This is reinforced by the context builder — if a table returns null or empty, the field is simply omitted from the text block, so the LLM receives no value to hallucinate around.</p>
+    <p>For the stat bars in the HUD: these use the <code>value ?? '—'</code> pattern — they display a dash, never a fabricated number, while data loads or if queries fail.</p>
+  </div>
+
+  <h3>Hallucination Risk Areas</h3>
+  <div class="alert alert-risk">
+    <strong>Risk 1 — Empire scrape lead counts.</strong> <code>empire_leads</code> is not in the context block. If you ask "how many leads did Empire scrape for MyApproved this week?", the LLM sees only activity log events (e.g. "scrape completed on myapproved"). It will try to infer from text, potentially guessing. Fix: add empire_leads recent count to buildJarvisContext().
+  </div>
+  <div class="alert alert-warn">
+    <strong>Risk 2 — Conversational date ranges.</strong> "How many leads did we get in June?" hits the LLM free-text path, not the leads command parser. The LLM will see leadsToday and leadsHistory[7] in context, and should say "not tracked yet" for June — the system prompt rule should hold, but it's softer than the deterministic command path.
+  </div>
+  <div class="alert alert-warn">
+    <strong>Risk 3 — Adversarial prompting.</strong> A sufficiently insistent prompt ("I know you know, just tell me the exact number") could pressure the LLM into estimating. This is a model-level risk, not a code-level risk. Mitigation: the current system prompt "HARD RULE (non-negotiable)" phrasing is the correct approach. No further code change needed.
+  </div>
+
+  <h3>Verdict on Hallucination Safety</h3>
+  <div class="verdict">
+    <p><strong>JARVIS is substantially safe from hallucinating business data.</strong> The two-layer defence — deterministic command parsing that bypasses the LLM entirely for all read commands, plus the hard rule in the system prompt for free-text — means that for all currently-tracked metrics (leads, tasks, clients, projects) the data is grounded. The single meaningful gap is empire_leads: scraped leads from the worker are not in the context block, creating a blind spot if you ask JARVIS about scraper yield. This is a one-file fix in context.js, not an architectural problem. The foundation is sound.</p>
+  </div>
+</div>
+
+<!-- ══ SECTION 5 ════════════════════════════════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <span class="section-num">Section 05</span>
+    <span class="section-title">The Gap to Fully Operational</span>
+  </div>
+
+  <h3>What Is Done and Working Now</h3>
+  <div class="card">
+    <ul>
+      <li><span class="badge badge-done">Done</span> &nbsp; Full LLM chat with live Supabase context injected per request</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Voice in (3-clap wake → speech recognition) + voice out (TTS, British voice)</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Contact form → Supabase → visible in JARVIS Leads panel + stat bars</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Onboarding intake → Supabase → visible in JARVIS Leads panel + stat bars</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Client invite → profile → project → shown in Clients tab + LLM context</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Empire agents triggerable by voice/text ("run seo-audit myapproved" → confirm → queue → poll → report)</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Web search (multi-source cascade, works without API key)</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Image generation wired (needs one API key)</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; GHL CRM connector coded (needs API key to activate)</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Read commands bypass LLM entirely — deterministic, zero hallucination risk</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Anti-hallucination system prompt + "not tracked yet" fallback</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Weather widget (live, no key required)</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; HUD: mobile responsive, orb jitter fixed, 3-clap standby mode</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Monthly client report generation command</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Agent pause/resume commands</li>
+      <li><span class="badge badge-done">Done</span> &nbsp; Empire activity feed visible in Activity tab</li>
+    </ul>
+  </div>
+
+  <h3>What Is Partial — and the Shortest Fix</h3>
+
+  <div class="priority-item">
+    <div class="priority-num">P1</div>
+    <div class="priority-body">
+      <div class="priority-title">Empire scrape leads invisible to JARVIS</div>
+      <div class="priority-desc">empire_leads table exists and is populated by the worker, but buildJarvisContext() never queries it. JARVIS cannot report scraper yield or individual scraped leads.<br><strong>Fix:</strong> Add one Supabase query in <code>src/lib/jarvis/context.js</code> — last 20 empire_leads rows with company/contact/source. Append to context text block. &lt;30 min change.</div>
+    </div>
+  </div>
+
+  <div class="priority-item">
+    <div class="priority-num">P2</div>
+    <div class="priority-body">
+      <div class="priority-title">Status dots — Fleet and Supabase hardcoded green</div>
+      <div class="priority-desc">Two of the three topbar status dots show online=true unconditionally regardless of actual service health.<br><strong>Fix:</strong> In JarvisFullPageHud.jsx, query <code>/api/empire/fleet-status</code> for Fleet and <code>/api/auth/check</code> for Supabase. Wire results to the StatusDot components. ~1 hour.</div>
+    </div>
+  </div>
+
+  <div class="priority-item">
+    <div class="priority-num">P3</div>
+    <div class="priority-body">
+      <div class="priority-title">No real-time lead notification</div>
+      <div class="priority-desc">JARVIS sees new leads only at the next chat interaction, not instantly. The 15-second activity poller only covers empire_user_activity, not new form submissions.<br><strong>Fix:</strong> Add Supabase Realtime subscription on form_submissions + onboarding_clients in JarvisProvider. On insert: push a toast ("New lead, sir.") and refresh liveData. ~2 hours.</div>
+    </div>
+  </div>
+
+  <div class="priority-item">
+    <div class="priority-num">P4</div>
+    <div class="priority-body">
+      <div class="priority-title">Conversational date-range leads not parsed</div>
+      <div class="priority-desc">"How many leads last month?" hits the LLM free-text path, not the deterministic leads command. The LLM sees only the 7-day history.<br><strong>Fix:</strong> Extend the leads regex in commands.js to match "last month", "this week", etc. and map them to the /api/jarvis/leads?days=N endpoint. ~1 hour.</div>
+    </div>
+  </div>
+
+  <div class="priority-item">
+    <div class="priority-num">P5</div>
+    <div class="priority-body">
+      <div class="priority-title">Session state not persisted</div>
+      <div class="priority-desc">Conversation history and liveData are in React state — a page refresh wipes everything. Each session starts from scratch.<br><strong>Fix:</strong> Store last N messages in sessionStorage. Restore on mount. liveData already re-fetched on open. ~1 hour.</div>
+    </div>
+  </div>
+
+  <h3>What Is Missing Entirely</h3>
+
+  <div class="priority-item">
+    <div class="priority-num">M1</div>
+    <div class="priority-body">
+      <div class="priority-title">Outreach action command — direct lead follow-up</div>
+      <div class="priority-desc">"Email this lead" or "send outreach to [name]" — no such command exists. Leads are visible but JARVIS cannot initiate outreach. Requires: email API (Resend/SES) integration + outreach command in commands.js + send-email API route. Estimate: 4–6 hours.</div>
+    </div>
+  </div>
+
+  <div class="priority-item">
+    <div class="priority-num">M2</div>
+    <div class="priority-body">
+      <div class="priority-title">Scheduled / autonomous JARVIS briefing</div>
+      <div class="priority-desc">No mechanism for JARVIS to proactively alert you (morning briefing, lead spike). Requires: Vercel cron job or Supabase Edge Function → POST /api/jarvis/snapshot → send notification (email or push). Estimate: 3–4 hours.</div>
+    </div>
+  </div>
+
+  <div class="priority-item">
+    <div class="priority-num">M3</div>
+    <div class="priority-body">
+      <div class="priority-title">GHL webhook → real-time CRM updates</div>
+      <div class="priority-desc">Currently JARVIS polls GHL on every context build (5-min cache). No webhook receives instant CRM events (contact created, deal stage changed). Requires: GHL webhook endpoint + Supabase insert + Realtime subscription in JARVIS. Estimate: 3–5 hours once GHL_API_KEY is set.</div>
+    </div>
+  </div>
+
+  <div class="priority-item">
+    <div class="priority-num">M4</div>
+    <div class="priority-body">
+      <div class="priority-title">Multi-project voice routing</div>
+      <div class="priority-desc">All Empire agent commands require explicit "[skill] [project]" naming. No shorthand like "run the usual on MyApproved" with learned context. Requires: session memory of recent project references. Estimate: 2–3 hours.</div>
+    </div>
+  </div>
+
+  <h3>Credentials Required to Unlock Each Stubbed Connection</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Env Var</th><th>Unlocks</th><th>Where to Get</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="env-var">OPENROUTER_API_KEY</span></td>
+          <td>Primary LLM (gpt-4o-mini), image gen via OpenRouter</td>
+          <td>openrouter.ai → Keys</td>
+          <td>Pay per token (~$0.15/1M input)</td>
+        </tr>
+        <tr>
+          <td><span class="env-var">GEMINI_API_KEY</span></td>
+          <td>Fallback LLM + image gen (native Gemini)</td>
+          <td>aistudio.google.com → API Key</td>
+          <td>Free tier generous (1500 req/day)</td>
+        </tr>
+        <tr>
+          <td><span class="env-var">GHL_API_KEY</span></td>
+          <td>GoHighLevel CRM — contact, opportunity, appointment data in JARVIS context</td>
+          <td>GHL Settings → Integrations → API Key</td>
+          <td>Included in GHL subscription</td>
+        </tr>
+        <tr>
+          <td><span class="env-var">BRAVE_SEARCH_API_KEY</span></td>
+          <td>Best-quality web search (Brave API). System works without it via free scrapers.</td>
+          <td>api.search.brave.com → Dashboard</td>
+          <td>Free tier: 2000 calls/month</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Critical Path — Minimum Ordered Steps to Fully Operational</h3>
+
+  <div class="priority-item"><div class="priority-num">1</div><div class="priority-body"><div class="priority-title">Set OPENROUTER_API_KEY or GEMINI_API_KEY in Vercel env</div><div class="priority-desc">Without at least one LLM key, JARVIS chat falls back to error messages. This is the single blocker to a working system. Takes 5 minutes.</div></div></div>
+  <div class="priority-item"><div class="priority-num">2</div><div class="priority-body"><div class="priority-title">Set GHL_API_KEY</div><div class="priority-desc">Immediately enriches JARVIS context with live CRM data for every client who has a ghl_contact_id set in their profile row.</div></div></div>
+  <div class="priority-item"><div class="priority-num">3</div><div class="priority-body"><div class="priority-title">Add empire_leads to buildJarvisContext()</div><div class="priority-desc">One-file code change. Makes every Empire-scraped lead visible and reportable by JARVIS. Closes the scraper blind spot.</div></div></div>
+  <div class="priority-item"><div class="priority-num">4</div><div class="priority-body"><div class="priority-title">Add Supabase Realtime subscriptions for new leads</div><div class="priority-desc">Turns JARVIS from a pull-based system into a push-notified one. You'll hear "New lead, sir" the moment a form is submitted.</div></div></div>
+  <div class="priority-item"><div class="priority-num">5</div><div class="priority-body"><div class="priority-title">Wire real status to Fleet + Supabase status dots</div><div class="priority-desc">Quick UI fix — replace hardcoded online=true with live endpoint checks.</div></div></div>
+  <div class="priority-item"><div class="priority-num">6</div><div class="priority-body"><div class="priority-title">Set BRAVE_SEARCH_API_KEY</div><div class="priority-desc">Upgrades search quality. Optional — system functions without it.</div></div></div>
+  <div class="priority-item"><div class="priority-num">7</div><div class="priority-body"><div class="priority-title">Build outreach action command</div><div class="priority-desc">Completes the lead-to-action loop. JARVIS goes from "I can see this lead" to "I can email this lead".</div></div></div>
+  <div class="priority-item"><div class="priority-num">8</div><div class="priority-body"><div class="priority-title">Set up morning briefing cron</div><div class="priority-desc">Autonomous proactive intelligence — JARVIS emails/pushes daily briefing without being asked.</div></div></div>
+</div>
+
+<!-- ══ SECTION 6 ════════════════════════════════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <span class="section-num">Section 06</span>
+    <span class="section-title">Verdict</span>
+  </div>
+
+  <div class="verdict">
+    <p>JARVIS today is a genuinely functional operations intelligence layer — not a demo, not a stub. It has a real LLM brain (OpenRouter/Gemini), a real-time Supabase context block rebuilt per request from seven live tables, a full dual-layer anti-hallucination architecture (deterministic command parsing for all data reads, hard system-prompt rules for free text), working voice in and out with triple-clap wake, GHL CRM wiring ready to activate, Empire agent triggering that actually inserts and executes tasks, live web search with five cascading fallbacks, and a polished mobile HUD. The gap between today and fully operational is <em>credentials, not code</em> — set OPENROUTER_API_KEY and GHL_API_KEY in Vercel and roughly 80% of the vision is live in minutes. The remaining 20% is three focused engineering sessions: empire_leads in context, Supabase Realtime push for leads, and an outreach command. The single most important thing to do next is add those two API keys. The foundation is architecturally sound — stateless per-request context injection, proper auth guards on every admin route, graceful fallbacks throughout, and a command vocabulary designed to scale. This is ready to build the rest on.</p>
+  </div>
+
+  <div style="margin-top:2rem; text-align:center;" class="dim">
+    Audit complete · Read-only · No project files modified · 2026-07-11
+  </div>
+</div>
+</div>
+
+</body>
+</html>

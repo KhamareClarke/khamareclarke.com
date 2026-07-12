@@ -22,7 +22,11 @@
       "Bash(npx skills *)",
       "Bash(git remote *)",
       "Bash(git push *)",
-      "Bash(start *)"
+      "Bash(start *)",
+      "Bash(npm install *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\khama\\\\Downloads\\\\khamareclarke.com-main \\(4\\)\\\\khamareclarke.com-main\\\\src\\\\app\\\\dashboard\" -Recurse)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Format-List)"
     ]
   }
 }
