@@ -401,7 +401,7 @@ export default function JarvisFullPageHud() {
                   { id: 'leads',    icon: '📊', label: 'Leads'     },
                   { id: 'clients',  icon: '👥', label: 'Clients'   },
                   { id: 'empire',   icon: '⚡', label: 'Empire'    },
-                  { id: 'activity', icon: '📡', label: 'Activity'  },
+                  { id: 'activity', icon: '📡', label: 'All projects'  },
                 ].map((t) => (
                   <button
                     key={t.id}

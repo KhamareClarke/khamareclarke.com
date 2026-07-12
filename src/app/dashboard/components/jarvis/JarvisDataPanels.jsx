@@ -1,14 +1,33 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { getProjectLabel } from '@/lib/empire-projects';
 import { useJarvis } from './JarvisProvider';
 
 const TAB_LABELS = {
   leads:    'Leads',
   clients:  'Clients',
   empire:   'Empire OS',
-  activity: 'Activity',
+  activity: 'All projects',
 };
+
+const EVENT_COLOR = {
+  lead: 'text-cyan-300/90',
+  signup: 'text-emerald-300/90',
+  order: 'text-indigo-300/90',
+  booking: 'text-fuchsia-300/90',
+  job: 'text-blue-300/90',
+  payment_succeeded: 'text-emerald-300/90',
+};
+
+function relativeTime(ts) {
+  if (!ts) return '';
+  const diff = (Date.now() - new Date(ts).getTime()) / 1000;
+  if (diff < 60) return `${Math.max(1, Math.floor(diff))}s ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  return `${Math.floor(diff / 86400)}d ago`;
+}
 
 /* ─── Sub-panels ──────────────────────────────────────────────────────────── */
 
@@ -139,36 +158,67 @@ function EmpirePanel() {
   );
 }
 
-function ActivityPanel() {
-  const [items, setItems] = useState(null);
+function FleetActivitiesPanel() {
+  const [events, setEvents] = useState(null);
+  const [summary, setSummary] = useState({ total24h: 0, byProject: {} });
 
-  useEffect(() => {
-    fetch('/api/empire/activity/list?limit=25', { credentials: 'include' })
+  const load = useCallback(() => {
+    fetch('/api/fleet/list?limit=50', { credentials: 'include', cache: 'no-store' })
       .then((r) => r.json())
-      .then((data) => setItems(Array.isArray(data) ? data : (data?.data ?? data?.items ?? [])))
-      .catch(() => setItems([]));
+      .then((data) => {
+        setEvents(Array.isArray(data?.events) ? data.events : []);
+        setSummary(data?.summary || { total24h: 0, byProject: {} });
+      })
+      .catch(() => {
+        setEvents([]);
+        setSummary({ total24h: 0, byProject: {} });
+      });
   }, []);
 
-  if (!items) return <PanelLoading />;
-  if (!items.length) return <PanelEmpty label="No recent activity" />;
+  useEffect(() => {
+    load();
+    const id = setInterval(load, 10000);
+    return () => clearInterval(id);
+  }, [load]);
+
+  if (!events) return <PanelLoading />;
+
+  const projectCount = Object.keys(summary.byProject || {}).length;
 
   return (
-    <div className="space-y-1">
-      {items.map((item, i) => (
-        <div key={item.id ?? i} className="jarvis-panel-row gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#ffb700]/55 shrink-0 mt-0.5" aria-hidden />
-          <div className="flex-1 min-w-0">
-            <p className="text-[#fff8e1]/85 text-[11px] leading-snug">
-              {item.description || item.action || item.label || '—'}
-            </p>
-            {item.created_at && (
-              <p className="text-[9px] text-[#ffb700]/38 mt-0.5">
-                {new Date(item.created_at).toLocaleString()}
-              </p>
-            )}
-          </div>
+    <div className="space-y-2">
+      <div className="grid grid-cols-2 gap-1.5 px-0.5">
+        <MetricTile label="Events (24h)" value={summary.total24h ?? 0} />
+        <MetricTile label="Active projects" value={projectCount || '—'} />
+      </div>
+
+      {!events.length ? (
+        <PanelEmpty label="No fleet events yet — sister projects push here" />
+      ) : (
+        <div className="space-y-1">
+          {events.map((item) => (
+            <div key={item.id} className="jarvis-panel-row gap-2 items-start">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80]/70 shrink-0 mt-1.5 shadow-[0_0_4px_rgba(74,222,128,0.6)]" aria-hidden />
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-1.5 mb-0.5">
+                  <span className="text-[8px] uppercase tracking-wider text-[#ffb700]/75 bg-[#1a0800]/70 px-1.5 py-0.5 rounded-full">
+                    {getProjectLabel(item.project)}
+                  </span>
+                  <span className={`text-[8px] uppercase tracking-wider ${EVENT_COLOR[item.event_type] || 'text-[#fff8e1]/60'}`}>
+                    {item.event_type}
+                  </span>
+                  <span className="text-[8px] text-[#ffb700]/35 ml-auto shrink-0">
+                    {relativeTime(item.created_at)}
+                  </span>
+                </div>
+                <p className="text-[#fff8e1]/88 text-[11px] leading-snug line-clamp-2">
+                  {item.summary || '—'}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   );
 }
@@ -223,7 +273,7 @@ export default function JarvisDataPanels({ activeTab, onTabChange }) {
         {activeTab === 'leads'    && <LeadsPanel />}
         {activeTab === 'clients'  && <ClientsPanel />}
         {activeTab === 'empire'   && <EmpirePanel />}
-        {activeTab === 'activity' && <ActivityPanel />}
+        {activeTab === 'activity' && <FleetActivitiesPanel />}
       </div>
     </div>
   );
