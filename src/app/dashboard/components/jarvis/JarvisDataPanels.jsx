@@ -12,12 +12,12 @@ const TAB_LABELS = {
 };
 
 const EVENT_COLOR = {
-  lead: 'text-cyan-300/90',
-  signup: 'text-emerald-300/90',
-  order: 'text-indigo-300/90',
-  booking: 'text-fuchsia-300/90',
-  job: 'text-blue-300/90',
-  payment_succeeded: 'text-emerald-300/90',
+  lead: 'text-cyan-200',
+  signup: 'text-emerald-200',
+  order: 'text-indigo-200',
+  booking: 'text-fuchsia-200',
+  job: 'text-sky-200',
+  payment_succeeded: 'text-emerald-200',
 };
 
 function relativeTime(ts) {
@@ -193,26 +193,27 @@ function FleetActivitiesPanel() {
       </div>
 
       {!events.length ? (
-        <PanelEmpty label="No fleet events yet — sister projects push here" />
+        <PanelEmpty label="No fleet events yet" />
       ) : (
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           {events.map((item) => (
-            <div key={item.id} className="jarvis-panel-row gap-2 items-start">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80]/70 shrink-0 mt-1.5 shadow-[0_0_4px_rgba(74,222,128,0.6)]" aria-hidden />
+            <div key={item.id} className="jarvis-panel-row !items-start gap-2.5 py-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0 mt-1 shadow-[0_0_6px_rgba(74,222,128,0.9)]" aria-hidden />
               <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-1.5 mb-0.5">
-                  <span className="text-[8px] uppercase tracking-wider text-[#ffb700]/75 bg-[#1a0800]/70 px-1.5 py-0.5 rounded-full">
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-[#ffca28] bg-[#2a1800] border border-[#ffb700]/30 px-2 py-0.5 rounded">
                     {getProjectLabel(item.project)}
                   </span>
-                  <span className={`text-[8px] uppercase tracking-wider ${EVENT_COLOR[item.event_type] || 'text-[#fff8e1]/60'}`}>
+                  <span className={`text-[10px] font-medium uppercase tracking-wide ${EVENT_COLOR[item.event_type] || 'text-[#fff8e1]'}`}>
                     {item.event_type}
                   </span>
-                  <span className="text-[8px] text-[#ffb700]/35 ml-auto shrink-0">
-                    {relativeTime(item.created_at)}
-                  </span>
                 </div>
-                <p className="text-[#fff8e1]/88 text-[11px] leading-snug line-clamp-2">
+                <p className="text-[#fff8e1] text-[12px] leading-snug break-words">
                   {item.summary || '—'}
+                </p>
+                <p className="text-[10px] text-[#ffb700]/80 mt-1">
+                  {relativeTime(item.created_at)}
+                  {item.created_at ? ` · ${new Date(item.created_at).toLocaleString()}` : ''}
                 </p>
               </div>
             </div>
@@ -226,8 +227,8 @@ function FleetActivitiesPanel() {
 function MetricTile({ label, value }) {
   return (
     <div className="jarvis-panel-metric">
-      <p className="text-[#ffb700] text-base font-light tabular-nums leading-none">{value}</p>
-      <p className="text-[8px] uppercase tracking-wider text-[#ffca28]/55 mt-1">{label}</p>
+      <p className="text-[#ffca28] text-lg font-medium tabular-nums leading-none">{value}</p>
+      <p className="text-[9px] uppercase tracking-wider text-[#ffb700]/85 mt-1.5 font-medium">{label}</p>
     </div>
   );
 }
@@ -235,15 +236,15 @@ function MetricTile({ label, value }) {
 function PanelLoading() {
   return (
     <div className="flex items-center justify-center py-8">
-      <span className="text-[#ffb700]/40 text-[9px] uppercase tracking-widest animate-pulse">Loading…</span>
+      <span className="text-[#ffca28] text-[11px] uppercase tracking-widest animate-pulse">Loading…</span>
     </div>
   );
 }
 
 function PanelEmpty({ label }) {
   return (
-    <div className="flex items-center justify-center py-8">
-      <span className="text-[#ffb700]/35 text-[9px] uppercase tracking-widest">{label}</span>
+    <div className="flex items-center justify-center py-8 px-2 text-center">
+      <span className="text-[#fff8e1]/90 text-[11px] leading-relaxed">{label}</span>
     </div>
   );
 }
@@ -255,7 +256,7 @@ export default function JarvisDataPanels({ activeTab, onTabChange }) {
     <div className="jarvis-data-panels-wrap w-full shrink-0">
       {/* Slim header: panel title + close */}
       <div className="flex items-center justify-between px-3 pt-2.5 pb-2 border-b border-[#ffb700]/10 shrink-0">
-        <p className="text-[9px] uppercase tracking-[0.28em] text-[#ffca28]/80 font-semibold">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-[#ffca28] font-semibold">
           {TAB_LABELS[activeTab] ?? activeTab}
         </p>
         <button
