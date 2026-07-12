@@ -10,6 +10,7 @@ export function normalizeJarvisContext(data = {}) {
       activity: [],
       tasksRecent: [],
       fleet: [],
+      fleetEvents: [],
       recentLeads: [],
       leadsHistory: {},
     };
@@ -21,6 +22,7 @@ export function normalizeJarvisContext(data = {}) {
     activity,
     tasksRecent,
     fleet,
+    fleetEvents,
     recentLeads,
     leadsHistory,
     ok,
@@ -34,6 +36,7 @@ export function normalizeJarvisContext(data = {}) {
     activity: activity || [],
     tasksRecent: tasksRecent || [],
     fleet: fleet || [],
+    fleetEvents: fleetEvents || [],
     recentLeads: recentLeads || [],
     leadsHistory: leadsHistory || {},
   };
@@ -70,6 +73,20 @@ export function composeStatus(data, client) {
     `Onboarding today: ${s.onboardToday ?? 0} | total: ${s.onboardTotal ?? 0}`,
     `Task queue: ${s.tasksQueued ?? 0} pending or running`,
   ].join('\n');
+}
+
+export function composeFleetEvents(data) {
+  const events = data.fleetEvents || [];
+  if (!events.length) {
+    return 'No fleet events yet, sir. Sister projects push leads and forms to the central ingest.';
+  }
+  const lines = [`Fleet events (last ${events.length}):`];
+  for (const e of events.slice(0, 10)) {
+    const when = e.created_at?.slice(0, 16)?.replace('T', ' ') || '?';
+    lines.push(`  · ${when} [${e.project}] ${e.event_type}: ${String(e.summary || '').slice(0, 100)}`);
+  }
+  if (events.length > 10) lines.push(`  … and ${events.length - 10} more in the feed.`);
+  return lines.join('\n');
 }
 
 export function composeFleet(data) {
@@ -157,13 +174,19 @@ export function composeBriefing(data) {
     `Tasks queued: ${s.tasksQueued ?? 0}.`,
   ];
 
-  if (activity.length) {
+  const fleetEvents = (data.fleetEvents || []).slice(0, 5);
+  if (fleetEvents.length) {
+    lines.push('Recent fleet events (all projects):');
+    for (const e of fleetEvents) {
+      lines.push(`  · ${e.created_at?.slice(0, 16) || '?'} — ${e.project} ${e.event_type}: ${String(e.summary || '').slice(0, 60)}`);
+    }
+  } else if (activity.length) {
     lines.push('Recent activity:');
     for (const e of activity) {
       lines.push(`  · ${e.created_at?.slice(0, 16) || '?'} — ${e.project_id} ${e.event_type}`);
     }
   } else {
-    lines.push('No recent activity events.');
+    lines.push('No recent fleet or activity events.');
   }
 
   if (failedTasks.length) {
@@ -177,7 +200,7 @@ export const HELP_CARD = {
   type: 'help',
   title: 'JARVIS Commands',
   sections: [
-    { label: 'Read (instant)', items: ['status', 'status [client]', 'leads today', 'leads [n] days', 'leads this week', 'leads last month', 'how many leads last 30 days', 'briefing', 'fleet'] },
+    { label: 'Read (instant)', items: ['status', 'status [client]', 'leads today', 'leads [n] days', 'leads this week', 'leads last month', 'how many leads last 30 days', 'briefing', 'fleet', 'fleet events', 'any fleet events'] },
     { label: 'Navigate', items: ['open fleet | clients | leads | agents | activity | reports', 'open youtube | google | [site]', 'go to [website]'] },
     { label: 'Web & media', items: ['search [query]', 'google [query]', 'draw [description]', 'generate image [description]'] },
     { label: 'Actions (confirm)', items: ['run [skill] [project]', 'report [client]', 'pause [agent]', 'resume [agent]'] },
@@ -191,6 +214,8 @@ export function composeReadResponse(command, data) {
       return { content: composeStatus(data, command.client), cards: buildClientCards(data, command.client) };
     case 'fleet':
       return { content: composeFleet(data), cards: [] };
+    case 'fleet-events':
+      return { content: composeFleetEvents(data), cards: [] };
     case 'leads':
       return {
         content: composeLeads(data, command.days || 1, {

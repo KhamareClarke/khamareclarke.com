@@ -23,17 +23,13 @@ async function checkEmpireOs() {
 }
 
 async function checkFleet() {
-  const res = await fetch('/api/empire/fleet-status', {
+  const res = await fetch('/api/fleet/list?limit=1', {
     credentials: 'include',
     cache: 'no-store',
   });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok || data.error) return 'offline';
-  const projects = data.projects || [];
-  if (!projects.length) return 'degraded';
-  const errored = projects.filter((p) => p.status === 'error' || p.error_message);
-  if (errored.length === projects.length) return 'offline';
-  if (errored.length > 0) return 'degraded';
+  if (!res.ok || data.ok === false) return 'offline';
+  if (data.error) return 'offline';
   return 'online';
 }
 

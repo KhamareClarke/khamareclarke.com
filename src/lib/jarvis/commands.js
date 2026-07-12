@@ -13,7 +13,7 @@ const TAB_ROUTES = {
   settings: '/dashboard',
 };
 
-const READ_COMMANDS = new Set(['status', 'fleet', 'briefing', 'help', 'leads']);
+const READ_COMMANDS = new Set(['status', 'fleet', 'fleet-events', 'briefing', 'help', 'leads']);
 const ACTION_COMMANDS = new Set(['run', 'report', 'pause', 'resume', 'open']);
 const MAX_LEADS_DAYS = 90;
 
@@ -253,6 +253,17 @@ export function parseJarvisCommand(input, clients = []) {
 
   if (text === 'fleet') {
     return { type: 'read', command: 'fleet' };
+  }
+
+  if (
+    text === 'fleet events' ||
+    text === 'any fleet events' ||
+    text === 'check fleet events' ||
+    text === 'check fleets' ||
+    text === 'fleet activity' ||
+    /^any fleet events\??$/.test(text)
+  ) {
+    return { type: 'read', command: 'fleet-events' };
   }
 
   const leadsCmd = tryParseLeadsReadCommand(text, raw);

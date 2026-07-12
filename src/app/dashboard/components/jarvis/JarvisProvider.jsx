@@ -120,6 +120,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const [voiceInterim, setVoiceInterim] = useState('');
   const [voiceError, setVoiceError] = useState(null);
   const [lastActivityTs, setLastActivityTs] = useState(null);
+  const [lastFleetEventTs, setLastFleetEventTs] = useState(null);
   const [lastReplyText, setLastReplyText] = useState('');
   const [voiceNeedsTap, setVoiceNeedsTap] = useState(false);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
@@ -689,6 +690,34 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     }, 15000);
     return () => clearInterval(interval);
   }, [open, lastActivityTs, toastApi, minimal]);
+
+  useEffect(() => {
+    if (minimal) return undefined;
+    const interval = setInterval(async () => {
+      const res = await fetch('/api/fleet/list?limit=5', { credentials: 'include', cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+      const events = data.events || [];
+      if (!events.length) return;
+      const newest = events[0]?.created_at;
+      if (!lastFleetEventTs) {
+        setLastFleetEventTs(newest);
+        return;
+      }
+      const fresh = events.filter((e) => e.created_at > lastFleetEventTs);
+      if (fresh.length) {
+        setLastFleetEventTs(fresh[0].created_at);
+        const e = fresh[0];
+        const msg = `New ${e.event_type} on ${e.project}, sir.`;
+        toastApi?.pushToast?.(msg);
+        refreshDataRef.current?.();
+        if (!mutedRef.current) {
+          speakReplyRef.current?.(msg, { speakFull: true });
+        }
+      }
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [lastFleetEventTs, toastApi, minimal]);
 
   const scrollToBottom = useCallback(() => {
     if (!userScrolledUpRef.current) {
@@ -1362,6 +1391,21 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
             }
           } catch {
             // fall through — composeLeads will report unavailable range
+          }
+        }
+
+        if (parsed?.type === 'read' && parsed.command === 'fleet-events') {
+          try {
+            const fr = await fetch('/api/fleet/list?limit=20', {
+              credentials: 'include',
+              cache: 'no-store',
+            });
+            if (fr.ok) {
+              const fd = await fr.json();
+              data = { ...data, fleetEvents: fd.events || [] };
+            }
+          } catch {
+            // fall through — composeFleetEvents will report none
           }
         }
 

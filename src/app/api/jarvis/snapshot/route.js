@@ -18,6 +18,7 @@ export async function GET() {
       activity: ctx.activity,
       tasksRecent: ctx.tasksRecent,
       fleet: ctx.fleet,
+      fleetEvents: ctx.fleetEvents,
       recentLeads: ctx.recentLeads,
       leadsHistory: ctx.leadsHistory,
     });
