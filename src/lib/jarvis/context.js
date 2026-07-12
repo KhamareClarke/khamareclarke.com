@@ -171,12 +171,20 @@ export async function buildJarvisContext() {
     ...(formsRecentRes.data || []).map((s) => ({
       id: `form-${s.id}`,
       name: s.data?.name || s.data?.email || 'Form lead',
+      email: s.data?.email || null,
+      phone: s.data?.phone || null,
+      message: s.data?.message || null,
+      businessType: s.data?.businessType || null,
       source: s.source || 'contact',
       date: s.created_at,
     })),
     ...(onboardRecentRes.data || []).map((c) => ({
       id: `onboard-${c.id}`,
       name: c.company_name || c.contact_name || c.email || 'Onboarding',
+      email: c.email || null,
+      phone: null,
+      message: null,
+      businessType: null,
       source: 'onboarding',
       date: c.created_at,
     })),
@@ -231,6 +239,16 @@ export async function buildJarvisContext() {
   }
 
   lines.push(`Empire scraped leads (empire_leads) total for myapproved: ${empireLeadsMyapprovedTotal}`);
+
+  if (recentLeads.length) {
+    lines.push('Recent form + onboarding leads (newest first, name | email | source | time):');
+    for (const l of recentLeads.slice(0, 8)) {
+      lines.push(`  - ${l.name} | ${l.email || '—'} | ${l.source} | ${l.date?.slice(0, 16) || '?'}`);
+    }
+  } else {
+    lines.push('Recent form + onboarding leads: none');
+  }
+
   if (empireLeadsRecent.length) {
     lines.push('Last 20 empire_leads rows (company | contact | source | created_at):');
     for (const row of empireLeadsRecent) {

@@ -1,7 +1,7 @@
 import { EMPIRE_SKILL_IDS } from '@/lib/empire-skills';
 import { ALL_EMPIRE_PROJECT_IDS } from '@/lib/empire-projects';
 import { resolveSiteUrl } from '@/lib/jarvis/sites';
-import { extractSearchQueryFromTranscript, normalizeSearchQuery, fixSearchTypos } from '@/lib/jarvis/web-search';
+import { extractSearchQueryFromTranscript, normalizeSearchQuery, fixSearchTypos, isInternalOpsLeadQuery } from '@/lib/jarvis/web-search';
 
 const TAB_ROUTES = {
   fleet: '/dashboard/empire',
@@ -15,6 +15,74 @@ const TAB_ROUTES = {
 
 const READ_COMMANDS = new Set(['status', 'fleet', 'briefing', 'help', 'leads']);
 const ACTION_COMMANDS = new Set(['run', 'report', 'pause', 'resume', 'open']);
+const MAX_LEADS_DAYS = 90;
+
+function clampLeadsDays(n) {
+  return Math.min(Math.max(parseInt(n, 10) || 1, 1), MAX_LEADS_DAYS);
+}
+
+/**
+ * Map conversational lead date ranges to days for /api/jarvis/leads?days=N.
+ * Returns null when no range phrase is found.
+ */
+export function parseLeadsDaysRange(text) {
+  const t = norm(text);
+  if (!t) return null;
+
+  let m = t.match(/\b(?:last|past|previous|in the last|over the last|for the last)\s+(\d{1,2})\s+days?\b/);
+  if (m) return { days: clampLeadsDays(m[1]) };
+
+  m = t.match(/\bleads?\s+(?:for\s+)?(?:the\s+)?(?:last|past)\s+(\d{1,2})\s+days?\b/);
+  if (m) return { days: clampLeadsDays(m[1]) };
+
+  if (/\blast\s+month\b/.test(t)) return { days: 30, label: 'last month' };
+  if (/\bthis\s+month\b/.test(t)) return { days: 30, label: 'this month' };
+  if (/\b(?:this|current)\s+week\b/.test(t)) return { days: 7, label: 'this week' };
+  if (/\blast\s+week\b/.test(t)) return { days: 7, label: 'last week' };
+
+  return null;
+}
+
+function isLeadsReadQuery(text) {
+  const t = norm(text);
+  if (!t) return false;
+  if (/^leads?\b/.test(t)) return true;
+  if (/\bhow many leads\b/.test(t)) return true;
+  if (isInternalOpsLeadQuery(t)) return true;
+  return false;
+}
+
+function tryParseLeadsReadCommand(text, raw) {
+  const t = norm(text);
+
+  if (t === 'leads today' || t === 'leads') {
+    return { type: 'read', command: 'leads', days: 1 };
+  }
+
+  const exactDays = t.match(/^leads\s+(\d+)\s*days?$/);
+  if (exactDays) {
+    return { type: 'read', command: 'leads', days: clampLeadsDays(exactDays[1]) };
+  }
+
+  const range = parseLeadsDaysRange(t);
+  if (range && isLeadsReadQuery(t)) {
+    return { type: 'read', command: 'leads', days: range.days, rangeLabel: range.label };
+  }
+
+  if (isInternalOpsLeadQuery(t) || isInternalOpsLeadQuery(stripWakePrefix(raw))) {
+    const wantsDetail = /\b(?:detail|details|describe|info|information|about|description)\b/i.test(raw);
+    const internalRange = parseLeadsDaysRange(t) || parseLeadsDaysRange(stripWakePrefix(raw));
+    return {
+      type: 'read',
+      command: 'leads',
+      days: internalRange?.days ?? 1,
+      rangeLabel: internalRange?.label,
+      detail: wantsDetail && !internalRange,
+    };
+  }
+
+  return null;
+}
 
 function youtubeSearchUrl(topic) {
   const q = String(topic || '').trim();
@@ -187,14 +255,8 @@ export function parseJarvisCommand(input, clients = []) {
     return { type: 'read', command: 'fleet' };
   }
 
-  if (text === 'leads today' || text === 'leads') {
-    return { type: 'read', command: 'leads', days: 1 };
-  }
-
-  const leadsMatch = text.match(/^leads\s+(\d+)\s*days?$/);
-  if (leadsMatch) {
-    return { type: 'read', command: 'leads', days: Math.min(parseInt(leadsMatch[1], 10) || 1, 30) };
-  }
+  const leadsCmd = tryParseLeadsReadCommand(text, raw);
+  if (leadsCmd) return leadsCmd;
 
   if (text === 'briefing' || text === 'daily briefing') {
     return { type: 'read', command: 'briefing' };

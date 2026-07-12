@@ -96,18 +96,53 @@ export function composeFleet(data) {
   return lines.join('\n');
 }
 
-export function composeLeads(data, days = 1) {
+export function composeLeads(data, days = 1, opts = {}) {
   const s = data.snapshot || {};
+  const detail = opts.detail;
+
+  function isLeadFromToday(dateStr) {
+    if (!dateStr) return false;
+    const today = new Date();
+    const leadDate = new Date(dateStr);
+    return leadDate.toDateString() === today.toDateString();
+  }
+
+  function formatLeadLine(l) {
+    const parts = [l.name || 'Unknown'];
+    if (l.email) parts.push(l.email);
+    if (l.phone) parts.push(l.phone);
+    if (l.businessType) parts.push(l.businessType);
+    if (l.message) parts.push(`"${String(l.message).slice(0, 120)}"`);
+    const when = l.date?.slice(0, 16)?.replace('T', ' ') || '?';
+    return `  · ${parts.join(' | ')} (${l.source}, ${when})`;
+  }
+
   if (days === 1) {
     const cmp = leadComparison(s.leadsToday ?? 0, s.leadsYesterday ?? 0);
+    const todayLeads = (data.recentLeads || []).filter((l) => isLeadFromToday(l.date));
+
     if ((s.leadsToday ?? 0) === 0) {
       return `No leads yet today, sir. The pipeline awaits. (${cmp})`;
     }
-    return `Leads today: ${s.leadsToday ?? 0}, ${cmp}.\nForms: ${s.formsToday ?? 0} | Onboarding: ${s.onboardToday ?? 0}`;
+
+    if (detail && todayLeads.length) {
+      const lines = [`Sir, ${todayLeads.length} new lead(s) today — ${cmp}:`];
+      for (const l of todayLeads) lines.push(formatLeadLine(l));
+      return lines.join('\n');
+    }
+
+    let summary = `Leads today: ${s.leadsToday ?? 0}, ${cmp}.\nForms: ${s.formsToday ?? 0} | Onboarding: ${s.onboardToday ?? 0}`;
+    if (todayLeads.length === 1) {
+      summary += `\nLatest: ${todayLeads[0].name || 'Unknown'} (${todayLeads[0].source}). Say "details on today's lead" for full info, sir.`;
+    } else if (todayLeads.length > 1) {
+      summary += `\n${todayLeads.length} lead(s) on file today — ask for details, sir.`;
+    }
+    return summary;
   }
   const hist = data.leadsHistory?.[days];
-  if (hist == null) return `Lead count for ${days} days is not tracked yet, sir.`;
-  return `Leads in the last ${days} days: ${hist}.`;
+  const period = opts.rangeLabel || `the last ${days} days`;
+  if (hist == null) return `Lead count for ${period} is not tracked yet, sir.`;
+  return `Leads in ${period}: ${hist}.`;
 }
 
 export function composeBriefing(data) {
@@ -142,7 +177,7 @@ export const HELP_CARD = {
   type: 'help',
   title: 'JARVIS Commands',
   sections: [
-    { label: 'Read (instant)', items: ['status', 'status [client]', 'leads today', 'leads [n] days', 'briefing', 'fleet'] },
+    { label: 'Read (instant)', items: ['status', 'status [client]', 'leads today', 'leads [n] days', 'leads this week', 'leads last month', 'how many leads last 30 days', 'briefing', 'fleet'] },
     { label: 'Navigate', items: ['open fleet | clients | leads | agents | activity | reports', 'open youtube | google | [site]', 'go to [website]'] },
     { label: 'Web & media', items: ['search [query]', 'google [query]', 'draw [description]', 'generate image [description]'] },
     { label: 'Actions (confirm)', items: ['run [skill] [project]', 'report [client]', 'pause [agent]', 'resume [agent]'] },
@@ -157,7 +192,13 @@ export function composeReadResponse(command, data) {
     case 'fleet':
       return { content: composeFleet(data), cards: [] };
     case 'leads':
-      return { content: composeLeads(data, command.days || 1), cards: buildLeadCards(data) };
+      return {
+        content: composeLeads(data, command.days || 1, {
+          detail: command.detail,
+          rangeLabel: command.rangeLabel,
+        }),
+        cards: buildLeadCards(data),
+      };
     case 'briefing':
       return { content: composeBriefing(data), cards: buildActivityCards(data) };
     case 'help':
