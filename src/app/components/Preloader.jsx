@@ -42,11 +42,11 @@ export default function Preloader() {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/images/lion-logo.svg"
+        src="/images/logo.png"
         alt=""
         aria-hidden="true"
-        width={96}
-        height={96}
+        width={120}
+        height={120}
         style={{
           display: 'block',
           animation: 'kc-logo-in 0.6s cubic-bezier(0.22,1,0.36,1) both',
