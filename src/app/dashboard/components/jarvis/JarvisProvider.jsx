@@ -39,6 +39,11 @@ import {
 } from '@/lib/jarvis/web-search';
 import { navigateExternalUrl } from '@/lib/jarvis/open-url';
 import { getSupabaseBrowser } from '@/lib/supabase-browser';
+import {
+  clearJarvisSessionMessages,
+  loadJarvisSessionMessages,
+  saveJarvisSessionMessages,
+} from '@/lib/jarvis/session';
 
 function resolveOpenUrlFromParsed(parsed) {
   if (!parsed || parsed.type !== 'action') return null;
@@ -153,6 +158,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const mutedRef = useRef(false);
   const refreshDataRef = useRef(null);
   const speakReplyRef = useRef(null);
+  const sessionPersistReadyRef = useRef(false);
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
@@ -177,6 +183,18 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   useEffect(() => {
     refreshDataRef.current = refreshData;
   }, [refreshData]);
+
+  useEffect(() => {
+    if (minimal) return;
+    const saved = loadJarvisSessionMessages();
+    if (saved.length) setMessages(saved);
+    sessionPersistReadyRef.current = true;
+  }, [minimal]);
+
+  useEffect(() => {
+    if (minimal || !sessionPersistReadyRef.current) return;
+    saveJarvisSessionMessages(messages);
+  }, [messages, minimal]);
 
   useEffect(() => {
     setPresentationMode(readCookie(PRESENTATION_KEY) === '1');
@@ -1280,22 +1298,20 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         const parsed = parseJarvisCommand(trimmed, clients);
 
         if (parsed?.type === 'read' && parsed.command === 'leads' && parsed.days > 1) {
-          if (data?.leadsHistory?.[parsed.days] == null) {
-            try {
-              const lr = await fetch(`/api/jarvis/leads?days=${parsed.days}`, {
-                credentials: 'include',
-                cache: 'no-store',
-              });
-              if (lr.ok) {
-                const ld = await lr.json();
-                data = {
-                  ...data,
-                  leadsHistory: { ...(data?.leadsHistory || {}), [parsed.days]: ld.count },
-                };
-              }
-            } catch {
-              // fall through
+          try {
+            const lr = await fetch(`/api/jarvis/leads?days=${parsed.days}`, {
+              credentials: 'include',
+              cache: 'no-store',
+            });
+            if (lr.ok) {
+              const ld = await lr.json();
+              data = {
+                ...data,
+                leadsHistory: { ...(data?.leadsHistory || {}), [parsed.days]: ld.count },
+              };
             }
+          } catch {
+            // fall through — composeLeads will report unavailable range
           }
         }
 
@@ -1493,6 +1509,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const clearComms = useCallback(() => {
     setMessages([]);
     setPendingAction(null);
+    clearJarvisSessionMessages();
   }, []);
 
   const hearLastReply = useCallback(() => {
