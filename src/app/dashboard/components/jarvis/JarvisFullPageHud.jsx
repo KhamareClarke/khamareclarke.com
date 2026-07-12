@@ -174,6 +174,8 @@ export default function JarvisFullPageHud() {
     lastReplyText,
     clapWake,
     setClapWake,
+    clapActivated,
+    voiceSessionActive,
     setPresentationMode,
   } = useJarvis();
 
@@ -247,10 +249,9 @@ export default function JarvisFullPageHud() {
   };
 
   const toggleMic = async () => {
-    unlockAndPrimeAudio();
     if (listening) { stopListening(); return; }
     if (speaking) await stopSpeakingReply();
-    await startListening();
+    await unlockAndPrimeAudio();
   };
 
   return (
@@ -278,7 +279,17 @@ export default function JarvisFullPageHud() {
           <div className="flex items-center gap-2 min-w-0">
             <span className={`jarvis-online-dot ${hudActive || listening ? 'jarvis-online-dot-live' : ''}`} aria-hidden />
             <span className="jarvis-topbar-brand truncate">J.A.R.V.I.S</span>
-            <span className="jarvis-topbar-status hidden sm:inline">Online</span>
+            <span className="jarvis-topbar-status hidden sm:inline">
+              {!voiceSessionActive
+                ? 'Standing by'
+                : activity === 'listening'
+                  ? 'Listening…'
+                  : activity === 'speaking'
+                    ? 'Speaking…'
+                    : activity === 'thinking'
+                      ? 'Thinking…'
+                      : 'Ready'}
+            </span>
             <span className="md:hidden text-[10px] text-[#ffb700]/70 tabular-nums">{mobileTimeStr}</span>
           </div>
 
@@ -291,7 +302,7 @@ export default function JarvisFullPageHud() {
 
           {/* Right cluster: weather + status + settings */}
           <div className="flex items-center gap-2.5">
-            <div className="hidden lg:block">
+            <div className="hidden sm:block">
               <JarvisWeather />
             </div>
             <JarvisTopbarStatus />

@@ -9,6 +9,8 @@ import {
   speakJarvisFromGesture,
   stopSpeaking,
   playBootChime,
+  playListenChime,
+  playStopChime,
   createSpeechRecognition,
   isSpeechRecognitionSupported,
   pickBritishVoice,
@@ -65,8 +67,8 @@ const JarvisContext = createContext(null);
 const PRESENTATION_KEY = 'jarvis-presentation';
 const MUTE_KEY = 'jarvis-mute';
 const VOICE_AUTO_SEND_KEY = 'jarvis-voice-auto-send';
-const CONTINUOUS_LISTEN_KEY = 'jarvis-continuous-listen';
 const CLAP_WAKE_KEY = 'jarvis-clap-wake';
+const IDLE_STANDBY_MS = 12000;
 
 function readCookie(name) {
   if (typeof document === 'undefined') return null;
@@ -113,8 +115,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const [pendingAction, setPendingAction] = useState(null);
   const [presentationMode, setPresentationMode] = useState(false);
   const [muted, setMuted] = useState(false);
-  const [voiceAutoSend, setVoiceAutoSend] = useState(true);
-  const [continuousListen, setContinuousListen] = useState(true);
+  const [voiceAutoSend, setVoiceAutoSend] = useState(false);
+  const [continuousListen, setContinuousListen] = useState(false);
+  const [voiceSessionActive, setVoiceSessionActive] = useState(false);
   const [clapWake, setClapWake] = useState(true);
   const [clapActivated, setClapActivated] = useState(false);
   const [voiceInterim, setVoiceInterim] = useState('');
@@ -127,6 +130,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   // Manual activity override for the HUD: 'searching' | 'opening' | 'drawing' | null.
   const [busyActivity, setBusyActivity] = useState(null);
   const busyActivityTimerRef = useRef(null);
+  const [weatherData, setWeatherData] = useState(null);
+  const weatherDataRef = useRef(null);
 
   const abortRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -160,6 +165,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const refreshDataRef = useRef(null);
   const speakReplyRef = useRef(null);
   const sessionPersistReadyRef = useRef(false);
+  const voiceSessionActiveRef = useRef(false);
+  const idleTimerRef = useRef(null);
+  const startIdleTimerRef = useRef(null);
+  const clearIdleTimerRef = useRef(null);
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
@@ -184,6 +193,32 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   useEffect(() => {
     refreshDataRef.current = refreshData;
   }, [refreshData]);
+
+  /* Fetch live weather via geolocation + Open-Meteo (no API key required). */
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      async ({ coords }) => {
+        try {
+          const { latitude: lat, longitude: lon } = coords;
+          const res = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${lat.toFixed(4)}&longitude=${lon.toFixed(4)}&current_weather=true&temperature_unit=celsius&windspeed_unit=mph&forecast_days=1`
+          );
+          if (!res.ok) return;
+          const d = await res.json();
+          const cw = d.current_weather;
+          const tz = d.timezone ?? '';
+          const city = tz.includes('/') ? tz.split('/').pop().replace(/_/g, ' ') : tz;
+          const WMO = { 0:'Clear',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Icy fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Severe thunderstorm' };
+          const w = { temp: Math.round(cw.temperature), label: WMO[cw.weathercode] ?? 'Unknown', city: city || null, windspeed: Math.round(cw.windspeed) };
+          weatherDataRef.current = w;
+          setWeatherData(w);
+        } catch { /* ignore */ }
+      },
+      () => { /* denied — skip */ },
+      { timeout: 8000 }
+    );
+  }, []);
 
   useEffect(() => {
     if (minimal) return;
@@ -224,7 +259,6 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   useEffect(() => {
     continuousListenRef.current = continuousListen;
-    writeCookie(CONTINUOUS_LISTEN_KEY, continuousListen ? '1' : '0');
   }, [continuousListen]);
 
   useEffect(() => {
@@ -252,41 +286,14 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     speakingRef.current = speaking;
   }, [speaking]);
 
-  /** Full JARVIS page: always-on listen → reply → listen loop. */
+  /** Keepalive: re-arms mic only while an explicit voice session is active. */
   useEffect(() => {
     if (minimal || !open) return undefined;
     if (!isSpeechRecognitionSupported()) return undefined;
 
-    setMuted((m) => (readCookie(MUTE_KEY) === '1' ? m : false));
-    setVoiceAutoSend(true);
-    setContinuousListen(true);
-    continuousListenRef.current = true;
-    voiceAutoSendRef.current = true;
-
-    let cancelled = false;
-    const armMic = async () => {
-      await new Promise((r) => setTimeout(r, 400));
-      if (cancelled) return;
-      if (isMobileUserAgent() && !isSpeechAudioUnlocked()) return;
-      await beginListeningRef.current?.();
-    };
-    armMic();
-
-    const onGesture = () => {
-      unlockSpeechAudio({ prime: isMobileUserAgent() });
-      setAudioUnlocked(true);
-      if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
-        beginListeningRef.current?.();
-      }
-    };
-    if (isMobileUserAgent()) {
-      document.addEventListener('pointerdown', onGesture, { passive: true });
-    } else {
-      document.addEventListener('pointerdown', onGesture, { once: true, passive: true });
-    }
-
     const keepalive = setInterval(() => {
       if (
+        voiceSessionActiveRef.current &&
         continuousListenRef.current &&
         !pendingTtsRef.current &&
         !recognizingRef.current &&
@@ -297,29 +304,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       }
     }, isMobileUserAgent() ? 3500 : 6000);
 
-    return () => {
-      cancelled = true;
-      clearInterval(keepalive);
-      if (isMobileUserAgent()) {
-        document.removeEventListener('pointerdown', onGesture);
-      }
-    };
+    return () => clearInterval(keepalive);
   }, [minimal, open]);
 
-  /** After mobile audio unlock tap, start the mic loop. */
-  useEffect(() => {
-    if (minimal || !open || !audioUnlocked) return;
-    if (!isMobileUserAgent()) return;
-    setContinuousListen(true);
-    continuousListenRef.current = true;
-    voiceAutoSendRef.current = true;
-    const t = setTimeout(() => {
-      if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
-        beginListeningRef.current?.();
-      }
-    }, 300);
-    return () => clearTimeout(t);
-  }, [minimal, open, audioUnlocked]);
 
   /** Double-clap activates JARVIS when hands are busy (full-page HUD only). */
   useEffect(() => {
@@ -337,10 +324,22 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
       const detector = await createClapDetector({
         shouldListen: () =>
-          !speakingRef.current && !pendingTtsRef.current && !streamingRef.current,
-        onDoubleClap: () => {
+          !speakingRef.current &&
+          !pendingTtsRef.current &&
+          !streamingRef.current &&
+          !recognizingRef.current,
+        onTripleClap: () => {
           unlockSpeechAudio({ prime: false });
           setAudioUnlocked(true);
+
+          // Activate voice session
+          voiceSessionActiveRef.current = true;
+          setVoiceSessionActive(true);
+          setContinuousListen(true);
+          continuousListenRef.current = true;
+          voiceAutoSendRef.current = true;
+          clearIdleTimerRef.current?.();
+
           setClapActivated(true);
           clearTimeout(clapFlashTimerRef.current);
           clapFlashTimerRef.current = setTimeout(() => setClapActivated(false), 2000);
@@ -360,6 +359,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           recognizingRef.current = false;
           setListening(false);
 
+          playListenChime(mutedRef.current);
           window.setTimeout(() => {
             beginListeningRef.current?.({ interruptSpeech: true });
             if (!mutedRef.current) {
@@ -470,10 +470,37 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     }, delay);
   }, []);
 
+  const clearIdleTimer = useCallback(() => {
+    if (idleTimerRef.current) {
+      clearTimeout(idleTimerRef.current);
+      idleTimerRef.current = null;
+    }
+  }, []);
+
+  const startIdleTimer = useCallback(() => {
+    if (!voiceSessionActiveRef.current) return;
+    if (idleTimerRef.current) {
+      clearTimeout(idleTimerRef.current);
+    }
+    idleTimerRef.current = setTimeout(() => {
+      idleTimerRef.current = null;
+      voiceSessionActiveRef.current = false;
+      setVoiceSessionActive(false);
+      continuousListenRef.current = false;
+      setContinuousListen(false);
+      voiceAutoSendRef.current = false;
+      setVoiceAutoSend(false);
+      pauseListening();
+      playStopChime(mutedRef.current);
+    }, IDLE_STANDBY_MS);
+  }, [pauseListening]);
+
   useEffect(() => {
     beginListeningRef.current = beginListening;
     scheduleRestartRef.current = scheduleRestartListening;
-  }, [beginListening, scheduleRestartListening]);
+    clearIdleTimerRef.current = clearIdleTimer;
+    startIdleTimerRef.current = startIdleTimer;
+  }, [beginListening, scheduleRestartListening, clearIdleTimer, startIdleTimer]);
 
   useEffect(() => {
     if (minimal) return undefined;
@@ -491,8 +518,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       clearVoiceSendTimer();
       voiceSendTimerRef.current = setTimeout(() => {
         voiceSendTimerRef.current = null;
-        const transcript = (transcriptRef.current || lastInterimRef.current || '').trim();
-        if (!transcript) return;
+        const transcript = transcriptRef.current.trim();
+        const words = transcript.split(/\s+/).filter(Boolean).length;
+        if (!transcript || transcript.length < 3 || words < 2) return;
 
         transcriptRef.current = '';
         lastInterimRef.current = '';
@@ -518,12 +546,14 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         setListening(true);
         setVoiceError(null);
         clearVoiceSendTimer();
+        clearIdleTimerRef.current?.();
         skipOnEndSendRef.current = false;
         transcriptRef.current = '';
         lastInterimRef.current = '';
         setVoiceInterim('');
       },
       onResult: (event) => {
+        clearIdleTimerRef.current?.();
         const { accumulated, display, interim, hadFinal } = processRecognitionResult(
           event,
           transcriptRef.current
@@ -565,6 +595,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         clearVoiceSendTimer();
 
         if (skipOnEndSendRef.current) {
+          // Message already dispatched via scheduleVoiceAutoSend — don't double-send.
           skipOnEndSendRef.current = false;
           transcriptRef.current = '';
           lastInterimRef.current = '';
@@ -572,18 +603,19 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           return;
         }
 
-        const transcript = (
-          transcriptRef.current ||
-          lastInterimRef.current ||
-          ''
-        ).trim();
+        // Only use confirmed final results — never send stale interim guesses.
+        const transcript = transcriptRef.current.trim();
         transcriptRef.current = '';
         lastInterimRef.current = '';
         setVoiceInterim('');
 
-        if (transcript) {
+        const words = transcript.split(/\s+/).filter(Boolean).length;
+        const valid = transcript.length >= 3 && words >= 2;
+
+        if (valid) {
           const autoSend = voiceAutoSendRef.current || continuousListenRef.current;
           if (autoSend) {
+            clearIdleTimerRef.current?.();
             sendMessageRef.current?.(transcript);
           } else {
             onTranscriptRef.current?.(transcript);
@@ -591,6 +623,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         }
 
         scheduleRestartRef.current?.();
+        // If nothing was sent (silence / too short), tick the idle countdown.
+        if (!valid) startIdleTimerRef.current?.();
       },
     });
 
@@ -801,6 +835,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       const finish = () => {
         scheduleRestartRef.current?.();
         flushMessageQueueRef.current?.();
+        startIdleTimerRef.current?.();
       };
       if (!text?.trim()) {
         finish();
@@ -1002,6 +1037,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
             messages: history,
             webSearch: writingTask ? false : messageNeedsWebSearch(lastContent),
             writingTask: writingTask || undefined,
+            weather: weatherDataRef.current || undefined,
           }),
           signal: controller.signal,
         });
@@ -1326,6 +1362,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     async (trimmed, { addUserBubble = true } = {}) => {
       try {
         if (!trimmed) return;
+        clearIdleTimerRef.current?.();
         pauseListening();
 
         const userMsg = { id: `u-${Date.now()}`, role: 'user', content: trimmed };
@@ -1552,12 +1589,16 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     unlockSpeechAudio({ prime: isMobileUserAgent() });
     prepareSpeechOutput();
     setAudioUnlocked(true);
+    voiceSessionActiveRef.current = true;
+    setVoiceSessionActive(true);
+    clearIdleTimerRef.current?.();
     onTranscriptRef.current = onTranscript;
     if (recognizingRef.current) {
       pauseListening();
       setContinuousListen(false);
       return;
     }
+    playListenChime(mutedRef.current);
     setContinuousListen(true);
     if (speakingRef.current) {
       stopSpeaking();
@@ -1572,7 +1613,13 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   }, [beginListening, pauseListening]);
 
   const stopListening = useCallback(() => {
+    clearIdleTimerRef.current?.();
+    voiceSessionActiveRef.current = false;
+    setVoiceSessionActive(false);
+    continuousListenRef.current = false;
     setContinuousListen(false);
+    voiceAutoSendRef.current = false;
+    setVoiceAutoSend(false);
     pauseListening();
   }, [pauseListening]);
 
@@ -1580,10 +1627,16 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     unlockSpeechAudio({ prime: isMobileUserAgent() });
     prepareSpeechOutput();
     setAudioUnlocked(true);
+    voiceSessionActiveRef.current = true;
+    setVoiceSessionActive(true);
+    clearIdleTimerRef.current?.();
+    playListenChime(mutedRef.current);
     setContinuousListen(true);
     setVoiceAutoSend(true);
     const ok = await beginListening({ interruptSpeech: true });
     if (!ok) {
+      voiceSessionActiveRef.current = false;
+      setVoiceSessionActive(false);
       setContinuousListen(false);
     }
     return ok;
@@ -1593,6 +1646,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     unlockSpeechAudio({ prime: true });
     primeMobileAudioSession();
     setAudioUnlocked(true);
+    voiceSessionActiveRef.current = true;
+    setVoiceSessionActive(true);
+    clearIdleTimerRef.current?.();
+    playListenChime(mutedRef.current);
     setContinuousListen(true);
     continuousListenRef.current = true;
     voiceAutoSendRef.current = true;
@@ -1641,6 +1698,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       cancelAction,
       speaking,
       listening,
+      voiceSessionActive,
       busyActivity,
       activity:
         busyActivity ||
@@ -1675,6 +1733,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       openWithQuery,
       liveData,
       refreshData,
+      weatherData,
       audioUnlocked: audioUnlocked || isSpeechAudioUnlocked(),
       unlockAndPrimeAudio,
       lastReplyText,
@@ -1699,6 +1758,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       cancelAction,
       speaking,
       listening,
+      voiceSessionActive,
       busyActivity,
       clapWake,
       clapActivated,
@@ -1714,6 +1774,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       openWithQuery,
       liveData,
       refreshData,
+      weatherData,
       audioUnlocked,
       unlockAndPrimeAudio,
       lastReplyText,

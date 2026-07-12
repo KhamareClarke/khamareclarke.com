@@ -5,7 +5,6 @@
  * Three sharp transients, each within 900ms of the previous, triggers onTripleClap.
  */
 export async function createClapDetector({
-  onDoubleClap,    /* legacy alias — use onTripleClap */
   onTripleClap,
   shouldListen = () => true,
   doubleClapWindowMs = 900,
@@ -88,7 +87,7 @@ export async function createClapDetector({
         if (clapCount >= 3 && now - lastActivateAt >= cooldownMs) {
           clapCount = 0;
           lastActivateAt = now;
-          (onTripleClap || onDoubleClap)?.();
+          onTripleClap?.();
         }
       }
     };
