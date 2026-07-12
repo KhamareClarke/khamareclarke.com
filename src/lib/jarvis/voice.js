@@ -336,6 +336,48 @@ export function playBootChime(muted) {
   }
 }
 
+/** Soft ascending two-note tone — signals mic is now listening. */
+export function playListenChime(muted) {
+  if (muted || typeof window === 'undefined') return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(440, ctx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.11);
+    g.gain.setValueAtTime(0.055, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.26);
+    o.connect(g);
+    g.connect(ctx.destination);
+    o.start(ctx.currentTime);
+    o.stop(ctx.currentTime + 0.26);
+  } catch {
+    // audio optional
+  }
+}
+
+/** Soft descending two-note tone — signals mic has stopped / speech processed. */
+export function playStopChime(muted) {
+  if (muted || typeof window === 'undefined') return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(580, ctx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(360, ctx.currentTime + 0.15);
+    g.gain.setValueAtTime(0.045, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.30);
+    o.connect(g);
+    g.connect(ctx.destination);
+    o.start(ctx.currentTime);
+    o.stop(ctx.currentTime + 0.30);
+  } catch {
+    // audio optional
+  }
+}
+
 export function isSpeechRecognitionSupported() {
   return (
     typeof window !== 'undefined' &&

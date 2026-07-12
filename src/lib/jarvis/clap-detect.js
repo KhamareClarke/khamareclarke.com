@@ -1,13 +1,14 @@
 'use client';
 
 /**
- * Lightweight double-clap detector via Web Audio API.
- * Two sharp transients within ~700ms triggers onDoubleClap.
+ * Triple-clap detector via Web Audio API.
+ * Three sharp transients, each within 900ms of the previous, triggers onTripleClap.
  */
 export async function createClapDetector({
-  onDoubleClap,
+  onDoubleClap,    /* legacy alias — use onTripleClap */
+  onTripleClap,
   shouldListen = () => true,
-  doubleClapWindowMs = 750,
+  doubleClapWindowMs = 900,
   minClapGapMs = 100,
   cooldownMs = 1800,
 } = {}) {
@@ -84,10 +85,10 @@ export async function createClapDetector({
         }
         lastClapAt = now;
 
-        if (clapCount >= 2 && now - lastActivateAt >= cooldownMs) {
+        if (clapCount >= 3 && now - lastActivateAt >= cooldownMs) {
           clapCount = 0;
           lastActivateAt = now;
-          onDoubleClap?.();
+          (onTripleClap || onDoubleClap)?.();
         }
       }
     };

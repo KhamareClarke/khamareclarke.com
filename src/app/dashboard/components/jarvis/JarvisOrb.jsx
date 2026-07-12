@@ -26,7 +26,7 @@ export default function JarvisOrb() {
     <>
       {showBoot && bootLine && (
         <div
-          className="fixed bottom-28 right-6 z-40 max-w-xs px-4 py-3 rounded-2xl jarvis-bubble-assistant text-sm text-sky-100/90 shadow-xl pointer-events-none border border-sky-400/25"
+          className="fixed bottom-28 right-6 z-40 max-w-xs px-4 py-3 rounded-2xl jarvis-bubble-assistant text-sm text-[#fff8e1]/90 shadow-xl pointer-events-none border border-[#ffb700]/25"
           role="status"
         >
           {bootLine}
@@ -36,10 +36,10 @@ export default function JarvisOrb() {
         type="button"
         onClick={openJarvis}
         aria-label="Open JARVIS full interface"
-        className="fixed bottom-6 right-6 z-40 w-16 h-16 rounded-full border-2 border-sky-400/50 bg-[#030712] shadow-lg flex items-center justify-center transition hover:border-cyan-400 hover:scale-105 jarvis-orb-pulse"
+        className="fixed bottom-6 right-6 z-40 w-16 h-16 rounded-full border-2 border-[#ffb700]/50 bg-[#080600] shadow-lg flex items-center justify-center transition hover:border-[#ffb700] hover:scale-105 jarvis-orb-pulse"
       >
         <span className="absolute inset-0 rounded-full jarvis-orb-glow opacity-40" aria-hidden />
-        <span className="relative w-10 h-10 rounded-full bg-gradient-to-br from-cyan-300 via-sky-400 to-blue-600 jarvis-orb-glow" />
+        <span className="relative w-10 h-10 rounded-full bg-gradient-to-br from-[#ffd54f] via-[#ffb700] to-[#ff8c00] jarvis-orb-glow" />
       </button>
     </>
   );

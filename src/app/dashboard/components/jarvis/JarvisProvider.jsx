@@ -537,8 +537,12 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         }
 
         // Continuous mode never fires onEnd per utterance — send after a pause in speech.
+        // 1.5s after a final result on desktop; longer during interim to avoid cutting
+        // off mid-thought when the speaker pauses between clauses.
         if (display && (voiceAutoSendRef.current || continuousListenRef.current)) {
-          const pauseMs = hadFinal ? (isIOS() ? 380 : isMobileUserAgent() ? 480 : 550) : isMobileUserAgent() ? 900 : 1100;
+          const pauseMs = hadFinal
+            ? (isIOS() ? 900 : isMobileUserAgent() ? 1200 : 1500)
+            : (isMobileUserAgent() ? 1400 : 1800);
           scheduleVoiceAutoSend(pauseMs);
         }
       },
@@ -606,6 +610,13 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     if (minimal) return;
     refreshData().then(async (d) => {
       if (!d) return;
+      // Only greet once per browser session — skip on page-navigation refreshes.
+      let alreadyGreeted = false;
+      try { alreadyGreeted = !!sessionStorage.getItem('jarvis-greeted'); } catch { /* ignore */ }
+      if (alreadyGreeted) {
+        setBootTyped(true);
+        return;
+      }
       let line = `JARVIS online. ${d.leadsToday ?? 0} leads today, ${d.tasksQueued ?? 0} tasks queued.`;
       try {
         const lr = await fetch('/api/jarvis/llm-status', { credentials: 'include', cache: 'no-store' });
@@ -623,6 +634,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         // snapshot still usable; chat status unknown
       }
       setBootLine(line);
+      try { sessionStorage.setItem('jarvis-greeted', '1'); } catch { /* ignore */ }
       if (!bootPlayedRef.current && readCookie(PRESENTATION_KEY) === '1' && readCookie(MUTE_KEY) === '0') {
         playBootChime(false);
         bootPlayedRef.current = true;
@@ -1062,7 +1074,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const executeAction = useCallback(
     async (action) => {
       setPendingAction(null);
-      const confirmId = appendAssistant('Executing…', { pending: true });
+      const confirmId = appendAssistant('On it, sir.', { pending: true });
 
       try {
         if (action.command === 'open') {
@@ -1112,8 +1124,12 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           if (taskId) {
             const outcome = await pollTaskOutcome(taskId);
             if (outcome) {
-              msg = `Task ${outcome.status}: ${(outcome.result_message || outcome.task_description || '').slice(0, 200)}`;
+              const label = `${action.skill} on ${action.project}`;
+              const statusWord = /^(complete|completed|done)$/i.test(outcome.status) ? 'complete' : outcome.status;
+              msg = `${label} ${statusWord}, sir.${outcome.result_message ? ` ${outcome.result_message.slice(0, 160)}` : ''}`;
               appendAssistant(msg);
+              speakReply(msg);
+              toastApi?.pushToast?.(msg);
             }
           }
           speakReply(msg);

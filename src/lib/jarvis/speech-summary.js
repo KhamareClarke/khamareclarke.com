@@ -1,7 +1,7 @@
 import { stripJarvisMarkdown } from '@/app/dashboard/components/jarvis/JarvisMessageContent';
 
 const SHORT_MAX = 200;
-const SPEECH_MAX = 320;
+const SPEECH_MAX = 240;
 const MAX_SENTENCES = 2;
 
 function normalizePlain(text) {
