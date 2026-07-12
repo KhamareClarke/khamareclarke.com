@@ -53,6 +53,7 @@ export async function buildJarvisContext() {
       activity: [],
       tasksRecent: [],
       fleet: [],
+      fleetEvents: [],
       recentLeads: [],
       leadsHistory: {},
     };
@@ -87,6 +88,7 @@ export async function buildJarvisContext() {
     onboard7dRes,
     empireLeadsRecentRes,
     empireLeadsMyapprovedCountRes,
+    fleetEventsRes,
   ] = await Promise.all([
     admin.from('form_submissions').select('id', { count: 'exact', head: true }).gte('created_at', todayStart),
     admin.from('form_submissions').select('id', { count: 'exact', head: true }),
@@ -140,6 +142,11 @@ export async function buildJarvisContext() {
       .from('empire_leads')
       .select('id', { count: 'exact', head: true })
       .eq('project_id', 'myapproved'),
+    admin
+      .from('fleet_events')
+      .select('project, event_type, summary, created_at')
+      .order('created_at', { ascending: false })
+      .limit(20),
   ]);
 
   const formsToday = formsTodayRes.count ?? 0;
@@ -166,6 +173,7 @@ export async function buildJarvisContext() {
   }));
   const empireLeadsRecent = empireLeadsRecentRes.data || [];
   const empireLeadsMyapprovedTotal = empireLeadsMyapprovedCountRes.count ?? 0;
+  const fleetEvents = fleetEventsRes.data || [];
 
   const recentLeads = [
     ...(formsRecentRes.data || []).map((s) => ({
@@ -262,6 +270,17 @@ export async function buildJarvisContext() {
     lines.push('Last 20 empire_leads rows: none');
   }
 
+  if (fleetEvents.length) {
+    lines.push('FLEET EVENTS (all projects — last 20):');
+    for (const e of fleetEvents) {
+      lines.push(
+        `  - ${e.created_at?.slice(0, 16) || '?'} [${e.project}] ${e.event_type}: ${String(e.summary || '').slice(0, 120)}`
+      );
+    }
+  } else {
+    lines.push('FLEET EVENTS (all projects): none');
+  }
+
   // GHL summaries (max 5 clients with ghl_contact_id)
   const ghlClients = projects.filter((p) => p.ghl_contact_id).slice(0, 5);
   if (ghlClients.length && process.env.GHL_API_KEY) {
@@ -300,6 +319,7 @@ export async function buildJarvisContext() {
     activity,
     tasksRecent,
     fleet,
+    fleetEvents,
     recentLeads,
     leadsHistory: {
       7: (forms7dRes.count ?? 0) + (onboard7dRes.count ?? 0),

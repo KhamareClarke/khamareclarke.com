@@ -604,17 +604,32 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   useEffect(() => {
     if (minimal) return;
-    refreshData().then((d) => {
-      if (d) {
-        setBootLine(`JARVIS online. ${d.leadsToday ?? 0} leads today, ${d.tasksQueued ?? 0} tasks queued.`);
-        if (!bootPlayedRef.current && readCookie(PRESENTATION_KEY) === '1' && readCookie(MUTE_KEY) === '0') {
-          playBootChime(false);
-          bootPlayedRef.current = true;
+    refreshData().then(async (d) => {
+      if (!d) return;
+      let line = `JARVIS online. ${d.leadsToday ?? 0} leads today, ${d.tasksQueued ?? 0} tasks queued.`;
+      try {
+        const lr = await fetch('/api/jarvis/llm-status', { credentials: 'include', cache: 'no-store' });
+        if (lr.ok) {
+          const ls = await lr.json();
+          if (!ls.ready) {
+            const hint =
+              ls.hint ||
+              'Add OPENROUTER_API_KEY or GEMINI_API_KEY in Vercel, then redeploy.';
+            line += ` Chat offline — ${hint}`;
+            toastApi?.pushToast?.(`JARVIS chat needs an LLM key. ${hint}`);
+          }
         }
-        setTimeout(() => setBootTyped(true), 1200);
+      } catch {
+        // snapshot still usable; chat status unknown
       }
+      setBootLine(line);
+      if (!bootPlayedRef.current && readCookie(PRESENTATION_KEY) === '1' && readCookie(MUTE_KEY) === '0') {
+        playBootChime(false);
+        bootPlayedRef.current = true;
+      }
+      setTimeout(() => setBootTyped(true), 1200);
     });
-  }, [refreshData, minimal]);
+  }, [refreshData, minimal, toastApi]);
 
   useEffect(() => {
     if (minimal) return undefined;
@@ -859,6 +874,19 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       }
     };
 
+    const notifyFleetEvent = (payload) => {
+      const row = payload?.new;
+      if (!row) return;
+      const eventType = row.event_type || 'event';
+      const project = row.project || 'unknown';
+      const message = `New ${eventType} on ${project}, sir.`;
+      toastApi?.pushToast?.(message);
+      refreshDataRef.current?.();
+      if (!mutedRef.current) {
+        speakReplyRef.current?.(message, { speakFull: true });
+      }
+    };
+
     const channel = supabase
       .channel('jarvis-new-leads')
       .on(
@@ -870,6 +898,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'onboarding_clients' },
         notifyNewLead
+      )
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'fleet_events' },
+        notifyFleetEvent
       )
       .subscribe();
 
@@ -999,7 +1032,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           }
         }
         if (!full.trim()) {
-          const empty = 'No reply received, sir. Verify OPENROUTER_API_KEY in Vercel or try help / status.';
+          const empty =
+            'No reply received, sir. Set OPENROUTER_API_KEY or GEMINI_API_KEY in Vercel, redeploy, then try again. Instant commands: help, status, leads today.';
           setMessages((prev) =>
             prev.map((m) => (m.id === assistantId ? { ...m, content: empty } : m))
           );
