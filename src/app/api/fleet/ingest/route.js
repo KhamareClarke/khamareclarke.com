@@ -29,8 +29,9 @@ function normaliseEvent(raw) {
 }
 
 export async function POST(request) {
-  const secret = process.env.FLEET_INGEST_SECRET;
-  if (!secret) {
+  const fleetSecret = process.env.FLEET_INGEST_SECRET;
+  const empireSecret = process.env.EMPIRE_INGEST_SECRET;
+  if (!fleetSecret && !empireSecret) {
     return Response.json(
       { ok: false, error: 'FLEET_INGEST_SECRET not configured on the hub' },
       { status: 500 }
@@ -39,7 +40,10 @@ export async function POST(request) {
 
   const auth = request.headers.get('authorization') || '';
   const provided = auth.toLowerCase().startsWith('bearer ') ? auth.slice(7).trim() : '';
-  if (!provided || provided !== secret) return unauthorized();
+  const authorized =
+    provided &&
+    ((fleetSecret && provided === fleetSecret) || (empireSecret && provided === empireSecret));
+  if (!authorized) return unauthorized();
 
   if (!supabaseAdmin) {
     return Response.json({ ok: false, error: 'Supabase service role not configured' }, { status: 500 });
