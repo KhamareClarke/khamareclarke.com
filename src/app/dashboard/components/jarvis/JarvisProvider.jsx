@@ -258,6 +258,20 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     speakingRef.current = speaking;
   }, [speaking]);
 
+  const armMicSession = useCallback((active) => {
+    micSessionActiveRef.current = active;
+    voiceSessionArmedRef.current = active;
+    setMicSessionActive(active);
+    if (!active && listeningClearTimerRef.current) {
+      clearTimeout(listeningClearTimerRef.current);
+      listeningClearTimerRef.current = null;
+    }
+    if (!active && restartListeningTimerRef.current) {
+      clearTimeout(restartListeningTimerRef.current);
+      restartListeningTimerRef.current = null;
+    }
+  }, []);
+
   /** Full JARVIS page: always-on listen → reply → listen loop. */
   useEffect(() => {
     if (minimal || !open) return undefined;
@@ -393,20 +407,6 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       clapDetectorRef.current = null;
     };
   }, [minimal, open, clapWake]);
-
-  const armMicSession = useCallback((active) => {
-    micSessionActiveRef.current = active;
-    voiceSessionArmedRef.current = active;
-    setMicSessionActive(active);
-    if (!active && listeningClearTimerRef.current) {
-      clearTimeout(listeningClearTimerRef.current);
-      listeningClearTimerRef.current = null;
-    }
-    if (!active && restartListeningTimerRef.current) {
-      clearTimeout(restartListeningTimerRef.current);
-      restartListeningTimerRef.current = null;
-    }
-  }, []);
 
   const pauseListening = useCallback(() => {
     if (listeningClearTimerRef.current) {
