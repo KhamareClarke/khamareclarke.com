@@ -7,14 +7,14 @@ import CTAButton from "../components/CTAButton";
 import { PERSON_SCHEMA } from "../../lib/schema";
 
 export const metadata = {
-  title: "About Khamare Clarke | SEO Specialist and AI Systems Engineer",
+  title: "About Khamare Clarke | AI Implementation Specialist",
   description:
-    "Khamare Clarke is an SEO specialist and AI systems engineer based in Stoke-on-Trent. MSc AI at Keele University. He writes the code, runs the campaigns, and builds the systems.",
+    "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent. MSc Computer Science with AI, Keele University (2027). Implements AI across search, web, content, marketing, and automation for UK businesses.",
   alternates: { canonical: "https://khamareclarke.com/about" },
   openGraph: {
-    title: "About Khamare Clarke | SEO Specialist and AI Systems Engineer",
+    title: "About Khamare Clarke | AI Implementation Specialist",
     description:
-      "Khamare Clarke is an SEO specialist and AI systems engineer based in Stoke-on-Trent. MSc AI at Keele University. He writes the code, runs the campaigns, and builds the systems.",
+      "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent. MSc Computer Science with AI, Keele University (2027). Implements AI across search, web, content, marketing, and automation for UK businesses.",
     url: "https://khamareclarke.com/about",
     siteName: "Khamare Clarke",
     locale: "en_GB",
@@ -79,7 +79,7 @@ export default function AboutPage() {
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
           Khamare Clarke{" "}
           <span className="text-[#ffb700]">
-            — SEO Specialist and AI Systems Engineer
+            — AI Implementation Specialist
           </span>
         </h1>
 
@@ -93,20 +93,22 @@ export default function AboutPage() {
           </h2>
           <div className="space-y-5 text-[#ADB7BE] text-lg leading-relaxed">
             <p>
-              Khamare Clarke is an SEO specialist and AI systems engineer based
-              in Stoke-on-Trent, Staffordshire, serving businesses across the
+              Khamare Clarke is an AI Implementation Specialist based in
+              Stoke-on-Trent, Staffordshire, serving businesses across the
               whole of the UK. He holds a BSc in Software Engineering, a BSc in
               Digital Marketing, and is completing an MSc in Computer Science
               with Artificial Intelligence at Keele University (due 2027). That
               combination is not common, and it shapes how he works.
             </p>
             <p>
-              Most people who call themselves SEO consultants either understand
-              the marketing or understand the technology. Khamare does both. He
-              writes the code, runs the campaigns, and builds the systems
-              — including AI agents, CRM automations, and Google Ads API
-              integrations — himself. There is no outsourcing to junior team
-              members or offshore contractors.
+              Most people in this space are one thing: SEO consultants who
+              cannot code, AI consultants who have never shipped a production
+              system, or engineers who do not understand search. Khamare does
+              all three. He implements AI across search, web, content,
+              marketing, and automation -- working alongside existing business
+              teams rather than replacing them. The code is written here, the
+              campaigns are run here, and the systems are built here. No
+              outsourcing to junior team members or offshore contractors.
             </p>
             <p>
               He built his practice around a single principle: if the result
@@ -117,37 +119,41 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── What does an AI SEO specialist do? ── */}
+        {/* ── What does an AI Implementation Specialist do? ── */}
         <section className="mt-16" aria-labelledby="what-heading">
           <h2
             id="what-heading"
             className="text-2xl sm:text-3xl font-bold text-white mb-6 border-l-4 border-[#ffb700] pl-4"
           >
-            What does an AI SEO specialist do?
+            What does an AI Implementation Specialist do?
           </h2>
           <div className="space-y-5 text-[#ADB7BE] text-lg leading-relaxed">
             <p>
-              An AI SEO specialist optimises a business to rank in both
-              traditional search engines (Google, Bing) and AI-powered answer
-              engines (ChatGPT, Gemini, Perplexity). Getting a business cited
-              by an AI model requires a different technical approach to getting
-              it ranked in a list of ten blue links, and most agencies only
-              know how to do one or the other.
+              An AI implementation specialist assesses a business's current
+              operations, identifies where AI can be applied practically, and
+              implements the systems. That means AI agents and receptionists
+              that handle enquiries around the clock, SEO and AI search
+              optimisation that gets the business found in Google and in
+              ChatGPT, Gemini, and Perplexity answers, web builds that are
+              engineered to rank and convert, CRM and email automation that
+              follows up every lead, and content systems that produce at scale
+              without producing noise.
             </p>
             <p>
-              Khamare works across both simultaneously. That means structured
-              data, entity-based content, technical site architecture, Google
-              Business Profile management, link authority, and the schema markup
-              that teaches AI models what a business does and where it operates.
-              The output is visibility wherever a potential customer is
-              searching.
+              The distinction from a standard consultant is implementation.
+              An implementation specialist does not hand a strategy document
+              to an internal team and leave. He connects the technology to the
+              business outcome, builds the system, and is accountable for the
+              result. The MSc in Computer Science with Artificial Intelligence
+              at Keele University grounds this work in how these systems
+              actually behave. The two BSc degrees ground it in the marketing
+              and engineering disciplines that have to work together.
             </p>
             <p>
-              Beyond search, he integrates AI systems that act on that
-              visibility: automated lead qualification, AI receptionists that
-              respond to enquiries within seconds, and CRM workflows that turn
-              a website visitor into a booked appointment without human
-              intervention at every step.
+              The output is a business that is visible wherever its customers
+              are searching, has AI handling the operational load that does not
+              need a human, and has reporting that makes the outcome clear every
+              month in plain English.
             </p>
           </div>
         </section>

@@ -28,7 +28,7 @@ const HeroSection = () => {
           {/* Badge — static, always visible */}
           <div className="mb-6 flex justify-center lg:justify-start">
             <span className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-[11px] sm:text-xs font-bold px-5 py-2.5 rounded-full tracking-wider uppercase">
-              THE SEO SPECIALIST WITH A MASTER&apos;S IN AI
+              AI IMPLEMENTATION SPECIALIST &middot; MSc COMPUTER SCIENCE &amp; AI
             </span>
           </div>
 
@@ -38,11 +38,11 @@ const HeroSection = () => {
           </h1>
 
           <p className="text-xl sm:text-2xl lg:text-xl max-w-xl font-medium mb-4 lg:mb-5 text-[#ADB7BE]" style={{fontFamily:'Montserrat, sans-serif'}}>
-            UK businesses that rank higher, earn more, and run leaner.
+            AI implemented across search, web, content, and automation. Working with your team, not replacing it.
           </p>
 
           <p className="text-base lg:text-lg max-w-xl text-[#ADB7BE]/80 mb-4 lg:mb-5 leading-relaxed" style={{fontFamily:'Montserrat, sans-serif'}}>
-            I rank UK businesses with SEO backed by AI systems built in production. I write the code, run the campaigns, and build the systems that convert the traffic.
+            I implement the full stack: code the systems, run the campaigns, and build the AI that converts the traffic. 538% Google Business Profile growth and 5X leads in 60 days are what that looks like in practice.
           </p>
 
           <p className="text-2xl sm:text-3xl font-black text-[#ffb700] mb-6 lg:mb-8 text-center lg:text-left" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.02em'}}>
@@ -154,7 +154,7 @@ const HeroSection = () => {
           <div className="rounded-full w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] lg:w-[450px] lg:h-[450px] xl:w-[550px] xl:h-[550px] relative shadow-2xl border-4 border-[#ffb700]/80 bg-[#111015] flex items-center justify-center ring-4 ring-[#ffb700]/20 mx-auto overflow-hidden hover:ring-[#ffb700]/40 transition-all duration-300">
             <Image
               src="/images/hero-image.png"
-              alt="Khamare Clarke, SEO specialist and AI systems engineer based in Stoke-on-Trent"
+              alt="Khamare Clarke, AI Implementation Specialist based in Stoke-on-Trent"
               className="object-contain w-full h-full scale-75 hover:scale-[82%] transition-transform duration-300"
               width={550}
               height={550}

@@ -11,9 +11,9 @@ import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from '../lib/schema'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: "Khamare Clarke | SEO Specialist and AI Systems Engineer",
-  description: "SEO specialist and AI systems engineer based in Stoke-on-Trent. Ranks UK businesses on Google and in AI search (ChatGPT, Gemini, Perplexity). MSc Artificial Intelligence, Keele University.",
-  keywords: 'SEO specialist UK, local SEO Stoke-on-Trent, AI search optimisation, AEO, GEO, Google Business Profile, AI receptionist, Google Ads API, programmatic SEO, Staffordshire SEO',
+  title: "Khamare Clarke | AI Implementation Specialist",
+  description: "AI Implementation Specialist based in Stoke-on-Trent. Implements AI across search, web, content, marketing, and automation for UK businesses. MSc Computer Science with AI, Keele University. 538% Google Business Profile growth. 5X leads in 60 days.",
+  keywords: 'AI implementation specialist, AI implementation UK, SEO specialist UK, local SEO Stoke-on-Trent, AI search optimisation, AEO, GEO, Google Business Profile, AI receptionist, Google Ads API, programmatic SEO, Staffordshire, web design, digital marketing, marketing automation, AI consultant UK',
   verification: {
     google: 'FOZp3AiubuzQwsGbpopu8OBTtmjxt17FtQ2Lup2ERM4'
   },
@@ -33,8 +33,8 @@ export const metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "Khamare Clarke | SEO Specialist and AI Systems Engineer",
-    description: "SEO specialist and AI systems engineer based in Stoke-on-Trent. Ranks UK businesses on Google and in AI search. MSc Artificial Intelligence, Keele University.",
+    title: "Khamare Clarke | AI Implementation Specialist",
+    description: "AI Implementation Specialist based in Stoke-on-Trent. Implements AI across search, web, content, marketing, and automation for UK businesses. MSc Computer Science with AI, Keele University.",
     type: 'website',
     url: 'https://khamareclarke.com',
     siteName: 'Khamare Clarke',
@@ -43,15 +43,15 @@ export const metadata = {
         url: '/images/about-image.png',
         width: 1200,
         height: 630,
-        alt: 'Khamare Clarke - SEO Specialist and AI Systems Engineer'
+        alt: 'Khamare Clarke -- AI Implementation Specialist'
       }
     ],
     locale: 'en_GB',
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Khamare Clarke | SEO Specialist and AI Systems Engineer",
-    description: "SEO specialist and AI systems engineer based in Stoke-on-Trent. Ranks UK businesses on Google and in AI search.",
+    title: "Khamare Clarke | AI Implementation Specialist",
+    description: "AI Implementation Specialist based in Stoke-on-Trent. Implements AI across search, web, content, marketing, and automation for UK businesses.",
     creator: '@khamareclarke',
     images: ['/images/about-image.png'],
   },
@@ -104,8 +104,8 @@ export default function RootLayout({ children }) {
             "mainEntity": [
               {
                 "@type": "Question",
-                "name": "What does an SEO specialist do differently from an agency?",
-                "acceptedAnswer": { "@type": "Answer", "text": "An SEO specialist runs every element of the campaign — technical audit, content strategy, link building, Google Business Profile — personally, with no account manager in between. Work moves faster and the strategy stays coherent." }
+                "name": "What does an AI Implementation Specialist do?",
+                "acceptedAnswer": { "@type": "Answer", "text": "An AI Implementation Specialist assesses a business's current operations, identifies where AI can be applied practically, and implements the systems -- AI agents, automation workflows, search optimisation, web builds, and content systems -- working alongside the existing team. The emphasis is on measurable outcomes: leads captured, rankings achieved, time saved, cost per acquisition reduced." }
               },
               {
                 "@type": "Question",

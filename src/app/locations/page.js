@@ -7,11 +7,11 @@ import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../lib/schema";
 
 export const metadata = {
   title: "SEO and AI Services by Location | Khamare Clarke — UK Coverage",
-  description: "SEO specialist and AI systems engineer serving the whole of the UK from Stoke-on-Trent, Staffordshire. Local SEO, AI search optimisation, and Google Business Profile management for businesses across England.",
+  description: "AI Implementation Specialist serving the whole of the UK from Stoke-on-Trent, Staffordshire. SEO, AI search optimisation, web development, AI agents, and digital marketing for businesses across England.",
   alternates: { canonical: "https://khamareclarke.com/locations" },
   openGraph: {
     title: "SEO and AI Services by Location | Khamare Clarke",
-    description: "SEO specialist serving the UK from Stoke-on-Trent. Local SEO, AI search, Google Business Profile.",
+    description: "AI Implementation Specialist serving the UK from Stoke-on-Trent. SEO, AI search, web development, AI agents, digital marketing.",
     url: "https://khamareclarke.com/locations",
     siteName: "Khamare Clarke",
     locale: "en_GB",

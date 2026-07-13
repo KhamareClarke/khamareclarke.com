@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 
 const FAQ_DATA = [
   {
-    question: "What does an AI SEO specialist do differently from a standard agency?",
-    answer: "I optimise for Google and AI search engines simultaneously. That means your business gets found in traditional results and in ChatGPT, Gemini, and Perplexity answers. Most agencies do not do this yet.",
+    question: "What does an AI Implementation Specialist do differently from a standard agency?",
+    answer: "I implement the full stack: SEO, AI search optimisation, web development, AI agents, CRM automation, and content systems. That means your business gets found in traditional Google results and in ChatGPT, Gemini, and Perplexity answers, and the AI systems that act on that visibility are built and running. Most agencies do one channel. This is the whole system.",
   },
   {
     question: "How quickly can you start and what does the first week look like?",

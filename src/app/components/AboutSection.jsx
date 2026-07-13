@@ -147,7 +147,7 @@ const AboutSection = () => {
                   src="/images/about-image.png" 
                   width={400} 
                   height={400} 
-                  alt="Khamare Clarke, SEO specialist and AI systems engineer, Stoke-on-Trent"
+                  alt="Khamare Clarke, AI Implementation Specialist, Stoke-on-Trent"
                   className="rounded-xl w-full h-auto object-cover"
                 />
               </div>

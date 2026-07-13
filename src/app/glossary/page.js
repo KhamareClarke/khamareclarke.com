@@ -8,7 +8,7 @@ import { GLOSSARY_TERMS, GLOSSARY_FAMILIES } from "../../lib/glossary-data";
 export const metadata = {
   title: "SEO and AI Glossary | Khamare Clarke",
   description:
-    "Plain-English definitions of SEO, AI search, AI systems, and digital marketing terms. Every definition written for UK businesses by an SEO specialist and AI systems engineer.",
+    "Plain-English definitions of SEO, AI search, AI systems, and digital marketing terms. Every definition written for UK businesses by an AI Implementation Specialist with an MSc in Computer Science with AI.",
   alternates: { canonical: "https://khamareclarke.com/glossary" },
   openGraph: {
     title: "SEO and AI Glossary | Khamare Clarke",
