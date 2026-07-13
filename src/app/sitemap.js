@@ -13,6 +13,7 @@ const BLOG_SLUGS = [
   'wix-2026-honest-review',
   'ai-agent-standard-as-phone-number',
   'test-yourself-chatgpt-seo',
+  'ai-chatbots-save-uk-trades',
 ]
 
 const EXPERTISE_SLUGS = [
@@ -30,6 +31,8 @@ export default function sitemap() {
     { url: `${BASE_URL}/about`, lastModified: NOW, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/services`, lastModified: NOW, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${BASE_URL}/locations`, lastModified: NOW, changeFrequency: 'monthly', priority: 0.75 },
+    { url: `${BASE_URL}/case-studies`, lastModified: NOW, changeFrequency: 'monthly', priority: 0.75 },
+    { url: `${BASE_URL}/business-bundle`, lastModified: NOW, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/blog`, lastModified: NOW, changeFrequency: 'weekly', priority: 0.8 },
     ...BLOG_SLUGS.map(slug => ({
       url: `${BASE_URL}/blog/${slug}`,

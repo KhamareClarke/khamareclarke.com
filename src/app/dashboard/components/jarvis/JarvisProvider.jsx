@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { parseJarvisCommand } from '@/lib/jarvis/commands';
-import { composeReadResponse, normalizeJarvisContext, composeCompanyResult, composeCompanySpoken, composePageSpeedResult, composePageSpeedSpoken } from '@/lib/jarvis/templates';
+import { composeReadResponse, normalizeJarvisContext, composeCompanyResult, composeCompanySpoken, composePageSpeedResult, composePageSpeedSpoken, composeAgendaResult, composeAgendaSpoken } from '@/lib/jarvis/templates';
 import {
   speakJarvis,
   speakJarvisFromGesture,
@@ -1358,6 +1358,42 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     [appendAssistant, speakReply, beginActivity, endActivity]
   );
 
+  const runAgendaFetch = useCallback(
+    async (range, day) => {
+      const label = range === 'week' ? 'this week' : range === 'day' && day ? day : 'today';
+      const pendingId = appendAssistant(`Pulling your agenda for ${label}, sir…`, { pending: true });
+      speakReply(`Pulling your agenda for ${label}, sir.`);
+      try {
+        const res = await fetch('/api/jarvis/agenda', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ range, day }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Agenda fetch failed');
+        const content = composeAgendaResult(data);
+        const spoken = composeAgendaSpoken(data);
+        const cards = data.notConnected
+          ? [{ type: 'link', url: '/api/auth/google', label: 'Connect Google Calendar' }]
+          : (data.events || []).slice(0, 5).map((e) => ({ type: 'agenda-event', ...e }));
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === pendingId ? { ...m, content, pending: false, cards } : m
+          )
+        );
+        speakReply(spoken);
+      } catch (err) {
+        const msg = `Could not fetch your agenda, sir. ${err.message || 'Try again.'}`;
+        setMessages((prev) =>
+          prev.map((m) => (m.id === pendingId ? { ...m, content: msg, pending: false } : m))
+        );
+        speakReply(msg);
+      }
+    },
+    [appendAssistant, speakReply]
+  );
+
   const runPageSpeedCheck = useCallback(
     async (url) => {
       const pendingId = appendAssistant(`Running PageSpeed audit on ${url}, sir…`, { pending: true });
@@ -1523,6 +1559,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
             await runWebSearch(parsed.query);
             return;
           }
+          if (parsed.command === 'agenda') {
+            await runAgendaFetch(parsed.range, parsed.day);
+            return;
+          }
           if (parsed.command === 'pagespeed') {
             await runPageSpeedCheck(parsed.url);
             return;
@@ -1607,6 +1647,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       openBrowseUrl,
       runWebSearch,
       runImageGen,
+      runAgendaFetch,
       runPageSpeedCheck,
       runCompanyLookup,
       beginActivity,

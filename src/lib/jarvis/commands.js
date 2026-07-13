@@ -361,6 +361,32 @@ export function parseJarvisCommand(input, clients = []) {
     };
   }
 
+  // ─── Google Calendar agenda ──────────────────────────────────────────────────
+  if (
+    text === 'agenda' ||
+    text === "what's on today" ||
+    text === 'what is on today' ||
+    text === "what's on" ||
+    /^(?:show|check|get|pull up|what(?:'s|\s+is))\s+(?:my\s+)?(?:agenda|calendar|schedule|events?)(?:\s+(?:for\s+)?today)?$/.test(text)
+  ) {
+    return { type: 'read', command: 'agenda', range: 'today' };
+  }
+
+  if (
+    /^(?:agenda|calendar|schedule|events?|what(?:'s|\s+is)\s+on)\s+(?:this\s+)?week$/.test(text) ||
+    /^what(?:'s|\s+is)\s+on\s+this\s+week$/.test(text) ||
+    /^show\s+(?:my\s+)?(?:week(?:ly)?\s+)?(?:agenda|calendar|schedule)$/.test(text)
+  ) {
+    return { type: 'read', command: 'agenda', range: 'week' };
+  }
+
+  const agendaDayMatch = raw.match(
+    /^(?:am\s+i\s+free|what(?:'s|\s+is)\s+on|agenda|calendar|schedule|events?)\s+(?:on\s+)?(\w+day|tomorrow)\??$/i
+  );
+  if (agendaDayMatch) {
+    return { type: 'read', command: 'agenda', range: 'day', day: agendaDayMatch[1] };
+  }
+
   // ─── PageSpeed audit ─────────────────────────────────────────────────────────
   const speedMatch = raw.match(
     /^(?:speed\s+(?:check|test|audit)|pagespeed(?:\s+check)?|site\s+speed|check\s+(?:the\s+)?speed(?:\s+of)?|audit(?:\s+site)?)\s+(.+)$/i

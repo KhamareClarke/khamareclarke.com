@@ -18,7 +18,9 @@ export async function middleware(req) {
 
   // Fail-closed: if Supabase isn't configured, deny protected routes.
   if (!url || !anon) {
-    return NextResponse.redirect(loginUrl);
+    const redirectRes = NextResponse.redirect(loginUrl);
+    redirectRes.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    return redirectRes;
   }
 
   let res = NextResponse.next({ request: { headers: req.headers } });
@@ -43,7 +45,9 @@ export async function middleware(req) {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.redirect(loginUrl);
+    const redirectRes = NextResponse.redirect(loginUrl);
+    redirectRes.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    return redirectRes;
   }
 
   // /dashboard is admin-only — verify role.
@@ -56,10 +60,13 @@ export async function middleware(req) {
     if (profile?.role !== 'admin') {
       // Signed-in client tried to hit admin area — send them to portal.
       const portalUrl = new URL('/portal', req.url);
-      return NextResponse.redirect(portalUrl);
+      const portalRedirect = NextResponse.redirect(portalUrl);
+      portalRedirect.headers.set('X-Robots-Tag', 'noindex, nofollow');
+      return portalRedirect;
     }
   }
 
+  res.headers.set('X-Robots-Tag', 'noindex, nofollow');
   return res;
 }
 

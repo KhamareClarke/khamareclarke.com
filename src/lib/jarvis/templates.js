@@ -208,6 +208,45 @@ export const HELP_CARD = {
   ],
 };
 
+export function composeAgendaResult(data) {
+  if (data?.notConnected) {
+    return 'Google Calendar is not connected, sir. Connect it at /api/auth/google.';
+  }
+  const events = data?.events ?? [];
+  if (!events.length) {
+    return `No events found for ${data?.range || 'that period'}, sir.`;
+  }
+  const label = data?.range === 'week' ? 'this week' : data?.range === 'day' ? (data?.day || 'that day') : 'today';
+  const lines = [`Agenda — ${label}: ${events.length} event(s).`];
+  for (const e of events) {
+    const timeStr = e.start
+      ? new Date(e.start).toLocaleString('en-GB', { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+      : '?';
+    const loc = e.location ? ` @ ${e.location}` : '';
+    lines.push(`  · ${timeStr}${loc} — ${e.summary}`);
+  }
+  return lines.join('\n');
+}
+
+export function composeAgendaSpoken(data) {
+  if (data?.notConnected) {
+    return 'Google Calendar is not connected, sir. Follow the link in comms to authorise.';
+  }
+  const events = data?.events ?? [];
+  if (!events.length) {
+    return `Nothing in the calendar for ${data?.range || 'that period'}, sir.`;
+  }
+  const label = data?.range === 'week' ? 'this week' : data?.range === 'day' ? (data?.day || 'that day') : 'today';
+  if (events.length === 1) {
+    const e = events[0];
+    const timeStr = e.start
+      ? new Date(e.start).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+      : 'unknown time';
+    return `One event ${label}, sir: ${e.summary} at ${timeStr}.`;
+  }
+  return `${events.length} events ${label}, sir. First up: ${events[0].summary}.`;
+}
+
 export function composeCompanyResult(data) {
   if (!data?.found) return 'No match on Companies House, sir.';
 
