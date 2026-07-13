@@ -11,6 +11,30 @@ import { Section } from "../components/ui/Section";
 
 // Metadata moved to layout.js since this is a client component
 
+export const metadata = {
+  title: "AI Business Growth Specialist | Accelerate Revenue with Smart Automation | Khamare Clarke",
+  description:
+    "Done-for-you websites, ads, and AI systems that deliver predictable growth for UK businesses. Built to convert. Delivered in 14 days. One transparent price. Zero surprises.",
+  alternates: { canonical: "https://khamareclarke.com/business-bundle" },
+  openGraph: {
+    title: "AI Business Growth Specialist | Accelerate Revenue with Smart Automation | Khamare Clarke",
+    description:
+      "Done-for-you websites, ads, and AI systems that deliver predictable growth for UK businesses. Built to convert. Delivered in 14 days. One transparent price. Zero surprises.",
+    url: "https://khamareclarke.com/business-bundle",
+    siteName: "Khamare Clarke",
+    locale: "en_GB",
+    type: "website",
+    images: [
+      {
+        url: "/images/business-bundle-hero.jpg",
+        width: 1200,
+        height: 630,
+        alt: "AI Business Growth Specialist for UK Businesses",
+      },
+    ],
+  },
+};
+
 function SpotsLeftCounter() {
   const [spotsLeft] = useState(2); // Fixed at 2 spots
   const [isVisible, setIsVisible] = useState(false);
@@ -59,7 +83,7 @@ function SpotsLeftCounter() {
   );
 }
 
-export default function BusinessBundlePage() {
+function BusinessBundleClientContent() {
   const [openFAQ, setOpenFAQ] = useState(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formError, setFormError] = useState(null);
@@ -1519,7 +1543,6 @@ export default function BusinessBundlePage() {
       {/* END: WhatsApp Floating Button */}
       
       <CookieBanner />
-      <Footer />
-    </main>
-  );
+export default function BusinessBundlePage() {
+  return <BusinessBundleClientContent />;
 }
