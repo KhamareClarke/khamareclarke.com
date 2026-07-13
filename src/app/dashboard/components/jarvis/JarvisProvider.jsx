@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { parseJarvisCommand } from '@/lib/jarvis/commands';
-import { composeReadResponse, normalizeJarvisContext } from '@/lib/jarvis/templates';
+import { composeReadResponse, normalizeJarvisContext, composeCompanyResult, composeCompanySpoken } from '@/lib/jarvis/templates';
 import {
   speakJarvis,
   speakJarvisFromGesture,
@@ -1358,6 +1358,40 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     [appendAssistant, speakReply, beginActivity, endActivity]
   );
 
+  const runCompanyLookup = useCallback(
+    async (query) => {
+      const pendingId = appendAssistant(`Looking up ${query} on Companies House, sir…`, { pending: true });
+      speakReply(`Looking up ${query} on Companies House, sir.`);
+      try {
+        const res = await fetch('/api/jarvis/company', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Lookup failed');
+        const content = composeCompanyResult(data);
+        const spoken = composeCompanySpoken(data);
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === pendingId
+              ? { ...m, content, pending: false, cards: data.found ? [{ type: 'company', ...data }] : [] }
+              : m
+          )
+        );
+        speakReply(spoken);
+      } catch (err) {
+        const msg = `Companies House lookup failed, sir. ${err.message || 'Try again.'}`;
+        setMessages((prev) =>
+          prev.map((m) => (m.id === pendingId ? { ...m, content: msg, pending: false } : m))
+        );
+        speakReply(msg);
+      }
+    },
+    [appendAssistant, speakReply]
+  );
+
   const processUserMessage = useCallback(
     async (trimmed, { addUserBubble = true } = {}) => {
       try {
@@ -1455,6 +1489,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
             await runWebSearch(parsed.query);
             return;
           }
+          if (parsed.command === 'company') {
+            await runCompanyLookup(parsed.query);
+            return;
+          }
           const reply = composeReadResponse(parsed, data || {});
           if (reply?.content) {
             replyAssistant(reply.content, { cards: reply.cards });
@@ -1531,6 +1569,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       openBrowseUrl,
       runWebSearch,
       runImageGen,
+      runCompanyLookup,
       beginActivity,
       endActivity,
     ]

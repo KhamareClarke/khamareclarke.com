@@ -208,6 +208,53 @@ export const HELP_CARD = {
   ],
 };
 
+export function composeCompanyResult(data) {
+  if (!data?.found) return 'No match on Companies House, sir.';
+
+  const addr = data.address;
+  const addressLine = addr
+    ? [addr.address_line_1, addr.address_line_2, addr.locality, addr.region, addr.postal_code, addr.country]
+        .filter(Boolean)
+        .join(', ')
+    : null;
+
+  const lines = [
+    `Company: ${data.name ?? '—'}`,
+    `Status: ${data.status ?? '—'}`,
+    `Number: ${data.companyNumber ?? '—'}`,
+    `Incorporated: ${data.incorporationDate ?? '—'}`,
+    `Type: ${data.type ?? '—'}`,
+  ];
+  if (addressLine) lines.push(`Address: ${addressLine}`);
+  if (data.sicCodes?.length) lines.push(`SIC: ${data.sicCodes.join(', ')}`);
+
+  const activeOfficers = (data.officers ?? []).filter((o) => !o.resignedOn);
+  if (activeOfficers.length) {
+    lines.push(`Directors (active): ${activeOfficers.map((o) => o.name).join(', ')}`);
+  }
+
+  const activePscs = (data.pscs ?? []).filter((p) => !p.ceasedOn);
+  if (activePscs.length) {
+    lines.push(`PSCs: ${activePscs.map((p) => p.name).join(', ')}`);
+  }
+
+  if (data.filings?.length) {
+    lines.push('Recent filings:');
+    for (const f of data.filings) {
+      lines.push(`  · ${f.date ?? '?'} — ${f.description ?? 'Filing'}`);
+    }
+  }
+
+  return lines.join('\n');
+}
+
+export function composeCompanySpoken(data) {
+  if (!data?.found) return 'No match on Companies House, sir.';
+  const statusPart = data.status ? ` — currently ${data.status}` : '';
+  const datePart = data.incorporationDate ? `, incorporated ${data.incorporationDate}` : '';
+  return `${data.name ?? 'Unknown company'}${statusPart}${datePart}. Company number ${data.companyNumber ?? 'not found'}.`;
+}
+
 export function composeReadResponse(command, data) {
   switch (command.command) {
     case 'status':

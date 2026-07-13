@@ -361,6 +361,28 @@ export function parseJarvisCommand(input, clients = []) {
     };
   }
 
+  // ─── Companies House lookup — must fire before broad look-up/search patterns ──
+  const chExplicit = raw.match(
+    /^(?:companies\s+house|find\s+company|check\s+company|company\s+details?|company\s+profile)\s+(.+)$/i
+  );
+  if (chExplicit) {
+    return { type: 'read', command: 'company', query: chExplicit[1].trim() };
+  }
+
+  const whoRunsMatch = raw.match(
+    /^who\s+(?:runs?|owns?|is\s+behind|founded|controls?|directs?)\s+(.+?)[\s?!.]*$/i
+  );
+  if (whoRunsMatch) {
+    return { type: 'read', command: 'company', query: whoRunsMatch[1].trim() };
+  }
+
+  const lookUpChMatch = raw.match(
+    /^look\s*up\s+(.+?)\s+on\s+companies\s+house$/i
+  );
+  if (lookUpChMatch) {
+    return { type: 'read', command: 'company', query: lookUpChMatch[1].trim() };
+  }
+
   // Broad search-intent detection (after open/browse so embedded "search about" on open-youtube still browses).
   const searchMatch = raw.match(
     /^(?:search|serach|google|look\s*up|lookup)(?:\s+(?:on\s+google|the\s+web|the\s+internet))?(?:\s+(?:for|about|the web for))*\s+(.+)$/i
