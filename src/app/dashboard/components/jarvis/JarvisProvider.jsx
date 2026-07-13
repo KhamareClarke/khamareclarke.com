@@ -166,6 +166,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const restartListeningTimerRef = useRef(null);
   /** Sticky arm flag — stays true between recognition restarts so HUD never flickers to idle. */
   const voiceSessionArmedRef = useRef(false);
+  const sessionPersistReadyRef = useRef(false);
 
   const toggle = useCallback(() => {
     router.push('/dashboard/jarvis');
