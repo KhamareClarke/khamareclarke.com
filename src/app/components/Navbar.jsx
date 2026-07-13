@@ -107,7 +107,6 @@ const Navbar = () => {
             className="whitespace-nowrap text-sm px-4 py-2"
             icon="phone"
             eventLabel="nav_book_consultation"
-            caption="Designed for teams ready to get clarity and move fast."
           >
             BOOK A FREE CALL
           </CTAButton>
