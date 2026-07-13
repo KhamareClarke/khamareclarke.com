@@ -361,6 +361,21 @@ export function parseJarvisCommand(input, clients = []) {
     };
   }
 
+  // ─── PageSpeed audit ─────────────────────────────────────────────────────────
+  const speedMatch = raw.match(
+    /^(?:speed\s+(?:check|test|audit)|pagespeed(?:\s+check)?|site\s+speed|check\s+(?:the\s+)?speed(?:\s+of)?|audit(?:\s+site)?)\s+(.+)$/i
+  );
+  if (speedMatch) {
+    return { type: 'read', command: 'pagespeed', url: speedMatch[1].trim() };
+  }
+
+  const speedOfMatch = raw.match(
+    /^(?:how\s+(?:fast|slow|quick)(?:\s+is)?|what(?:'s|\s+is)\s+the\s+speed\s+of)\s+(.+?)[\s?!.]*$/i
+  );
+  if (speedOfMatch) {
+    return { type: 'read', command: 'pagespeed', url: speedOfMatch[1].trim() };
+  }
+
   // ─── Companies House lookup — must fire before broad look-up/search patterns ──
   const chExplicit = raw.match(
     /^(?:companies\s+house|find\s+company|check\s+company|company\s+details?|company\s+profile)\s+(.+)$/i

@@ -255,6 +255,53 @@ export function composeCompanySpoken(data) {
   return `${data.name ?? 'Unknown company'}${statusPart}${datePart}. Company number ${data.companyNumber ?? 'not found'}.`;
 }
 
+export function composePageSpeedResult(data) {
+  if (!data) return 'PageSpeed audit failed, sir. Check the URL and try again.';
+
+  const s = data.scores;
+  const v = data.vitals;
+  const strategy = data.strategy === 'desktop' ? 'Desktop' : 'Mobile';
+
+  const scoreStr = (n) => (n != null ? `${n}/100` : '—');
+
+  const lines = [
+    `PageSpeed — ${strategy}: ${data.url}`,
+    `Fetched: ${data.fetchTime ? data.fetchTime.slice(0, 19).replace('T', ' ') : '—'}`,
+    `Scores:`,
+    `  Performance:    ${scoreStr(s?.performance)}`,
+    `  Accessibility:  ${scoreStr(s?.accessibility)}`,
+    `  Best Practices: ${scoreStr(s?.bestPractices)}`,
+    `  SEO:            ${scoreStr(s?.seo)}`,
+  ];
+
+  lines.push('Core Web Vitals:');
+  if (v?.fcp?.displayValue) lines.push(`  FCP:  ${v.fcp.displayValue}`);
+  if (v?.lcp?.displayValue) lines.push(`  LCP:  ${v.lcp.displayValue}`);
+  if (v?.tbt?.displayValue) lines.push(`  TBT:  ${v.tbt.displayValue}`);
+  if (v?.cls?.displayValue) lines.push(`  CLS:  ${v.cls.displayValue}`);
+  if (v?.tti?.displayValue) lines.push(`  TTI:  ${v.tti.displayValue}`);
+
+  if (data.opportunities?.length) {
+    lines.push('Top opportunities:');
+    for (const o of data.opportunities) {
+      const savings = o.savingsMs > 0 ? ` (saves ~${(o.savingsMs / 1000).toFixed(1)}s)` : '';
+      lines.push(`  · ${o.title ?? 'Opportunity'}${savings}`);
+    }
+  }
+
+  return lines.join('\n');
+}
+
+export function composePageSpeedSpoken(data) {
+  if (!data) return 'PageSpeed audit failed, sir.';
+  const perf = data.scores?.performance;
+  const perfStr = perf != null ? `${perf} out of 100` : 'unavailable';
+  const strategy = data.strategy === 'desktop' ? 'desktop' : 'mobile';
+  const opp = data.opportunities?.[0]?.title;
+  const oppStr = opp ? ` Top opportunity: ${opp}.` : '';
+  return `${strategy.charAt(0).toUpperCase() + strategy.slice(1)} performance score for ${data.url} is ${perfStr}.${oppStr}`;
+}
+
 export function composeReadResponse(command, data) {
   switch (command.command) {
     case 'status':

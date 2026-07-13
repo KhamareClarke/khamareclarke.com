@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { parseJarvisCommand } from '@/lib/jarvis/commands';
-import { composeReadResponse, normalizeJarvisContext, composeCompanyResult, composeCompanySpoken } from '@/lib/jarvis/templates';
+import { composeReadResponse, normalizeJarvisContext, composeCompanyResult, composeCompanySpoken, composePageSpeedResult, composePageSpeedSpoken } from '@/lib/jarvis/templates';
 import {
   speakJarvis,
   speakJarvisFromGesture,
@@ -1358,6 +1358,40 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     [appendAssistant, speakReply, beginActivity, endActivity]
   );
 
+  const runPageSpeedCheck = useCallback(
+    async (url) => {
+      const pendingId = appendAssistant(`Running PageSpeed audit on ${url}, sir…`, { pending: true });
+      speakReply(`Running PageSpeed audit on ${url}, sir.`);
+      try {
+        const res = await fetch('/api/jarvis/pagespeed', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Audit failed');
+        const content = composePageSpeedResult(data);
+        const spoken = composePageSpeedSpoken(data);
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === pendingId
+              ? { ...m, content, pending: false, cards: [{ type: 'pagespeed', ...data }] }
+              : m
+          )
+        );
+        speakReply(spoken);
+      } catch (err) {
+        const msg = `PageSpeed audit failed, sir. ${err.message || 'Try again.'}`;
+        setMessages((prev) =>
+          prev.map((m) => (m.id === pendingId ? { ...m, content: msg, pending: false } : m))
+        );
+        speakReply(msg);
+      }
+    },
+    [appendAssistant, speakReply]
+  );
+
   const runCompanyLookup = useCallback(
     async (query) => {
       const pendingId = appendAssistant(`Looking up ${query} on Companies House, sir…`, { pending: true });
@@ -1489,6 +1523,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
             await runWebSearch(parsed.query);
             return;
           }
+          if (parsed.command === 'pagespeed') {
+            await runPageSpeedCheck(parsed.url);
+            return;
+          }
           if (parsed.command === 'company') {
             await runCompanyLookup(parsed.query);
             return;
@@ -1569,6 +1607,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       openBrowseUrl,
       runWebSearch,
       runImageGen,
+      runPageSpeedCheck,
       runCompanyLookup,
       beginActivity,
       endActivity,
