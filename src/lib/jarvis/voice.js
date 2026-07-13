@@ -400,9 +400,13 @@ export function isIOS() {
   );
 }
 
-/** iOS Safari handles single-utterance mode + auto-restart more reliably than continuous. */
+/**
+ * Continuous mode causes frequent no-speech / end cycles on mobile browsers,
+ * which flickers the HUD between idle and listening. Use single-utterance +
+ * controlled restart on all mobile (including Android); continuous on desktop.
+ */
 export function speechRecognitionUsesContinuous() {
-  return !isIOS();
+  return !isMobileUserAgent();
 }
 
 export function getVoicePlatformHint() {

@@ -154,6 +154,8 @@ export default function JarvisFullPageHud() {
     speaking,
     listening,
     activity,
+    voiceUiActive,
+    voiceCapturing,
     stopListening,
     startListening,
     speechSupported,
@@ -174,8 +176,6 @@ export default function JarvisFullPageHud() {
     lastReplyText,
     clapWake,
     setClapWake,
-    clapActivated,
-    voiceSessionActive,
     setPresentationMode,
   } = useJarvis();
 
@@ -221,7 +221,7 @@ export default function JarvisFullPageHud() {
   }, []);
 
   const coreState = activity || 'idle';
-  const hudActive = coreState !== 'idle' || listening;
+  const hudActive = coreState !== 'idle' || voiceUiActive || listening;
   const displayMessages = useMemo(() => dedupeMessages(messages).slice(-30), [messages]);
   const timeStr = now.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', second: '2-digit' });
   const mobileTimeStr = now.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
@@ -249,9 +249,13 @@ export default function JarvisFullPageHud() {
   };
 
   const toggleMic = async () => {
-    if (listening) { stopListening(); return; }
+    unlockAndPrimeAudio();
+    if (voiceUiActive || listening) {
+      stopListening();
+      return;
+    }
     if (speaking) await stopSpeakingReply();
-    await unlockAndPrimeAudio();
+    await startListening();
   };
 
   return (
@@ -279,17 +283,7 @@ export default function JarvisFullPageHud() {
           <div className="flex items-center gap-2 min-w-0">
             <span className={`jarvis-online-dot ${hudActive || listening ? 'jarvis-online-dot-live' : ''}`} aria-hidden />
             <span className="jarvis-topbar-brand truncate">J.A.R.V.I.S</span>
-            <span className="jarvis-topbar-status hidden sm:inline">
-              {!voiceSessionActive
-                ? 'Standing by'
-                : activity === 'listening'
-                  ? 'Listening…'
-                  : activity === 'speaking'
-                    ? 'Speaking…'
-                    : activity === 'thinking'
-                      ? 'Thinking…'
-                      : 'Ready'}
-            </span>
+            <span className="jarvis-topbar-status hidden sm:inline">Online</span>
             <span className="md:hidden text-[10px] text-[#ffb700]/70 tabular-nums">{mobileTimeStr}</span>
           </div>
 
@@ -302,7 +296,7 @@ export default function JarvisFullPageHud() {
 
           {/* Right cluster: weather + status + settings */}
           <div className="flex items-center gap-2.5">
-            <div className="hidden sm:block">
+            <div className="hidden lg:block">
               <JarvisWeather />
             </div>
             <JarvisTopbarStatus />
@@ -363,23 +357,25 @@ export default function JarvisFullPageHud() {
           {/* ── Centre stage ─────────────────────────────────────────── */}
           <div className="jarvis-center-stage relative flex flex-1 flex-col items-center min-w-0 min-h-0 gap-0">
 
-            {/* Orb + rings in a co-centered assembly */}
-            <div className="flex flex-1 w-full items-center justify-center min-h-0 overflow-hidden">
+            {/* Orb + rings — rings only wrap the orb disk; labels sit below */}
+            <div className="flex flex-1 w-full items-center justify-center min-h-0 overflow-x-hidden overflow-y-visible">
               <div className="jarvis-orb-assembly">
-                {/* Rings fill the assembly exactly — always co-centered with orb */}
-                <JarvisHudRings
-                  active={hudActive}
-                  listening={coreState === 'listening'}
-                  className="absolute inset-0 w-full h-full"
-                />
-                {/* Orb centred via flex on the assembly */}
-                <div className="relative z-10 flex flex-col items-center justify-center">
-                  <JarvisVoiceCore size="lg" state={coreState} />
-                  {(listening || voiceInterim) && (
-                    <div className="mt-3 max-w-[16rem] w-full px-4 py-2 rounded-xl bg-[#0a0600]/70 border border-[#ffb700]/15 text-center">
-                      <p className="text-sm text-[#fff8e1]/90 font-light">{voiceInterim || 'Speak now, sir…'}</p>
+                <div className="jarvis-orb-ring-plane">
+                  <JarvisHudRings
+                    active={hudActive}
+                    listening={coreState === 'listening'}
+                    className="absolute inset-0 w-full h-full"
+                  />
+                  <div className="relative z-10 flex items-center justify-center w-full h-full pointer-events-none">
+                    <div className="pointer-events-auto">
+                      <JarvisVoiceCore
+                        size="lg"
+                        state={coreState}
+                        capturing={voiceCapturing}
+                        interim={voiceInterim}
+                      />
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -442,8 +438,8 @@ export default function JarvisFullPageHud() {
                 <button
                   type="button"
                   onClick={toggleMic}
-                  className={`jarvis-dock-btn jarvis-dock-btn--mic ${listening ? 'jarvis-dock-btn--active' : speaking ? 'jarvis-dock-btn--speaking' : ''}`}
-                  aria-label={listening ? 'Pause microphone' : speaking ? 'Interrupt and speak' : 'Start microphone'}
+                  className={`jarvis-dock-btn jarvis-dock-btn--mic ${voiceUiActive || listening ? 'jarvis-dock-btn--active' : speaking ? 'jarvis-dock-btn--speaking' : ''}`}
+                  aria-label={voiceUiActive || listening ? 'Pause microphone' : speaking ? 'Interrupt and speak' : 'Start microphone'}
                 >
                   🎤
                 </button>
@@ -502,9 +498,9 @@ export default function JarvisFullPageHud() {
 
         {/* ── Mobile: conversation + input ──────────────────────────────── */}
         <div className="md:hidden shrink-0 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] space-y-2">
-          {(speaking || streaming || listening) && (
+          {(speaking || streaming) && (
             <p className="text-center text-[10px] uppercase tracking-widest text-[#ffb700]/80">
-              {speaking ? 'JARVIS speaking…' : streaming ? 'Thinking…' : 'Listening…'}
+              {speaking ? 'JARVIS speaking…' : 'Thinking…'}
             </p>
           )}
           <div ref={mobileCommsRef} className="jarvis-mobile-comms max-h-48 overflow-y-auto space-y-2 text-xs">
