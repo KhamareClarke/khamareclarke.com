@@ -12,8 +12,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: "Khamare Clarke | AI Implementation Specialist",
-  description: "AI Implementation Specialist based in Stoke-on-Trent. Implements AI across search, web, content, marketing, and automation for UK businesses. MSc Computer Science with AI, Keele University. 538% Google Business Profile growth. 5X leads in 60 days.",
-  keywords: 'AI implementation specialist, AI implementation UK, SEO specialist UK, local SEO Stoke-on-Trent, AI search optimisation, AEO, GEO, Google Business Profile, AI receptionist, Google Ads API, programmatic SEO, Staffordshire, web design, digital marketing, marketing automation, AI consultant UK',
+  description: "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent, Staffordshire. He implements AI across search, web, content, marketing, and automation for UK businesses, with documented results including 538% Google Business Profile growth and a 5X lead increase.",
+  keywords: 'AI implementation, AI implementation specialist, AI adoption, AI readiness, AI integration strategy, AI transformation, digital marketing, digital marketing consultant, web design, UX design, custom application development, content strategy, AI content systems, content automation, Google ranking, rank number one on Google, search visibility, SEO, local SEO, AI search optimisation, AEO, GEO, Google Business Profile, AI receptionist, Google Ads API, programmatic SEO, Staffordshire, web design, digital marketing, marketing automation, AI consultant UK',
   verification: {
     google: 'FOZp3AiubuzQwsGbpopu8OBTtmjxt17FtQ2Lup2ERM4'
   },
@@ -34,7 +34,7 @@ export const metadata = {
   },
   openGraph: {
     title: "Khamare Clarke | AI Implementation Specialist",
-    description: "AI Implementation Specialist based in Stoke-on-Trent. Implements AI across search, web, content, marketing, and automation for UK businesses. MSc Computer Science with AI, Keele University.",
+    description: "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent. He implements AI across search, web, content, marketing, and automation for UK businesses, with documented results including 538% Google Business Profile growth and a 5X lead increase.",
     type: 'website',
     url: 'https://khamareclarke.com',
     siteName: 'Khamare Clarke',
@@ -51,7 +51,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "Khamare Clarke | AI Implementation Specialist",
-    description: "AI Implementation Specialist based in Stoke-on-Trent. Implements AI across search, web, content, marketing, and automation for UK businesses.",
+    description: "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent. He implements AI across search, web, content, marketing, and automation for UK businesses, with documented results including 538% Google Business Profile growth and a 5X lead increase.",
     creator: '@khamareclarke',
     images: ['/images/about-image.png'],
   },

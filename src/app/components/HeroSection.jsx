@@ -42,7 +42,7 @@ const HeroSection = () => {
           </p>
 
           <p className="text-base lg:text-lg max-w-xl text-[#ADB7BE]/80 mb-4 lg:mb-5 leading-relaxed" style={{fontFamily:'Montserrat, sans-serif'}}>
-            I implement the full stack: code the systems, run the campaigns, and build the AI that converts the traffic. 538% Google Business Profile growth and 5X leads in 60 days are what that looks like in practice.
+            I implement the systems and write the code, with documented search results behind it: 538% Google Business Profile growth and 5X leads in 60 days.
           </p>
 
           <p className="text-2xl sm:text-3xl font-black text-[#ffb700] mb-6 lg:mb-8 text-center lg:text-left" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.02em'}}>
@@ -154,7 +154,7 @@ const HeroSection = () => {
           <div className="rounded-full w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] lg:w-[450px] lg:h-[450px] xl:w-[550px] xl:h-[550px] relative shadow-2xl border-4 border-[#ffb700]/80 bg-[#111015] flex items-center justify-center ring-4 ring-[#ffb700]/20 mx-auto overflow-hidden hover:ring-[#ffb700]/40 transition-all duration-300">
             <Image
               src="/images/hero-image.png"
-              alt="Khamare Clarke, AI Implementation Specialist based in Stoke-on-Trent"
+              alt="Khamare Clarke, AI Implementation Specialist"
               className="object-contain w-full h-full scale-75 hover:scale-[82%] transition-transform duration-300"
               width={550}
               height={550}

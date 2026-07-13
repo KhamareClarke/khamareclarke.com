@@ -7,14 +7,14 @@ import CTAButton from "../components/CTAButton";
 import { PERSON_SCHEMA } from "../../lib/schema";
 
 export const metadata = {
-  title: "About Khamare Clarke | AI Implementation Specialist",
+  title: "About Khamare Clarke — AI Implementation Specialist in Stoke-on-Trent",
   description:
-    "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent. MSc Computer Science with AI, Keele University (2027). Implements AI across search, web, content, marketing, and automation for UK businesses.",
+    "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent, Staffordshire. He implements AI across search, web, content, marketing, and automation for UK businesses, holding a BSc in Software Engineering, a BSc in Digital Marketing, and completing an MSc in Computer Science with AI at Keele University (2027).",
   alternates: { canonical: "https://khamareclarke.com/about" },
   openGraph: {
-    title: "About Khamare Clarke | AI Implementation Specialist",
+    title: "About Khamare Clarke — AI Implementation Specialist in Stoke-on-Trent",
     description:
-      "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent. MSc Computer Science with AI, Keele University (2027). Implements AI across search, web, content, marketing, and automation for UK businesses.",
+      "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent, Staffordshire. He implements AI across search, web, content, marketing, and automation for UK businesses, holding a BSc in Software Engineering, a BSc in Digital Marketing, and completing an MSc in Computer Science with AI at Keele University (2027).",
     url: "https://khamareclarke.com/about",
     siteName: "Khamare Clarke",
     locale: "en_GB",
@@ -77,10 +77,7 @@ export default function AboutPage() {
         </p>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-          Khamare Clarke{" "}
-          <span className="text-[#ffb700]">
-            — AI Implementation Specialist
-          </span>
+          Khamare Clarke — AI Implementation Specialist
         </h1>
 
         {/* ── Who is Khamare Clarke? ── */}
@@ -101,7 +98,7 @@ export default function AboutPage() {
               combination is not common, and it shapes how he works.
             </p>
             <p>
-              Most people in this space are one thing: SEO consultants who
+              Most people in this space are one thing: SEO specialists who
               cannot code, AI consultants who have never shipped a production
               system, or engineers who do not understand search. Khamare does
               all three. He implements AI across search, web, content,

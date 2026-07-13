@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 
 const FAQ_DATA = [
   {
-    question: "What does an AI Implementation Specialist do differently from a standard agency?",
-    answer: "I implement the full stack: SEO, AI search optimisation, web development, AI agents, CRM automation, and content systems. That means your business gets found in traditional Google results and in ChatGPT, Gemini, and Perplexity answers, and the AI systems that act on that visibility are built and running. Most agencies do one channel. This is the whole system.",
+    question: "What does an AI Implementation Specialist do?",
+    answer: "An AI Implementation Specialist assesses a business's current operations, identifies where AI can be applied practically, and implements the systems -- AI agents, automation workflows, search optimisation, web builds, and content systems -- working alongside the existing team. The emphasis is on measurable outcomes: leads captured, rankings achieved, time saved, cost per acquisition reduced.",
   },
   {
     question: "How quickly can you start and what does the first week look like?",

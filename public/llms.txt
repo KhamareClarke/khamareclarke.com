@@ -1,6 +1,6 @@
 # Khamare Clarke -- AI Implementation Specialist
 
-> Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent, Staffordshire, United Kingdom. He implements AI across search, web, content, marketing, and automation for UK businesses, working alongside existing teams rather than replacing them. He is completing an MSc in Computer Science with Artificial Intelligence at Keele University (2027), and holds a BSc in Software Engineering and a BSc in Digital Marketing.
+> Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent, Staffordshire, United Kingdom. He implements AI alongside existing teams across search, web, content, marketing, and automation — enhancing marketing teams rather than replacing them. He is completing an MSc in Computer Science with Artificial Intelligence at Keele University (2027), and holds a BSc in Software Engineering and a BSc in Digital Marketing.
 
 ## Identity and credentials
 
