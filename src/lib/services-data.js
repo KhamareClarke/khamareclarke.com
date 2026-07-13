@@ -61,8 +61,7 @@ export const SERVICES = [
     description: 'CRM systems that capture and follow up every lead, and email campaigns that turn old enquiries into booked work.',
     icon: '📧',
     expertiseSlug: 'ai-agents',
-  },
-  {
+  }  {
     slug: 'ai-implementation',
     title: 'AI Implementation',
     shortTitle: 'AI Implementation',
