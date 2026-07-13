@@ -23,6 +23,12 @@ const EXPERTISE_SLUGS = [
   'ai-agents',
   'google-ads-api',
   'ai-consultant',
+  'ai-implementation',
+  'digital-marketing',
+  'web-design-development',
+  'marketing-automation',
+  'ai-content-systems',
+  'google-ranking',
 ]
 
 export default function sitemap() {
