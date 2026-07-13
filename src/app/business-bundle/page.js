@@ -1543,6 +1543,11 @@ function BusinessBundleClientContent() {
       {/* END: WhatsApp Floating Button */}
       
       <CookieBanner />
+      <Footer />
+    </main>
+  );
+}
+
 export default function BusinessBundlePage() {
   return <BusinessBundleClientContent />;
 }
