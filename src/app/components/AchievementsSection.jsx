@@ -6,25 +6,25 @@ import CTAButton from "./CTAButton";
 const achievementsList = [
   {
     icon: "📈",
-    metric: "Google Business Profile interactions, Upgrade Roofing",
+    metric: "Growth in Google Business Profile interactions over 90 days",
     value: "538%",
     color: "#3B82F6",
   },
   {
     icon: "🎯",
-    metric: "Leads in 60 days, City Plaza Abu Dhabi",
+    metric: "Increase in qualified leads within 60 days",
     value: "5X",
     color: "#10B981",
   },
   {
     icon: "📞",
-    metric: "Qualified enquiries at peak, City Plaza Abu Dhabi",
+    metric: "Qualified enquiries at peak, sustained over six months",
     value: "~20/day",
     color: "#8B5CF6",
   },
   {
     icon: "🎓",
-    metric: "Artificial Intelligence, Keele (2027)",
+    metric: "Computer Science with Artificial Intelligence, Keele University (2027)",
     value: "MSc",
     color: "#F59E0B",
   },
@@ -44,16 +44,12 @@ const AchievementsSection = () => {
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
           </svg>
-          PROVEN RESULTS
+          DOCUMENTED OUTCOMES
         </span>
 
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">
-          Numbers That Matter
+          Measured Results
         </h2>
-
-        <p className="text-[#ADB7BE] text-lg md:text-xl max-w-3xl mx-auto">
-          Real metrics from real businesses. Results documented below.
-        </p>
       </div>
 
       {/* Statistics Grid */}
@@ -114,10 +110,10 @@ const AchievementsSection = () => {
       <div className="flex justify-center mt-10">
         <CTAButton
           icon="bolt"
-          eventLabel="achievements_book_strategy_call"
-          caption="See what these numbers would look like for your business."
+          eventLabel="achievements_book_consultation"
+          caption="30 minutes. An honest assessment of where AI applies to your operation."
         >
-          Get Found →
+          Book a Consultation
         </CTAButton>
       </div>
     </div>

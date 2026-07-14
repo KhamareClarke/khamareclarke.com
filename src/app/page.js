@@ -36,10 +36,11 @@ export default function Home() {
           <ProjectsSection />
           <TestimonialsSection />
           <hr aria-hidden="true" className="section-sep" />
-          <FAQSection />
           <PricingSection />
           <hr aria-hidden="true" className="section-sep" />
           <BlogSlider />
+          <hr aria-hidden="true" className="section-sep" />
+          <FAQSection />
           <EmailSection />
         </Container>
       </Section>

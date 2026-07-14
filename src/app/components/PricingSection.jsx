@@ -7,51 +7,47 @@ import CTAButton from "./CTAButton";
 
 const TIERS = [
   {
-    tier: "GET FOUND",
-    price: "from £495/mo",
-    tagline: "The full system. Nothing to manage.",
+    tier: "OPERATIONAL AI AUDIT",
+    price: "£495",
+    tagline: "A structured assessment of where AI applies to your organisation.",
     mostPopular: false,
-    cta: "Get Found",
+    cta: "Book a Consultation",
     deliverables: [
-      "Ranked on Google, ChatGPT, Gemini, and Perplexity — all four channels, handled",
-      "Google Business Profile managed: calls coming in, not just views",
-      "AI agent captures every enquiry 24/7 — no lead falls through while you're on a job",
-      "Every follow-up sent automatically until they book or say no",
-      "Plain-English monthly report: what ranked, what moved, what's next",
-      "Proven: 538% GBP growth and 30+ booked calls in two weeks",
+      "Technical and visibility audit across Google and AI search",
+      "Review of enquiry handling, follow-up, and reporting",
+      "Sixty-minute findings call and a prioritised implementation plan",
     ],
-    caption: "Rolling monthly from day one · ranked or refunded",
-    footnote: "Most clients start here. The system scales as your results do.",
+    caption: "Delivered within 7 days · clear findings",
+    footnote: "Your roadmap to action, with or without me.",
   },
   {
-    tier: "RUN THE AREA",
+    tier: "IMPLEMENTATION",
     price: "from £1,250/mo",
-    tagline: "The full system, plus your own corner of the internet.",
+    tagline: "Search visibility and process automation, implemented and managed.",
     mostPopular: true,
-    cta: "Run The Area",
+    cta: "Book a Consultation",
     deliverables: [
-      "Everything in Get Found at 2× the hours",
-      "Custom website built to rank and convert — yours permanently",
-      "Programmatic SEO: every service × every area you cover, indexed and ranking",
-      "Email campaigns that wake up cold enquiries and turn them into booked work",
-      "Proven: 5× leads for a commercial property client in 60 days",
+      "Local and organic search visibility",
+      "AI search optimisation across ChatGPT, Gemini, and Perplexity",
+      "Content and on-page technical work",
+      "Monthly reporting on rankings, enquiries, and cost per lead",
     ],
-    caption: "6-month build term, then rolling monthly · the site is yours",
+    caption: "Rolling monthly",
   },
   {
-    tier: "OWN THE MARKET",
+    tier: "FULL IMPLEMENTATION",
     price: "from £2,500/mo",
-    tagline: "Total AI infrastructure. Market position locked.",
+    tagline: "Visibility, response, and systems, integrated across the organisation.",
     mostPopular: false,
-    cta: "Own The Market",
+    cta: "Book a Consultation",
     deliverables: [
-      "Everything above at 4× the hours, running in parallel",
-      "Google Ads via the Ads API — engineered for lower cost per lead, not agency guesswork",
-      "Custom AI apps built to your workflow: quoting, booking, lead routing",
-      "Quarterly strategy session: what's dominating, what's next",
-      "No package ceiling — if it grows your business, it's in scope",
+      "Everything in Implementation included",
+      "AI enquiry handling operating continuously 24/7",
+      "Performance-engineered web systems",
+      "Custom applications where the operation requires it",
+      "Quarterly board-level strategy review",
     ],
-    caption: "6-month initial term, then rolling monthly · guaranteed lead system",
+    caption: "Rolling monthly",
   },
 ];
 
@@ -60,26 +56,19 @@ const PricingSection = () => {
     <section id="pricing" className="text-white py-12 md:py-20 lg:py-24">
       <div className="container mx-auto px-4 max-w-6xl">
 
-        <div className="text-center mb-10">
+        <div className="text-center mb-16">
           <span className="inline-block border border-[#ffb700] text-[#ffb700] text-xs font-bold px-4 py-1 rounded-full tracking-widest uppercase bg-black/30 shadow-sm mb-6">
-            PRICING
+            ENGAGEMENTS
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 text-white">
-            Transparent Pricing.{" "}
+            Working Together.{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">
-              No Retainer Traps.
+              Transparent Delivery.
             </span>
           </h2>
-        </div>
-
-        <div className="text-center mb-10">
-          <a
-            href="#contact"
-            className="text-[#ffb700] hover:text-[#ff8c00] transition-colors duration-200 text-sm font-medium underline underline-offset-2"
-          >
-            Not ready? Get your free AI Visibility Score first →
-          </a>
-          <p className="text-[#ADB7BE] text-xs mt-1">Two minutes. Costs nothing.</p>
+          <p className="text-[#ADB7BE] text-base md:text-lg max-w-2xl mx-auto mt-2 leading-relaxed">
+            Choose the engagement model that fits your operational requirements and timeline.
+          </p>
         </div>
 
         <motion.div
@@ -106,7 +95,7 @@ const PricingSection = () => {
                   animate={{ scale: [1, 1.06, 1] }}
                   transition={{ duration: 1.4, repeat: Infinity, repeatType: 'loop', delay: 0.6 }}
                 >
-                  MOST POPULAR
+                  MOST SELECTED
                 </motion.span>
               )}
 
@@ -115,7 +104,7 @@ const PricingSection = () => {
               <div className="mb-4 md:mb-6">
                 <div className="text-2xl md:text-3xl font-black text-[#ffb700] tracking-tight">{tier.price}</div>
                 {tier.tagline && (
-                  <p className="text-[#ADB7BE] text-xs mt-1.5 leading-snug">{tier.tagline}</p>
+                  <p className="text-[#ADB7BE] text-xs mt-1.5 leading-snug font-medium">{tier.tagline}</p>
                 )}
               </div>
 
@@ -125,7 +114,7 @@ const PricingSection = () => {
                     <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-[#ffb700]/10 border border-[#ffb700]/50 flex-shrink-0 mt-0.5">
                       <FaCheckCircle className="text-[#ffb700] text-xs" />
                     </span>
-                    <span>{deliverable}</span>
+                    <span className="font-medium">{deliverable}</span>
                   </li>
                 ))}
               </ul>
@@ -133,7 +122,7 @@ const PricingSection = () => {
               <div className="mt-auto">
                 <CTAButton
                   href="#contact"
-                  useBookingWidget={false}
+                  useBookingWidget={true}
                   className="w-full text-center"
                   eventLabel={`pricing_${tier.tier.toLowerCase().replace(/ /g, '_')}_cta`}
                   caption={tier.caption}
@@ -141,15 +130,15 @@ const PricingSection = () => {
                   {tier.cta}
                 </CTAButton>
                 {tier.footnote && (
-                  <p className="text-[#ADB7BE]/70 text-xs text-center mt-3 leading-snug italic">{tier.footnote}</p>
+                  <p className="text-[#ADB7BE]/70 text-xs text-center mt-3 leading-snug italic font-medium">{tier.footnote}</p>
                 )}
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        <p className="text-center text-[#ADB7BE] text-sm max-w-3xl mx-auto mt-10 leading-relaxed">
-          Every package runs on the same AI system. What scales is build capacity: hours, pages, campaigns, apps. Exact price depends on your size and market — fixed quote within 24 hours of your free call.
+        <p className="text-center text-[#ADB7BE] text-sm max-w-3xl mx-auto mt-12 leading-relaxed font-semibold">
+          Exact scope and cost depend on the organisation. A fixed proposal follows within 24 hours of the consultation.
         </p>
 
       </div>

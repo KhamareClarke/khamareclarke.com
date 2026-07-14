@@ -5,25 +5,29 @@ import { motion } from "framer-motion";
 
 const FAQ_DATA = [
   {
-    question: "What does an AI Implementation Specialist do?",
-    answer: "An AI Implementation Specialist assesses a business's current operations, identifies where AI can be applied practically, and implements the systems -- AI agents, automation workflows, search optimisation, web builds, and content systems -- working alongside the existing team. The emphasis is on measurable outcomes: leads captured, rankings achieved, time saved, cost per acquisition reduced.",
+    question: "What does AI implementation involve in practice?",
+    answer: "It is a hands-on, end-to-end process. I audit your existing workflows, identify where capacity or hours are being lost, build and integrate custom AI systems (such as search visibility engines, enquiry handlers, or CRM automations) alongside your teams, train your staff, and provide complete plain-English documentation so your business owns the capability permanently."
   },
   {
-    question: "How quickly can you start and what does the first week look like?",
-    answer: "I can start within a week of the strategy call. The first week covers a full technical audit, keyword research, and a prioritised action plan delivered in plain English before any work begins.",
+    question: "Will this displace existing staff?",
+    answer: "No. The objective is capacity recovery, not headcount reduction. I work alongside your existing developers, marketing teams, and agencies. The people you already trust with your operations gain advanced technical capabilities and automation tools that eliminate repetitive administrative work, allowing them to focus on higher-value activities."
   },
   {
-    question: "Do you only work with large businesses or do SMEs qualify?",
-    answer: "SMEs are the majority of my clients. If you have a local customer base, a trades business, or a service you want to rank in your area, you qualify. The Get Found tier starts from £495/mo.",
+    question: "How is the work delivered around our compliance and data protection requirements?",
+    answer: "Security and data sovereignty are prioritized. Every system is built in alignment with your organizational policies, GDPR, and data protection requirements. I ensure that data is routed securely, private business information is never used to train public models, and API-based integrations operate within strict security parameters."
   },
   {
-    question: "What does ranked or refunded actually mean?",
-    answer: "We agree ranking targets at the start of every engagement. On the Get Found tier, if those agreed targets are not reached within 60 days, that month's fee is refunded in full. The guarantee applies to agreed target keywords in your local area. Exact terms are confirmed on the strategy call before any payment is taken.",
+    question: "What is the timeline, and what happens in the first month?",
+    answer: "The first week is dedicated to a thorough operational and technical assessment. By the end of week two, we review the findings and agree on a prioritized roadmap. Within the first month, the first high-impact systems—such as visibility engines or primary automations—are configured, tested, and running in production alongside your team."
   },
   {
-    question: "How do you measure success and report back?",
-    answer: "Monthly plain-English reports: rankings, Google Business Profile calls, enquiry volumes, and AI search visibility. No jargon. If numbers are not moving, I tell you why and what changes.",
+    question: "How is success measured and reported?",
+    answer: "Through tangible, board-level metrics: qualified enquiries received, administrative hours recovered, rankings in AI search, and reduction in lead-response times. You receive one plain-English report each month tracking these metrics, with zero agency jargon or vanity stats."
   },
+  {
+    question: "What if AI is not the right answer for our organisation?",
+    answer: "Every engagement begins with an operational assessment. If the audit reveals that your current systems are sufficient, or if a particular problem cannot be solved effectively with AI, I will say so directly. An honest assessment is part of my professional commitment."
+  }
 ];
 
 const FAQSection = () => {
@@ -47,15 +51,15 @@ const FAQSection = () => {
               animate={{ y: [0, -2, 0] }}
               transition={{ duration: 2.1, repeat: Infinity, repeatType: "loop" }}
             >
-              COMMON QUESTIONS
+              QUESTIONS
             </motion.span>
           ) : (
             <span className="inline-block border border-[#ffb700] text-[#ffb700] text-xs font-bold px-4 py-1 rounded-full mb-6 tracking-widest uppercase relative bg-black/30 shadow-sm">
-              COMMON QUESTIONS
+              QUESTIONS
             </span>
           )}
           <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-3 pb-1 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00] relative inline-block mx-auto whitespace-normal md:whitespace-nowrap">
-            Frequently Asked Questions
+            Common Questions
             <motion.span
               className="absolute inset-x-0 bottom-0 h-1 w-full rounded-full bg-gradient-to-r from-[#ffb700] to-[#ff8c00]"
               initial={{ scaleX: 0 }}
@@ -63,9 +67,9 @@ const FAQSection = () => {
               transition={{ duration: 1.1, delay: 0.3 }}
             />
           </h2>
-          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Honest answers about SEO, AI, and what working together actually looks like.</div>
+          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Honest answers about compliance, timelines, success metrics, and what AI implementation looks like in practice.</div>
         </div>
-        <ul className="space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-14">
+        <ul className="space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12">
           {FAQ_DATA.map((faq, idx) => (
             <li key={idx}>
               <button
@@ -85,7 +89,7 @@ const FAQSection = () => {
               <div
                 className={`overflow-hidden transition-all duration-300 ${openIndex === idx ? 'max-h-96' : 'max-h-0'}`}
               >
-                <div className="bg-[#0f0f0f]/50 backdrop-blur-sm px-6 pb-4 pt-2 rounded-b-lg text-[#ADB7BE] font-light border-2 border-t-0 border-[#ffb700]/20">
+                <div className="bg-[#0f0f0f]/50 backdrop-blur-sm px-6 pb-4 pt-2 rounded-b-lg text-[#ADB7BE] font-medium border-2 border-t-0 border-[#ffb700]/20 leading-relaxed text-sm sm:text-base">
                   {faq.answer}
                 </div>
               </div>
@@ -95,11 +99,11 @@ const FAQSection = () => {
         <div className="flex justify-center mt-12 md:mt-16">
           <CTAButton
             icon="bolt"
-            eventLabel="faq_book_free_call"
+            eventLabel="faq_book_consultation"
             className="px-8 py-3 text-lg"
-            caption="Still got questions? Ask me directly."
+            caption="30 minutes. An honest assessment of where AI applies to your operation."
           >
-            Get Started Free
+            Book a Consultation
           </CTAButton>
         </div>
       </div>

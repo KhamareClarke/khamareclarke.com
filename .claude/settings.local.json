@@ -1,33 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\khama\\\\Downloads\\\\khamareclarke.com-main \\(3\\)\\\\khamareclarke.com-main\" -Force)",
-      "Bash(Select-Object Name, FullName, PSIsContainer)",
-      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\khama\\\\Downloads\\\\khamareclarke.com-main \\(3\\)\\\\khamareclarke.com-main\" | Select-Object Name, @{Name='Type'; Expression={if\\($_.PSIsContainer\\){'Directory'}else{'File'}}})",
-      "Bash(grep -E \"\\\\.jsx|\\\\.js$\")",
-      "Bash(git init *)",
-      "Bash(git add *)",
-      "Bash(git commit *)",
-      "Bash(node *)",
-      "Bash(npm run *)",
-      "Bash(npm start *)",
-      "Bash(curl -s http://localhost:3000)",
-      "Read(//tmp/**)",
+      "Bash(git checkout *)",
+      "Bash(curl *)",
       "Bash(netstat -aon)",
-      "Bash(taskkill /PID 16436 /F)",
-      "PowerShell(Stop-Process *)",
-      "Bash(grep *)",
-      "Bash(echo \"NaN count: $\\(curl -s http://localhost:3000)",
-      "Bash(npx next *)",
-      "Bash(npx skills *)",
-      "Bash(git remote *)",
-      "Bash(git push *)",
-      "Bash(start *)",
-      "Bash(npm install *)",
-      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\khama\\\\Downloads\\\\khamareclarke.com-main \\(4\\)\\\\khamareclarke.com-main\\\\src\\\\app\\\\dashboard\" -Recurse)",
-      "Bash(Select-Object FullName, PSIsContainer)",
-      "Bash(Format-List)",
-      "Bash(git stash *)"
+      "Bash(taskkill *)",
+      "Bash(npm run *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   }
 }

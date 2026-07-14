@@ -37,49 +37,41 @@ const HeroSection = () => {
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] via-[#ff8c00] to-[#ffb700]">Clarke</span>
           </h1>
 
-          <p className="text-xl sm:text-2xl lg:text-xl max-w-xl font-medium mb-4 lg:mb-5 text-[#ADB7BE]" style={{fontFamily:'Montserrat, sans-serif'}}>
-            AI implemented across search, web, content, and automation. Working with your team, not replacing it.
+          <p className="text-xl sm:text-2xl lg:text-xl max-w-xl font-bold mb-4 lg:mb-5 text-[#ffb700]" style={{fontFamily:'Montserrat, sans-serif'}}>
+            The practical implementation of AI within established organisations.
           </p>
 
-          <p className="text-base lg:text-lg max-w-xl text-[#ADB7BE]/80 mb-4 lg:mb-5 leading-relaxed" style={{fontFamily:'Montserrat, sans-serif'}}>
-            I implement the systems and write the code, with documented search results behind it: 538% Google Business Profile growth and 5X leads in 60 days.
-          </p>
-
-          <p className="text-2xl sm:text-3xl font-black text-[#ffb700] mb-6 lg:mb-8 text-center lg:text-left" style={{fontFamily:'Montserrat, sans-serif', letterSpacing:'-0.02em'}}>
-            Top of Google. Guaranteed.
+          <p className="text-base lg:text-lg max-w-xl text-[#ADB7BE] mb-6 lg:mb-8 leading-relaxed" style={{fontFamily:'Montserrat, sans-serif'}}>
+            I assess how an organisation currently operates, identify where capacity is being lost, and implement AI systems that recover it. The work is delivered alongside existing teams, with training and documentation, so the capability remains in the business.
           </p>
 
           <div className="flex flex-col items-center lg:items-start mb-8">
             <BookingButton
               className="group relative inline-flex items-center justify-center px-10 py-5 lg:px-12 lg:py-6 bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] text-black font-black rounded-xl hover:scale-105 transform transition-all duration-300 text-lg lg:text-xl shadow-xl hover:shadow-[#fdbd18]/50 border-2 border-[#fdbd18]"
-              trackingLabel="hero_book_call"
+              trackingLabel="hero_book_consultation"
             >
-              <span className="relative z-10">Get Found →</span>
+              <span className="relative z-10">Book a Consultation →</span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </BookingButton>
             <p className="mt-2 text-center lg:text-left text-[11px] sm:text-xs text-white/50 leading-snug">
-              30-minute strategy call. No obligation.
+              30 minutes. An honest assessment of where AI applies to your operation.
             </p>
           </div>
 
-          {/* Trust icons — static, no animation dependency */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4 mb-8">
-            <div className="flex flex-col items-center lg:items-start gap-1">
-              <span className="text-xl">🔒</span>
-              <span className="text-white text-xs font-semibold leading-snug text-center lg:text-left">Ranked or Refunded</span>
-            </div>
-            <div className="flex flex-col items-center lg:items-start gap-1">
-              <span className="text-xl">⚡</span>
-              <span className="text-white text-xs font-semibold leading-snug text-center lg:text-left">Results in 60 Days</span>
-            </div>
-            <div className="flex flex-col items-center lg:items-start gap-1">
-              <span className="text-xl">🔍</span>
-              <span className="text-white text-xs font-semibold leading-snug text-center lg:text-left">No Black Box</span>
-            </div>
-            <div className="flex flex-col items-center lg:items-start gap-1">
-              <span className="text-xl">⭐</span>
-              <span className="text-white text-xs font-semibold leading-snug text-center lg:text-left">Guaranteed Outcomes</span>
-            </div>
+          {/* Five Pillars of Engagement */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-4 mb-8">
+            {[
+              { icon: "🔍", name: "Assessment" },
+              { icon: "⚙️", name: "Implementation" },
+              { icon: "🎓", name: "Training" },
+              { icon: "📖", name: "Documentation" },
+              { icon: "🛡️", name: "Support" }
+            ].map((pillar, index) => (
+              <div key={index} className="flex flex-col items-center lg:items-start gap-1 p-3 bg-gradient-to-br from-[#181818]/60 to-[#111]/80 border border-[#ffb700]/10 rounded-xl hover:border-[#ffb700]/30 transition-all duration-300">
+                <span className="text-xl mb-1">{pillar.icon}</span>
+                <span className="text-white text-xs font-bold leading-snug text-center lg:text-left">{pillar.name}</span>
+              </div>
+            ))}
           </div>
 
           <div className="flex justify-center lg:justify-start space-x-6 mb-8">

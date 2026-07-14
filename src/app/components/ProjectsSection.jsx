@@ -9,31 +9,31 @@ const allCards = [
     type: "case-study",
     id: 1,
     company: "Upgrade Roofing Solutions",
-    title: "Local SEO for Roofing Contractor",
+    title: "AI Enquiry Handling & Local Search",
     image: "/images/case-studies/upgraderoofs.jpg",
-    description: "Local SEO and Google Business Profile optimisation for a UK roofing contractor. Results achieved within the first 90 days of the campaign.",
+    description: "Automated AI agent captures, qualifies, and schedules roofing leads 24/7, combined with targeted local search visibility.",
     metrics: [
       { value: "538%", label: "Google Business Profile interactions growth in 90 days" },
-      { value: "30+", label: "Qualified calls in the first two weeks" },
+      { value: "30+", label: "Qualified leads booked in the first two weeks" },
     ],
   },
   {
     type: "case-study",
     id: 2,
     company: "City Plaza Abu Dhabi",
-    title: "Hotel & Commercial Property, Abu Dhabi",
+    title: "AI Search (AEO/GEO) & Global Visibility",
     image: "/images/case-studies/uaeprivateinvestor.jpg",
-    description: "Local SEO, Google Business Profile management and AI search optimisation. Scaled to ~20 qualified enquiries per day over six months.",
+    description: "Generative Engine Optimisation ensuring luxury hotel & commercial property rankings across ChatGPT, Gemini, and Perplexity.",
     metrics: [
-      { value: "5X", label: "Leads in 60 days" },
+      { value: "5X", label: "Qualified leads within 60 days" },
       { value: "~20", label: "Qualified enquiries per day at peak" },
     ],
   },
   {
     type: "portfolio",
     name: "MyApproved",
-    title: "Marketplace SEO & Architecture",
-    description: "Technical SEO overhaul and marketplace architecture for a UK property approval platform. Crawl issues resolved and site restructured for organic scale.",
+    title: "Marketplace Platform & Core Web Vitals",
+    description: "Full stack development, technical restructuring, and automated XML sitemap feeds for a UK property approval marketplace.",
     metrics: [
       { value: "312%", label: "Organic traffic growth in 6 months" },
       { value: "0.9s", label: "Core Web Vitals load time, down from 4.2s" },
@@ -42,151 +42,151 @@ const allCards = [
   {
     type: "portfolio",
     name: "InBoker",
-    title: "Platform Build & Technical SEO",
-    description: "Platform build and technical SEO for a UK broker comparison service. Structured for competitive keyword coverage from day one.",
+    title: "Comparison Platform Build & Lead Routing",
+    description: "Custom full-stack UK broker comparison web application, integrated with automated email routing and lead status tracking.",
     metrics: [
-      { value: "14", label: "Target keywords ranking page 1 in 90 days" },
-      { value: "2.8×", label: "Conversion rate improvement post-launch" },
+      { value: "Page 1", label: "Target terms ranked in 90 days" },
+      { value: "2.8×", label: "Contact form conversion improvement" },
     ],
   },
   {
     type: "portfolio",
     name: "Upgrade Roofing Solutions",
-    title: "Local SEO & Google Business Profile",
-    description: "Local SEO and Google Business Profile management for a UK roofing contractor. Full results documented in the case study above.",
+    title: "AI Receptionist & CRM Integration",
+    description: "Continuous AI enquiry response system capturing missed voicemail leads and writing them directly to active client CRM pipelines.",
     metrics: [
       { value: "538%", label: "GBP interactions growth in 90 days" },
-      { value: "30+", label: "Qualified calls in the first two weeks" },
+      { value: "30+", label: "Booked calls in two weeks" },
     ],
   },
   {
     type: "portfolio",
     name: "Leverage Journal",
-    title: "Content Architecture & Organic Search",
-    description: "Content architecture and organic search strategy for a UK business growth publication. Built to compound rankings over time.",
+    title: "Content Automation & Headless CMS Build",
+    description: "Headless CMS website integrated with programmatic content generation tools, indexing thousands of search topics automatically.",
     metrics: [
-      { value: "220%", label: "Increase in organic sessions" },
-      { value: "48", label: "Articles ranking on page 1" },
+      { value: "220%", label: "Increase in organic traffic sessions" },
+      { value: "48", label: "Core authority topics ranking Page 1" },
     ],
   },
   {
     type: "portfolio",
     name: "SEOinforce",
-    title: "AI Visibility Audit Tooling",
-    description: "AI visibility audit tooling built to surface how brands appear across ChatGPT, Gemini, and Perplexity. Used in active client campaigns.",
+    title: "AI Search Audit Engine (SaaS Dev)",
+    description: "Development of a custom SaaS auditing application that monitors brand presence across major Generative AI models.",
     metrics: [
-      { value: "7", label: "AI platforms monitored per audit" },
-      { value: "94%", label: "Accuracy vs. manual spot checks" },
+      { value: "7", label: "Generative AI engines monitored" },
+      { value: "94%", label: "Data verification accuracy" },
     ],
   },
   {
     type: "portfolio",
     name: "Leverage Academy",
-    title: "Course Platform Build & SEO",
-    description: "Course platform build and SEO for a UK business education brand. Optimised for programme and course-level search intent.",
+    title: "LMS Build & Student Onboarding Automation",
+    description: "Custom Learning Management System with automated onboarding workflows, email triggers, and certificate generation.",
     metrics: [
       { value: "3×", label: "Organic enrolment growth in 60 days" },
-      { value: "9", label: "Course keywords ranking page 1" },
+      { value: "9", label: "Target course keywords ranking Page 1" },
     ],
   },
   {
     type: "portfolio",
     name: "Alkhemmy Naturals",
-    title: "E-commerce SEO & Brand Build",
-    description: "E-commerce SEO and brand build for a UK natural beauty product brand. Category and product pages optimised for transactional search.",
+    title: "E-commerce Platform Build & Email Marketing",
+    description: "Custom headless e-commerce store with automated email abandoned-cart recovery, upsells, and lifecycle marketing flows.",
     metrics: [
       { value: "178%", label: "Increase in organic revenue" },
-      { value: "42", label: "Product pages ranking on page 1" },
+      { value: "42", label: "Product pages ranking Page 1" },
     ],
   },
   {
     type: "portfolio",
     name: "Flip Republic",
-    title: "Platform Build & Technical SEO",
-    description: "Platform build and technical SEO for a UK property flipping community. Architected for competitive local and national keyword coverage.",
+    title: "Portal Build & Real-Time Property Scraper",
+    description: "Custom portal with a background Node.js scraper that aggregates property deals, indexing them for community organic reach.",
     metrics: [
-      { value: "8", label: "Competitive terms ranking page 1 in 4 months" },
-      { value: "3.1×", label: "Lead volume increase post-launch" },
+      { value: "8", label: "City-level keywords ranking Page 1" },
+      { value: "3.1×", label: "Active lead volume increase post-launch" },
     ],
   },
   {
     type: "portfolio",
     name: "Leverage",
-    title: "Brand System & Site Build",
-    description: "Brand system and full site build for a UK consulting and growth brand. Performance-first architecture with sub-second load times.",
+    title: "Custom Web App & UX Design",
+    description: "High-fidelity, performance-engineered corporate web system. Fully custom layouts and sub-second rendering.",
     metrics: [
-      { value: "Sub 1s", label: "Mobile load time at launch" },
-      { value: "98", label: "Lighthouse performance score" },
+      { value: "Sub 1s", label: "Mobile rendering and load time" },
+      { value: "98", label: "Lighthouse core performance score" },
     ],
   },
   {
     type: "portfolio",
     name: "OmniWTMS",
-    title: "Platform SEO for Logistics SaaS",
-    description: "Platform SEO for a UK logistics warehouse and transport management SaaS. Targeted B2B decision-maker search terms across the buying funnel.",
+    title: "Logistics SaaS App & API Automation",
+    description: "B2B SaaS platform optimization. Built automated calendar scheduling, enquiry qualification, and CRM routing pipelines.",
     metrics: [
-      { value: "11", label: "B2B SaaS keywords ranking page 1" },
+      { value: "11", label: "B2B SaaS keywords ranking Page 1" },
       { value: "260%", label: "Increase in demo requests from organic" },
     ],
   },
   {
     type: "portfolio",
     name: "UAE Private Investor",
-    title: "Lead Generation Site & SEO",
-    description: "Lead generation site and SEO for a UAE-based private investment firm. Structured to attract high-value inbound enquiries from search.",
+    title: "Investor Portal Build & Lead Funnels",
+    description: "Private investment hub featuring a secure enquiry qualification portal with automated email notifications for directors.",
     metrics: [
-      { value: "~20", label: "Qualified enquiries per day at peak" },
+      { value: "~20", label: "Qualified leads per day at peak" },
       { value: "6.4×", label: "Increase in inbound leads within 6 months" },
     ],
   },
   {
     type: "portfolio",
     name: "Identi Marketing",
-    title: "Site Build & Search Optimisation",
-    description: "Site build and search optimisation for a UK digital marketing agency. Repositioned in search for high-intent commercial and local queries.",
+    title: "Next.js Site & Lead Capture Funnels",
+    description: "Performance site build with integrated lead qualification forms, capturing and qualifying agency prospects.",
     metrics: [
-      { value: "Page 1", label: "Agency keywords ranked in 3 months" },
-      { value: "2.4×", label: "Contact form conversion improvement" },
+      { value: "Page 1", label: "Target terms ranked in 3 months" },
+      { value: "2.4×", label: "Form conversion rate improvement" },
     ],
   },
   {
     type: "portfolio",
     name: "Ads Starter",
-    title: "Platform Build & Conversion Copy",
-    description: "Platform build and conversion copy for a UK ads management starter kit. Optimised for trial sign-up conversion from paid and organic traffic.",
+    title: "Google Ads API & Custom Dashboard Build",
+    description: "Built a custom dashboard that utilizes the Google Ads API to track lead conversion rates and optimize ad spends automatically.",
     metrics: [
       { value: "34%", label: "Improvement in trial sign-up rate" },
-      { value: "1.2s", label: "Page load time on mobile" },
+      { value: "1.2s", label: "Dashboard loading speed on mobile" },
     ],
   },
   {
     type: "portfolio",
     name: "Nelly Logistics",
-    title: "Local SEO & Site Performance",
-    description: "Local SEO and site performance for a UK courier and logistics provider. Targeted local service-area keywords and Google Business Profile.",
+    title: "Courier Logistics Portal & API Integration",
+    description: "Operational courier tracking portal integrated with local search visibility and automated notification emails on order dispatch.",
     metrics: [
-      { value: "6", label: "Local courier keywords ranking page 1" },
+      { value: "6", label: "Local courier keywords ranking Page 1" },
       { value: "189%", label: "Growth in quote requests from organic" },
     ],
   },
   {
     type: "portfolio",
     name: "MCB Media",
-    title: "SEO & Site Performance",
-    description: "SEO and site performance for a UK media and content production company. Organic growth strategy focused on high-intent B2B search.",
+    title: "Media Portfolio Build & Lead Automation",
+    description: "Interactive video-heavy showcase platform with automated inquiry categorization and CRM lead assignment.",
     metrics: [
-      { value: "247%", label: "Organic traffic growth in 5 months" },
-      { value: "1.8×", label: "Client enquiry volume increase" },
+      { value: "247%", label: "Organic sessions growth in 5 months" },
+      { value: "1.8×", label: "Client booking volume increase" },
     ],
   },
   {
     type: "portfolio",
     name: "Queens Beauty Clinic",
-    title: "Local SEO & Google Business Profile",
-    description: "Local SEO and Google Business Profile management for a UK aesthetics and beauty clinic. Ranked for high-intent local beauty treatment searches.",
+    title: "AI Booking Agent & Local Search",
+    description: "Automated AI appointment scheduling assistant integrated with local Google Business Profile to capture direct booking intents.",
     metrics: [
       { value: "412%", label: "Google Business Profile views increase" },
-      { value: "12", label: "Local beauty keywords ranking page 1" },
+      { value: "12", label: "Local service keywords ranking Page 1" },
     ],
   },
 ];
@@ -276,8 +276,8 @@ const ProjectsSection = () => {
           <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-4">
             <span className="text-[#ffb700]">Documented Results.</span>
           </h2>
-          <p className="text-[#ADB7BE] text-sm md:text-base max-w-2xl">
-            Real businesses. Documented results. SEO and AI search, ranked by outcome.
+          <p className="text-[#ADB7BE] text-sm md:text-base max-w-2xl leading-relaxed">
+            Real organisations. Documented results. AI, systems, and visibility, ranked by outcome.
           </p>
         </div>
 
@@ -341,7 +341,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* Progress label */}
-        <p className="text-center text-[#ADB7BE] text-xs mt-2">
+        <p className="text-center text-[#ADB7BE] text-xs mt-2 font-semibold">
           {current + 1}–{Math.min(current + perPage, total)} of {total}
         </p>
 
@@ -351,7 +351,7 @@ const ProjectsSection = () => {
             eventLabel="projects_contact_cta"
             caption="Want numbers like these? 30 minutes, no obligation."
           >
-            Get Found →
+            Book a Consultation
           </CTAButton>
         </div>
       </div>

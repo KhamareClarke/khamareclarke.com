@@ -9,7 +9,7 @@ const StickyCTABar = () => (
         className="group relative inline-flex items-center justify-center whitespace-nowrap w-full px-6 py-3 text-base font-black text-black bg-gradient-to-r from-[#fdbd18] to-[#ff8c00] rounded-2xl shadow-lg hover:shadow-[#fdbd18]/50 transform hover:scale-105 transition-all duration-300 border-2 border-[#fdbd18]"
         trackingLabel="sticky_cta_mobile"
       >
-        <span className="relative z-10">Book Your Free SEO Strategy Call</span>
+        <span className="relative z-10">Book a Consultation</span>
         <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#fdbd18] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </BookingButton>
       <div className="mt-1 text-center text-[11px] leading-tight text-white/70">

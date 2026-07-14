@@ -1,158 +1,127 @@
 "use client";
+
 import React from "react";
 import CTAButton from "./CTAButton";
+import { motion } from "framer-motion";
 
-const stats = [
-  {
-    icon: "📈",
-    metric: "538%",
-    label: "Google Business Profile interactions",
-  },
-  {
-    icon: "🎯",
-    metric: "5X",
-    label: "Leads in 60 days",
-  },
-  {
-    icon: "📞",
-    metric: "~20/day",
-    label: "Qualified enquiries at peak",
-  },
-];
-
-const skills = [
+const capabilitiesList = [
   {
     icon: "🔍",
-    title: "SEO Audits and Technical Fixes",
-    description: "Full technical audit with a prioritised fix list to ensure search engines crawl and index your site perfectly.",
-  },
-  {
-    icon: "📍",
-    title: "Local SEO and Google Business Profile",
-    description: "Google Business Profile managed for maximum local reach, driving direct phone calls and physical visits.",
-  },
-  {
-    icon: "🤖",
-    title: "AI Search Visibility (ChatGPT, Gemini, Perplexity)",
-    description: "Optimised to appear in AI search engines, ensuring your business is recommended when users ask LLMs for solutions.",
+    title: "Search and Visibility",
+    description: "Presence in Google, and in AI search — ChatGPT, Gemini, Perplexity. Two distinct disciplines. Both required. Measured in enquiries received."
   },
   {
     icon: "💬",
-    title: "AI Lead Response Systems",
-    description: "Every enquiry answered in minutes, around the clock, using intelligent agents trained on your business data.",
+    title: "Enquiry Handling",
+    description: "Every enquiry answered, qualified, and scheduled, at any hour. Teams receive briefed leads rather than voicemail."
   },
   {
-    icon: "⚡",
-    title: "High-Performance Websites",
-    description: "Fast, Core Web Vitals compliant, built to convert traffic into paying customers with zero friction.",
+    icon: "⚙️",
+    title: "Process Automation",
+    description: "Follow-up, review generation, pipeline management, and internal reporting — configured once, running continuously."
   },
   {
     icon: "📊",
-    title: "Plain-English Reporting",
-    description: "Monthly updates tracking rankings, calls, and enquiries with absolute transparency and zero jargon.",
+    title: "Analytics and Reporting",
+    description: "Where enquiries originate, what they cost, and what converts. One report each month, in language the board can act on."
   },
+  {
+    icon: "📝",
+    title: "Content Production",
+    description: "Produced at a volume a team cannot sustain manually, on the subjects customers are actually searching. Reviewed and approved internally."
+  },
+  {
+    icon: "💻",
+    title: "Systems and Applications",
+    description: "Custom software where the operation requires it. Websites engineered for performance, conversion, and machine readability."
+  }
 ];
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="py-20 bg-[#111015] text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Numbers That Matter Section */}
-        <div className="text-center mb-20">
-          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
-            Numbers That Matter
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Real metrics from real businesses. Results documented below.
+    <section id="services" className="py-20 bg-[#111015] text-white relative overflow-hidden">
+      {/* Background radial glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-[#ffb700]/5 blur-3xl animate-pulse" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        {/* Header */}
+        <div className="text-center mb-16">
+          <motion.span
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-6 tracking-wider uppercase"
+            initial={{ opacity: 0.85, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            CAPABILITY
+          </motion.span>
+
+          <motion.h2
+            className="text-4xl md:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]"
+            initial={{ opacity: 0.85, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            Where AI Applies
+          </motion.h2>
+
+          <p className="text-[#ADB7BE] text-lg md:text-xl max-w-2xl mx-auto">
+            Practical capability engineered for performance, compliance, and real-world outcomes.
           </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-            {stats.map((stat, index) => (
-              <div 
-                key={index} 
-                className="bg-[#1a191f] p-8 rounded-2xl border border-gray-800 hover:border-orange-500/50 transition-all duration-300"
-              >
-                <span className="text-4xl block mb-4">{stat.icon}</span>
-                <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 block mb-2">
-                  {stat.metric}
-                </span>
-                <p className="text-gray-300 font-medium">{stat.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* AI Implementation Specialist Profile */}
-        <div className="bg-[#1a191f] rounded-3xl p-8 md:p-12 border border-gray-800 mb-20">
-          <div className="max-w-3xl">
-            <span className="text-orange-500 font-bold uppercase tracking-widest text-sm">
-              AI Implementation Specialist
-            </span>
-            <h3 className="text-3xl md:text-4xl font-bold mt-2 mb-6">
-              Khamare Clarke
-            </h3>
-            <p className="text-xl text-gray-300 mb-4 font-semibold">
-              SEO backed by AI. Results built in production.
-            </p>
-            <p className="text-gray-400 text-lg leading-relaxed mb-8">
-              I build and rank UK businesses using the same systems I sell. I write the code, run the campaigns, and stay until the numbers move.
-            </p>
-            <div className="flex items-center space-x-3 text-gray-400 text-sm">
-              <span>📍</span>
-              <span>Khamare Clarke, AI Implementation Specialist, Stoke-on-Trent</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Skills & Capabilities Grid */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl md:text-4xl font-bold mb-4">
-              AI-Powered Business Systems
-            </h3>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Every approach tested on live client campaigns before I recommend it. Here is how I help your business dominate.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {skills.map((skill, index) => (
-              <div 
-                key={index} 
-                className="bg-[#1a191f] p-8 rounded-2xl border border-gray-800 hover:border-orange-500/30 transition-all duration-300 flex flex-col justify-between"
-              >
-                <div>
-                  <span className="text-3xl block mb-4">{skill.icon}</span>
-                  <h4 className="text-xl font-bold mb-3 text-white">{skill.title}</h4>
-                  <p className="text-gray-400 text-sm leading-relaxed">{skill.description}</p>
-                </div>
+        {/* Capabilities Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {capabilitiesList.map((capability, index) => (
+            <motion.div
+              key={index}
+              className="bg-[#1a191f] p-8 rounded-2xl border border-gray-800 hover:border-[#ffb700]/30 transition-all duration-300 flex flex-col justify-between group hover:shadow-[0_0_20px_rgba(255,183,0,0.08)]"
+              initial={{ opacity: 0.85, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+            >
+              <div>
+                <span className="text-4xl block mb-4 p-2 bg-black/40 rounded-xl w-fit group-hover:scale-110 transition-transform duration-300">{capability.icon}</span>
+                <h4 className="text-xl font-bold mb-3 text-white group-hover:text-[#ffb700] transition-colors">{capability.title}</h4>
+                <p className="text-gray-400 text-sm leading-relaxed font-medium">{capability.description}</p>
               </div>
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
 
         {/* Call to Action */}
-        <div className="text-center bg-gradient-to-r from-orange-600/10 to-red-600/10 rounded-3xl p-8 md:p-12 border border-orange-500/20">
-          <h3 className="text-2xl md:text-3xl font-bold mb-4">
+        <motion.div
+          className="text-center bg-gradient-to-r from-[#ffb700]/10 to-[#ff8c00]/10 rounded-3xl p-8 md:p-12 border border-[#ffb700]/20 max-w-4xl mx-auto"
+          initial={{ opacity: 0.85, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h3 className="text-2xl md:text-3xl font-extrabold mb-4">
             Ready to get clarity and move fast?
           </h3>
-          <p className="text-gray-300 mb-8 max-w-xl mx-auto">
-            Book a 30-minute strategy call to discuss how we can implement these AI systems in your business. Zero obligation.
+          <p className="text-gray-300 mb-8 max-w-xl mx-auto font-medium">
+            Book a 30-minute consultation to discuss where AI applies to your operation. Zero obligation.
           </p>
           <div className="inline-block">
-            <CTAButton 
+            <CTAButton
               className="whitespace-nowrap text-base px-8 py-4 font-bold"
               icon="phone"
-              eventLabel="services_book_strategy_call"
+              eventLabel="services_book_consultation"
+              caption="30 minutes. An honest assessment of where AI applies."
             >
-              Book a Free Strategy Call
+              Book a Consultation
             </CTAButton>
           </div>
-          <p className="text-xs text-gray-500 mt-4 flex items-center justify-center gap-1">
-            <span>⚡</span> 30 min strategy, zero obligation
-          </p>
-        </div>
+        </motion.div>
 
       </div>
     </section>

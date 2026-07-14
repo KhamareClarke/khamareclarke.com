@@ -1,90 +1,39 @@
 "use client";
-import React, { useTransition, useState } from "react";
+
+import React from "react";
 import Image from "next/image";
-import TabButton from "./TabButton";
 import CTAButton from "./CTAButton";
 import { motion } from "framer-motion";
 
-const TAB_DATA = [
+const ENGAGEMENT_STEPS = [
   {
-    title: "Skills",
-    id: "skills",
-    content: (
-      <ul className="flex flex-col gap-4 text-base lg:text-lg">
-        <li className="flex items-start gap-2"><span className="text-[#ffb700]">★</span><span><b className="text-[#ffb700]">AI Automation:</b> AI agents & workflows for growth.</span></li>
-        <li className="flex items-start gap-2"><span className="text-[#ffb700]">★</span><span><b className="text-[#ffb700]">Web & App:</b> Scalable, high-converting platforms.</span></li>
-        <li className="flex items-start gap-2"><span className="text-[#ffb700]">★</span><span><b className="text-[#ffb700]">Digital Marketing:</b> Funnels, ads & SEO that convert.</span></li>
-        <li className="flex items-start gap-2"><span className="text-[#ffb700]">★</span><span><b className="text-[#ffb700]">CRM Systems:</b> Bookings & lead scoring that close deals.</span></li>
-                <li className="flex items-start gap-2"><span className="text-[#ffb700]">★</span><span><b className="text-[#ffb700]">Analytics:</b> Dashboards & insights for smart decisions.</span></li>
-        <li className="flex items-start gap-2"><span className="text-[#ffb700]">★</span><span><b className="text-[#ffb700]">UI/UX Optimization:</b> Interfaces that drive action.</span></li>
-        <li className="flex items-start gap-2"><span className="text-[#ffb700]">★</span><span><b className="text-[#ffb700]">Growth Consulting:</b> Systemize & scale your business.</span></li>
-      </ul>
-    ),
+    icon: "🔍",
+    title: "Assessment",
+    description: "Existing operations reviewed. Suitable use cases identified. Where AI does not apply, I say so."
   },
   {
-    title: "Education",
-    id: "education",
-    content: (
-      <div className="flex flex-col gap-4">
-        <div className="flex items-start gap-3">
-          <span className="text-2xl"></span>
-          <span><span className="font-bold text-[#ffb700]">BSc (Hons), Software Engineering</span> – Building technical foundations for scalable platforms.</span>
-        </div>
-        <div className="flex items-start gap-3">
-          <span className="text-2xl"></span>
-          <span><span className="font-bold text-[#ffb700]">BSc (Hons), Digital Marketing</span> – Expertise in growth & customer acquisition.</span>
-        </div>
-        <div className="flex items-start gap-3">
-          <span className="text-2xl"></span>
-          <span><span className="font-bold text-[#ffb700]">MSc, Computer Science with Artificial Intelligence</span> – Advanced AI applications for real-world business.</span>
-        </div>
-      </div>
-    ),
+    icon: "⚙️",
+    title: "Implementation",
+    description: "Systems built, integrated, and configured alongside current teams and processes."
   },
   {
-    title: "Certifications",
-    id: "certifications",
-    content: (
-      <div className="flex flex-col gap-4">
-        <div className="flex items-start gap-3">
-          <span className="text-2xl"></span>
-          <span><span className="font-bold text-[#ffb700]">Level 4 Diploma</span> – Software Engineering</span>
-        </div>
-        <div className="flex items-start gap-3">
-          <span className="text-2xl"></span>
-          <span><span className="font-bold text-[#ffb700]">Level 4 Diploma</span> – Digital Marketing</span>
-        </div>
-        <div className="flex items-start gap-3">
-          <span className="text-2xl"></span>
-          <span><span className="font-bold text-[#ffb700]">Level 4 Diploma</span> – Cyber Security</span>
-        </div>
-        <div className="flex items-start gap-3">
-          <span className="text-2xl"></span>
-          <span><span className="font-bold text-[#ffb700]">Certified Google Ads & Analytics Specialist</span></span>
-        </div>
-        <div className="flex items-start gap-3">
-          <span className="text-2xl"></span>
-          <span><span className="font-bold text-[#ffb700]">AI & Machine Learning Certifications</span> (Project-Based)</span>
-        </div>
-        <div className="flex items-start gap-3">
-          <span className="text-2xl"></span>
-          <span><span className="font-bold text-[#ffb700]">Professional Development</span> – SaaS Product Management (Ongoing)</span>
-        </div>
-      </div>
-    ),
+    icon: "👨‍🏫",
+    title: "Training",
+    description: "Staff trained on the systems they will use daily."
   },
+  {
+    icon: "📖",
+    title: "Documentation",
+    description: "Written in plain English, so the organisation is never dependent on any single individual."
+  },
+  {
+    icon: "🛡️",
+    title: "Support",
+    description: "Ongoing, in line with organisational policy, data protection, and compliance requirements."
+  }
 ];
 
 const AboutSection = () => {
-  const [tab, setTab] = useState("skills");
-  const [isPending, startTransition] = useTransition();
-
-  const handleTabChange = (id) => {
-    startTransition(() => {
-      setTab(id);
-    });
-  };
-
   return (
     <section className="text-white py-16 md:py-20 relative overflow-hidden" id="about">
       {/* Background Effects */}
@@ -92,7 +41,7 @@ const AboutSection = () => {
         <div className="absolute top-1/4 right-1/4 h-96 w-96 rounded-full bg-[#ffb700]/6 blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 left-1/4 h-80 w-80 rounded-full bg-[#ff8c00]/4 blur-2xl animate-pulse delay-1000" />
       </div>
-      
+
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
@@ -100,92 +49,88 @@ const AboutSection = () => {
             className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-8 tracking-wider uppercase"
             initial={{ opacity: 0.85, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
             </svg>
-            ABOUT ME
+            METHOD
           </motion.span>
-          
+
           <motion.h2
             className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight"
             initial={{ opacity: 0.85, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">
-              Khamare Clarke
+              How the Work Is Delivered
             </span>
-            <br />
-            <span className="text-white">SEO backed by AI. Results built in production.</span>
           </motion.h2>
-          
+
           <p className="text-[#ADB7BE] text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-            I build and rank UK businesses using the same systems I sell. I write the code, run the campaigns, and stay until the numbers move.
+            Every engagement begins with an operational assessment. I examine how the organisation currently runs, where enquiries and hours are lost, and which processes are already working and should be left alone.
           </p>
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          
-          {/* Left: Image */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+          {/* Left: Image (4/12 col width) */}
           <motion.div
-            className="relative order-2 lg:order-1"
-            initial={{ opacity: 0.85, x: 0 }}
+            className="lg:col-span-5 relative order-2 lg:order-1"
+            initial={{ opacity: 0.85, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <div className="relative">
+            <div className="relative max-w-sm mx-auto">
               <div className="absolute inset-0 bg-gradient-to-r from-[#ffb700] via-[#ff8c00] to-[#ffb700] rounded-2xl p-[2px]">
                 <div className="bg-[#0a0a0a] rounded-2xl h-full" />
               </div>
-              
+
               <div className="relative bg-gradient-to-br from-[#1a1a1a]/90 to-[#0f0f0f]/90 rounded-2xl p-4">
-                <Image 
-                  src="/images/about-image.png" 
-                  width={400} 
-                  height={400} 
-                  alt="Khamare Clarke, AI Implementation Specialist, Stoke-on-Trent"
+                <Image
+                  src="/images/about-image.png"
+                  width={400}
+                  height={400}
+                  alt="Khamare Clarke, AI Implementation Specialist"
                   className="rounded-xl w-full h-auto object-cover"
                 />
               </div>
             </div>
           </motion.div>
 
-          {/* Right: Content */}
+          {/* Right: Methodology Steps (7/12 col width) */}
           <motion.div
-            className="space-y-6 order-1 lg:order-2"
-            initial={{ opacity: 0.85, x: 0 }}
+            className="lg:col-span-7 space-y-6 order-1 lg:order-2"
+            initial={{ opacity: 0.85, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            {/* Description removed — single paragraph appears in header only */}
-
-            {/* What he builds - Compact Grid */}
-            <div className="bg-gradient-to-br from-[#1a1a1a]/60 to-[#0f0f0f]/60 backdrop-blur-sm border border-[#ffb700]/20 rounded-xl p-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {[
-                  { icon: "🔍", title: "SEO Audits and Technical Fixes", desc: "Full technical audit with a prioritised fix list" },
-                  { icon: "📍", title: "Local SEO and Google Business Profile", desc: "Google Business Profile managed for maximum local reach" },
-                  { icon: "🤖", title: "AI Search Visibility (ChatGPT, Gemini, Perplexity)", desc: "Optimised to appear in ChatGPT, Gemini, Perplexity" },
-                  { icon: "💬", title: "AI Lead Response Systems", desc: "Every enquiry answered in minutes, around the clock" },
-                  { icon: "⚡", title: "High-Performance Websites", desc: "Fast, Core Web Vitals compliant, built to convert" },
-                  { icon: "📊", title: "Plain-English Reporting", desc: "Monthly update: rankings, calls, enquiries" }
-                ].map((item, index) => (
+            <div className="bg-gradient-to-br from-[#1a1a1a]/60 to-[#0f0f0f]/60 backdrop-blur-sm border border-[#ffb700]/20 rounded-xl p-6 md:p-8 space-y-4">
+              <div className="space-y-4">
+                {ENGAGEMENT_STEPS.map((step, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-3 p-3 bg-[#0a0a0a]/30 rounded-lg border border-[#ffb700]/10 hover:border-[#ffb700]/20 transition-all duration-300"
+                    className="flex items-start gap-4 p-4 bg-[#0a0a0a]/40 rounded-xl border border-[#ffb700]/10 hover:border-[#ffb700]/30 transition-all duration-300"
                   >
-                    <span className="text-xl flex-shrink-0">{item.icon}</span>
+                    <span className="text-2xl p-2 bg-[#ffb700]/10 rounded-lg flex-shrink-0">{step.icon}</span>
                     <div>
-                      <h4 className="text-[#ffb700] font-semibold text-sm mb-1">{item.title}:</h4>
-                      <p className="text-[#ADB7BE] text-xs leading-relaxed">{item.desc}</p>
+                      <h4 className="text-white font-extrabold text-base md:text-lg mb-1">{step.title}</h4>
+                      <p className="text-[#ADB7BE] text-sm leading-relaxed">{step.description}</p>
                     </div>
                   </div>
                 ))}
+              </div>
+
+              <div className="pt-4 border-t border-[#ffb700]/10">
+                <p className="text-[#ADB7BE] text-sm leading-relaxed italic">
+                  Existing marketing teams, developers, and agencies remain in place. The people already trusted with the work gain capability they do not currently have.
+                </p>
               </div>
             </div>
           </motion.div>
@@ -196,20 +141,18 @@ const AboutSection = () => {
           className="flex justify-center mt-16"
           initial={{ opacity: 0.85, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
           <CTAButton
             href="/#contact"
             className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#ffb700] to-[#ff8c00] text-black font-black rounded-xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-[#ffb700]/50 border-2 border-[#ffb700]"
             icon="bolt"
-            eventLabel="about_lets_talk_leverage"
-            caption="30 min strategy, zero obligation"
+            eventLabel="about_book_consultation"
+            caption="30 minutes. An honest assessment of where AI applies to your operation."
           >
             <span className="relative z-10 flex items-center gap-2">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
-              </svg>
-              Book a Free Strategy Call
+              Book a Consultation
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-[#ff8c00] to-[#ffb700] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </CTAButton>
