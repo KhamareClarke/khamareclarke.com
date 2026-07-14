@@ -306,12 +306,14 @@ export default function JarvisFullPageHud() {
                 <div className="jarvis-settings-menu absolute right-0 top-full mt-2 z-50 min-w-[10rem] p-2 rounded-lg border border-[#ffb700]/20 bg-[#080600]/95 shadow-xl">
                   <button type="button" onClick={() => setMuted((m) => !m)} className="jarvis-settings-item w-full text-left">{muted ? 'Unmute voice' : 'Mute voice'}</button>
                   {!isMobileVoice && (
-                    <button type="button" onClick={() => setClapWake((c) => !c)} className="jarvis-settings-item w-full text-left">Double-clap wake {clapWake ? 'on' : 'off'}</button>
-                    {clapWake && (
-                      <p className="jarvis-settings-hint px-3 pb-2 text-[10px] text-[#ffb700]/55 leading-snug">
-                        Desktop only — clap twice quickly (within ~1s). Mic permission required. Off while Jarvis is speaking.
-                      </p>
-                    )}
+                    <>
+                      <button type="button" onClick={() => setClapWake((c) => !c)} className="jarvis-settings-item w-full text-left">Double-clap wake {clapWake ? 'on' : 'off'}</button>
+                      {clapWake && (
+                        <p className="jarvis-settings-hint px-3 pb-2 text-[10px] text-[#ffb700]/55 leading-snug">
+                          Desktop only — clap twice quickly (within ~1s). Mic permission required. Off while Jarvis is speaking.
+                        </p>
+                      )}
+                    </>
                   )}
                   <button type="button" onClick={() => setPresentationMode((p) => !p)} className="jarvis-settings-item w-full text-left">Presentation</button>
                   <Link href="/dashboard/leads" className="jarvis-settings-item block">Exit JARVIS</Link>
