@@ -166,6 +166,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   const restartListeningTimerRef = useRef(null);
   /** Sticky arm flag — stays true between recognition restarts so HUD never flickers to idle. */
   const voiceSessionArmedRef = useRef(false);
+  /** Bumps on each listen attempt so stale abort/end handlers cannot kill a fresh session. */
+  const listenEpochRef = useRef(0);
   const sessionPersistReadyRef = useRef(false);
 
   const toggle = useCallback(() => {
@@ -346,9 +348,13 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     return () => clearTimeout(t);
   }, [minimal, open, audioUnlocked]);
 
-  /** Double-clap activates JARVIS when hands are busy (full-page HUD only). */
+  /**
+   * Double-clap wake (desktop only).
+   * On mobile, a second getUserMedia stream steals the mic from SpeechRecognition,
+   * so voice capture fails silently while the HUD still looks like it's listening.
+   */
   useEffect(() => {
-    if (minimal || !open || !clapWake) {
+    if (minimal || !open || !clapWake || isMobileUserAgent()) {
       clapDetectorRef.current?.stop?.();
       clapDetectorRef.current = null;
       return undefined;
@@ -360,45 +366,51 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       const { createClapDetector } = await import('@/lib/jarvis/clap-detect');
       if (cancelled) return;
 
+      const wakeFromClap = () => {
+        unlockSpeechAudio({ prime: false });
+        setAudioUnlocked(true);
+        setClapActivated(true);
+        clearTimeout(clapFlashTimerRef.current);
+        clapFlashTimerRef.current = setTimeout(() => setClapActivated(false), 2000);
+
+        if (speakingRef.current) {
+          stopSpeaking();
+          speakingRef.current = false;
+          setSpeaking(false);
+          pendingTtsRef.current = false;
+        }
+
+        try {
+          recognitionRef.current?.stop();
+        } catch {
+          // ignore
+        }
+        recognizingRef.current = false;
+        setListening(false);
+
+        window.setTimeout(() => {
+          beginListeningRef.current?.({ interruptSpeech: true });
+          if (!mutedRef.current) {
+            speakJarvis('Yes, sir.', { muted: false });
+          }
+        }, 150);
+      };
+
       const detector = await createClapDetector({
-        shouldListen: () =>
-          !speakingRef.current && !pendingTtsRef.current && !streamingRef.current,
-        onDoubleClap: () => {
-          unlockSpeechAudio({ prime: false });
-          setAudioUnlocked(true);
-          setClapActivated(true);
-          clearTimeout(clapFlashTimerRef.current);
-          clapFlashTimerRef.current = setTimeout(() => setClapActivated(false), 2000);
-
-          if (speakingRef.current) {
-            stopSpeaking();
-            speakingRef.current = false;
-            setSpeaking(false);
-            pendingTtsRef.current = false;
-          }
-
-          try {
-            recognitionRef.current?.stop();
-          } catch {
-            // ignore
-          }
-          recognizingRef.current = false;
-          setListening(false);
-
-          window.setTimeout(() => {
-            beginListeningRef.current?.({ interruptSpeech: true });
-            if (!mutedRef.current) {
-              speakJarvis('Yes, sir.', { muted: false });
-            }
-          }, 150);
-        },
+        /* Allow clap while idle/listening; only ignore during Jarvis speech / reply stream. */
+        shouldListen: () => !speakingRef.current && !pendingTtsRef.current,
+        onDoubleClap: wakeFromClap,
       });
 
       if (cancelled) {
         detector.stop();
         return;
       }
+      if (!detector.ready) {
+        console.warn('[jarvis] clap wake could not open the microphone');
+      }
       clapDetectorRef.current = detector;
+      detector.setEnabled?.(clapWake);
     })();
 
     return () => {
@@ -410,6 +422,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   }, [minimal, open, clapWake]);
 
   const pauseListening = useCallback(() => {
+    listenEpochRef.current += 1;
     if (listeningClearTimerRef.current) {
       clearTimeout(listeningClearTimerRef.current);
       listeningClearTimerRef.current = null;
@@ -457,33 +470,25 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       setListening(true);
     }
 
+    /* Epoch so a late onEnd from a prior stop cannot clear a session we just started. */
+    const epoch = ++listenEpochRef.current;
+
     try {
-      /* Only abort a stale instance — never abort mid-session restart races on mobile. */
-      if (isMobileUserAgent() && !recognizingRef.current) {
-        try {
-          rec.abort();
-        } catch {
-          // ignore
-        }
-        await new Promise((r) => setTimeout(r, isIOS() ? 120 : 60));
-      }
       if (recognizingRef.current || streamingRef.current || speakingRef.current) return false;
+      if (epoch !== listenEpochRef.current) return false;
       rec.start();
       return true;
     } catch {
-      try {
-        rec.abort?.();
-      } catch {
-        // ignore
-      }
-      try {
-        rec.stop();
-      } catch {
-        // ignore
-      }
+      /* InvalidStateError = already started; treat as success. */
+      if (recognizingRef.current) return true;
       await new Promise((r) => setTimeout(r, isMobileUserAgent() ? 700 : 350));
       try {
-        if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
+        if (
+          epoch === listenEpochRef.current &&
+          !recognizingRef.current &&
+          !streamingRef.current &&
+          !speakingRef.current
+        ) {
           rec.start();
           return true;
         }
@@ -597,11 +602,11 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         }
       },
       onError: (code) => {
+        if (code === 'aborted') return;
         if (code === 'no-speech' && continuousListenRef.current) {
           scheduleRestartRef.current?.();
           return;
         }
-        if (code === 'aborted') return;
         const msg = mapSpeechError(code);
         if (msg) setVoiceError(msg);
         if (continuousListenRef.current) {
