@@ -148,9 +148,9 @@ export default function CaseStudiesContent() {
             Ready to become the <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">next case study?</span>
           </h2>
           <p className="text-xl text-[#ADB7BE] mb-8 max-w-2xl mx-auto">
-            Book a free 30-minute strategy call. You will leave with a clear picture of what AI and SEO can do for your business.
+            Book a 30-minute consultation. We will discuss where AI applies to your operation and identify potential efficiency gains.
           </p>
-          <CTAButton caption="No pitch deck. No obligation.">Book Your Free Strategy Call</CTAButton>
+          <CTAButton caption="No pitch deck. No obligation.">Book a Consultation</CTAButton>
         </motion.div>
         </Container>
       </Section>

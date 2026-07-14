@@ -31,164 +31,14 @@ const allCards = [
   },
   {
     type: "portfolio",
-    name: "MyApproved",
+    name: "MyApproved (Own Platform — Internal Build)",
     title: "Marketplace Platform & Core Web Vitals",
-    description: "Full stack development, technical restructuring, and automated XML sitemap feeds for a UK property approval marketplace.",
+    description: "My own platform built to demonstrate high-performance technical capabilities. Includes full stack marketplace architecture, technical restructuring, and automated XML sitemap feeds.",
     metrics: [
       { value: "312%", label: "Organic traffic growth in 6 months" },
       { value: "0.9s", label: "Core Web Vitals load time, down from 4.2s" },
     ],
-  },
-  {
-    type: "portfolio",
-    name: "InBoker",
-    title: "Comparison Platform Build & Lead Routing",
-    description: "Custom full-stack UK broker comparison web application, integrated with automated email routing and lead status tracking.",
-    metrics: [
-      { value: "Page 1", label: "Target terms ranked in 90 days" },
-      { value: "2.8×", label: "Contact form conversion improvement" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "Upgrade Roofing Solutions",
-    title: "AI Receptionist & CRM Integration",
-    description: "Continuous AI enquiry response system capturing missed voicemail leads and writing them directly to active client CRM pipelines.",
-    metrics: [
-      { value: "538%", label: "GBP interactions growth in 90 days" },
-      { value: "30+", label: "Booked calls in two weeks" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "Leverage Journal",
-    title: "Content Automation & Headless CMS Build",
-    description: "Headless CMS website integrated with programmatic content generation tools, indexing thousands of search topics automatically.",
-    metrics: [
-      { value: "220%", label: "Increase in organic traffic sessions" },
-      { value: "48", label: "Core authority topics ranking Page 1" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "SEOinforce",
-    title: "AI Search Audit Engine (SaaS Dev)",
-    description: "Development of a custom SaaS auditing application that monitors brand presence across major Generative AI models.",
-    metrics: [
-      { value: "7", label: "Generative AI engines monitored" },
-      { value: "94%", label: "Data verification accuracy" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "Leverage Academy",
-    title: "LMS Build & Student Onboarding Automation",
-    description: "Custom Learning Management System with automated onboarding workflows, email triggers, and certificate generation.",
-    metrics: [
-      { value: "3×", label: "Organic enrolment growth in 60 days" },
-      { value: "9", label: "Target course keywords ranking Page 1" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "Alkhemmy Naturals",
-    title: "E-commerce Platform Build & Email Marketing",
-    description: "Custom headless e-commerce store with automated email abandoned-cart recovery, upsells, and lifecycle marketing flows.",
-    metrics: [
-      { value: "178%", label: "Increase in organic revenue" },
-      { value: "42", label: "Product pages ranking Page 1" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "Flip Republic",
-    title: "Portal Build & Real-Time Property Scraper",
-    description: "Custom portal with a background Node.js scraper that aggregates property deals, indexing them for community organic reach.",
-    metrics: [
-      { value: "8", label: "City-level keywords ranking Page 1" },
-      { value: "3.1×", label: "Active lead volume increase post-launch" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "Leverage",
-    title: "Custom Web App & UX Design",
-    description: "High-fidelity, performance-engineered corporate web system. Fully custom layouts and sub-second rendering.",
-    metrics: [
-      { value: "Sub 1s", label: "Mobile rendering and load time" },
-      { value: "98", label: "Lighthouse core performance score" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "OmniWTMS",
-    title: "Logistics SaaS App & API Automation",
-    description: "B2B SaaS platform optimization. Built automated calendar scheduling, enquiry qualification, and CRM routing pipelines.",
-    metrics: [
-      { value: "11", label: "B2B SaaS keywords ranking Page 1" },
-      { value: "260%", label: "Increase in demo requests from organic" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "UAE Private Investor",
-    title: "Investor Portal Build & Lead Funnels",
-    description: "Private investment hub featuring a secure enquiry qualification portal with automated email notifications for directors.",
-    metrics: [
-      { value: "~20", label: "Qualified leads per day at peak" },
-      { value: "6.4×", label: "Increase in inbound leads within 6 months" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "Identi Marketing",
-    title: "Next.js Site & Lead Capture Funnels",
-    description: "Performance site build with integrated lead qualification forms, capturing and qualifying agency prospects.",
-    metrics: [
-      { value: "Page 1", label: "Target terms ranked in 3 months" },
-      { value: "2.4×", label: "Form conversion rate improvement" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "Ads Starter",
-    title: "Google Ads API & Custom Dashboard Build",
-    description: "Built a custom dashboard that utilizes the Google Ads API to track lead conversion rates and optimize ad spends automatically.",
-    metrics: [
-      { value: "34%", label: "Improvement in trial sign-up rate" },
-      { value: "1.2s", label: "Dashboard loading speed on mobile" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "Nelly Logistics",
-    title: "Courier Logistics Portal & API Integration",
-    description: "Operational courier tracking portal integrated with local search visibility and automated notification emails on order dispatch.",
-    metrics: [
-      { value: "6", label: "Local courier keywords ranking Page 1" },
-      { value: "189%", label: "Growth in quote requests from organic" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "MCB Media",
-    title: "Media Portfolio Build & Lead Automation",
-    description: "Interactive video-heavy showcase platform with automated inquiry categorization and CRM lead assignment.",
-    metrics: [
-      { value: "247%", label: "Organic sessions growth in 5 months" },
-      { value: "1.8×", label: "Client booking volume increase" },
-    ],
-  },
-  {
-    type: "portfolio",
-    name: "Queens Beauty Clinic",
-    title: "AI Booking Agent & Local Search",
-    description: "Automated AI appointment scheduling assistant integrated with local Google Business Profile to capture direct booking intents.",
-    metrics: [
-      { value: "412%", label: "Google Business Profile views increase" },
-      { value: "12", label: "Local service keywords ranking Page 1" },
-    ],
-  },
+  }
 ];
 
 function CaseStudyCard({ card }) {
@@ -327,22 +177,24 @@ const ProjectsSection = () => {
         </div>
 
         {/* Dot indicators */}
-        <div className="flex justify-center gap-1.5 mt-6">
-          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className={`rounded-full transition-all duration-200 ${
-                i === current ? "bg-[#ffb700] w-5 h-2" : "bg-[#ffb700]/30 w-2 h-2"
-              }`}
-            />
-          ))}
-        </div>
+        {maxIndex > 0 && (
+          <div className="flex justify-center gap-1.5 mt-6">
+            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`rounded-full transition-all duration-200 ${
+                  i === current ? "bg-[#ffb700] w-5 h-2" : "bg-[#ffb700]/30 w-2 h-2"
+                }`}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Progress label */}
         <p className="text-center text-[#ADB7BE] text-xs mt-2 font-semibold">
-          {current + 1}–{Math.min(current + perPage, total)} of {total}
+          {perPage >= total ? `1–${total} of ${total}` : `${current + 1}–${Math.min(current + perPage, total)} of ${total}`}
         </p>
 
         {/* CTA */}

@@ -35,7 +35,7 @@ const ENGAGEMENT_STEPS = [
 
 const AboutSection = () => {
   return (
-    <section className="text-white py-16 md:py-20 relative overflow-hidden" id="about">
+    <section className="text-white py-10 md:py-14 relative overflow-hidden" id="about">
       {/* Background Effects */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/4 right-1/4 h-96 w-96 rounded-full bg-[#ffb700]/6 blur-3xl animate-pulse" />
@@ -44,9 +44,9 @@ const AboutSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <motion.span
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-8 tracking-wider uppercase"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-6 tracking-wider uppercase"
             initial={{ opacity: 0.85, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -59,7 +59,7 @@ const AboutSection = () => {
           </motion.span>
 
           <motion.h2
-            className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight"
+            className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight"
             initial={{ opacity: 0.85, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -76,7 +76,7 @@ const AboutSection = () => {
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
 
           {/* Left: Image (4/12 col width) */}
           <motion.div
@@ -105,20 +105,20 @@ const AboutSection = () => {
 
           {/* Right: Methodology Steps (7/12 col width) */}
           <motion.div
-            className="lg:col-span-7 space-y-6 order-1 lg:order-2"
+            className="lg:col-span-7 space-y-4 order-1 lg:order-2"
             initial={{ opacity: 0.85, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <div className="bg-gradient-to-br from-[#1a1a1a]/60 to-[#0f0f0f]/60 backdrop-blur-sm border border-[#ffb700]/20 rounded-xl p-6 md:p-8 space-y-4">
-              <div className="space-y-4">
+            <div className="bg-gradient-to-br from-[#1a1a1a]/60 to-[#0f0f0f]/60 backdrop-blur-sm border border-[#ffb700]/20 rounded-xl p-5 md:p-6 space-y-3">
+              <div className="space-y-3">
                 {ENGAGEMENT_STEPS.map((step, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-4 p-4 bg-[#0a0a0a]/40 rounded-xl border border-[#ffb700]/10 hover:border-[#ffb700]/30 transition-all duration-300"
+                    className="flex items-start gap-3 p-3 bg-[#0a0a0a]/40 rounded-xl border border-[#ffb700]/10 hover:border-[#ffb700]/30 transition-all duration-300"
                   >
-                    <span className="text-2xl p-2 bg-[#ffb700]/10 rounded-lg flex-shrink-0">{step.icon}</span>
+                    <span className="text-xl p-2 bg-[#ffb700]/10 rounded-lg flex-shrink-0">{step.icon}</span>
                     <div>
                       <h4 className="text-white font-extrabold text-base md:text-lg mb-1">{step.title}</h4>
                       <p className="text-[#ADB7BE] text-sm leading-relaxed">{step.description}</p>
@@ -138,7 +138,7 @@ const AboutSection = () => {
 
         {/* Centered CTA */}
         <motion.div
-          className="flex justify-center mt-16"
+          className="flex justify-center mt-10"
           initial={{ opacity: 0.85, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

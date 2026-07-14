@@ -17,35 +17,33 @@ const categoryGradients = {
 
 const blogPosts = [
   {
-    title: "How I Help UK Trades Save 20+ Hours a Week with AI Chatbots",
+    title: "Advanced Analytics Implementation: Operationalizing Business Intelligence",
+    slug: "advanced-analytics-growth",
+    excerpt: "A practical guide to implementing advanced analytics and business intelligence pipelines. Learn how data-driven architectures help established organisations optimise operations and drive measurable growth.",
+    category: "Advanced Analytics",
+    image: "/images/blog/unlock.png"
+  },
+  {
+    title: "AI Chatbot Implementation: Automating Enquiry Handling for Complex Workflows",
     slug: "ai-chatbots-save-uk-trades",
-    excerpt: "I design and build custom AI chatbots that automate admin, boost lead conversion, and give UK tradespeople their time back. Discover my hands-on approach and proven results.",
+    excerpt: "A look at the technical implementation of custom conversational AI agents. How automating administrative overhead and qualification recovers valuable staff hours and secures missed opportunities.",
     category: "AI Automation",
     image: "/images/blog/TradesChatBot.png.png"
   },
   {
-    title: "How I Build ROI-Driven Websites for UK SMEs",
-    slug: "roi-websites-uk-smes",
-    excerpt: "My practical, expert guide to building websites that deliver real business results for local UK companies. See how I use modern web tech to drive ROI for my clients.",
-    category: "Web & App Development",
-    image: "/images/blog/SMEs.png.png"
-  },
-  // Add up to 10 personalized blog posts here...
-  {
-    title: "How I Automate Customer Enquiries 24/7 for UK Retailers with AI",
+    title: "Automated Enquiry Pipelines: Scaling Support Channels with Custom AI",
     slug: "ai-customer-enquiries-retail",
-    excerpt: "I deploy AI chatbots that automate support and boost customer satisfaction for UK retailers. Learn how my expert systems deliver results around the clock.",
+    excerpt: "How custom AI agents are integrated across communication channels to qualify enquiries around the clock. A step-by-step review of technical guardrails, model fine-tuning, and CRM routing.",
     category: "AI Automation",
     image: "/images/blog/automate.png"
   },
   {
-    title: "Driving Growth with Advanced Analytics",
-    slug: "advanced-analytics-growth",
-    excerpt: "Discover how advanced analytics and data-driven strategies help UK businesses make smarter decisions, optimise operations, and drive measurable growth.",
-    category: "Advanced Analytics",
-    image: "/images/blog/unlock.png"
+    title: "Web Application Engineering: High-Performance Architecture built for Conversion",
+    slug: "roi-websites-uk-smes",
+    excerpt: "My technical guide to building robust, performance-engineered web systems. Discover how sub-second page rendering, headless architectures, and clean technical code drive real, measured business outcomes.",
+    category: "Web & App Development",
+    image: "/images/blog/SMEs.png.png"
   }
-  // ...more posts
 ];
 
 export default function BlogSlider() {
@@ -60,11 +58,11 @@ export default function BlogSlider() {
   };
 
   const [visible, setVisible] = useState(1); // Start with mobile to avoid hydration mismatch
-  
+
   React.useEffect(() => {
     // Set correct visible count after mount
     setVisible(getVisible());
-    
+
     const handleResize = () => setVisible(getVisible());
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -83,8 +81,8 @@ export default function BlogSlider() {
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center mb-8 mt-2 w-full text-center">
           <span className="bg-transparent border border-[#ffb700] text-[#ffb700] text-xs font-semibold px-4 py-1 rounded-full mb-3 tracking-widest uppercase">RESOURCES</span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">Field Notes From a Working SEO and AI Builder</h2>
-          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Write-ups from live client campaigns. What worked, with the numbers.</div>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">Field Notes From the Work</h2>
+          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Write-ups from live implementations. What worked, with the numbers.</div>
         </div>
         <div className="relative flex items-center justify-center">
           <button

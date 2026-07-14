@@ -99,12 +99,12 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="hidden md:flex items-center">
-          <CTAButton 
+          <CTAButton
             className="whitespace-nowrap text-sm px-4 py-2"
             icon="phone"
             eventLabel="nav_book_consultation"
           >
-            BOOK A FREE CALL
+            Book a Consultation
           </CTAButton>
         </div>
       </NavbarWrapper>
