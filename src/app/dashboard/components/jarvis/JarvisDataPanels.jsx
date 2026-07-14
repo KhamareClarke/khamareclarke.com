@@ -13,11 +13,13 @@ const TAB_LABELS = {
 
 const EVENT_COLOR = {
   lead: 'text-cyan-200',
+  listing: 'text-amber-200',
   signup: 'text-emerald-200',
   order: 'text-indigo-200',
   booking: 'text-fuchsia-200',
   job: 'text-sky-200',
   payment_succeeded: 'text-emerald-200',
+  test: 'text-[#ffb700]/70',
 };
 
 function relativeTime(ts) {

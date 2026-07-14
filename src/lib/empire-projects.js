@@ -14,6 +14,7 @@ export const ALL_EMPIRE_PROJECT_IDS = [
   'adstarter',
   'seoinforce',
   'alkemmy',
+  'upgraderoofing',
   'empire',
   'empire-phase11-test',
 ];
@@ -31,6 +32,7 @@ export const PROJECT_DISPLAY = {
   adstarter: 'Ads Starter',
   seoinforce: 'SEO In Force',
   alkemmy: 'Alkhemmy',
+  upgraderoofing: 'Upgrade Roofing',
   empire: 'Empire',
   'empire-phase11-test': 'Empire (verification)',
 };
@@ -49,6 +51,7 @@ export const PROJECT_ROOT_URL = {
   adstarter: 'https://adstarter.com',
   seoinforce: 'https://seoinforce.com',
   alkemmy: 'https://alkemmy.com',
+  upgraderoofing: 'https://www.upgraderoofs.co.uk',
   empire: 'https://khamareclarke.com',
   'empire-phase11-test': 'https://khamareclarke.com',
 };
