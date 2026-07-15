@@ -89,9 +89,9 @@ const ServicesSection = () => {
               transition={{ duration: 0.4, delay: index * 0.05 }}
             >
               <div>
-                <span className="text-4xl block mb-4 p-2 bg-black/40 rounded-xl w-fit group-hover:scale-110 transition-transform duration-300">{capability.icon}</span>
-                <h4 className="text-xl font-bold mb-3 text-white group-hover:text-[#ffb700] transition-colors">{capability.title}</h4>
-                <p className="text-gray-400 text-sm leading-relaxed font-medium">{capability.description}</p>
+                <span className="text-4xl block mb-4 p-2 bg-black/40 rounded-xl w-fit mx-auto md:mx-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">{capability.icon}</span>
+                <h4 className="text-xl font-bold mb-3 text-white text-center md:text-left group-hover:text-[#ffb700] transition-colors">{capability.title}</h4>
+                <p className="text-gray-400 text-sm leading-relaxed font-medium text-center md:text-left">{capability.description}</p>
               </div>
             </motion.div>
           ))}

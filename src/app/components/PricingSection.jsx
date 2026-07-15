@@ -121,21 +121,21 @@ const PricingSection = () => {
                 )}
               </div>
 
-              <ul className="mb-6 md:mb-8 space-y-3 md:space-y-4 flex-grow">
+              <ul className="mb-6 md:mb-8 space-y-3 md:space-y-4 flex-grow no-center-mobile text-left w-full max-w-sm mx-auto">
                 {tier.deliverables.map((deliverable, j) => (
-                  <li key={j} className="flex items-start text-sm text-white/90 gap-2">
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-[#ffb700]/10 border border-[#ffb700]/50 flex-shrink-0 mt-0.5">
+                  <li key={j} className="flex items-start text-sm text-white/90 gap-2 no-center-mobile text-left justify-start">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-[#ffb700]/10 border border-[#ffb700]/50 flex-shrink-0 mt-0.5 no-center-mobile">
                       <FaCheckCircle className="text-[#ffb700] text-xs" />
                     </span>
-                    <span className="font-medium">{deliverable}</span>
+                    <span className="font-medium text-left no-center-mobile flex-1">{deliverable}</span>
                   </li>
                 ))}
               </ul>
 
               {tier.outcome && (
-                <div className="mt-4 pt-4 border-t border-[#ffb700]/15 mb-6 text-left">
-                  <span className="text-[#ffb700] text-[10px] font-black uppercase tracking-widest block mb-1">Outcome:</span>
-                  <p className="text-[#ADB7BE] text-xs leading-relaxed font-semibold">{tier.outcome}</p>
+                <div className="mt-4 pt-4 border-t border-[#ffb700]/15 mb-6 text-left no-center-mobile">
+                  <span className="text-[#ffb700] text-[10px] font-black uppercase tracking-widest block mb-1 no-center-mobile">Outcome:</span>
+                  <p className="text-[#ADB7BE] text-xs leading-relaxed font-semibold text-left no-center-mobile">{tier.outcome}</p>
                 </div>
               )}
 

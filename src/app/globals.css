@@ -15,17 +15,16 @@
   --background-end: #16181d;
 }
 
-/* Center all text on the page on mobile */
+/* Center all general text on the page on mobile */
 @media (max-width: 768px) {
-  body, p, h1, h2, h3, h4, h5, h6, span, li, ul, div, a, button, input, textarea {
-    text-align: center !important;
+  body, p:not(.no-center-mobile), h1, h2, h3, h4, h5, h6, span:not(.no-center-mobile), a:not(.no-center-mobile), button:not(.no-center-mobile), input, textarea {
+    text-align: center;
   }
-  .flex {
+  .no-center-mobile, .no-center-mobile * {
+    text-align: left !important;
+  }
+  .flex-center-mobile {
     justify-content: center !important;
-    align-items: center !important;
-  }
-  .grid {
-    justify-items: center !important;
     align-items: center !important;
   }
 }

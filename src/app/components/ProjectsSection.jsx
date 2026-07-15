@@ -245,7 +245,7 @@ function CaseStudyCard({ card }) {
   return (
     <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
       {/* Perfect square empty black placeholder box */}
-      <div className="w-full aspect-square bg-black border-b border-[#ffb700]/10 flex items-center justify-center relative overflow-hidden flex-shrink-0">
+      <div className="w-[75%] aspect-square bg-[#050505] border border-[#ffb700]/20 rounded-2xl flex items-center justify-center relative overflow-hidden flex-shrink-0 mx-auto mt-5">
         {card.image && (
           <div
             className="absolute inset-0 w-full h-full"
@@ -285,7 +285,7 @@ function PortfolioCard({ card }) {
   return (
     <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
       {/* Perfect square empty black placeholder box */}
-      <div className="w-full aspect-square bg-black border-b border-[#ffb700]/10 flex items-center justify-center relative overflow-hidden flex-shrink-0">
+      <div className="w-[75%] aspect-square bg-[#050505] border border-[#ffb700]/20 rounded-2xl flex items-center justify-center relative overflow-hidden flex-shrink-0 mx-auto mt-5">
         {card.image && (
           <div
             className="absolute inset-0 w-full h-full"

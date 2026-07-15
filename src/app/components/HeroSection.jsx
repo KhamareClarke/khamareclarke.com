@@ -58,14 +58,15 @@ const HeroSection = () => {
             </p>
           </div>
 
-          {/* Five Pillars of Engagement */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-4 mb-8">
+          {/* Six Pillars of Engagement */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-4 mb-8">
             {[
               { icon: "🔍", name: "Assessment" },
               { icon: "⚙️", name: "Implementation" },
               { icon: "🎓", name: "Training" },
               { icon: "📖", name: "Documentation" },
-              { icon: "🛡️", name: "Support" }
+              { icon: "🛡️", name: "Support" },
+              { icon: "📈", name: "Optimization" }
             ].map((pillar, index) => (
               <div key={index} className="flex flex-col items-center lg:items-start gap-1 p-3 bg-gradient-to-br from-[#181818]/60 to-[#111]/80 border border-[#ffb700]/10 rounded-xl hover:border-[#ffb700]/30 transition-all duration-300">
                 <span className="text-xl mb-1">{pillar.icon}</span>
