@@ -1,5 +1,6 @@
 // Canonical entity schema — must be byte-identical on every page.
 // Import PERSON_SCHEMA and PROFESSIONAL_SERVICE_SCHEMA; never define them inline elsewhere.
+// Updated with AI Implementation Specialist vocabulary mappings
 
 export const PERSON_SCHEMA = {
   "@context": "https://schema.org",
