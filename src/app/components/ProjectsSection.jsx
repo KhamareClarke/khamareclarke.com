@@ -9,9 +9,10 @@ const allCards = [
     type: "case-study",
     id: 1,
     company: "Upgrade Roofing Solutions",
-    title: "AI Enquiry Handling & Local Search",
-    image: "/images/case-studies/upgraderoofs.jpg",
-    description: "Automated AI agent captures, qualifies, and schedules roofing leads 24/7, combined with targeted local search visibility.",
+    title: "Conversational AI Agent & CRM Automation",
+    tag: "VOICE & WEB AI",
+    timeframe: "90-Day Build",
+    description: "Designed, built, and deployed an autonomous voice receptionist integrated with GHL CRM and local search pack configuration to capture missed inbound contractor leads.",
     metrics: [
       { value: "538%", label: "Google Business Profile interactions growth in 90 days" },
       { value: "30+", label: "Qualified leads booked in the first two weeks" },
@@ -21,9 +22,10 @@ const allCards = [
     type: "case-study",
     id: 2,
     company: "City Plaza Abu Dhabi",
-    title: "AI Search (AEO/GEO) & Global Visibility",
-    image: "/images/case-studies/uaeprivateinvestor.jpg",
-    description: "Generative Engine Optimisation ensuring luxury hotel & commercial property rankings across ChatGPT, Gemini, and Perplexity.",
+    title: "AEO/GEO & Generative Search Positioning",
+    tag: "AI ENGINE OPTIMIZATION",
+    timeframe: "60-Day Run",
+    description: "Semantic indexing, schema structures, and context optimization ensuring luxury real estate and commercial property rankings across ChatGPT, Gemini, and Perplexity.",
     metrics: [
       { value: "5X", label: "Qualified leads within 60 days" },
       { value: "~20", label: "Qualified enquiries per day at peak" },
@@ -33,9 +35,10 @@ const allCards = [
     type: "case-study",
     id: 3,
     company: "MyApproved (Own Platform)",
-    title: "Marketplace Platform & Core Web Vitals",
-    image: "/images/testimonials/myapproved.png",
-    description: "Technical restructuring of high-performance custom marketplace platform, implementing automated XML sitemaps and Core Web Vitals optimization.",
+    title: "Core Web Vitals & Search Architecture",
+    tag: "MARKETPLACE INFRASTRUCTURE",
+    timeframe: "6-Month Launch",
+    description: "Technical restructuring of high-performance custom marketplace platform, implementing headless programmatic routing, clean XML feeds, and assets rendering under 0.9 seconds.",
     metrics: [
       { value: "312%", label: "Organic traffic growth in 6 months" },
       { value: "0.9s", label: "Core Web Vitals load time down from 4.2s" },
@@ -45,9 +48,10 @@ const allCards = [
     type: "case-study",
     id: 4,
     company: "Omni WTMS",
-    title: "Enterprise Workflow & AI Task Automation",
-    image: "/images/testimonials/omni.png",
-    description: "Custom AI orchestration system automating high-volume document workflows, data verification, and team scheduling.",
+    title: "AI Task Orchestration & Data Parsing",
+    tag: "ENTERPRISE AUTOMATION",
+    timeframe: "30-Day Setup",
+    description: "Built a centralized worker mode pipeline and custom agent supervisor to parse high-volume logistical files and automate enterprise resource dispatch.",
     metrics: [
       { value: "67%", label: "Reduction in document processing time in 30 days" },
       { value: "12k+", label: "Tasks automated monthly in 90 days" },
@@ -57,9 +61,10 @@ const allCards = [
     type: "case-study",
     id: 5,
     company: "IdentI Marketing",
-    title: "Programmatic Content Engine & Lead Gen",
-    image: "/images/testimonials/identi.png",
-    description: "Large-scale programmatic SEO landing page system and automated social media post creation driving search authority.",
+    title: "Content Scaling & Social Outreach API",
+    tag: "PROGRAMMATIC SEO",
+    timeframe: "90-Day Integration",
+    description: "Configured and deployed a headless CMS integration that automatically generates localized landing pages and schedules content postings via API.",
     metrics: [
       { value: "245%", label: "Increase in localized content output in 45 days" },
       { value: "3.5X", label: "Qualified leads generated in 90 days" },
@@ -69,9 +74,10 @@ const allCards = [
     type: "case-study",
     id: 6,
     company: "SEO Inforce",
-    title: "Multi-Channel Technical SEO & Schema",
-    image: "/images/projects/2.png",
-    description: "Implementation of advanced schema markup, automated site audit correction workers, and semantic search architecture.",
+    title: "Advanced Schema Markup & Technical Audit",
+    tag: "SEMANTIC SEARCH",
+    timeframe: "60-Day Run",
+    description: "Programmed semantic search patterns and automated structural auditing scripts to fix crawling errors and schema anomalies in real-time.",
     metrics: [
       { value: "180%", label: "Organic keyword growth in 60 days" },
       { value: "40%", label: "Bounce rate decrease in 90 days" },
@@ -81,9 +87,10 @@ const allCards = [
     type: "case-study",
     id: 7,
     company: "Flip Republic",
-    title: "Property Sourcing Lead Extraction",
-    image: "/images/projects/3.png",
-    description: "Automated property lead scraping engine integrated with AI cold email outreach and CRM syncing.",
+    title: "Automated Lead Scraper & Cold Outreach",
+    tag: "LEAD EXTRACTION",
+    timeframe: "60-Day Build",
+    description: "Engineered and integrated custom web-scraping agents with AI-drafted messaging pipelines and CRM synchronization protocols.",
     metrics: [
       { value: "150+", label: "High-intent seller leads weekly in 30 days" },
       { value: "4.2X", label: "Outreach response rate in 60 days" },
@@ -93,9 +100,10 @@ const allCards = [
     type: "case-study",
     id: 8,
     company: "Ads Starter",
-    title: "Google Ads API & Creative Generator",
-    image: "/images/projects/4.png",
-    description: "High-frequency programmatic ad creative generator connected directly to Google Ads API for multi-campaign scaling.",
+    title: "Programmatic Google Ads API Scaling",
+    tag: "PAID ADVERTISING",
+    timeframe: "30-Day Integration",
+    description: "Constructed an automated campaign creator that connects directly with the Google Ads API to auto-generate and manage thousands of hyper-targeted ad variations.",
     metrics: [
       { value: "42%", label: "Decrease in cost-per-lead in 30 days" },
       { value: "1.5k+", label: "Programmatic ad creatives generated in 14 days" },
@@ -105,9 +113,10 @@ const allCards = [
     type: "case-study",
     id: 9,
     company: "Leverage Journal",
-    title: "Automated Technical Auditing & CWV",
-    image: "/images/projects/5.png",
-    description: "Automated Core Web Vitals optimization pipeline that corrects page performance and asset loading issues on the fly.",
+    title: "Headless Core Web Vitals Optimization",
+    tag: "PERFORMANCE OPTIMIZATION",
+    timeframe: "90-Day Setup",
+    description: "Refactored front-end bundling, asset loading paths, and component structure to achieve near-perfect Lighthouse performance rankings.",
     metrics: [
       { value: "98/100", label: "Lighthouse performance score in 14 days" },
       { value: "120%", label: "Page views increase in 90 days" },
@@ -117,9 +126,10 @@ const allCards = [
     type: "case-study",
     id: 10,
     company: "Alkhemmy",
-    title: "AI Agent Integrations & Brand Check",
-    image: "/images/projects/6.png",
-    description: "Integrated AI copilot checking all outward-facing marketing content against established brand-voice and regulatory rules.",
+    title: "Brand Voice Check & Compliance Copilot",
+    tag: "AI ALIGNMENT",
+    timeframe: "60-Day Integration",
+    description: "Developed a local LLM supervisor checking multi-channel copy against corporate brand voice and regulatory guidelines before publication.",
     metrics: [
       { value: "100%", label: "Brand compliance rate across channels in 30 days" },
       { value: "85%", label: "Reduction in copy review time in 60 days" },
@@ -129,9 +139,10 @@ const allCards = [
     type: "case-study",
     id: 11,
     company: "Leverage Academy",
-    title: "LMS Student Onboarding CRO",
-    image: "/images/projects/1.png",
-    description: "AI-guided interactive onboarding workflows reducing user drop-off in high-ticket training programmes.",
+    title: "LMS Student Onboarding Flow & CRO",
+    tag: "CONVERSION OPTIMIZATION",
+    timeframe: "90-Day Build",
+    description: "Designed and built interactive, AI-driven student onboarding screens to reduce user drop-offs and track individual learning progression.",
     metrics: [
       { value: "48%", label: "Student onboarding completion rise in 60 days" },
       { value: "92%", label: "Student course satisfaction rate in 90 days" },
@@ -141,9 +152,10 @@ const allCards = [
     type: "case-study",
     id: 12,
     company: "Inboker",
-    title: "Automated LinkedIn & CRM Outbound",
-    image: "/images/projects/2.png",
-    description: "Fully automated, hyper-personalized B2B social outreach and CRM sync engine targeting mid-market decision-makers.",
+    title: "LinkedIn Outreach & CRM Sync Pipeline",
+    tag: "B2B OUTBOUND",
+    timeframe: "60-Day Launch",
+    description: "Configured automated LinkedIn messaging workflows and clean contact syncing to automatically qualify and push high-value leads to B2B teams.",
     metrics: [
       { value: "320+", label: "Sales-ready prospects acquired in 30 days" },
       { value: "5.5X", label: "LinkedIn acceptance rate in 60 days" },
@@ -153,9 +165,10 @@ const allCards = [
     type: "case-study",
     id: 13,
     company: "Staffordshire Trade Association",
-    title: "AI Lead Qualifying & CRM Integration",
-    image: "/images/blog/TradesChatBot.png.png",
-    description: "Automated conversational voice and text AI qualifying and routing contractor opportunities to local suppliers.",
+    title: "Multimodal Lead Qualifying & Routing",
+    tag: "AI RECEPTIONIST",
+    timeframe: "60-Day Run",
+    description: "Deployed conversational AI agents responding instantly across SMS and web chat, qualifying trade contractor opportunities and dispatching to CRM.",
     metrics: [
       { value: "100%", label: "Of incoming trade leads qualified in 30 days" },
       { value: "£14k", label: "Additional revenue sourced in 60 days" },
@@ -165,9 +178,10 @@ const allCards = [
     type: "case-study",
     id: 14,
     company: "Apex Legal Staffordshire",
-    title: "AI Document Ingestion & Compliance",
-    image: "/images/blog/automate.png",
-    description: "Deep AI parsing system that extracts entity metadata and verifies legal compliance constraints across large document sets.",
+    title: "AI Document Ingestion & Regulatory Audit",
+    tag: "DOCUMENT COGNITION",
+    timeframe: "120-Day Build",
+    description: "Programmed a secure parsing pipeline to extract legal metadata and cross-verify clauses against national compliance standards.",
     metrics: [
       { value: "94%", label: "Faster case document sorting in 30 days" },
       { value: "Zero", label: "Compliance audit errors in 120 days" },
@@ -177,9 +191,10 @@ const allCards = [
     type: "case-study",
     id: 15,
     company: "Stoke Logistics Group",
-    title: "AI Route & Dispatch Optimization",
-    image: "/images/blog/unlock.png",
-    description: "Custom AI supervisor predicting dispatch bottlenecks and optimizing schedules across West Midlands routes.",
+    title: "AI Dispatching & Logistics Optimization",
+    tag: "OPERATIONAL COGNITION",
+    timeframe: "90-Day Build",
+    description: "Coded a predictive dispatch supervisor that dynamically adjusts transit routes and scheduling based on live traffic API feedback.",
     metrics: [
       { value: "18%", label: "Reduction in fuel consumption in 45 days" },
       { value: "99.4%", label: "On-time dispatch rate in 90 days" },
@@ -189,9 +204,10 @@ const allCards = [
     type: "case-study",
     id: 16,
     company: "Midlands Dental Practice",
-    title: "AI Booking & Patient Reactivation",
-    image: "/images/blog/SMEs.png.png",
-    description: "SMS/WhatsApp AI receptionist reactivating dormant dental records and booking appointments directly into practice software.",
+    title: "AI Patient Reactivation & Automated Booking",
+    tag: "PATIENT ENGAGEMENT",
+    timeframe: "30-Day Setup",
+    description: "Configured automated text reactivation campaigns synced to booking portals to schedule dentist appointments 24/7.",
     metrics: [
       { value: "89", label: "Missed appointments recovered in 30 days" },
       { value: "24/7", label: "Autonomous patient booking in 14 days" },
@@ -201,9 +217,10 @@ const allCards = [
     type: "case-study",
     id: 17,
     company: "Lancaster Industrial Supplies",
-    title: "B2B Programmatic SEO & Quote Agent",
-    image: "/images/projects/4.png",
-    description: "Scaled implementation of 15,000 structured SKU landing pages coupled with an AI-driven instant quote responder.",
+    title: "B2B Catalog Programmatic SEO & Quote AI",
+    tag: "SKU SEARCH ENGINES",
+    timeframe: "90-Day Build",
+    description: "Programmed programmatic rendering logic for 15,000 product SKUs coupled with instant, AI-generated wholesale pricing quotes.",
     metrics: [
       { value: "290%", label: "Increase in catalog search traffic in 90 days" },
       { value: "60+", label: "Wholesale quotes generated weekly in 60 days" },
@@ -213,9 +230,10 @@ const allCards = [
     type: "case-study",
     id: 18,
     company: "Prestige Motors Birmingham",
-    title: "High-Ticket Lead Gen & Retargeting AI",
-    image: "/images/projects/1.png",
-    description: "Dynamic programmatic advertising engine synced to real-time inventory API with predictive audience segment matching.",
+    title: "API-Driven Programmatic Advertising",
+    tag: "PREDICTIVE MARKETING",
+    timeframe: "60-Day Integration",
+    description: "Built a direct link between real-time vehicle inventory APIs and dynamic search/display ad platforms using machine learning predictive segmentation.",
     metrics: [
       { value: "4.8X", label: "Return on ad spend (ROAS) in 30 days" },
       { value: "45+", label: "Premium test drives scheduled in 60 days" },
@@ -226,12 +244,16 @@ const allCards = [
 function CaseStudyCard({ card }) {
   return (
     <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
-      <div
-        className="h-44 w-full flex-shrink-0"
-        style={{ background: `url(${card.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
-      />
+      <div className="px-5 pt-5 pb-3 flex-shrink-0 flex items-center justify-between border-b border-[#ffb700]/10 bg-black/40">
+        <span className="text-[#ffb700] text-[10px] font-black uppercase tracking-widest bg-[#ffb700]/10 border border-[#ffb700]/25 px-2.5 py-0.5 rounded-full">
+          {card.tag || "AI IMPLEMENTATION"}
+        </span>
+        <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider">
+          {card.timeframe || "Verified Result"}
+        </span>
+      </div>
       <div className="p-5 flex flex-col flex-1">
-        <p className="text-[#ffb700] text-xs font-semibold uppercase tracking-wide mb-1">{card.company}</p>
+        <p className="text-[#ffb700]/80 text-[11px] font-extrabold uppercase tracking-widest mb-1.5">{card.company}</p>
         <h3 className="text-base md:text-lg font-extrabold text-white mb-2 leading-snug">{card.title}</h3>
         <p className="text-[#ADB7BE] text-xs mb-4 leading-relaxed flex-1">{card.description}</p>
         <div className="space-y-1.5 border-t border-[#ffb700]/15 pt-3">
@@ -250,11 +272,16 @@ function CaseStudyCard({ card }) {
 function PortfolioCard({ card }) {
   return (
     <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
-      <div className="h-44 w-full flex-shrink-0 bg-gradient-to-br from-[#1c1c1c] via-[#111015] to-[#0a0a0a] flex items-center justify-center border-b border-[#ffb700]/10">
-        <span className="text-5xl opacity-[0.07] select-none">◈</span>
+      <div className="px-5 pt-5 pb-3 flex-shrink-0 flex items-center justify-between border-b border-[#ffb700]/10 bg-black/40">
+        <span className="text-[#ffb700] text-[10px] font-black uppercase tracking-widest bg-[#ffb700]/10 border border-[#ffb700]/25 px-2.5 py-0.5 rounded-full">
+          {card.tag || "AI IMPLEMENTATION"}
+        </span>
+        <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider">
+          {card.timeframe || "Verified Result"}
+        </span>
       </div>
       <div className="p-5 flex flex-col flex-1">
-        <p className="text-[#ffb700] text-xs font-semibold uppercase tracking-wide mb-1">{card.name}</p>
+        <p className="text-[#ffb700]/80 text-[11px] font-extrabold uppercase tracking-widest mb-1.5">{card.name}</p>
         <h3 className="text-base md:text-lg font-extrabold text-white mb-2 leading-snug">{card.title}</h3>
         <p className="text-[#ADB7BE] text-xs mb-4 leading-relaxed flex-1">{card.description}</p>
         <div className="space-y-1.5 border-t border-[#ffb700]/15 pt-3">

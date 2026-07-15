@@ -4,10 +4,30 @@
 
 @import './design-tokens.css';
 
+/* Disable all italics/emphasis globally */
+* {
+  font-style: normal !important;
+}
+
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-start: #0f1014;
   --background-end: #16181d;
+}
+
+/* Center all text on the page on mobile */
+@media (max-width: 768px) {
+  body, p, h1, h2, h3, h4, h5, h6, span, li, ul, div, a, button, input, textarea {
+    text-align: center !important;
+  }
+  .flex {
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .grid {
+    justify-items: center !important;
+    align-items: center !important;
+  }
 }
 
 /* Removed dark mode override, always use the same background */

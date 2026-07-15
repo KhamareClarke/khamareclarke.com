@@ -128,7 +128,7 @@ const AboutSection = () => {
               </div>
 
               <div className="pt-4 border-t border-[#ffb700]/10">
-                <p className="text-[#ADB7BE] text-sm leading-relaxed italic">
+                <p className="text-[#ADB7BE] text-sm leading-relaxed">
                   Existing marketing teams, developers, and agencies remain in place. The people already trusted with the work gain capability they do not currently have.
                 </p>
               </div>

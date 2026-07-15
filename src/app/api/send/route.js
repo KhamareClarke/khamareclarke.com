@@ -60,7 +60,7 @@ export async function POST(req, res) {
         <pre style="white-space: pre-wrap; font-family: monospace;">${message}</pre>
       ` : ''}
       <hr style="margin: 20px 0;" />
-      <p><em>This lead came from your ${formSource} contact form.</em></p>
+      <p>This lead came from your ${formSource} contact form.</p>
     `;
 
     // Send email to business owner with lead information

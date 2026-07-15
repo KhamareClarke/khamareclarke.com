@@ -7,46 +7,59 @@ import CTAButton from "./CTAButton";
 
 const TIERS = [
   {
-    tier: "OPERATIONAL AI AUDIT",
-    price: "£495",
-    tagline: "A structured assessment of where AI applies to your organisation.",
-    mostPopular: false,
-    cta: "Book a Consultation",
-    deliverables: [
-      "Technical and visibility audit across Google and AI search",
-      "Review of enquiry handling, follow-up, and reporting",
-      "Sixty-minute findings call and a prioritised implementation plan",
-    ],
-    caption: "Delivered within 7 days · clear findings",
-    footnote: "Your roadmap to action, with or without me.",
-  },
-  {
-    tier: "IMPLEMENTATION",
-    price: "from £1,250/mo",
-    tagline: "Search visibility and process automation, implemented and managed.",
+    tier: "VISIBILITY & AUTOMATION",
+    price: "£1,495/mo",
+    tagline: "Search visibility, AI automation, enquiry handling, and operational reporting.",
     mostPopular: true,
-    cta: "Book a Consultation",
+    cta: "Book a Consultation →",
     deliverables: [
-      "Local and organic search visibility",
-      "AI search optimisation across ChatGPT, Gemini, and Perplexity",
-      "Content and on-page technical work",
-      "Monthly reporting on rankings, enquiries, and cost per lead",
+      "Ranking on Google, ChatGPT, Gemini, Perplexity",
+      "AI answering every enquiry 24/7, qualifying and booking",
+      "Automated follow-up sequences and pipeline management",
+      "Website optimised for speed and conversion",
+      "Content strategy and SEO technical work",
+      "Programmatic location and service pages",
+      "Monthly reporting on enquiries, conversions, cost per lead",
     ],
+    outcome: "3–5X enquiry increase within 60 days. Team hours freed from admin. Clear visibility of what's working.",
     caption: "Rolling monthly",
   },
   {
-    tier: "FULL IMPLEMENTATION",
-    price: "from £2,500/mo",
-    tagline: "Visibility, response, and systems, integrated across the organisation.",
+    tier: "COMPLETE SYSTEMS",
+    price: "£2,950/mo",
+    tagline: "Visibility, automation, custom infrastructure, and strategic partnership.",
     mostPopular: false,
-    cta: "Book a Consultation",
+    cta: "Book a Consultation →",
     deliverables: [
-      "Everything in Implementation included",
-      "AI enquiry handling operating continuously 24/7",
-      "Performance-engineered web systems",
-      "Custom applications where the operation requires it",
-      "Quarterly board-level strategy review",
+      "Everything in Visibility & Automation",
+      "Custom software and applications built to your workflow",
+      "Website rebuilt for performance, conversion, and scale",
+      "Email marketing automation and customer journey systems",
+      "CRM integration and pipeline infrastructure",
+      "Programmatic SEO and content production at scale",
+      "Quarterly strategy reviews with your leadership",
+      "Ongoing optimisation and capability expansion",
     ],
+    outcome: "Complete operational transformation. Qualified leads delivered daily. Team freed for strategic work. AI infrastructure embedded in your business.",
+    caption: "Rolling monthly",
+  },
+  {
+    tier: "ENTERPRISE IMPLEMENTATION",
+    price: "£4,995/mo",
+    tagline: "Full AI deployment, custom applications, market dominance, and dedicated support.",
+    mostPopular: false,
+    cta: "Book a Consultation →",
+    deliverables: [
+      "Everything in Complete Systems",
+      "Advanced custom applications specific to your market",
+      "Multi-location programmatic SEO and local dominance",
+      "Advanced automation across all operational workflows",
+      "Dedicated implementation specialist on retainer",
+      "Monthly board-level strategy and performance reviews",
+      "Priority access to new capabilities and tools",
+      "Guaranteed outcomes with performance benchmarks",
+    ],
+    outcome: "Market position locked. All systems automated and integrated. Leadership-level strategic partnership. Competitive advantage built into every operation.",
     caption: "Rolling monthly",
   },
 ];
@@ -119,6 +132,13 @@ const PricingSection = () => {
                 ))}
               </ul>
 
+              {tier.outcome && (
+                <div className="mt-4 pt-4 border-t border-[#ffb700]/15 mb-6 text-left">
+                  <span className="text-[#ffb700] text-[10px] font-black uppercase tracking-widest block mb-1">Outcome:</span>
+                  <p className="text-[#ADB7BE] text-xs leading-relaxed font-semibold">{tier.outcome}</p>
+                </div>
+              )}
+
               <div className="mt-auto">
                 <CTAButton
                   href="#contact"
@@ -130,7 +150,7 @@ const PricingSection = () => {
                   {tier.cta}
                 </CTAButton>
                 {tier.footnote && (
-                  <p className="text-[#ADB7BE]/70 text-xs text-center mt-3 leading-snug italic font-medium">{tier.footnote}</p>
+                  <p className="text-[#ADB7BE]/70 text-xs text-center mt-3 leading-snug font-medium">{tier.footnote}</p>
                 )}
               </div>
             </motion.div>
