@@ -95,15 +95,22 @@ export default function BlogSlider() {
           <div className={`w-full grid gap-8 mx-auto`} style={{gridTemplateColumns: `repeat(${visible}, minmax(0, 1fr))`, maxWidth: visible === 1 ? '22rem' : visible === 2 ? '48rem' : '72rem'}}>
             {postsToShow.map(post => (
               <div key={post.slug} className="group bg-[#1a1a1a]/90 backdrop-blur-sm rounded-2xl overflow-hidden border-2 border-[#ffb700]/20 hover:border-[#ffb700]/40 shadow-2xl motion-safe:hover:scale-[1.03] motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] transition-all duration-300 flex flex-col">
-                <div className="relative">
-                  <div className={`w-full h-48 bg-gradient-to-br ${categoryGradients[post.category] || 'from-[#1a1a1a] to-[#0f172a]'} flex items-center justify-center`}>
-                    <span className="text-5xl opacity-30">{categoryEmojis[post.category] || '📝'}</span>
-                  </div>
-                  <span className="absolute top-4 left-4 bg-[#ffb700] text-[#222] text-xs font-bold px-3 py-1 rounded-full shadow flex items-center gap-1">
+                <div className="relative w-full aspect-square bg-[#050505] border-b border-[#ffb700]/10 flex items-center justify-center overflow-hidden">
+                  {post.image ? (
+                    <div
+                      className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-105"
+                      style={{ background: `url(${post.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
+                    />
+                  ) : (
+                    <div className={`absolute inset-0 w-full h-full bg-gradient-to-br ${categoryGradients[post.category] || 'from-[#1a1a1a] to-[#0f172a]'} flex items-center justify-center`}>
+                      <span className="text-5xl opacity-30">{categoryEmojis[post.category] || '📝'}</span>
+                    </div>
+                  )}
+                  <span className="absolute top-4 left-4 bg-[#ffb700] text-[#222] text-xs font-bold px-3 py-1 rounded-full shadow flex items-center gap-1 z-10">
                     <span>{categoryEmojis[post.category] || '📝'}</span>
                     <span>{post.category}</span>
                   </span>
-                  <span className="absolute top-4 right-4 bg-[#111015] text-[#ffb700] text-xs font-bold px-2 py-1 rounded shadow flex items-center gap-1">
+                  <span className="absolute top-4 right-4 bg-[#111015] text-[#ffb700] text-xs font-bold px-2 py-1 rounded shadow flex items-center gap-1 z-10">
                     <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#ffb700"/><text x="12" y="16" textAnchor="middle" fontSize="12" fill="#111015" fontWeight="bold">KC</text></svg>
                     Khamare Clarke
                   </span>

@@ -244,6 +244,18 @@ const allCards = [
 function CaseStudyCard({ card }) {
   return (
     <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
+      {/* Perfect square empty black placeholder box */}
+      <div className="w-full aspect-square bg-black border-b border-[#ffb700]/10 flex items-center justify-center relative overflow-hidden flex-shrink-0">
+        {card.image && (
+          <div
+            className="absolute inset-0 w-full h-full"
+            style={{ background: `url(${card.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
+          />
+        )}
+        {!card.image && (
+          <span className="text-3xl opacity-[0.04] text-white select-none">◈</span>
+        )}
+      </div>
       <div className="px-5 pt-5 pb-3 flex-shrink-0 flex items-center justify-between border-b border-[#ffb700]/10 bg-black/40">
         <span className="text-[#ffb700] text-[10px] font-black uppercase tracking-widest bg-[#ffb700]/10 border border-[#ffb700]/25 px-2.5 py-0.5 rounded-full">
           {card.tag || "AI IMPLEMENTATION"}
@@ -272,6 +284,18 @@ function CaseStudyCard({ card }) {
 function PortfolioCard({ card }) {
   return (
     <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
+      {/* Perfect square empty black placeholder box */}
+      <div className="w-full aspect-square bg-black border-b border-[#ffb700]/10 flex items-center justify-center relative overflow-hidden flex-shrink-0">
+        {card.image && (
+          <div
+            className="absolute inset-0 w-full h-full"
+            style={{ background: `url(${card.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
+          />
+        )}
+        {!card.image && (
+          <span className="text-3xl opacity-[0.04] text-white select-none">◈</span>
+        )}
+      </div>
       <div className="px-5 pt-5 pb-3 flex-shrink-0 flex items-center justify-between border-b border-[#ffb700]/10 bg-black/40">
         <span className="text-[#ffb700] text-[10px] font-black uppercase tracking-widest bg-[#ffb700]/10 border border-[#ffb700]/25 px-2.5 py-0.5 rounded-full">
           {card.tag || "AI IMPLEMENTATION"}
