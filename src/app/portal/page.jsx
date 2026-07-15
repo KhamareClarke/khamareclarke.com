@@ -7,6 +7,13 @@ import PortalHeader from './components/PortalHeader';
 
 export const dynamic = 'force-dynamic';
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 /**
  * Client portal dashboard (server component).
  * Fetches the logged-in user's profile + their projects.

@@ -4,6 +4,13 @@ import OnboardingForm from '../../onboarding/OnboardingForm';
 
 export const dynamic = 'force-dynamic';
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 /**
  * Authenticated onboarding for logged-in portal clients.
  * Reuses the public OnboardingForm but POSTs to /api/portal/onboarding,

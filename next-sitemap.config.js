@@ -13,7 +13,16 @@ module.exports = {
     ],
   },
   // Exclude certain paths if needed
-  exclude: ['/api/*', '/admin/*'],
+  exclude: [
+    '/api/*',
+    '/admin/*',
+    '/dashboard',
+    '/dashboard/*',
+    '/portal',
+    '/portal/*',
+    '/login',
+    '/onboarding'
+  ],
   // Transform function to modify sitemap entries
   transform: async (config, path) => {
     // Custom priority based on path
