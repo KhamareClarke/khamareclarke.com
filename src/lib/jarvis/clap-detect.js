@@ -1,37 +1,49 @@
 'use client';
 
 /**
- * Double-clap detector via Web Audio API.
- * Two sharp transients within the window wakes Jarvis.
- *
- * Tuned for built-in laptop mics (AGC/noise often flatten claps).
+ * Clap wake detector (Web Audio).
+ * Default: ONE sharp clap (laptop-friendly). Optional requireCount for double-clap.
+ * Auto-recovers if the capture stream goes silent (common when SpeechRecognition
+ * also holds the mic on Windows).
  */
 export async function createClapDetector({
   onDoubleClap,
   onTripleClap,
+  onClap,
   shouldListen = () => true,
-  doubleClapWindowMs = 1200,
-  minClapGapMs = 60,
-  cooldownMs = 1600,
+  /** 1 = single clap wake, 2 = classic double-clap */
+  requireCount = 1,
+  clapWindowMs = 1100,
+  minClapGapMs = 90,
+  cooldownMs = 2000,
+  onLevel,
+  /** When false, do not open getUserMedia until setEnabled(true). */
+  startEnabled = true,
 } = {}) {
   if (typeof window === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-    return { stop: () => {}, setEnabled: () => {}, ready: false };
+    return { stop: () => {}, setEnabled: () => {}, ready: false, hasMic: () => false };
   }
 
-  const onWake = onDoubleClap || onTripleClap;
+  const onWake = onClap || onDoubleClap || onTripleClap;
+  const needed = Math.max(1, Math.min(3, requireCount | 0));
 
   let stream = null;
   let ctx = null;
   let analyser = null;
   let rafId = null;
-  let enabled = true;
+  let enabled = Boolean(startEnabled);
   let stopped = false;
+  let sourceNode = null;
+  let filterNode = null;
 
   let clapCount = 0;
   let lastClapAt = 0;
   let lastPeakAt = 0;
   let lastActivateAt = 0;
-  const rmsHistory = [];
+  let prevPeak = 0;
+  let silenceFrames = 0;
+  let recreating = false;
+
   const peakHistory = [];
 
   const resumeCtx = async () => {
@@ -44,8 +56,32 @@ export async function createClapDetector({
     }
   };
 
-  try {
-    /* Keep processing light so clap spikes survive (NS/EC often flatten them). */
+  const tearGraph = () => {
+    try {
+      sourceNode?.disconnect();
+    } catch {
+      // ignore
+    }
+    try {
+      filterNode?.disconnect();
+    } catch {
+      // ignore
+    }
+    sourceNode = null;
+    filterNode = null;
+    analyser = null;
+    stream?.getTracks?.().forEach((t) => {
+      try {
+        t.stop();
+      } catch {
+        // ignore
+      }
+    });
+    stream = null;
+  };
+
+  const buildGraph = async () => {
+    tearGraph();
     stream = await navigator.mediaDevices.getUserMedia({
       audio: {
         echoCancellation: false,
@@ -54,117 +90,180 @@ export async function createClapDetector({
         channelCount: 1,
       },
     });
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    ctx = new Ctx();
+    if (!ctx || ctx.state === 'closed') {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      ctx = new Ctx();
+    }
     await resumeCtx();
 
-    const source = ctx.createMediaStreamSource(stream);
-    /* Claps are broadband; too-high a cutoff kills laptop-mic energy. */
-    const highpass = ctx.createBiquadFilter();
-    highpass.type = 'highpass';
-    highpass.frequency.value = 600;
-    highpass.Q.value = 0.7;
+    sourceNode = ctx.createMediaStreamSource(stream);
+    filterNode = ctx.createBiquadFilter();
+    filterNode.type = 'highpass';
+    /* Broadband transient — not so high that laptop mics lose the clap */
+    filterNode.frequency.value = 900;
+    filterNode.Q.value = 0.707;
 
     analyser = ctx.createAnalyser();
-    analyser.fftSize = 512;
+    analyser.fftSize = 256;
     analyser.smoothingTimeConstant = 0;
 
-    source.connect(highpass);
-    highpass.connect(analyser);
+    sourceNode.connect(filterNode);
+    filterNode.connect(analyser);
+    silenceFrames = 0;
+    prevPeak = 0;
+    peakHistory.length = 0;
+  };
 
-    const timeData = new Uint8Array(analyser.fftSize);
+  const timeData = new Uint8Array(256);
 
-    const onVis = () => {
-      if (document.visibilityState === 'visible') void resumeCtx();
-    };
-    document.addEventListener('visibilitychange', onVis);
-
-    const loop = () => {
-      if (stopped) return;
-      rafId = requestAnimationFrame(loop);
-      if (!enabled || !shouldListen()) return;
-      if (ctx?.state === 'suspended') {
-        void resumeCtx();
-        return;
-      }
-
-      analyser.getByteTimeDomainData(timeData);
-      let sum = 0;
-      let peak = 0;
-      for (let i = 0; i < timeData.length; i += 1) {
-        const v = (timeData[i] - 128) / 128;
-        const a = Math.abs(v);
-        if (a > peak) peak = a;
-        sum += v * v;
-      }
-      const rms = Math.sqrt(sum / timeData.length);
-
-      rmsHistory.push(rms);
-      peakHistory.push(peak);
-      if (rmsHistory.length > 30) rmsHistory.shift();
-      if (peakHistory.length > 30) peakHistory.shift();
-
-      const baselineRms =
-        rmsHistory.reduce((a, b) => a + b, 0) / Math.max(rmsHistory.length, 1) || 0.004;
-      const baselinePeak =
-        peakHistory.reduce((a, b) => a + b, 0) / Math.max(peakHistory.length, 1) || 0.02;
-
-      /*
-       * Claps: short high peak OR RMS jump vs recent baseline.
-       * Dual check — laptop mics often squash RMS but keep a sharp peak.
-       */
-      const peakSpike = peak > Math.max(baselinePeak * 2.6, 0.22) && peak > baselinePeak + 0.12;
-      const rmsSpike = rms > Math.max(baselineRms * 2.8, 0.035) && rms > baselineRms + 0.028;
-      const spike = peakSpike || rmsSpike;
-
-      const now = performance.now();
-      if (spike && now - lastPeakAt > minClapGapMs) {
-        lastPeakAt = now;
-        if (now - lastClapAt <= doubleClapWindowMs) {
-          clapCount += 1;
-        } else {
-          clapCount = 1;
-        }
-        lastClapAt = now;
-
-        if (clapCount >= 2 && now - lastActivateAt >= cooldownMs) {
-          clapCount = 0;
-          lastActivateAt = now;
-          try {
-            onWake?.();
-          } catch {
-            // ignore wake errors
-          }
-        }
-      }
-
-      /* Expire a lonely first clap so the next pair stays clean. */
-      if (clapCount === 1 && now - lastClapAt > doubleClapWindowMs) {
-        clapCount = 0;
-      }
-    };
-
+  const loop = () => {
+    if (stopped) return;
     rafId = requestAnimationFrame(loop);
+    if (!enabled || !shouldListen() || !analyser || recreating) return;
+    if (ctx?.state === 'suspended') {
+      void resumeCtx();
+      return;
+    }
 
-    return {
-      ready: true,
-      stop() {
-        stopped = true;
-        document.removeEventListener('visibilitychange', onVis);
-        if (rafId) cancelAnimationFrame(rafId);
-        stream?.getTracks?.().forEach((t) => t.stop());
-        stream = null;
-        ctx?.close?.().catch(() => {});
-        ctx = null;
-      },
-      setEnabled(value) {
-        enabled = Boolean(value);
-        if (!enabled) clapCount = 0;
-        if (enabled) void resumeCtx();
-      },
-    };
+    analyser.getByteTimeDomainData(timeData);
+    let peak = 0;
+    let sum = 0;
+    for (let i = 0; i < timeData.length; i += 1) {
+      const v = (timeData[i] - 128) / 128;
+      const a = Math.abs(v);
+      if (a > peak) peak = a;
+      sum += v * v;
+    }
+    const rms = Math.sqrt(sum / timeData.length);
+    const onset = Math.max(0, peak - prevPeak);
+    prevPeak = peak * 0.65; // decay so successive claps still register
+
+    peakHistory.push(peak);
+    if (peakHistory.length > 40) peakHistory.shift();
+    const baseline =
+      peakHistory.reduce((a, b) => a + b, 0) / Math.max(peakHistory.length, 1) || 0.015;
+
+    onLevel?.(Math.min(1, peak * 1.6));
+
+    /* Dead mic detection — recreate capture if stuck near silence */
+    if (peak < 0.008 && rms < 0.004) {
+      silenceFrames += 1;
+      if (silenceFrames > 180 && !recreating) {
+        /* ~3s at 60fps */
+        recreating = true;
+        void buildGraph()
+          .catch(() => undefined)
+          .finally(() => {
+            recreating = false;
+          });
+      }
+    } else {
+      silenceFrames = 0;
+    }
+
+    /*
+     * Clap = sharp onset + absolute peak above quiet-room baseline.
+     * Tuned low for built-in mics; cooldown + short gap avoid speech false wakes.
+     */
+    const sharp =
+      onset > Math.max(0.07, baseline * 1.8) &&
+      peak > Math.max(0.14, baseline + 0.08) &&
+      peak > baseline * 2.0;
+
+    const now = performance.now();
+    if (sharp && now - lastPeakAt > minClapGapMs) {
+      lastPeakAt = now;
+      if (needed === 1 || now - lastClapAt <= clapWindowMs) {
+        clapCount += 1;
+      } else {
+        clapCount = 1;
+      }
+      lastClapAt = now;
+
+      if (clapCount >= needed && now - lastActivateAt >= cooldownMs) {
+        clapCount = 0;
+        lastActivateAt = now;
+        try {
+          onWake?.();
+        } catch {
+          // ignore
+        }
+      }
+    }
+
+    if (clapCount > 0 && needed > 1 && now - lastClapAt > clapWindowMs) {
+      clapCount = 0;
+    }
+  };
+
+  try {
+    if (startEnabled) {
+      await buildGraph();
+    }
   } catch (err) {
     console.warn('[jarvis-clap] mic unavailable:', err?.message || err);
-    return { stop: () => {}, setEnabled: () => {}, ready: false };
+    return { stop: () => {}, setEnabled: () => {}, ready: false, hasMic: () => false };
   }
+
+  const onVis = () => {
+    if (document.visibilityState === 'visible') void resumeCtx();
+  };
+  const onPointer = () => {
+    void resumeCtx();
+  };
+  document.addEventListener('visibilitychange', onVis);
+  document.addEventListener('pointerdown', onPointer, { passive: true });
+
+  rafId = requestAnimationFrame(loop);
+
+  return {
+    ready: true,
+    /** True while MediaStream tracks are open (blocks SpeechRecognition on many browsers). */
+    hasMic() {
+      return Boolean(stream?.getTracks?.().some((t) => t.readyState === 'live'));
+    },
+    stop() {
+      stopped = true;
+      document.removeEventListener('visibilitychange', onVis);
+      document.removeEventListener('pointerdown', onPointer);
+      if (rafId) cancelAnimationFrame(rafId);
+      tearGraph();
+      ctx?.close?.().catch(() => {});
+      ctx = null;
+    },
+    /**
+     * When disabled, RELEASE the mic — do not keep a live getUserMedia stream.
+     * SpeechRecognition cannot hear while clap holds the device (Windows/Chrome).
+     */
+    setEnabled(value) {
+      enabled = Boolean(value);
+      if (!enabled) {
+        clapCount = 0;
+        tearGraph();
+        return;
+      }
+      if (stopped) return;
+      if (!stream) {
+        recreating = true;
+        void buildGraph()
+          .catch(() => undefined)
+          .finally(() => {
+            recreating = false;
+          });
+      } else {
+        void resumeCtx();
+      }
+    },
+    async recreate() {
+      if (stopped || recreating || !enabled) return;
+      recreating = true;
+      try {
+        await buildGraph();
+      } catch {
+        // ignore
+      } finally {
+        recreating = false;
+      }
+    },
+  };
 }

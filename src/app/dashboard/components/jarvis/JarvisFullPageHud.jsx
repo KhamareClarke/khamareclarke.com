@@ -176,6 +176,9 @@ export default function JarvisFullPageHud() {
     lastReplyText,
     clapWake,
     setClapWake,
+    clapCountRequired,
+    setClapCountRequired,
+    clapLevel,
     setPresentationMode,
   } = useJarvis();
 
@@ -307,11 +310,33 @@ export default function JarvisFullPageHud() {
                   <button type="button" onClick={() => setMuted((m) => !m)} className="jarvis-settings-item w-full text-left">{muted ? 'Unmute voice' : 'Mute voice'}</button>
                   {!isMobileVoice && (
                     <>
-                      <button type="button" onClick={() => setClapWake((c) => !c)} className="jarvis-settings-item w-full text-left">Double-clap wake {clapWake ? 'on' : 'off'}</button>
+                      <button type="button" onClick={() => setClapWake((c) => !c)} className="jarvis-settings-item w-full text-left">
+                        Clap wake {clapWake ? 'on' : 'off'}
+                      </button>
                       {clapWake && (
-                        <p className="jarvis-settings-hint px-3 pb-2 text-[10px] text-[#ffb700]/55 leading-snug">
-                          Desktop only — clap twice quickly (within ~1s). Mic permission required. Off while Jarvis is speaking.
-                        </p>
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => setClapCountRequired((n) => (n === 1 ? 2 : 1))}
+                            className="jarvis-settings-item w-full text-left"
+                          >
+                            Needs {clapCountRequired === 1 ? '1 clap' : '2 claps'}
+                          </button>
+                          <div className="px-3 pb-2">
+                            <p className="text-[10px] text-[#ffb700]/55 mb-1">Mic (clap sensor)</p>
+                            <div className="h-1.5 rounded-full bg-[#2a1800] overflow-hidden border border-[#ffb700]/20">
+                              <div
+                                className="h-full bg-[#ffca28] transition-[width] duration-75"
+                                style={{ width: `${Math.round(Math.min(1, clapLevel || 0) * 100)}%` }}
+                              />
+                            </div>
+                            <p className="text-[10px] text-[#ffb700]/55 mt-1.5 leading-snug">
+                              {clapCountRequired === 1
+                                ? 'Stop the mic first, then one sharp clap wakes JARVIS. Voice listen owns the mic while active.'
+                                : 'Stop the mic first, then two sharp claps wake JARVIS. Voice listen owns the mic while active.'}
+                            </p>
+                          </div>
+                        </>
                       )}
                     </>
                   )}
