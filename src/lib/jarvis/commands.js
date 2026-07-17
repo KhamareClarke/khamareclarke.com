@@ -1,5 +1,5 @@
 import { EMPIRE_SKILL_IDS } from '@/lib/empire-skills';
-import { ALL_EMPIRE_PROJECT_IDS } from '@/lib/empire-projects';
+import { ALL_EMPIRE_PROJECT_IDS, resolveEmpireProjectId } from '@/lib/empire-projects';
 import { resolveSiteUrl } from '@/lib/jarvis/sites';
 import { extractSearchQueryFromTranscript, normalizeSearchQuery, fixSearchTypos, isInternalOpsLeadQuery, isInternalOpsProjectQuery } from '@/lib/jarvis/web-search';
 
@@ -115,11 +115,33 @@ function fuzzyMatchSkill(token) {
 }
 
 function fuzzyMatchProject(token) {
-  const t = norm(token).replace(/[^a-z0-9-]/g, '');
+  return resolveEmpireProjectId(token) || (() => {
+    const t = norm(token).replace(/[^a-z0-9-]/g, '');
+    if (!t) return null;
+    const exact = ALL_EMPIRE_PROJECT_IDS.find((id) => id === t);
+    if (exact) return exact;
+    return ALL_EMPIRE_PROJECT_IDS.find((id) => id.includes(t) || t.includes(id)) || null;
+  })();
+}
+
+/** Form / lead activity for a named sister project (voice: "form submissions of upgrade roof"). */
+function tryParseProjectFormsCommand(text, raw) {
+  const t = norm(fixSearchTypos(text || raw));
   if (!t) return null;
-  const exact = ALL_EMPIRE_PROJECT_IDS.find((id) => id === t);
-  if (exact) return exact;
-  return ALL_EMPIRE_PROJECT_IDS.find((id) => id.includes(t) || t.includes(id)) || null;
+  const wantsForms =
+    /\bform\s+submissions?\b/.test(t) ||
+    /\b(?:leads?|enquir(?:y|ies)|signups?|orders?)\b/.test(t);
+  if (!wantsForms) return null;
+
+  const project = resolveEmpireProjectId(t) || resolveEmpireProjectId(raw);
+  if (!project) return null;
+
+  return {
+    type: 'read',
+    command: 'fleet-events',
+    project,
+    formsOnly: /\bform\s+submissions?\b/.test(t),
+  };
 }
 
 function fuzzyMatchClient(token, clients) {
@@ -260,6 +282,9 @@ export function parseJarvisCommand(input, clients = []) {
   if (isInternalOpsProjectQuery(text) || isInternalOpsProjectQuery(raw)) {
     return { type: 'read', command: 'fleet' };
   }
+
+  const projectFormsCmd = tryParseProjectFormsCommand(text, raw);
+  if (projectFormsCmd) return projectFormsCmd;
 
   if (
     text === 'fleet events' ||

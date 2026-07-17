@@ -30,6 +30,12 @@ export function fixSearchTypos(text) {
     .replace(/\bserch\b/gi, 'search')
     .replace(/\bsarch\b/gi, 'search')
     .replace(/\bserachin\b/gi, 'searching')
+    .replace(/\bsummation\b/gi, 'submissions')
+    .replace(/\bsumations?\b/gi, 'submissions')
+    .replace(/\bsubmission\b/gi, 'submissions')
+    .replace(/\bform\s+summation\b/gi, 'form submissions')
+    .replace(/\bupgrade\s+group\b/gi, 'upgrade roof')
+    .replace(/\bupgrade\s+roofs?\b/gi, 'upgrade roofing')
     .trim();
 }
 
@@ -47,6 +53,7 @@ export function buildWebSearchQuery(raw) {
   let text = stripWakePrefix(raw);
   if (!text) text = fixSearchTypos(String(raw || '').trim());
   if (isInternalOpsLeadQuery(text)) return '';
+  if (isInternalOpsProjectQuery(text)) return '';
 
   const tellAbout = text.match(/\b(?:tell|give)\s+me\s+(?:about\s+)?(.+)$/i);
   if (tellAbout) {
@@ -578,6 +585,9 @@ export function isInternalOpsLeadQuery(text) {
   if (/\bleads?\b/.test(t) && /\b(?:form|forms|client|clients|onboarding|submission|submissions)\b/.test(t)) return true;
   if (/\bform\s+submissions?\b/.test(t)) return true;
   if (/\b(?:onboarding|contact\s+form|empire_leads|empire scraped)\b/.test(t)) return true;
+  if (/\bform\s+submissions?\b/.test(t) && /\b(?:upgrade|flip|leverage|alkhem|seo|inboker|myapproved|project)\b/.test(t)) {
+    return true;
+  }
   if (/\b(?:tell|give|describe|explain)\s+(?:me\s+)?(?:about\s+)?(?:the\s+)?(?:our|my|today'?s?|new|this|latest)\b.*\bleads?\b/.test(t)) {
     return true;
   }
@@ -597,10 +607,12 @@ export function isInternalOpsProjectQuery(text) {
   const t = fixSearchTypos(String(text || '').trim().toLowerCase());
   if (!t) return false;
   if (/\b(?:our|my|the|all|fleet)\s+(?:\w+\s+){0,3}projects?\b/.test(t)) return true;
+  if (/\b(?:asking|ask)\s+about\b.*\bprojects?\b/.test(t)) return true;
+  if (/\babout\s+(?:our|my|the|all)\s+projects?\b/.test(t)) return true;
   if (/\bprojects?\s+(?:we|you|i)\s+(?:have|run|own|manage|track)\b/.test(t)) return true;
   if (/\b(?:list|show|name)\b.*\b(?:our|my|the|all|fleet)\s+projects?\b/.test(t)) return true;
   if (/\b(?:tell|give)\s+me\b.*\b(?:our|my|the|all)\s+projects?\b/.test(t)) return true;
-  if (/\binformation\s+about\s+(?:our|my|the|all)\s+projects?\b/.test(t)) return true;
+  if (/\binformation\s+about\s+(?:our|my|the|all)?\s*projects?\b/.test(t)) return true;
   if (/\ball\s+the\s+information\s+about\s+projects?\b/.test(t)) return true;
   if (/^projects?\??$/.test(t)) return true;
   if (/\bfleet\s+(?:overview|status|projects?)\b/.test(t)) return true;

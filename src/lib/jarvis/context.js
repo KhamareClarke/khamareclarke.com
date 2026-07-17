@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabase';
 import { getClientGHLData } from '@/lib/ghl';
+import { ALL_EMPIRE_PROJECT_IDS, getProjectLabel, getProjectRootUrl } from '@/lib/empire-projects';
 
 const MAX_CONTEXT_CHARS = 7500; // ~2k tokens
 
@@ -280,6 +281,12 @@ export async function buildJarvisContext() {
     }
   } else {
     lines.push('FLEET EVENTS (all projects): none');
+  }
+
+  lines.push('OUR PROJECTS (sister sites — always known):');
+  for (const id of ALL_EMPIRE_PROJECT_IDS.filter((p) => !String(p).includes('test'))) {
+    const url = getProjectRootUrl(id);
+    lines.push(`  - ${getProjectLabel(id)} (${id})${url ? ` — ${url}` : ''}`);
   }
 
   // GHL summaries (max 5 clients with ghl_contact_id)

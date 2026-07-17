@@ -70,3 +70,54 @@ export function getProjectRootUrl(projectId) {
   if (typeof process !== 'undefined' && process.env?.[envKey]) return process.env[envKey];
   return PROJECT_ROOT_URL[key] ?? PROJECT_ROOT_URL[key.replace(/_/g, '-')] ?? null;
 }
+
+/** Spoken / typed aliases → canonical project id (voice: "upgrade group" → upgraderoofing). */
+export const PROJECT_ALIASES = {
+  'upgrade roof': 'upgraderoofing',
+  'upgrade roofs': 'upgraderoofing',
+  'upgrade roofing': 'upgraderoofing',
+  'upgrade group': 'upgraderoofing',
+  upgraderoof: 'upgraderoofing',
+  upgraderoofs: 'upgraderoofing',
+  upgraderoofing: 'upgraderoofing',
+  'flip republic': 'fliprepublic',
+  fliprepublic: 'fliprepublic',
+  'leverage academy': 'leverageacademy',
+  leverageacademy: 'leverageacademy',
+  'leverage journal': 'leveragejournal',
+  leveragejournal: 'leveragejournal',
+  myapproved: 'myapproved',
+  'my approved': 'myapproved',
+  alkhemmy: 'alkemmy',
+  alkemmy: 'alkemmy',
+  seoinforce: 'seoinforce',
+  'seo in force': 'seoinforce',
+  inboker: 'inboker',
+  omniwtms: 'omniwtms',
+  'omni wtms': 'omniwtms',
+  khamareclarke: 'khamareclarke',
+  'khamare clarke': 'khamareclarke',
+  adstarter: 'adstarter',
+  'ads starter': 'adstarter',
+  identitymarketing: 'identitymarketing',
+  'identity marketing': 'identitymarketing',
+  identimarketing: 'identitymarketing',
+};
+
+/** Resolve a fleet project id from free text (aliases + fuzzy id match). */
+export function resolveEmpireProjectId(text) {
+  const raw = String(text || '').toLowerCase().replace(/\s+/g, ' ').trim();
+  if (!raw) return null;
+
+  for (const [alias, id] of Object.entries(PROJECT_ALIASES)) {
+    if (raw.includes(alias)) return id;
+  }
+
+  const compact = raw.replace(/[^a-z0-9-]/g, '');
+  if (!compact) return null;
+  const exact = ALL_EMPIRE_PROJECT_IDS.find((id) => id === compact);
+  if (exact) return exact;
+  return (
+    ALL_EMPIRE_PROJECT_IDS.find((id) => id.includes(compact) || compact.includes(id)) || null
+  );
+}

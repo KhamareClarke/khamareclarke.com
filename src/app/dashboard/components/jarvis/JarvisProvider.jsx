@@ -36,6 +36,7 @@ import {
   normalizeSearchQuery,
   summarizeSearchResults,
   isRealSearchResultSet,
+  fixSearchTypos,
 } from '@/lib/jarvis/web-search';
 import { navigateExternalUrl } from '@/lib/jarvis/open-url';
 import { getSupabaseBrowser } from '@/lib/supabase-browser';
@@ -1455,7 +1456,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           userScrolledUpRef.current = false;
         }
 
-        const parsedQuick = parseJarvisCommand(trimmed, liveData?.clients || []);
+        const cleaned = fixSearchTypos(trimmed);
+        const parsedQuick = parseJarvisCommand(cleaned, liveData?.clients || []);
 
         if (
           /\b(?:have you opened|did you open|where(?:'s|\s+is)|can't see|cannot see|don't see|do not see|i can't see|not see it)\b/i.test(
@@ -1495,7 +1497,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
         let data = normalizeJarvisContext(liveData || (await refreshData()));
         const clients = data?.clients || [];
-        const parsed = parseJarvisCommand(trimmed, clients);
+        const parsed = parseJarvisCommand(cleaned, clients);
 
         if (parsed?.type === 'read' && parsed.command === 'leads' && parsed.days > 1) {
           try {
@@ -1521,7 +1523,9 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
         if (parsed?.type === 'read' && parsed.command === 'fleet-events') {
           try {
-            const fr = await fetch('/api/fleet/list?limit=20', {
+            const qs = new URLSearchParams({ limit: '30' });
+            if (parsed.project) qs.set('project', parsed.project);
+            const fr = await fetch(`/api/fleet/list?${qs.toString()}`, {
               credentials: 'include',
               cache: 'no-store',
             });
@@ -1570,17 +1574,17 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
         if (
           !parsed &&
-          !isWritingRequest(trimmed) &&
-          (hasExplicitSearchIntent(trimmed) || messageNeedsWebSearch(trimmed))
+          !isWritingRequest(cleaned) &&
+          (hasExplicitSearchIntent(cleaned) || messageNeedsWebSearch(cleaned))
         ) {
-          const autoQuery = buildWebSearchQuery(trimmed);
+          const autoQuery = buildWebSearchQuery(cleaned);
           if (autoQuery.length > 2) {
             await runWebSearch(autoQuery);
             return;
           }
         }
 
-        const writingTask = isWritingRequest(trimmed);
+        const writingTask = isWritingRequest(cleaned);
 
         const assistantId = `a-${Date.now()}`;
         setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: '' }]);

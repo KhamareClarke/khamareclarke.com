@@ -78,12 +78,28 @@ export function composeStatus(data, client) {
   ].join('\n');
 }
 
-export function composeFleetEvents(data) {
-  const events = data.fleetEvents || [];
-  if (!events.length) {
-    return 'No fleet events yet, sir. Sister projects push leads and forms to the central ingest.';
+export function composeFleetEvents(data, opts = {}) {
+  const project = opts.project || null;
+  const formsOnly = Boolean(opts.formsOnly);
+  let events = data.fleetEvents || [];
+  if (project) {
+    events = events.filter((e) => String(e.project || '').toLowerCase() === project);
   }
-  const lines = [`Fleet events (last ${events.length}):`];
+  if (formsOnly) {
+    events = events.filter((e) => /form|lead|enquir|contact|signup|quote/i.test(String(e.event_type || '')));
+  }
+
+  const label = project ? getProjectLabel(project) : 'all projects';
+  if (!events.length) {
+    return project
+      ? `No ${formsOnly ? 'form/lead ' : ''}fleet events for ${label} yet, sir. Sister sites push forms to the central ingest.`
+      : 'No fleet events yet, sir. Sister projects push leads and forms to the central ingest.';
+  }
+  const lines = [
+    project
+      ? `${formsOnly ? 'Form/lead events' : 'Fleet events'} for ${label} (last ${Math.min(events.length, 10)}):`
+      : `Fleet events (last ${Math.min(events.length, 10)}):`,
+  ];
   for (const e of events.slice(0, 10)) {
     const when = e.created_at?.slice(0, 16)?.replace('T', ' ') || '?';
     lines.push(`  · ${when} [${e.project}] ${e.event_type}: ${String(e.summary || '').slice(0, 100)}`);
@@ -388,7 +404,13 @@ export function composeReadResponse(command, data) {
     case 'fleet':
       return { content: composeFleet(data), cards: [] };
     case 'fleet-events':
-      return { content: composeFleetEvents(data), cards: [] };
+      return {
+        content: composeFleetEvents(data, {
+          project: command.project || null,
+          formsOnly: command.formsOnly,
+        }),
+        cards: [],
+      };
     case 'leads':
       return {
         content: composeLeads(data, command.days || 1, {
