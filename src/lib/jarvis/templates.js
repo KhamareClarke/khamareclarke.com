@@ -81,30 +81,53 @@ export function composeStatus(data, client) {
 export function composeFleetEvents(data, opts = {}) {
   const project = opts.project || null;
   const formsOnly = Boolean(opts.formsOnly);
+  const allProjects = Boolean(opts.allProjects) || !project;
   let events = data.fleetEvents || [];
   if (project) {
     events = events.filter((e) => String(e.project || '').toLowerCase() === project);
   }
   if (formsOnly) {
-    events = events.filter((e) => /form|lead|enquir|contact|signup|quote/i.test(String(e.event_type || '')));
+    events = events.filter((e) =>
+      /form|lead|enquir|contact|signup|quote|order|client/i.test(String(e.event_type || ''))
+    );
   }
 
   const label = project ? getProjectLabel(project) : 'all projects';
   if (!events.length) {
+    const hubToday = data.snapshot?.leadsToday ?? 0;
+    if (!project && hubToday > 0) {
+      return `No sister-site fleet lead events yet, sir. Hub leads today: ${hubToday} (forms ${data.snapshot?.formsToday ?? 0} | onboarding ${data.snapshot?.onboardToday ?? 0}).`;
+    }
     return project
       ? `No ${formsOnly ? 'form/lead ' : ''}fleet events for ${label} yet, sir. Sister sites push forms to the central ingest.`
-      : 'No fleet events yet, sir. Sister projects push leads and forms to the central ingest.';
+      : 'No fleet lead events yet across projects, sir. Sister sites push leads and forms to the central ingest.';
   }
+
+  const byProject = {};
+  for (const e of events) {
+    const key = String(e.project || 'unknown').toLowerCase();
+    byProject[key] = (byProject[key] || 0) + 1;
+  }
+
   const lines = [
     project
-      ? `${formsOnly ? 'Form/lead events' : 'Fleet events'} for ${label} (last ${Math.min(events.length, 10)}):`
-      : `Fleet events (last ${Math.min(events.length, 10)}):`,
+      ? `${formsOnly ? 'Form/lead events' : 'Fleet events'} for ${label} (last ${Math.min(events.length, 12)}):`
+      : `${formsOnly ? 'Leads / form events across all projects' : 'Fleet events'} (last ${Math.min(events.length, 12)}):`,
   ];
-  for (const e of events.slice(0, 10)) {
+
+  if (allProjects && !project && Object.keys(byProject).length) {
+    lines.push('By project:');
+    for (const [pid, count] of Object.entries(byProject).sort((a, b) => b[1] - a[1])) {
+      lines.push(`  · ${getProjectLabel(pid)}: ${count}`);
+    }
+  }
+
+  lines.push('Recent:');
+  for (const e of events.slice(0, 12)) {
     const when = e.created_at?.slice(0, 16)?.replace('T', ' ') || '?';
     lines.push(`  · ${when} [${e.project}] ${e.event_type}: ${String(e.summary || '').slice(0, 100)}`);
   }
-  if (events.length > 10) lines.push(`  … and ${events.length - 10} more in the feed.`);
+  if (events.length > 12) lines.push(`  … and ${events.length - 12} more in the feed.`);
   return lines.join('\n');
 }
 
@@ -408,6 +431,7 @@ export function composeReadResponse(command, data) {
         content: composeFleetEvents(data, {
           project: command.project || null,
           formsOnly: command.formsOnly,
+          allProjects: command.allProjects,
         }),
         cards: [],
       };

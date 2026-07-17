@@ -124,14 +124,30 @@ function fuzzyMatchProject(token) {
   })();
 }
 
-/** Form / lead activity for a named sister project (voice: "form submissions of upgrade roof"). */
+/** Form / lead activity for a named sister project, or across all projects. */
 function tryParseProjectFormsCommand(text, raw) {
   const t = norm(fixSearchTypos(text || raw));
   if (!t) return null;
-  const wantsForms =
+  const wantsLeads =
     /\bform\s+submissions?\b/.test(t) ||
     /\b(?:leads?|enquir(?:y|ies)|signups?|orders?)\b/.test(t);
-  if (!wantsForms) return null;
+  if (!wantsLeads) return null;
+
+  const allProjects =
+    /\b(?:all|every|each)\s+projects?\b/.test(t) ||
+    /\bacross\s+(?:all\s+)?(?:the\s+)?projects?\b/.test(t) ||
+    /\bleads?\s+(?:of|for|from|across|in)\s+(?:all|every)\b/.test(t) ||
+    /\blead\s+of\s+all\b/.test(t);
+
+  if (allProjects) {
+    return {
+      type: 'read',
+      command: 'fleet-events',
+      project: null,
+      formsOnly: true,
+      allProjects: true,
+    };
+  }
 
   const project = resolveEmpireProjectId(t) || resolveEmpireProjectId(raw);
   if (!project) return null;
@@ -140,7 +156,7 @@ function tryParseProjectFormsCommand(text, raw) {
     type: 'read',
     command: 'fleet-events',
     project,
-    formsOnly: /\bform\s+submissions?\b/.test(t),
+    formsOnly: /\bform\s+submissions?\b/.test(t) || /\bleads?\b/.test(t),
   };
 }
 
@@ -279,12 +295,13 @@ export function parseJarvisCommand(input, clients = []) {
     return { type: 'read', command: 'fleet' };
   }
 
+  /* Leads/forms for a project (or all projects) before generic "our projects". */
+  const projectFormsCmd = tryParseProjectFormsCommand(text, raw);
+  if (projectFormsCmd) return projectFormsCmd;
+
   if (isInternalOpsProjectQuery(text) || isInternalOpsProjectQuery(raw)) {
     return { type: 'read', command: 'fleet' };
   }
-
-  const projectFormsCmd = tryParseProjectFormsCommand(text, raw);
-  if (projectFormsCmd) return projectFormsCmd;
 
   if (
     text === 'fleet events' ||

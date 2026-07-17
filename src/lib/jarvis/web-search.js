@@ -598,6 +598,8 @@ export function isInternalOpsLeadQuery(text) {
   if (/\b(?:asking|ask)\s+about\s+(?:our|my|the)\s+(?:new\s+)?leads?\b/.test(t)) return true;
   if (/\b(?:you|jarvis)\s+(?:receive|received|get|got)\b.*\bleads?\b/.test(t)) return true;
   if (/\blist\b.*\b(?:leads?|forms?|submissions?|clients?)\b/.test(t)) return true;
+  if (/\bleads?\b/.test(t) && /\bprojects?\b/.test(t)) return true;
+  if (/\blead\s+of\s+all\b/.test(t)) return true;
 
   return false;
 }
@@ -606,6 +608,8 @@ export function isInternalOpsLeadQuery(text) {
 export function isInternalOpsProjectQuery(text) {
   const t = fixSearchTypos(String(text || '').trim().toLowerCase());
   if (!t) return false;
+  /* "leads of all projects" is a leads/fleet-events ask, not the project roster */
+  if (/\b(?:leads?|form\s+submissions?|enquir)/i.test(t)) return false;
   if (/\b(?:our|my|the|all|fleet)\s+(?:\w+\s+){0,3}projects?\b/.test(t)) return true;
   if (/\b(?:asking|ask)\s+about\b.*\bprojects?\b/.test(t)) return true;
   if (/\babout\s+(?:our|my|the|all)\s+projects?\b/.test(t)) return true;
