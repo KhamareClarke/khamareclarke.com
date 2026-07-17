@@ -1,3 +1,5 @@
+import { resolveEmpireProjectId } from '@/lib/empire-projects';
+
 const SEARCH_UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 const TIMEOUT_MS = 14_000;
@@ -610,15 +612,20 @@ export function isInternalOpsProjectQuery(text) {
   if (!t) return false;
   /* "leads of all projects" is a leads/fleet-events ask, not the project roster */
   if (/\b(?:leads?|form\s+submissions?|enquir)/i.test(t)) return false;
-  if (/\b(?:our|my|the|all|fleet)\s+(?:\w+\s+){0,3}projects?\b/.test(t)) return true;
-  if (/\b(?:asking|ask)\s+about\b.*\bprojects?\b/.test(t)) return true;
-  if (/\babout\s+(?:our|my|the|all)\s+projects?\b/.test(t)) return true;
-  if (/\bprojects?\s+(?:we|you|i)\s+(?:have|run|own|manage|track)\b/.test(t)) return true;
-  if (/\b(?:list|show|name)\b.*\b(?:our|my|the|all|fleet)\s+projects?\b/.test(t)) return true;
-  if (/\b(?:tell|give)\s+me\b.*\b(?:our|my|the|all)\s+projects?\b/.test(t)) return true;
-  if (/\binformation\s+about\s+(?:our|my|the|all)?\s*projects?\b/.test(t)) return true;
-  if (/\ball\s+the\s+information\s+about\s+projects?\b/.test(t)) return true;
-  if (/^projects?\??$/.test(t)) return true;
+  /* "what's new with my approved project" names a sister site — not the full roster */
+  if (resolveEmpireProjectId(t)) return false;
+  /* Roster asks use plural "projects" (our projects / all projects) */
+  if (/\b(?:our|my|the|all|fleet)\s+projects\b/.test(t)) return true;
+  if (/\b(?:asking|ask)\s+about\b.*\bprojects\b/.test(t) && !/\bproject\b/.test(t.replace(/projects/g, ''))) {
+    return true;
+  }
+  if (/\babout\s+(?:our|my|the|all)\s+projects\b/.test(t)) return true;
+  if (/\bprojects\s+(?:we|you|i)\s+(?:have|run|own|manage|track)\b/.test(t)) return true;
+  if (/\b(?:list|show|name)\b.*\b(?:our|my|the|all|fleet)\s+projects\b/.test(t)) return true;
+  if (/\b(?:tell|give)\s+me\b.*\b(?:our|my|the|all)\s+projects\b/.test(t)) return true;
+  if (/\binformation\s+about\s+(?:our|my|the|all)\s+projects\b/.test(t)) return true;
+  if (/\ball\s+the\s+information\s+about\s+projects\b/.test(t)) return true;
+  if (/^projects\??$/.test(t)) return true;
   if (/\bfleet\s+(?:overview|status|projects?)\b/.test(t)) return true;
   return false;
 }
@@ -630,6 +637,9 @@ export function isConversationalOrOpsMessage(text) {
   if (isWritingRequest(t)) return true;
   if (isInternalOpsLeadQuery(t)) return true;
   if (isInternalOpsProjectQuery(t)) return true;
+  if (resolveEmpireProjectId(t) && /\b(?:what|new|news|status|update|about|with|how)\b/.test(t)) {
+    return true;
+  }
   if (/^(status|fleet|leads?|briefing|help|hello|hi|hey|thanks|thank you)\b/i.test(t)) return true;
   if (/\b(?:your|my|our|today'?s?)\s+(?:work|day|plan|schedule|briefing|tasks?|agenda|leads?|projects?)\b/i.test(t)) {
     return true;

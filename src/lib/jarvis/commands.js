@@ -160,6 +160,29 @@ function tryParseProjectFormsCommand(text, raw) {
   };
 }
 
+/** "What's new with MyApproved" / project status — recent fleet activity for that site. */
+function tryParseProjectUpdateCommand(text, raw) {
+  const t = norm(fixSearchTypos(text || raw));
+  if (!t) return null;
+  const project = resolveEmpireProjectId(t) || resolveEmpireProjectId(raw);
+  if (!project) return null;
+
+  const wantsUpdate =
+    /\b(?:what'?s?\s+new|whats\s+new|any\s+(?:news|updates?)|updates?|status|how\s+(?:is|are)|how'?s)\b/.test(t) ||
+    /\b(?:news|activity|happening)\b.*\bproject\b/.test(t) ||
+    /\bproject\b.*\b(?:news|activity|update|status|new)\b/.test(t) ||
+    /\b(?:about|with|for|on)\s+(?:the\s+)?(?:my\s+approved|upgrade|flip|leverage|alkhem|seo|inboker)/.test(t);
+
+  if (!wantsUpdate) return null;
+
+  return {
+    type: 'read',
+    command: 'fleet-events',
+    project,
+    formsOnly: false,
+  };
+}
+
 function fuzzyMatchClient(token, clients) {
   const t = norm(token);
   if (!t || !clients?.length) return null;
@@ -298,6 +321,9 @@ export function parseJarvisCommand(input, clients = []) {
   /* Leads/forms for a project (or all projects) before generic "our projects". */
   const projectFormsCmd = tryParseProjectFormsCommand(text, raw);
   if (projectFormsCmd) return projectFormsCmd;
+
+  const projectUpdateCmd = tryParseProjectUpdateCommand(text, raw);
+  if (projectUpdateCmd) return projectUpdateCmd;
 
   if (isInternalOpsProjectQuery(text) || isInternalOpsProjectQuery(raw)) {
     return { type: 'read', command: 'fleet' };

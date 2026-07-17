@@ -95,12 +95,13 @@ export function composeFleetEvents(data, opts = {}) {
   const label = project ? getProjectLabel(project) : 'all projects';
   if (!events.length) {
     const hubToday = data.snapshot?.leadsToday ?? 0;
-    if (!project && hubToday > 0) {
+    if (project) {
+      return `Nothing new logged for ${label} in the fleet feed yet, sir. No recent leads, forms, or activity events.`;
+    }
+    if (hubToday > 0) {
       return `No sister-site fleet lead events yet, sir. Hub leads today: ${hubToday} (forms ${data.snapshot?.formsToday ?? 0} | onboarding ${data.snapshot?.onboardToday ?? 0}).`;
     }
-    return project
-      ? `No ${formsOnly ? 'form/lead ' : ''}fleet events for ${label} yet, sir. Sister sites push forms to the central ingest.`
-      : 'No fleet lead events yet across projects, sir. Sister sites push leads and forms to the central ingest.';
+    return 'No fleet lead events yet across projects, sir. Sister sites push leads and forms to the central ingest.';
   }
 
   const byProject = {};
@@ -111,7 +112,9 @@ export function composeFleetEvents(data, opts = {}) {
 
   const lines = [
     project
-      ? `${formsOnly ? 'Form/lead events' : 'Fleet events'} for ${label} (last ${Math.min(events.length, 12)}):`
+      ? formsOnly
+        ? `Form/lead events for ${label} (last ${Math.min(events.length, 12)}):`
+        : `What's new on ${label} (last ${Math.min(events.length, 12)}):`
       : `${formsOnly ? 'Leads / form events across all projects' : 'Fleet events'} (last ${Math.min(events.length, 12)}):`,
   ];
 
@@ -139,21 +142,33 @@ export function composeFleet(data) {
     return acc;
   }, {});
 
+  function isConfigNoise(row) {
+    return /OPENROUTER|API_KEY|\.env|not configured/i.test(String(row?.error_message || ''));
+  }
+
+  function statusLabel(row) {
+    if (!row?.status || row.status === 'pending' || row.status === 'tracked') return null;
+    if (row.status === 'failed' && isConfigNoise(row)) return null;
+    if (row.status === 'failed') return 'analysis error';
+    if (row.status === 'done') return 'analysed';
+    if (row.status === 'running') return 'analysing';
+    return row.status;
+  }
+
   const roster = ALL_EMPIRE_PROJECT_IDS.filter((id) => !String(id).includes('test'));
   const lines = [`Our projects: ${roster.length} sister sites in the fleet.`];
 
   for (const id of roster) {
     const row = byId[id];
-    const status = row?.status || 'tracked';
     const url = getProjectRootUrl(id);
-    const note = row?.summary ? ` — ${String(row.summary).slice(0, 60)}` : '';
-    lines.push(`  · ${getProjectLabel(id)}${url ? ` — ${url}` : ''} [${status}]${note}`);
+    const st = statusLabel(row);
+    lines.push(`  · ${getProjectLabel(id)}${url ? ` — ${url}` : ''}${st ? ` [${st}]` : ''}`);
   }
 
-  const failed = fleet.filter((p) => p.status === 'failed');
-  if (failed.length) {
-    lines.push(`Analysis warnings: ${failed.length}`);
-    for (const w of failed.slice(0, 3)) {
+  const realFailures = fleet.filter((p) => p.status === 'failed' && !isConfigNoise(p));
+  if (realFailures.length) {
+    lines.push(`Analysis warnings: ${realFailures.length}`);
+    for (const w of realFailures.slice(0, 3)) {
       lines.push(`  ⚠ ${getProjectLabel(w.project_id)}: ${(w.error_message || 'failed').slice(0, 60)}`);
     }
   }
