@@ -249,7 +249,12 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
 
   useEffect(() => {
     writeCookie(CLAP_WAKE_KEY, clapWake ? '1' : '0');
-    clapDetectorRef.current?.setEnabled?.(clapWake);
+    const standby =
+      clapWake &&
+      !isMobileUserAgent() &&
+      !micSessionActiveRef.current &&
+      !voiceSessionArmedRef.current;
+    clapDetectorRef.current?.setEnabled?.(standby);
   }, [clapWake]);
 
   useEffect(() => {
@@ -285,34 +290,60 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
     }
   }, []);
 
-  /** Full JARVIS page: always-on listen → reply → listen loop. */
+  /** Full JARVIS page: always-on listen, OR clap-standby when clap wake is on (desktop). */
   useEffect(() => {
     if (minimal || !open) return undefined;
     if (!isSpeechRecognitionSupported()) return undefined;
 
     setMuted((m) => (readCookie(MUTE_KEY) === '1' ? m : false));
     setVoiceAutoSend(true);
-    setContinuousListen(true);
-    continuousListenRef.current = true;
     voiceAutoSendRef.current = true;
-    armMicSession(true);
-    /* Voice owns the mic — clap must release any live capture stream. */
-    clapDetectorRef.current?.setEnabled?.(false);
 
+    const clapStandby = clapWake && !isMobileUserAgent();
     let cancelled = false;
-    const armMic = async () => {
-      await new Promise((r) => setTimeout(r, 350));
-      if (cancelled) return;
-      if (isMobileUserAgent() && !isSpeechAudioUnlocked()) return;
+
+    if (clapStandby) {
+      /* Clap owns the mic until wake — otherwise SpeechRecognition steals it. */
+      setContinuousListen(false);
+      continuousListenRef.current = false;
+      armMicSession(false);
+      try {
+        recognitionRef.current?.stop();
+      } catch {
+        // ignore
+      }
+      recognizingRef.current = false;
+      setListening(false);
+      window.setTimeout(() => {
+        if (!cancelled) clapDetectorRef.current?.setEnabled?.(true);
+      }, 450);
+    } else {
+      setContinuousListen(true);
+      continuousListenRef.current = true;
+      armMicSession(true);
       clapDetectorRef.current?.setEnabled?.(false);
-      await beginListeningRef.current?.();
-    };
-    armMic();
+
+      const armMic = async () => {
+        await new Promise((r) => setTimeout(r, 350));
+        if (cancelled) return;
+        if (isMobileUserAgent() && !isSpeechAudioUnlocked()) return;
+        clapDetectorRef.current?.setEnabled?.(false);
+        await beginListeningRef.current?.();
+      };
+      armMic();
+    }
 
     const onGesture = () => {
       unlockSpeechAudio({ prime: isMobileUserAgent() });
       setAudioUnlocked(true);
-      clapDetectorRef.current?.setEnabled?.(false);
+      if (clapStandby) {
+        clapDetectorRef.current?.setEnabled?.(false);
+        setContinuousListen(true);
+        continuousListenRef.current = true;
+        armMicSession(true);
+      } else {
+        clapDetectorRef.current?.setEnabled?.(false);
+      }
       if (!recognizingRef.current && !streamingRef.current && !speakingRef.current) {
         beginListeningRef.current?.();
       }
@@ -346,7 +377,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         document.removeEventListener('pointerdown', onGesture);
       }
     };
-  }, [minimal, open, armMicSession]);
+  }, [minimal, open, armMicSession, clapWake]);
 
   /** After mobile audio unlock tap, start the mic loop. */
   useEffect(() => {
@@ -364,9 +395,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
   }, [minimal, open, audioUnlocked]);
 
   /**
-   * Clap wake (desktop standby only).
-   * Never hold getUserMedia while SpeechRecognition is armed — that steals the mic
-   * and JARVIS hears nothing. Clap only captures when the voice session is stopped.
+   * Clap wake (desktop). With clap wake on, page opens in standby and clap owns the mic.
+   * After clap (or mic button), voice listen takes over until the mic is stopped.
    */
   useEffect(() => {
     if (minimal || !open || !clapWake || isMobileUserAgent()) {
@@ -385,7 +415,6 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
       if (cancelled) return;
 
       const wakeFromClap = () => {
-        /* Hand mic to speech immediately. */
         clapDetectorRef.current?.setEnabled?.(false);
         unlockSpeechAudio({ prime: false });
         setAudioUnlocked(true);
@@ -417,7 +446,7 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
           if (!mutedRef.current) {
             speakJarvis('Yes, sir.', { muted: false });
           }
-        }, 180);
+        }, 220);
       };
 
       const detector = await createClapDetector({
@@ -446,15 +475,8 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
         return;
       }
       clapDetectorRef.current = detector;
-
-      /* Only open clap mic in standby (voice session not armed). */
-      const voiceArmed =
-        micSessionActiveRef.current ||
-        voiceSessionArmedRef.current ||
-        continuousListenRef.current;
-      if (!voiceArmed) {
-        detector.setEnabled?.(true);
-      }
+      /* Clap-wake mode: always open the clap mic on create (voice is in standby). */
+      detector.setEnabled?.(true);
     })();
 
     return () => {

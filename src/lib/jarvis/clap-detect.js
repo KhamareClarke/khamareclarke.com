@@ -166,9 +166,9 @@ export async function createClapDetector({
      * Tuned low for built-in mics; cooldown + short gap avoid speech false wakes.
      */
     const sharp =
-      onset > Math.max(0.07, baseline * 1.8) &&
-      peak > Math.max(0.14, baseline + 0.08) &&
-      peak > baseline * 2.0;
+      onset > Math.max(0.055, baseline * 1.5) &&
+      peak > Math.max(0.10, baseline + 0.055) &&
+      peak > baseline * 1.7;
 
     const now = performance.now();
     if (sharp && now - lastPeakAt > minClapGapMs) {

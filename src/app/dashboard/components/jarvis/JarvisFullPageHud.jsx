@@ -332,8 +332,8 @@ export default function JarvisFullPageHud() {
                             </div>
                             <p className="text-[10px] text-[#ffb700]/55 mt-1.5 leading-snug">
                               {clapCountRequired === 1
-                                ? 'Stop the mic first, then one sharp clap wakes JARVIS. Voice listen owns the mic while active.'
-                                : 'Stop the mic first, then two sharp claps wake JARVIS. Voice listen owns the mic while active.'}
+                                ? 'Opens in clap standby. One sharp clap → “Yes, sir” and listen. Stop the mic to clap-wake again. Mic bar should move when you clap.'
+                                : 'Opens in clap standby. Two sharp claps → wake. Stop the mic to return to clap standby. Mic bar should move when you clap.'}
                             </p>
                           </div>
                         </>
