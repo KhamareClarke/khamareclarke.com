@@ -1,4 +1,4 @@
-import { getProjectLabel } from '@/lib/empire-projects';
+import { getProjectLabel, ALL_EMPIRE_PROJECT_IDS, getProjectRootUrl } from '@/lib/empire-projects';
 
 /** Snapshot API returns KPI fields at top level; normalize for compose helpers. */
 export function normalizeJarvisContext(data = {}) {
@@ -13,6 +13,7 @@ export function normalizeJarvisContext(data = {}) {
       fleetEvents: [],
       recentLeads: [],
       leadsHistory: {},
+      leadsHistoryMeta: {},
     };
   }
   const {
@@ -25,6 +26,7 @@ export function normalizeJarvisContext(data = {}) {
     fleetEvents,
     recentLeads,
     leadsHistory,
+    leadsHistoryMeta,
     ok,
     error,
     ...kpi
@@ -39,6 +41,7 @@ export function normalizeJarvisContext(data = {}) {
     fleetEvents: fleetEvents || [],
     recentLeads: recentLeads || [],
     leadsHistory: leadsHistory || {},
+    leadsHistoryMeta: leadsHistoryMeta || {},
   };
 }
 
@@ -91,25 +94,38 @@ export function composeFleetEvents(data) {
 
 export function composeFleet(data) {
   const fleet = data.fleet || [];
-  if (!fleet.length) {
-    return 'Fleet analysis not available yet, sir. Run analyse on Empire OS.';
+  const clientProjects = data.projects || [];
+  const byId = fleet.reduce((acc, p) => {
+    acc[p.project_id] = p;
+    return acc;
+  }, {});
+
+  const roster = ALL_EMPIRE_PROJECT_IDS.filter((id) => !String(id).includes('test'));
+  const lines = [`Our projects: ${roster.length} sister sites in the fleet.`];
+
+  for (const id of roster) {
+    const row = byId[id];
+    const status = row?.status || 'tracked';
+    const url = getProjectRootUrl(id);
+    const note = row?.summary ? ` — ${String(row.summary).slice(0, 60)}` : '';
+    lines.push(`  · ${getProjectLabel(id)}${url ? ` — ${url}` : ''} [${status}]${note}`);
   }
-  const done = fleet.filter((p) => p.status === 'done').length;
-  const failed = fleet.filter((p) => p.status === 'failed').length;
-  const running = fleet.filter((p) => p.status === 'running').length;
-  const lines = [
-    `Fleet overview: ${fleet.length} projects tracked.`,
-    `Done: ${done} | Running: ${running} | Failed: ${failed}`,
-  ];
-  for (const p of fleet.slice(0, 8)) {
-    lines.push(`  · ${getProjectLabel(p.project_id)} — ${p.status}`);
-  }
-  if (failed > 0) {
-    const warnings = fleet.filter((p) => p.status === 'failed').slice(0, 3);
-    for (const w of warnings) {
+
+  const failed = fleet.filter((p) => p.status === 'failed');
+  if (failed.length) {
+    lines.push(`Analysis warnings: ${failed.length}`);
+    for (const w of failed.slice(0, 3)) {
       lines.push(`  ⚠ ${getProjectLabel(w.project_id)}: ${(w.error_message || 'failed').slice(0, 60)}`);
     }
   }
+
+  if (clientProjects.length) {
+    lines.push(`Client projects on file: ${clientProjects.length}`);
+    for (const p of clientProjects.slice(0, 8)) {
+      lines.push(`  · ${p.project_name || 'Project'} — ${p.status || 'active'}`);
+    }
+  }
+
   return lines.join('\n');
 }
 
@@ -156,10 +172,34 @@ export function composeLeads(data, days = 1, opts = {}) {
     }
     return summary;
   }
+
   const hist = data.leadsHistory?.[days];
   const period = opts.rangeLabel || `the last ${days} days`;
-  if (hist == null) return `Lead count for ${period} is not tracked yet, sir.`;
-  return `Leads in ${period}: ${hist}.`;
+  const forms = data.leadsHistoryMeta?.[days]?.forms;
+  const onboard = data.leadsHistoryMeta?.[days]?.onboard;
+  const clientsOnFile = (data.clients || []).length;
+
+  if (hist == null && forms == null) {
+    return `Lead count for ${period} is not tracked yet, sir.`;
+  }
+
+  const total = hist ?? ((forms ?? 0) + (onboard ?? 0));
+  const lines = [
+    `Leads ${period}: ${total} (forms + onboarding).`,
+  ];
+  if (forms != null || onboard != null) {
+    lines.push(`Form submissions ${period}: ${forms ?? 0}`);
+    lines.push(`Onboarding clients ${period}: ${onboard ?? 0}`);
+  }
+  if (clientsOnFile > 0) {
+    lines.push(`Client profiles on file: ${clientsOnFile} (not limited to ${period}).`);
+  }
+  const recent = (data.recentLeads || []).slice(0, 6);
+  if (recent.length) {
+    lines.push('Recent leads:');
+    for (const l of recent) lines.push(formatLeadLine(l));
+  }
+  return lines.join('\n');
 }
 
 export function composeBriefing(data) {
@@ -200,7 +240,7 @@ export const HELP_CARD = {
   type: 'help',
   title: 'JARVIS Commands',
   sections: [
-    { label: 'Read (instant)', items: ['status', 'status [client]', 'leads today', 'leads [n] days', 'leads this week', 'leads last month', 'how many leads last 30 days', 'briefing', 'fleet', 'fleet events', 'any fleet events'] },
+    { label: 'Read (instant)', items: ['status', 'status [client]', 'leads today', 'leads [n] days', 'leads this week', 'leads last month', 'how many leads last 30 days', 'briefing', 'fleet', 'our projects', 'fleet events', 'any fleet events'] },
     { label: 'Navigate', items: ['open fleet | clients | leads | agents | activity | reports', 'open youtube | google | [site]', 'go to [website]'] },
     { label: 'Web & media', items: ['search [query]', 'google [query]', 'draw [description]', 'generate image [description]'] },
     { label: 'Actions (confirm)', items: ['run [skill] [project]', 'report [client]', 'pause [agent]', 'resume [agent]'] },

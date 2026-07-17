@@ -21,7 +21,9 @@ export async function getLeadsCountForDays(days) {
     supabaseAdmin.from('form_submissions').select('id', { count: 'exact', head: true }).gte('created_at', since),
     supabaseAdmin.from('onboarding_clients').select('id', { count: 'exact', head: true }).gte('created_at', since),
   ]);
-  return (formsRes.count ?? 0) + (onboardRes.count ?? 0);
+  const forms = formsRes.count ?? 0;
+  const onboard = onboardRes.count ?? 0;
+  return { count: forms + onboard, forms, onboard };
 }
 
 /**

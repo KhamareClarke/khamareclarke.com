@@ -574,7 +574,10 @@ export function isInternalOpsLeadQuery(text) {
   }
   if (/\bleads?\s+(?:we|you|i)\s+(?:received|got|have|scraped)\b/.test(t)) return true;
   if (/\bhow many leads\b/.test(t)) return true;
-  if (/\b(?:form\s+submission|onboarding|contact\s+form|empire_leads|empire scraped)\b/.test(t)) return true;
+  if (/\bleads?\b/.test(t) && /\b(?:this|last|current)\s+(?:week|month)\b/.test(t)) return true;
+  if (/\bleads?\b/.test(t) && /\b(?:form|forms|client|clients|onboarding|submission|submissions)\b/.test(t)) return true;
+  if (/\bform\s+submissions?\b/.test(t)) return true;
+  if (/\b(?:onboarding|contact\s+form|empire_leads|empire scraped)\b/.test(t)) return true;
   if (/\b(?:tell|give|describe|explain)\s+(?:me\s+)?(?:about\s+)?(?:the\s+)?(?:our|my|today'?s?|new|this|latest)\b.*\bleads?\b/.test(t)) {
     return true;
   }
@@ -584,7 +587,23 @@ export function isInternalOpsLeadQuery(text) {
   if (/\b(?:lead|leads)\s+(?:in|from|on)\s+(?:the\s+)?(?:dashboard|system|database|crm|form)\b/.test(t)) return true;
   if (/\b(?:asking|ask)\s+about\s+(?:our|my|the)\s+(?:new\s+)?leads?\b/.test(t)) return true;
   if (/\b(?:you|jarvis)\s+(?:receive|received|get|got)\b.*\bleads?\b/.test(t)) return true;
+  if (/\blist\b.*\b(?:leads?|forms?|submissions?|clients?)\b/.test(t)) return true;
 
+  return false;
+}
+
+/** Sister-site / fleet project questions — never web search. */
+export function isInternalOpsProjectQuery(text) {
+  const t = fixSearchTypos(String(text || '').trim().toLowerCase());
+  if (!t) return false;
+  if (/\b(?:our|my|the|all|fleet)\s+(?:\w+\s+){0,3}projects?\b/.test(t)) return true;
+  if (/\bprojects?\s+(?:we|you|i)\s+(?:have|run|own|manage|track)\b/.test(t)) return true;
+  if (/\b(?:list|show|name)\b.*\b(?:our|my|the|all|fleet)\s+projects?\b/.test(t)) return true;
+  if (/\b(?:tell|give)\s+me\b.*\b(?:our|my|the|all)\s+projects?\b/.test(t)) return true;
+  if (/\binformation\s+about\s+(?:our|my|the|all)\s+projects?\b/.test(t)) return true;
+  if (/\ball\s+the\s+information\s+about\s+projects?\b/.test(t)) return true;
+  if (/^projects?\??$/.test(t)) return true;
+  if (/\bfleet\s+(?:overview|status|projects?)\b/.test(t)) return true;
   return false;
 }
 
@@ -594,8 +613,11 @@ export function isConversationalOrOpsMessage(text) {
   if (!t) return true;
   if (isWritingRequest(t)) return true;
   if (isInternalOpsLeadQuery(t)) return true;
+  if (isInternalOpsProjectQuery(t)) return true;
   if (/^(status|fleet|leads?|briefing|help|hello|hi|hey|thanks|thank you)\b/i.test(t)) return true;
-  if (/\b(?:your|my|our|today'?s?)\s+(?:work|day|plan|schedule|briefing|tasks?|agenda|leads?)\b/i.test(t)) return true;
+  if (/\b(?:your|my|our|today'?s?)\s+(?:work|day|plan|schedule|briefing|tasks?|agenda|leads?|projects?)\b/i.test(t)) {
+    return true;
+  }
   if (/\bhow\s+(?:is|was|are)\s+(?:work|your day|things|it going)\b/i.test(t)) return true;
   if (/\bwhat\s+(?:is|are|was|were)\s+(?:your|my|our|today'?s?)\b/i.test(t)) return true;
   if (/\bwhat\s+(?:did|do)\s+you\s+(?:do|have|work on)\b/i.test(t)) return true;
@@ -625,15 +647,17 @@ export function hasExplicitSearchIntent(text) {
 function isTellMeAboutWebQuery(text) {
   const t = String(text || '').trim().toLowerCase();
   if (isInternalOpsLeadQuery(t)) return false;
+  if (isInternalOpsProjectQuery(t)) return false;
   const m = t.match(/\b(?:tell|give)\s+me\s+(?:about\s+)?(.+)$/i);
   if (!m) return false;
   const rest = m[1].trim();
   if (!rest || rest.length < 3) return false;
   if (/^(?:it|this|that|them|him|her)\.?$/i.test(rest)) return false;
-  if (/\b(?:your|my|our|today'?s?)\s+(?:work|day|plan|schedule|briefing|tasks?|agenda|leads?)\b/i.test(t)) {
+  if (/\b(?:your|my|our|today'?s?)\s+(?:work|day|plan|schedule|briefing|tasks?|agenda|leads?|projects?)\b/i.test(t)) {
     return false;
   }
   if (/\b(?:yourself|your|my|our)\b/i.test(rest)) return false;
+  if (/\bprojects?\b/i.test(rest) && /\b(?:our|my|all|fleet|information)\b/i.test(t)) return false;
   return true;
 }
 
@@ -642,8 +666,9 @@ export function messageNeedsWebSearch(text) {
   const t = fixSearchTypos(String(text || '').trim().toLowerCase());
   if (!t || isConversationalOrOpsMessage(t)) return false;
   if (isInternalOpsLeadQuery(t)) return false;
+  if (isInternalOpsProjectQuery(t)) return false;
   if (hasExplicitSearchIntent(t)) return true;
-  if (/^(status|fleet|leads?|briefing|help|open\s+(fleet|clients|leads))/i.test(t)) return false;
+  if (/^(status|fleet|leads?|briefing|help|open\s+(fleet|clients|leads|projects?))/i.test(t)) return false;
 
   if (/\bnews\b/i.test(t)) return true;
   if (/\bphotos?\s+of\b/i.test(t)) return true;

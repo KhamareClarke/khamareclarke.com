@@ -67,6 +67,7 @@ export async function buildJarvisContext() {
   const DASHBOARD_PROJECT_IDS = [
     'myapproved', 'khamareclarke', 'omniwtms', 'leverageacademy', 'fliprepublic',
     'leveragejournal', 'inboker', 'identitymarketing', 'adstarter', 'seoinforce', 'alkemmy',
+    'upgraderoofing',
   ];
 
   const [
@@ -323,6 +324,12 @@ export async function buildJarvisContext() {
     recentLeads,
     leadsHistory: {
       7: (forms7dRes.count ?? 0) + (onboard7dRes.count ?? 0),
+    },
+    leadsHistoryMeta: {
+      7: {
+        forms: forms7dRes.count ?? 0,
+        onboard: onboard7dRes.count ?? 0,
+      },
     },
   };
 }

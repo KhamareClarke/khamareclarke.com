@@ -1,7 +1,7 @@
 import { EMPIRE_SKILL_IDS } from '@/lib/empire-skills';
 import { ALL_EMPIRE_PROJECT_IDS } from '@/lib/empire-projects';
 import { resolveSiteUrl } from '@/lib/jarvis/sites';
-import { extractSearchQueryFromTranscript, normalizeSearchQuery, fixSearchTypos, isInternalOpsLeadQuery } from '@/lib/jarvis/web-search';
+import { extractSearchQueryFromTranscript, normalizeSearchQuery, fixSearchTypos, isInternalOpsLeadQuery, isInternalOpsProjectQuery } from '@/lib/jarvis/web-search';
 
 const TAB_ROUTES = {
   fleet: '/dashboard/empire',
@@ -49,6 +49,8 @@ function isLeadsReadQuery(text) {
   if (/^leads?\b/.test(t)) return true;
   if (/\bhow many leads\b/.test(t)) return true;
   if (isInternalOpsLeadQuery(t)) return true;
+  if (/\bform\s+submissions?\b/.test(t)) return true;
+  if (/\blist\b.*\b(?:leads?|forms?|clients?|submissions?)\b/.test(t)) return true;
   return false;
 }
 
@@ -252,6 +254,10 @@ export function parseJarvisCommand(input, clients = []) {
   }
 
   if (text === 'fleet') {
+    return { type: 'read', command: 'fleet' };
+  }
+
+  if (isInternalOpsProjectQuery(text) || isInternalOpsProjectQuery(raw)) {
     return { type: 'read', command: 'fleet' };
   }
 

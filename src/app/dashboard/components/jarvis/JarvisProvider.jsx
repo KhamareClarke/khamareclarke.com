@@ -1508,6 +1508,10 @@ export function JarvisProvider({ children, toastApi, minimal = false }) {
               data = {
                 ...data,
                 leadsHistory: { ...(data?.leadsHistory || {}), [parsed.days]: ld.count },
+                leadsHistoryMeta: {
+                  ...(data?.leadsHistoryMeta || {}),
+                  [parsed.days]: { forms: ld.forms, onboard: ld.onboard },
+                },
               };
             }
           } catch {
