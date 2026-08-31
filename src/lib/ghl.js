@@ -32,6 +32,35 @@ async function ghlFetch(path) {
   return res.json();
 }
 
+/**
+ * Create a contact in GoHighLevel via the v1 API. Fails closed: any
+ * network/auth/parse error returns null, never throws.
+ * @param {object} data - { firstName, lastName, email, phone, tags?, customField? }
+ */
+export async function createGHLContact(data = {}) {
+  const key = apiKey();
+  if (!key) return null;
+  try {
+    const res = await fetch(`${BASE}/contacts/`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${key}`,
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store',
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+      console.warn('[ghl] create contact failed', res.status);
+      return null;
+    }
+    return await res.json();
+  } catch (err) {
+    console.warn('[ghl] create contact failed', err?.message);
+    return null;
+  }
+}
+
 export async function getGHLContact(contactId) {
   if (!contactId) return null;
   try {
