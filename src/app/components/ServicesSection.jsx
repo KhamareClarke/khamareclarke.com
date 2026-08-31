@@ -1,127 +1,107 @@
 "use client";
 
 import React from "react";
-import CTAButton from "./CTAButton";
+import Image from "next/image";
 import { motion } from "framer-motion";
+import { Badge } from "./ui/Badge";
+import CTAButton from "./CTAButton";
 
-const capabilitiesList = [
+const ENGAGEMENT_STEPS = [
   {
-    icon: "🔍",
-    title: "Search and Visibility",
-    description: "Presence in Google, and in AI search — ChatGPT, Gemini, Perplexity. Two distinct disciplines. Both required. Measured in enquiries received."
+    title: "Software Engineering",
+    description: "Websites, web apps, portals, and platforms, engineered to rank, convert, and scale."
   },
   {
-    icon: "💬",
-    title: "Enquiry Handling",
-    description: "Every enquiry answered, qualified, and scheduled, at any hour. Teams receive briefed leads rather than voicemail."
+    title: "Search & Visibility",
+    description: "SEO, AEO, and GEO, with programmatic SEO built to dominate search on Google and AI search engines."
   },
   {
-    icon: "⚙️",
-    title: "Process Automation",
-    description: "Follow-up, review generation, pipeline management, and internal reporting — configured once, running continuously."
+    title: "Lead Capture & Enquiry",
+    description: "Every call, form, and message captured, qualified, and booked into your CRM and calendar automatically."
   },
   {
-    icon: "📊",
-    title: "Analytics and Reporting",
-    description: "Where enquiries originate, what they cost, and what converts. One report each month, in language the board can act on."
+    title: "Automation & Systems",
+    description: "Trained to remove and relieve you and your team from overwhelming repetitive work, so time is dedicated to the work that actually matters."
   },
   {
-    icon: "📝",
-    title: "Content Production",
-    description: "Produced at a volume a team cannot sustain manually, on the subjects customers are actually searching. Reviewed and approved internally."
+    title: "AI Analytical Audit",
+    description: "Organising your unused streams of data into a structured data lake, finding the leaks, and turning outcomes into predictive cycles instead of random ones."
   },
   {
-    icon: "💻",
-    title: "Systems and Applications",
-    description: "Custom software where the operation requires it. Websites engineered for performance, conversion, and machine readability."
+    title: "Cybersecurity & Compliance",
+    description: "Built GDPR compliant, secured against credential leaks and vulnerabilities, to Cyber Essentials Plus standard, independently assessed."
   }
 ];
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="py-20 bg-[#111015] text-white relative overflow-hidden">
-      {/* Background radial glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-[#ffb700]/5 blur-3xl animate-pulse" />
-      </div>
-
+    <section id="services" className="py-20 bg-surface text-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-        {/* Header */}
-        <div className="text-center mb-16">
-          <motion.span
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-6 tracking-wider uppercase"
-            initial={{ opacity: 0.85, y: 10 }}
+        {/* ===== Method / How the Work Is Delivered ===== */}
+        <div className="mb-16">
+          <div className="mb-10 text-center">
+            <Badge variant="outline" className="mb-6">Capability</Badge>
+
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-white">
+              Khamare <span className="gold-text">Clarke</span>
+            </h2>
+
+            <p className="text-[#ADB7BE] text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+              12 year working history in software engineering, artificial intelligence, and machine learning, working as an AI Solution Architect and Google Cloud Engineer, and training three of the most popular large language models. I now apply that same engineering to SMEs, using practical AI as a productive tool, not a novelty toy like vibe coders do nowadays. A structured audit exposes exactly where a business is leaking, quickly, and the fix follows fast, not the months manual implementation used to take.
+            </p>
+          </div>
+
+          <motion.div
+            className="mx-auto mb-12 max-w-md"
+            initial={{ opacity: 0.85, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            CAPABILITY
-          </motion.span>
-
-          <motion.h2
-            className="text-4xl md:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]"
-            initial={{ opacity: 0.85, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Where AI Applies
-          </motion.h2>
+            <div className="bg-surface-muted border border-white/10 rounded-lg p-2">
+              <Image
+                src="/images/about-image.png"
+                width={400}
+                height={400}
+                alt="Khamare Clarke, AI Implementation Specialist"
+                className="rounded-lg w-full h-auto aspect-square object-cover"
+              />
+            </div>
+          </motion.div>
 
-          <p className="text-[#ADB7BE] text-lg md:text-xl max-w-2xl mx-auto">
-            Practical capability engineered for performance, compliance, and real-world outcomes.
-          </p>
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {ENGAGEMENT_STEPS.map((step, index) => (
+              <motion.div
+                key={index}
+                className="border border-white/10 rounded-lg p-3.5"
+                initial={{ opacity: 0.85, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+              >
+                <div className="flex items-center gap-2.5 mb-2">
+                  <span className="gold-text font-bold text-xl leading-none tabular-nums">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="flex-1 h-px bg-gradient-to-r from-white/15 to-transparent" aria-hidden="true" />
+                </div>
+                <h4 className="text-white font-bold text-sm md:text-base mb-1.5">{step.title}</h4>
+                <p className="text-[#ADB7BE] text-xs md:text-sm leading-relaxed">{step.description}</p>
+              </motion.div>
+            ))}
+          </div>
 
-        {/* Capabilities Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {capabilitiesList.map((capability, index) => (
-            <motion.div
-              key={index}
-              className="bg-[#1a191f] p-8 rounded-2xl border border-gray-800 hover:border-[#ffb700]/30 transition-all duration-300 flex flex-col justify-between group hover:shadow-[0_0_20px_rgba(255,183,0,0.08)]"
-              initial={{ opacity: 0.85, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-            >
-              <div>
-                <span className="text-4xl block mb-4 p-2 bg-black/40 rounded-xl w-fit mx-auto md:mx-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">{capability.icon}</span>
-                <h4 className="text-xl font-bold mb-3 text-white text-center md:text-left group-hover:text-[#ffb700] transition-colors">{capability.title}</h4>
-                <p className="text-gray-400 text-sm leading-relaxed font-medium text-center md:text-left">{capability.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Call to Action */}
-        <motion.div
-          className="text-center bg-gradient-to-r from-[#ffb700]/10 to-[#ff8c00]/10 rounded-3xl p-8 md:p-12 border border-[#ffb700]/20 max-w-4xl mx-auto"
-          initial={{ opacity: 0.85, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <h3 className="text-2xl md:text-3xl font-extrabold mb-4">
-            Ready to get clarity and move fast?
-          </h3>
-          <p className="text-gray-300 mb-8 max-w-xl mx-auto font-medium">
-            Book a 30-minute consultation to discuss where AI applies to your operation. Zero obligation.
-          </p>
-          <div className="inline-block">
+          <div className="mt-10 text-center">
             <CTAButton
-              className="whitespace-nowrap text-base px-8 py-4 font-bold"
-              icon="phone"
-              eventLabel="services_book_consultation"
-              caption="30 minutes. An honest assessment of where AI applies."
+              href="/#contact"
+              eventLabel="capability_cta"
+              caption="An honest look at where AI fits."
             >
               Book a Consultation
             </CTAButton>
           </div>
-        </motion.div>
+        </div>
 
       </div>
     </section>

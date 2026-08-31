@@ -69,14 +69,7 @@ const featuredArticles = [
 
 export default function BlogHome() {
   return (
-    <main className="flex min-h-screen flex-col bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a] relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/4 h-64 w-64 md:h-96 md:w-96 rounded-full bg-[#ffb700]/5 blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 h-64 w-64 md:h-96 md:w-96 rounded-full bg-white/3 blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-96 w-96 md:h-[600px] md:w-[600px] rounded-full bg-[#ffb700]/3 blur-[100px]" />
-      </div>
-
+    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <Navbar />
 
       <Section className="py-ds-6 relative z-10">
@@ -120,7 +113,7 @@ export default function BlogHome() {
           </div>
           <div className="bg-[#181818] border border-[#222] rounded-xl p-6 shadow-lg">
             <h4 className="text-lg font-semibold mb-2 text-white">Book a Free Strategy Call</h4>
-            <p className="text-[#ADB7BE] mb-4">See how AI and automation can unlock growth for your UK business.</p>
+            <p className="text-[#ADB7BE] mb-4">See how AI and automation can grow your UK business.</p>
             <a href="#contact" className="inline-block bg-[#ffb700] text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-[#e6a600] transition border-2 border-[#ffb700] focus:outline-none focus:ring-2 focus:ring-[#ffb700]">Book Now</a>
             <div className="mt-2 text-center text-xs text-white/70">
               Designed for businesses ready to simplify operations and scale intelligently.

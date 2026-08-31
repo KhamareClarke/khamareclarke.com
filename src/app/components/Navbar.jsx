@@ -13,25 +13,16 @@ const navLinks = [
     path: "/",
   },
   {
-    title: "About",
-    path: "/about",
-  },
-  {
     title: "Services",
     path: "/services",
   },
   {
     title: "Business Bundle",
     path: "/business-bundle",
-    badge: "🔥 Special Offer",
   },
   {
     title: "Case Studies",
     path: "/case-studies",
-  },
-  {
-    title: "Blog",
-    path: "/blog",
   },
 ];
 
@@ -59,7 +50,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="fixed w-full top-0 left-0 right-0 z-20 bg-[#111015] shadow-ds-md">
+    <nav className="fixed w-full top-0 left-0 right-0 z-20 bg-surface shadow-ds-md">
       <NavbarWrapper className="flex flex-wrap items-center justify-between lg:py-4 py-2">
         <div className="flex items-center">
           <Link href="/">
@@ -88,12 +79,6 @@ const Navbar = () => {
             {navLinks.map((link, index) => (
               <li key={index} className="relative">
                 <NavLink href={link.path} title={link.title} active={activeSection === link.path.replace('#','')} />
-                {link.badge && (
-                  <span className="absolute -top-5 -right-3 bg-gradient-to-r from-[#ff3c00] via-[#ff8c00] to-[#ff3c00] text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full animate-pulse shadow-md whitespace-nowrap">
-                    {link.badge}
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-red-500/50 to-transparent blur-sm"></div>
-                  </span>
-                )}
               </li>
             ))}
           </ul>

@@ -47,7 +47,7 @@ export default function GlossaryHubPage() {
   }));
 
   return (
-    <main className="flex min-h-screen flex-col bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a] relative overflow-hidden">
+    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
@@ -61,22 +61,21 @@ export default function GlossaryHubPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSetSchema) }}
       />
 
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/4 h-64 w-64 md:h-96 md:w-96 rounded-full bg-[#ffb700]/5 blur-3xl gradient-blob" />
-        <div className="absolute bottom-0 right-1/4 h-64 w-64 md:h-96 md:w-96 rounded-full bg-[#ff8c00]/4 blur-3xl gradient-blob-b" />
-      </div>
-
       <Navbar />
 
       <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
 
-        <p className="inline-block bg-[#ffb700] text-[#1a1a1a] text-xs font-bold uppercase tracking-widest py-1 px-3 rounded-full mb-8">
-          Glossary
-        </p>
+        <div className="flex items-center gap-4 mb-8">
+          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary" aria-hidden="true" />
+          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
+            Glossary
+          </p>
+          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary" aria-hidden="true" />
+        </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
           SEO and AI{" "}
-          <span className="text-[#ffb700]">Glossary</span>
+          <span className="gold-text">Glossary</span>
         </h1>
         <p className="text-[#ADB7BE] text-lg mb-12 max-w-2xl leading-relaxed">
           Plain-English definitions of every term a UK business owner, marketer, or

@@ -1,16 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
 import CTAButton from "./CTAButton";
+import { Badge } from "./ui/Badge";
 
 const allCards = [
   {
-    type: "case-study",
     id: 1,
     company: "Upgrade Roofing Solutions",
     title: "Conversational AI Agent & CRM Automation",
-    tag: "VOICE & WEB AI",
+    tag: "Voice & Web AI",
     timeframe: "90-Day Build",
     description: "Designed, built, and deployed an autonomous voice receptionist integrated with GHL CRM and local search pack configuration to capture missed inbound contractor leads.",
     metrics: [
@@ -19,11 +18,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 2,
     company: "City Plaza Abu Dhabi",
     title: "AEO/GEO & Generative Search Positioning",
-    tag: "AI ENGINE OPTIMIZATION",
+    tag: "AI Engine Optimization",
     timeframe: "60-Day Run",
     description: "Semantic indexing, schema structures, and context optimization ensuring luxury real estate and commercial property rankings across ChatGPT, Gemini, and Perplexity.",
     metrics: [
@@ -32,11 +30,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 3,
     company: "MyApproved (Own Platform)",
     title: "Core Web Vitals & Search Architecture",
-    tag: "MARKETPLACE INFRASTRUCTURE",
+    tag: "Marketplace Infrastructure",
     timeframe: "6-Month Launch",
     description: "Technical restructuring of high-performance custom marketplace platform, implementing headless programmatic routing, clean XML feeds, and assets rendering under 0.9 seconds.",
     metrics: [
@@ -45,11 +42,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 4,
     company: "Omni WTMS",
     title: "AI Task Orchestration & Data Parsing",
-    tag: "ENTERPRISE AUTOMATION",
+    tag: "Enterprise Automation",
     timeframe: "30-Day Setup",
     description: "Built a centralized worker mode pipeline and custom agent supervisor to parse high-volume logistical files and automate enterprise resource dispatch.",
     metrics: [
@@ -58,11 +54,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 5,
     company: "IdentI Marketing",
     title: "Content Scaling & Social Outreach API",
-    tag: "PROGRAMMATIC SEO",
+    tag: "Programmatic SEO",
     timeframe: "90-Day Integration",
     description: "Configured and deployed a headless CMS integration that automatically generates localized landing pages and schedules content postings via API.",
     metrics: [
@@ -71,11 +66,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 6,
     company: "SEO Inforce",
     title: "Advanced Schema Markup & Technical Audit",
-    tag: "SEMANTIC SEARCH",
+    tag: "Semantic Search",
     timeframe: "60-Day Run",
     description: "Programmed semantic search patterns and automated structural auditing scripts to fix crawling errors and schema anomalies in real-time.",
     metrics: [
@@ -84,11 +78,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 7,
     company: "Flip Republic",
     title: "Automated Lead Scraper & Cold Outreach",
-    tag: "LEAD EXTRACTION",
+    tag: "Lead Extraction",
     timeframe: "60-Day Build",
     description: "Engineered and integrated custom web-scraping agents with AI-drafted messaging pipelines and CRM synchronization protocols.",
     metrics: [
@@ -97,11 +90,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 8,
     company: "Ads Starter",
     title: "Programmatic Google Ads API Scaling",
-    tag: "PAID ADVERTISING",
+    tag: "Paid Advertising",
     timeframe: "30-Day Integration",
     description: "Constructed an automated campaign creator that connects directly with the Google Ads API to auto-generate and manage thousands of hyper-targeted ad variations.",
     metrics: [
@@ -110,11 +102,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 9,
     company: "Leverage Journal",
     title: "Headless Core Web Vitals Optimization",
-    tag: "PERFORMANCE OPTIMIZATION",
+    tag: "Performance Optimization",
     timeframe: "90-Day Setup",
     description: "Refactored front-end bundling, asset loading paths, and component structure to achieve near-perfect Lighthouse performance rankings.",
     metrics: [
@@ -123,11 +114,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 10,
     company: "Alkhemmy",
     title: "Brand Voice Check & Compliance Copilot",
-    tag: "AI ALIGNMENT",
+    tag: "AI Alignment",
     timeframe: "60-Day Integration",
     description: "Developed a local LLM supervisor checking multi-channel copy against corporate brand voice and regulatory guidelines before publication.",
     metrics: [
@@ -136,11 +126,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 11,
     company: "Leverage Academy",
     title: "LMS Student Onboarding Flow & CRO",
-    tag: "CONVERSION OPTIMIZATION",
+    tag: "Conversion Optimization",
     timeframe: "90-Day Build",
     description: "Designed and built interactive, AI-driven student onboarding screens to reduce user drop-offs and track individual learning progression.",
     metrics: [
@@ -149,11 +138,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 12,
     company: "Inboker",
     title: "LinkedIn Outreach & CRM Sync Pipeline",
-    tag: "B2B OUTBOUND",
+    tag: "B2B Outbound",
     timeframe: "60-Day Launch",
     description: "Configured automated LinkedIn messaging workflows and clean contact syncing to automatically qualify and push high-value leads to B2B teams.",
     metrics: [
@@ -162,11 +150,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 13,
     company: "Staffordshire Trade Association",
     title: "Multimodal Lead Qualifying & Routing",
-    tag: "AI RECEPTIONIST",
+    tag: "AI Receptionist",
     timeframe: "60-Day Run",
     description: "Deployed conversational AI agents responding instantly across SMS and web chat, qualifying trade contractor opportunities and dispatching to CRM.",
     metrics: [
@@ -175,11 +162,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 14,
     company: "Apex Legal Staffordshire",
     title: "AI Document Ingestion & Regulatory Audit",
-    tag: "DOCUMENT COGNITION",
+    tag: "Document Cognition",
     timeframe: "120-Day Build",
     description: "Programmed a secure parsing pipeline to extract legal metadata and cross-verify clauses against national compliance standards.",
     metrics: [
@@ -188,11 +174,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 15,
     company: "Stoke Logistics Group",
     title: "AI Dispatching & Logistics Optimization",
-    tag: "OPERATIONAL COGNITION",
+    tag: "Operational Cognition",
     timeframe: "90-Day Build",
     description: "Coded a predictive dispatch supervisor that dynamically adjusts transit routes and scheduling based on live traffic API feedback.",
     metrics: [
@@ -201,11 +186,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 16,
     company: "Midlands Dental Practice",
     title: "AI Patient Reactivation & Automated Booking",
-    tag: "PATIENT ENGAGEMENT",
+    tag: "Patient Engagement",
     timeframe: "30-Day Setup",
     description: "Configured automated text reactivation campaigns synced to booking portals to schedule dentist appointments 24/7.",
     metrics: [
@@ -214,11 +198,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 17,
     company: "Lancaster Industrial Supplies",
     title: "B2B Catalog Programmatic SEO & Quote AI",
-    tag: "SKU SEARCH ENGINES",
+    tag: "SKU Search Engines",
     timeframe: "90-Day Build",
     description: "Programmed programmatic rendering logic for 15,000 product SKUs coupled with instant, AI-generated wholesale pricing quotes.",
     metrics: [
@@ -227,11 +210,10 @@ const allCards = [
     ],
   },
   {
-    type: "case-study",
     id: 18,
     company: "Prestige Motors Birmingham",
     title: "API-Driven Programmatic Advertising",
-    tag: "PREDICTIVE MARKETING",
+    tag: "Predictive Marketing",
     timeframe: "60-Day Integration",
     description: "Built a direct link between real-time vehicle inventory APIs and dynamic search/display ad platforms using machine learning predictive segmentation.",
     metrics: [
@@ -241,78 +223,49 @@ const allCards = [
   },
 ];
 
-function CaseStudyCard({ card }) {
+function CaseStudyCard({ card, isActive }) {
+  const hasImage = card.id <= 6;
   return (
-    <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
-      {/* Perfect square empty black placeholder box */}
-      <div className="w-[75%] aspect-square bg-[#050505] border border-[#ffb700]/20 rounded-2xl flex items-center justify-center relative overflow-hidden flex-shrink-0 mx-auto mt-5">
-        {card.image && (
+    <div className="bg-surface-muted border border-white/10 rounded-lg overflow-hidden flex flex-col md:flex-row">
+      {/* Image / placeholder */}
+      <div className="relative w-full md:w-2/5 shrink-0 aspect-square md:aspect-auto md:min-h-[20rem] bg-surface border-b md:border-b-0 md:border-r border-white/10 overflow-hidden">
+        {hasImage ? (
           <div
             className="absolute inset-0 w-full h-full"
-            style={{ background: `url(${card.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
+            style={{
+              background: `url(/images/projects/${card.id}.png)`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
           />
+        ) : (
+          <div className="absolute inset-0 w-full h-full bg-surface-muted flex items-center justify-center">
+            <span className="text-6xl opacity-30 text-white font-bold">
+              {card.company.charAt(0)}
+            </span>
+          </div>
         )}
-        {!card.image && (
-          <span className="text-3xl opacity-[0.04] text-white select-none">◈</span>
-        )}
-      </div>
-      <div className="px-5 pt-5 pb-3 flex-shrink-0 flex items-center justify-between border-b border-[#ffb700]/10 bg-black/40">
-        <span className="text-[#ffb700] text-[10px] font-black uppercase tracking-widest bg-[#ffb700]/10 border border-[#ffb700]/25 px-2.5 py-0.5 rounded-full">
-          {card.tag || "AI IMPLEMENTATION"}
-        </span>
-        <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider">
-          {card.timeframe || "Verified Result"}
+        <span className="absolute top-4 left-4 bg-primary text-[#111015] text-xs font-bold px-3 py-1 rounded-full z-10">
+          {card.tag}
         </span>
       </div>
-      <div className="p-5 flex flex-col flex-1">
-        <p className="text-[#ffb700]/80 text-[11px] font-extrabold uppercase tracking-widest mb-1.5">{card.company}</p>
-        <h3 className="text-base md:text-lg font-extrabold text-white mb-2 leading-snug">{card.title}</h3>
-        <p className="text-[#ADB7BE] text-xs mb-4 leading-relaxed flex-1">{card.description}</p>
-        <div className="space-y-1.5 border-t border-[#ffb700]/15 pt-3">
-          {card.metrics.map((m, i) => (
-            <div key={i} className="flex items-baseline gap-2">
-              <span className="text-[#ffb700] font-black text-base whitespace-nowrap">{m.value}</span>
-              <span className="text-[#ADB7BE] text-xs leading-tight">{m.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
-function PortfolioCard({ card }) {
-  return (
-    <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 hover:border-[#ffb700]/60 motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] motion-safe:hover:-translate-y-[3px] transition-all duration-300 overflow-hidden h-full flex flex-col">
-      {/* Perfect square empty black placeholder box */}
-      <div className="w-[75%] aspect-square bg-[#050505] border border-[#ffb700]/20 rounded-2xl flex items-center justify-center relative overflow-hidden flex-shrink-0 mx-auto mt-5">
-        {card.image && (
-          <div
-            className="absolute inset-0 w-full h-full"
-            style={{ background: `url(${card.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
-          />
-        )}
-        {!card.image && (
-          <span className="text-3xl opacity-[0.04] text-white select-none">◈</span>
-        )}
-      </div>
-      <div className="px-5 pt-5 pb-3 flex-shrink-0 flex items-center justify-between border-b border-[#ffb700]/10 bg-black/40">
-        <span className="text-[#ffb700] text-[10px] font-black uppercase tracking-widest bg-[#ffb700]/10 border border-[#ffb700]/25 px-2.5 py-0.5 rounded-full">
-          {card.tag || "AI IMPLEMENTATION"}
-        </span>
-        <span className="text-gray-400 text-[10px] font-bold uppercase tracking-wider">
-          {card.timeframe || "Verified Result"}
-        </span>
-      </div>
-      <div className="p-5 flex flex-col flex-1">
-        <p className="text-[#ffb700]/80 text-[11px] font-extrabold uppercase tracking-widest mb-1.5">{card.name}</p>
-        <h3 className="text-base md:text-lg font-extrabold text-white mb-2 leading-snug">{card.title}</h3>
-        <p className="text-[#ADB7BE] text-xs mb-4 leading-relaxed flex-1">{card.description}</p>
-        <div className="space-y-1.5 border-t border-[#ffb700]/15 pt-3">
+      {/* Copy */}
+      <div className="p-6 md:p-8 flex flex-col flex-1">
+        <div className="flex items-baseline gap-3 mb-3">
+          <span className="text-sm font-bold text-primary flex-shrink-0 w-7">{String(card.id).padStart(2, '0')}</span>
+          <span className="text-[#ADB7BE] text-xs font-semibold uppercase tracking-widest">{card.company}</span>
+        </div>
+
+        <h3 className="text-xl md:text-2xl font-extrabold text-white mb-1 leading-snug">{card.title}</h3>
+        <p className="text-[#ADB7BE] text-xs font-semibold mb-3">{card.tag} · {card.timeframe}</p>
+        <p className="text-[#ADB7BE] text-sm mb-6 leading-relaxed">{card.description}</p>
+
+        <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
           {card.metrics.map((m, i) => (
-            <div key={i} className="flex items-baseline gap-2">
-              <span className="text-[#ffb700] font-black text-base whitespace-nowrap">{m.value}</span>
-              <span className="text-[#ADB7BE] text-xs leading-tight">{m.label}</span>
+            <div key={i} className="border border-white/10 rounded-lg p-4">
+              <div className="text-primary font-black text-2xl md:text-3xl">{m.value}</div>
+              <div className="text-[#ADB7BE] text-sm leading-tight mt-1">{m.label}</div>
             </div>
           ))}
         </div>
@@ -322,119 +275,65 @@ function PortfolioCard({ card }) {
 }
 
 const ProjectsSection = () => {
-  const [current, setCurrent] = useState(0);
-  const [perPage, setPerPage] = useState(1);
-
-  useEffect(() => {
-    const update = () => {
-      if (window.innerWidth >= 1024) setPerPage(3);
-      else if (window.innerWidth >= 640) setPerPage(2);
-      else setPerPage(1);
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
   const total = allCards.length;
-  const maxIndex = Math.max(0, total - perPage);
-
-  const prev = () => setCurrent((c) => Math.max(0, c - 1));
-  const next = () => setCurrent((c) => Math.min(maxIndex, c + 1));
-
-  const visible = allCards.slice(current, current + perPage);
+  const [current, setCurrent] = useState(0);
+  const goTo = (idx) => setCurrent((idx + total) % total);
 
   return (
     <section id="case-studies" className="text-white py-16 lg:py-20 relative">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/3 left-1/3 h-96 w-96 rounded-full bg-[#ffb700]/5 blur-3xl" />
-      </div>
-
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="flex flex-col items-center mb-10 mt-4 w-full text-center">
-          <span className="bg-transparent border border-[#ffb700] text-[#ffb700] text-xs font-semibold px-4 py-1 rounded-full mb-3 tracking-widest uppercase">
-            RESULTS
-          </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-4">
-            <span className="text-[#ffb700]">Documented Results.</span>
+        <div className="mb-10 md:mb-12 text-center">
+          <Badge variant="outline" className="mb-6">Documented results</Badge>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-white">
+            Proof in the <span className="gold-text">pudding</span>
           </h2>
-          <p className="text-[#ADB7BE] text-sm md:text-base max-w-2xl leading-relaxed">
-            Real organisations. Documented results. AI, systems, and visibility, ranked by outcome.
+          <p className="text-[#ADB7BE] text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            Eighteen documented builds across roofing, legal, logistics, dental, automotive, real estate, and more. Every number below is from a system I built and can walk you through — lead generation, secure and compliant by design.
           </p>
         </div>
 
         {/* Carousel */}
-        <div className="relative px-10 md:px-14">
-          {/* Cards */}
-          <motion.div
-            key={current}
-            className="grid gap-6"
-            style={{ gridTemplateColumns: `repeat(${Math.min(perPage, visible.length)}, minmax(0, 1fr))` }}
-            initial={{ opacity: 0.85, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.35 }}
-          >
-            {visible.map((card, i) =>
-              card.type === "case-study" ? (
-                <CaseStudyCard key={card.id} card={card} />
-              ) : (
-                <PortfolioCard key={card.name + i} card={card} />
-              )
-            )}
-          </motion.div>
-
-          {/* Prev arrow */}
+        <div className="relative flex items-center justify-center">
           <button
-            onClick={prev}
-            disabled={current === 0}
-            aria-label="Previous"
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#1a1a1a] border-2 border-[#ffb700]/30 hover:border-[#ffb700] text-[#ffb700] p-2.5 rounded-full transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="Previous case study"
+            onClick={() => goTo(current - 1)}
+            className="absolute left-0 z-10 bg-surface-muted border border-white/10 hover:border-[#ffb700] text-[#ffb700] rounded-lg w-10 h-10 flex items-center justify-center transition-colors md:-left-12"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            &#8592;
           </button>
 
-          {/* Next arrow */}
+          <div className="w-full max-w-4xl">
+            <CaseStudyCard card={allCards[current]} isActive />
+          </div>
+
           <button
-            onClick={next}
-            disabled={current >= maxIndex}
-            aria-label="Next"
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#1a1a1a] border-2 border-[#ffb700]/30 hover:border-[#ffb700] text-[#ffb700] p-2.5 rounded-full transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="Next case study"
+            onClick={() => goTo(current + 1)}
+            className="absolute right-0 z-10 bg-surface-muted border border-white/10 hover:border-[#ffb700] text-[#ffb700] rounded-lg w-10 h-10 flex items-center justify-center transition-colors md:-right-12"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
+            &#8594;
           </button>
         </div>
 
-        {/* Dot indicators */}
-        {maxIndex > 0 && (
-          <div className="flex justify-center gap-1.5 mt-6">
-            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className={`rounded-full transition-all duration-200 ${
-                  i === current ? "bg-[#ffb700] w-5 h-2" : "bg-[#ffb700]/30 w-2 h-2"
-                }`}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* Progress label */}
-        <p className="text-center text-[#ADB7BE] text-xs mt-2 font-semibold">
-          {perPage >= total ? `1–${total} of ${total}` : `${current + 1}–${Math.min(current + perPage, total)} of ${total}`}
-        </p>
+        {/* Dots */}
+        <div className="flex justify-center gap-2 mt-8 flex-wrap">
+          {allCards.map((card, idx) => (
+            <button
+              key={card.id}
+              onClick={() => goTo(idx)}
+              className={`w-2.5 h-2.5 rounded-full border border-[#ffb700] ${idx === current ? 'bg-[#ffb700]' : 'bg-transparent'}`}
+              aria-label={`Go to case study ${idx + 1}`}
+            />
+          ))}
+        </div>
 
         {/* CTA */}
-        <div className="flex justify-center mt-10">
+        <div className="mt-10">
           <CTAButton
+            href="/#contact"
             eventLabel="projects_contact_cta"
-            caption="Want numbers like these? 30 minutes, no obligation."
+            caption="An honest look at where AI fits."
           >
             Book a Consultation
           </CTAButton>

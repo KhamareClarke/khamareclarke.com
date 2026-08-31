@@ -2,116 +2,55 @@
 import React from "react";
 import { motion } from "framer-motion";
 import CTAButton from "./CTAButton";
+import { Badge } from "./ui/Badge";
 
-const achievementsList = [
-  {
-    icon: "📈",
-    metric: "Growth in Google Business Profile interactions over 90 days",
-    value: "538%",
-    color: "#3B82F6",
-  },
-  {
-    icon: "🎯",
-    metric: "Increase in qualified leads within 60 days",
-    value: "5X",
-    color: "#10B981",
-  },
-  {
-    icon: "📞",
-    metric: "Qualified enquiries at peak, sustained over six months",
-    value: "~20/day",
-    color: "#8B5CF6",
-  },
-  {
-    icon: "🎓",
-    metric: "Computer Science with Artificial Intelligence, Keele University (2027)",
-    value: "MSc",
-    color: "#F59E0B",
-  },
+const credentials = [
+  "Member of Staffordshire Chamber of Commerce",
+  "Google Ads Partner",
+  "NetworkIN Member"
 ];
 
 const AchievementsSection = () => {
   return (
     <div className="py-12 md:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 relative">
-      {/* Background Effects */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-[#ffb700]/5 blur-3xl animate-pulse" />
-      </div>
-
       {/* Header */}
-      <div className="text-center mb-12">
-        <span className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffb700]/20 to-[#ff8c00]/20 backdrop-blur-sm border border-[#ffb700]/30 text-[#ffb700] text-sm font-bold px-6 py-3 rounded-full mb-6 tracking-wider uppercase">
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-          </svg>
-          DOCUMENTED OUTCOMES
-        </span>
+      <div className="max-w-7xl mx-auto mb-12 text-center">
+        <Badge variant="outline" className="mb-6">Trust</Badge>
 
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">
-          Measured Results
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight text-white">
+          Credentials that back the work
         </h2>
       </div>
 
-      {/* Statistics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto mb-12">
-        {achievementsList.map((achievement, index) => (
-          <motion.div
-            key={index}
-            className="group relative"
-            initial={{ opacity: 0.85, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, ease: "easeOut", delay: index * 0.08 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -8 }}
-          >
-            {/* Gradient Border */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#ffb700] via-[#ff8c00] to-[#ffb700] rounded-2xl p-[2px] group-hover:p-[3px] transition-all duration-300">
-              <div className="bg-[#0a0a0a] rounded-2xl h-full" />
-            </div>
-
-            {/* Card Content */}
-            <div className="relative bg-gradient-to-br from-[#1a1a1a]/90 to-[#0f0f0f]/90 backdrop-blur-sm rounded-2xl p-8 h-full flex flex-col items-center justify-center text-center border border-[#ffb700]/20 group-hover:border-[#ffb700]/40 motion-safe:group-hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] transition-all duration-300">
-
-              {/* Icon with Color Background */}
-              <div
-                className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg"
-                style={{
-                  background: `linear-gradient(135deg, ${achievement.color}20, ${achievement.color}10)`,
-                  border: `2px solid ${achievement.color}40`
-                }}
-              >
-                <span className="text-3xl">{achievement.icon}</span>
-              </div>
-
-              {/* Number */}
-              <div className="mb-4">
-                <div className="font-black text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00] drop-shadow-lg flex items-baseline justify-center gap-1 whitespace-nowrap text-3xl sm:text-4xl md:text-5xl">
-                  <span>{achievement.value}</span>
-                </div>
-              </div>
-
-              {/* Label */}
-              <h3 className="text-white font-semibold text-base md:text-lg leading-tight group-hover:text-[#ffb700] transition-colors duration-300">
-                {achievement.metric}
-              </h3>
-
-              {/* Hover Glow Effect */}
-              <div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                style={{
-                  background: `radial-gradient(circle at center, ${achievement.color}10, transparent 70%)`
-                }}
-              />
-            </div>
-          </motion.div>
-        ))}
+      {/* Credentials */}
+      <div className="max-w-7xl mx-auto mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          {credentials.map((credential, index) => (
+            <motion.div
+              key={index}
+              className="bg-surface-muted border border-white/10 rounded-lg p-5 md:p-6 flex items-center justify-center text-center"
+              initial={{ opacity: 0.85, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, ease: "easeOut", delay: index * 0.04 }}
+            >
+              <span className="text-white/80 text-sm md:text-base leading-snug font-medium">
+                {credential}
+              </span>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
-      <div className="flex justify-center mt-10">
+      <p className="max-w-7xl mx-auto text-center text-[#ADB7BE] text-sm md:text-base mb-10">
+        MSc Computer Science &amp; AI, Keele University. Finishing 2027.
+      </p>
+
+      <div className="max-w-7xl mx-auto text-center">
         <CTAButton
-          icon="bolt"
+          href="/#contact"
           eventLabel="achievements_book_consultation"
-          caption="30 minutes. An honest assessment of where AI applies to your operation."
+          caption="An honest look at where AI fits."
         >
           Book a Consultation
         </CTAButton>

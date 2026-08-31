@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 
 export const metadata = {
   title: "Terms of Service | Khamare Clarke",
-  description: "Terms governing services provided by Khamare Clarke — SEO, AI search, and digital systems.",
+  description: "Terms governing services provided by Khamare Clarke: SEO, AI search, and digital systems.",
   alternates: { canonical: "https://khamareclarke.com/terms" },
   openGraph: {
     title: "Terms of Service | Khamare Clarke",
@@ -17,14 +17,18 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
+    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <Navbar />
 
       <article className="relative z-10 max-w-3xl mx-auto px-6 py-24 text-white w-full">
         <div className="mb-10">
-          <span className="inline-block border border-[#ffb700] text-[#ffb700] text-xs font-bold px-4 py-1 rounded-full tracking-widest uppercase bg-black/30 mb-6">
-            Legal
-          </span>
+          <div className="flex items-center gap-4 mb-6 h-4">
+            <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
+              Legal
+            </p>
+            <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+          </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">Terms of Service</h1>
           <p className="text-white/50 text-sm">Last updated: July 2025</p>
         </div>

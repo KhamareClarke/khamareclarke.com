@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import BookingWidget from './BookingWidget';
+import { Button } from './ui/button';
 
 const BOOKING_URL = "https://api.leadconnectorhq.com/widget/booking/k6UtbKZXRHXyxKxEAm0i";
 
@@ -57,16 +58,17 @@ const BookingButton = ({
 
   return (
     <>
-      <a
-        href={BOOKING_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+      <Button
+        asChild
+        variant="default"
         className={className}
         onClick={handleClick}
         aria-label="Book a free strategy call with Khamare Clarke"
       >
-        {children}
-      </a>
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      </Button>
 
       {isModalOpen && (
         <div

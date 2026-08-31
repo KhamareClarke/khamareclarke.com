@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import BusinessBundleBookingWidget from './BusinessBundleBookingWidget';
+import { Button } from './ui/button';
 
 const BusinessBundleBookingButton = ({ 
   children, 
@@ -51,13 +52,14 @@ const BusinessBundleBookingButton = ({
 
   return (
     <>
-      <button
+      <Button
+        variant="default"
         onClick={handleClick}
         className={className}
         aria-label="Open booking widget"
       >
         {children}
-      </button>
+      </Button>
 
       {/* Modal */}
       {isModalOpen && (

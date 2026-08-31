@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <Section
       as="footer"
-      className="bg-gradient-to-b from-[#0a0a0a] to-[#121212] border-t border-white/5 pt-20 pb-12 relative overflow-hidden"
+      className="bg-surface border-t border-white/5 pt-20 pb-12"
     >
       <Container size="main">
         {/* Main Footer Content */}
@@ -17,10 +17,10 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-2 h-2 bg-[#ffb700] rounded-full"></div>
-              <span className="text-[#ffb700] text-sm font-bold uppercase tracking-wider">About</span>
+              <span className="text-[#ffb700] text-sm font-bold uppercase tracking-wider">Khamare Clarke</span>
             </div>
             <p className="text-white/80 mb-4 leading-relaxed text-sm sm:text-base">
-              The practical implementation of AI within established organisations. Assessed, built, trained, documented, supported.
+              The practical implementation of AI within SMEs. Assessed, implemented, compliant, documented, supported.
             </p>
             <div className="flex gap-4 mt-6">
               <a href="https://www.linkedin.com/in/khamareclarke" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-[#ffb700] transition-colors">

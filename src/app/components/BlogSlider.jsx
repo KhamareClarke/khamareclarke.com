@@ -2,45 +2,34 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import CTAButton from "./CTAButton";
-
-const categoryEmojis = {
-  'AI Automation': '🤖',
-  'Web & App Development': '💻',
-  'Advanced Analytics': '📊'
-};
-
-const categoryGradients = {
-  'AI Automation': 'from-[#312e81] via-[#1e1b4b] to-[#0f172a]',
-  'Web & App Development': 'from-[#064e3b] via-[#065f46] to-[#0f172a]',
-  'Advanced Analytics': 'from-[#78350f] via-[#92400e] to-[#0f172a]',
-};
+import { Badge } from "./ui/Badge";
 
 const blogPosts = [
   {
-    title: "Advanced Analytics Implementation: Operationalizing Business Intelligence",
+    title: "Analytics That Actually Gets Used",
     slug: "advanced-analytics-growth",
-    excerpt: "A practical guide to implementing advanced analytics and business intelligence pipelines. Learn how data-driven architectures help established organisations optimise operations and drive measurable growth.",
+    excerpt: "How a proper reporting setup replaced spreadsheets nobody looked at, and what changed once the numbers were easy to see.",
     category: "Advanced Analytics",
     image: "/images/blog/unlock.png"
   },
   {
-    title: "AI Chatbot Implementation: Automating Enquiry Handling for Complex Workflows",
+    title: "The AI Receptionist, Explained",
     slug: "ai-chatbots-save-uk-trades",
-    excerpt: "A look at the technical implementation of custom conversational AI agents. How automating administrative overhead and qualification recovers valuable staff hours and secures missed opportunities.",
+    excerpt: "What actually happens when an AI handles your calls and enquiries, built for a real business, not a demo.",
     category: "AI Automation",
     image: "/images/blog/TradesChatBot.png.png"
   },
   {
-    title: "Automated Enquiry Pipelines: Scaling Support Channels with Custom AI",
+    title: "Built to Answer Everything, Everywhere",
     slug: "ai-customer-enquiries-retail",
-    excerpt: "How custom AI agents are integrated across communication channels to qualify enquiries around the clock. A step-by-step review of technical guardrails, model fine-tuning, and CRM routing.",
+    excerpt: "How one system handles enquiries across phone, form, and chat without dropping any of them, and what it took to get there.",
     category: "AI Automation",
     image: "/images/blog/automate.png"
   },
   {
     title: "Web Application Engineering: High-Performance Architecture built for Conversion",
     slug: "roi-websites-uk-smes",
-    excerpt: "My technical guide to building robust, performance-engineered web systems. Discover how sub-second page rendering, headless architectures, and clean technical code drive real, measured business outcomes.",
+    excerpt: "My technical guide to building fast, well-engineered web systems. Discover how sub-second page rendering, headless architectures, and clean technical code drive real, measured business outcomes.",
     category: "Web & App Development",
     image: "/images/blog/SMEs.png.png"
   }
@@ -68,8 +57,8 @@ export default function BlogSlider() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const total = Math.min(blogPosts.length, 10);
-  const maxPage = Math.ceil(total / visible);
+  const total = blogPosts.length;
+  const maxPage = Math.max(1, Math.ceil(total / visible));
   const goTo = idx => setCurrent((idx + maxPage) % maxPage);
 
   const start = current * visible;
@@ -79,51 +68,46 @@ export default function BlogSlider() {
   return (
     <section className="text-white py-12 md:py-16" id="resources">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center mb-8 mt-2 w-full text-center">
-          <span className="bg-transparent border border-[#ffb700] text-[#ffb700] text-xs font-semibold px-4 py-1 rounded-full mb-3 tracking-widest uppercase">RESOURCES</span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">Field Notes From the Work</h2>
-          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base font-normal">Write-ups from live implementations. What worked, with the numbers.</div>
+        <div className="mb-8 mt-2 text-center">
+          <Badge variant="outline" className="mb-6">Resources</Badge>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-3 leading-tight text-white">Field notes from the work</h2>
+          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base">Write-ups and videos from live implementations, what worked, with the numbers behind it.</div>
         </div>
         <div className="relative flex items-center justify-center">
           <button
             aria-label="Previous blog"
             onClick={() => goTo(current - 1)}
-            className="absolute left-0 z-10 bg-[#1a1a1a]/90 backdrop-blur-sm border-2 border-[#ffb700]/30 hover:border-[#ffb700] text-[#ffb700] rounded-full w-10 h-10 flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg md:-left-12"
+            className="absolute left-0 z-10 bg-surface-muted border border-white/10 hover:border-[#ffb700] text-[#ffb700] rounded-lg w-10 h-10 flex items-center justify-center transition-colors md:-left-12"
           >
             &#8592;
           </button>
           <div className={`w-full grid gap-8 mx-auto`} style={{gridTemplateColumns: `repeat(${visible}, minmax(0, 1fr))`, maxWidth: visible === 1 ? '22rem' : visible === 2 ? '48rem' : '72rem'}}>
             {postsToShow.map(post => (
-              <div key={post.slug} className="group bg-[#1a1a1a]/90 backdrop-blur-sm rounded-2xl overflow-hidden border-2 border-[#ffb700]/20 hover:border-[#ffb700]/40 shadow-2xl motion-safe:hover:scale-[1.03] motion-safe:hover:shadow-[0_0_24px_rgba(255,183,0,0.18)] transition-all duration-300 flex flex-col">
-                <div className="relative w-full aspect-square bg-[#050505] border-b border-[#ffb700]/10 flex items-center justify-center overflow-hidden">
+              <div key={post.slug} className="group bg-surface-muted border border-white/10 rounded-lg overflow-hidden flex flex-col">
+                <div className="relative w-full aspect-square bg-surface border-b border-white/10 flex items-center justify-center overflow-hidden">
                   {post.image ? (
                     <div
-                      className="absolute inset-0 w-full h-full transition-transform duration-500 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full"
                       style={{ background: `url(${post.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
                     />
                   ) : (
-                    <div className={`absolute inset-0 w-full h-full bg-gradient-to-br ${categoryGradients[post.category] || 'from-[#1a1a1a] to-[#0f172a]'} flex items-center justify-center`}>
-                      <span className="text-5xl opacity-30">{categoryEmojis[post.category] || '📝'}</span>
+                    <div className="absolute inset-0 w-full h-full bg-surface-muted flex items-center justify-center">
+                      <span className="text-3xl opacity-30 text-white">{post.category.slice(0, 1)}</span>
                     </div>
                   )}
-                  <span className="absolute top-4 left-4 bg-[#ffb700] text-[#222] text-xs font-bold px-3 py-1 rounded-full shadow flex items-center gap-1 z-10">
-                    <span>{categoryEmojis[post.category] || '📝'}</span>
-                    <span>{post.category}</span>
-                  </span>
-                  <span className="absolute top-4 right-4 bg-[#111015] text-[#ffb700] text-xs font-bold px-2 py-1 rounded shadow flex items-center gap-1 z-10">
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#ffb700"/><text x="12" y="16" textAnchor="middle" fontSize="12" fill="#111015" fontWeight="bold">KC</text></svg>
-                    Khamare Clarke
+                  <span className="absolute top-4 left-4 bg-primary text-[#111015] text-xs font-bold px-3 py-1 rounded-full z-10">
+                    {post.category}
                   </span>
                 </div>
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-[#ffb700]">{post.title}</h3>
-                  <p className="text-[#ADB7BE] mb-6 text-base">{post.excerpt}</p>
-                  <div className="mt-auto flex items-center justify-between">
+                  <h3 className="text-xl font-bold mb-2 text-white">{post.title}</h3>
+                  <p className="text-[#ADB7BE] mb-6 text-sm">{post.excerpt}</p>
+                  <div className="mt-auto">
                     <CTAButton
                       href={`/blog/${post.slug}`}
-                      className="px-6 py-2 text-sm bg-gradient-to-r from-[#ffb700] to-[#ff8c00] text-[#222] hover:from-[#ff8c00] hover:to-[#ffb700] border-2 border-[#ffb700] focus:ring-[#ffb700]"
+                      eventLabel={`blog_read_${post.slug}`}
                       icon="arrow"
-                      caption="Designed for teams who want practical playbooks, not theory."
+                      caption="Practical playbooks, not theory."
                     >
                       Read Article
                     </CTAButton>
@@ -135,7 +119,7 @@ export default function BlogSlider() {
           <button
             aria-label="Next blog"
             onClick={() => goTo(current + 1)}
-            className="absolute right-0 z-10 bg-[#1a1a1a]/90 backdrop-blur-sm border-2 border-[#ffb700]/30 hover:border-[#ffb700] text-[#ffb700] rounded-full w-10 h-10 flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg md:-right-12"
+            className="absolute right-0 z-10 bg-surface-muted border border-white/10 hover:border-[#ffb700] text-[#ffb700] rounded-lg w-10 h-10 flex items-center justify-center transition-colors md:-right-12"
           >
             &#8594;
           </button>
@@ -145,17 +129,16 @@ export default function BlogSlider() {
             <button
               key={idx}
               onClick={() => goTo(idx)}
-              className={`w-3 h-3 rounded-full border border-[#ffb700] ${idx === current ? 'bg-[#ffb700]' : 'bg-[#181818]'}`}
+              className={`w-2.5 h-2.5 rounded-full border border-[#ffb700] ${idx === current ? 'bg-[#ffb700]' : 'bg-transparent'}`}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
         </div>
-        <div className="text-center mt-8">
+        <div className="mt-8">
           <CTAButton
             href="/blog"
-            className="px-8 py-3 text-lg"
-            icon="folder"
-            caption="Designed for builders who want actionable insights on demand."
+            eventLabel="blog_view_all"
+            caption="Actionable insights on demand."
           >
             View All Resources
           </CTAButton>

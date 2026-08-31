@@ -52,12 +52,7 @@ export default function WordpressRealCeiling() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="flex min-h-screen flex-col bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/4 h-64 w-64 md:h-96 md:w-96 rounded-full bg-[#ffb700]/5 blur-3xl gradient-blob" />
-          <div className="absolute bottom-0 right-1/4 h-64 w-64 md:h-96 md:w-96 rounded-full bg-white/3 blur-3xl" />
-        </div>
-
+      <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
         <Navbar />
 
         <article className="relative z-10 max-w-3xl mx-auto px-6 py-24 text-white">
@@ -67,9 +62,13 @@ export default function WordpressRealCeiling() {
             </Link>
           </div>
 
-          <span className="inline-block bg-[#ffb700] text-[#222] font-bold py-1 px-3 rounded-full text-xs uppercase tracking-wider mb-6">
-            Platform Limits
-          </span>
+          <div className="flex items-center gap-4 mb-6 h-4">
+            <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
+              Platform Limits
+            </p>
+            <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+          </div>
 
           <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white leading-tight">
             The Real Ceiling on Your WordPress Site (And When It Actually Matters)

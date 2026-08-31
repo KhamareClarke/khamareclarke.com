@@ -7,7 +7,7 @@ import CTAButton from "../../components/CTAButton";
 import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../../lib/schema";
 
 export const metadata = {
-  title: "AI Implementation Specialist UK | Khamare Clarke -- Stoke-on-Trent",
+  title: "AI Implementation Specialist UK | Khamare Clarke | Stoke-on-Trent",
   description:
     "AI implementation for UK businesses. End-to-end: operational audit, system build, staff handover, ongoing support. MSc Computer Science with AI, Keele University. Serving the whole of the UK from Stoke-on-Trent.",
   alternates: { canonical: "https://khamareclarke.com/expertise/ai-implementation" },
@@ -55,7 +55,7 @@ const faqSchema = {
       name: "What does the AI implementation process look like?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "The process has five stages. First, the operational audit: mapping current workflows, identifying where time and leads are lost, and prioritising the highest-leverage AI applications. Second, the implementation plan: a clear sequence of what gets built, in what order, at what cost, with what expected outcome. Third, the build: the systems are implemented -- AI agents, automations, web pages, content systems, search optimisation -- on agreed timelines. Fourth, handover: staff training and documentation so the business owns and understands what has been built. Fifth, ongoing support: monitoring, iteration, and expansion as the business grows.",
+        text: "The process has five stages. First, the operational audit: mapping current workflows, identifying where time and leads are lost, and prioritising the highest-leverage AI applications. Second, the implementation plan: a clear sequence of what gets built, in what order, at what cost, with what expected outcome. Third, the build: the systems are implemented (AI agents, automations, web pages, content systems, search optimisation) on agreed timelines. Fourth, handover: staff training and documentation so the business owns and understands what has been built. Fifth, ongoing support: monitoring, iteration, and expansion as the business grows.",
       },
     },
     {
@@ -71,7 +71,7 @@ const faqSchema = {
 
 export default function AIImplementationPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
+    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
@@ -85,27 +85,26 @@ export default function AIImplementationPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-[#ffb700]/5 blur-3xl gradient-blob" />
-        <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-[#ff8c00]/4 blur-3xl gradient-blob-b" />
-      </div>
-
       <Navbar />
 
       <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
 
-        <p className="inline-block bg-[#ffb700] text-[#1a1a1a] text-xs font-bold uppercase tracking-widest py-1 px-3 rounded-full mb-8">
-          Expertise
-        </p>
+        <div className="flex items-center gap-4 mb-8 h-4">
+          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
+            Expertise
+          </p>
+          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+        </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
           AI Implementation{" "}
-          <span className="text-[#ffb700]">-- Built and Running, Not Just Planned</span>
+          <span className="gold-text">| Built and Running</span>
         </h1>
         <p className="text-[#ADB7BE] text-lg mb-16 max-w-2xl">
           Strategy without implementation is just documentation. The work here is
           identifying the highest-leverage AI applications for your business, building
-          them, and handing over something that works -- with the team trained to use it
+          them, and handing over something that works. With the team trained to use it
           and the results documented.
         </p>
 
@@ -168,7 +167,7 @@ export default function AIImplementationPage() {
               {[
                 ["Operational audit", "Mapping current workflows, identifying where time and leads are lost, and ranking AI applications by commercial impact. The audit produces a prioritised action list, not a 200-page report."],
                 ["Implementation plan", "A clear sequence of what gets built, in what order, at what cost, with what expected outcome. Agreed before any build work begins."],
-                ["Build", "The systems are implemented -- AI agents, automations, web pages, content systems, search optimisation -- on agreed timelines. The code is written here. Nothing is outsourced."],
+                ["Build", "The systems are implemented (AI agents, automations, web pages, content systems, search optimisation) on agreed timelines. The code is written here. Nothing is outsourced."],
                 ["Handover", "Staff training and plain-English documentation. The business owns what has been built and understands how to use it."],
                 ["Ongoing support", "Monitoring, iteration, and expansion. Monthly reporting in plain English: what moved, what changed, what is next."],
               ].map(([title, body], i) => (
@@ -214,12 +213,12 @@ export default function AIImplementationPage() {
           </h2>
           <div className="grid sm:grid-cols-2 gap-4 mt-2">
             {[
-              ["Search and AI search", "SEO, local SEO, AEO, GEO -- ranked in Google and cited in ChatGPT, Gemini, Perplexity."],
-              ["AI agents and receptionists", "Enquiry response, lead qualification, appointment booking -- 24 hours a day."],
+              ["Search and AI search", "SEO, local SEO, AEO, GEO: ranked in Google and cited in ChatGPT, Gemini, Perplexity."],
+              ["AI agents and receptionists", "Enquiry response, lead qualification, appointment booking, 24 hours a day."],
               ["Web and custom apps", "Performance-first websites and custom applications engineered to rank and convert."],
               ["CRM and marketing automation", "Every lead captured, followed up, and reported on without manual intervention."],
               ["Content systems", "Content strategy and AI-assisted production at scale, structured for search and AI visibility."],
-              ["Google Ads", "Paid search managed through the Ads API, not a dashboard -- lower cost per lead, full transparency."],
+              ["Google Ads", "Paid search managed through the Ads API, not a dashboard. Lower cost per lead, full transparency."],
             ].map(([title, body]) => (
               <div key={title} className="bg-[#1a1a1a] border border-[#ffb700]/20 rounded-xl p-5">
                 <p className="text-[#ffb700] font-semibold text-sm mb-2">{title}</p>
@@ -253,7 +252,7 @@ export default function AIImplementationPage() {
             {[
               { href: "/expertise/ai-agents", label: "AI agents and AI receptionists for UK businesses" },
               { href: "/expertise/ai-consultant", label: "AI consultant and AI strategy" },
-              { href: "/expertise/ai-search-optimisation", label: "AI search optimisation -- AEO and GEO" },
+              { href: "/expertise/ai-search-optimisation", label: "AI search optimisation: AEO and GEO" },
               { href: "/expertise/seo", label: "SEO specialist" },
               { href: "/expertise/web-design-development", label: "Web design and development" },
               { href: "/expertise/digital-marketing", label: "Digital marketing" },
@@ -263,7 +262,7 @@ export default function AIImplementationPage() {
             ].map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-[#ffb700]">--</span> {l.label}
+                  <span className="text-[#ffb700]">→</span> {l.label}
                 </Link>
               </li>
             ))}
@@ -272,7 +271,7 @@ export default function AIImplementationPage() {
 
         <div className="mt-12 bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-10 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Ready to implement, not just plan?
+            Ready to implement?
           </h2>
           <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
             Book a free 30-minute strategy call. We will audit your current

@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import PerformanceOptimizer from './components/PerformanceOptimizer'
 import AccessibilityEnhancer from './components/AccessibilityEnhancer'
-import SimpleChatBot from './components/SimpleChatBot'
 import ConditionalChatBot from './components/ConditionalChatBot'
 import Preloader from './components/Preloader'
 import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from '../lib/schema'
@@ -12,7 +11,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: "Khamare Clarke | AI Implementation Specialist",
-  description: "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent, Staffordshire. He implements AI across search, web, content, marketing, and automation for UK businesses, with documented results including 538% Google Business Profile growth and a 5X lead increase.",
+  description: "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent, Staffordshire. He implements AI across search, web, content, marketing, and automation for UK businesses, with documented results including a 538% Google Business Profile interaction increase for Upgrade Roofing Solutions and a 5X lead increase for City Plaza Abu Dhabi.",
   keywords: 'AI implementation, AI implementation specialist, AI adoption, AI readiness, AI integration strategy, AI transformation, digital marketing, digital marketing consultant, web design, UX design, custom application development, content strategy, AI content systems, content automation, Google ranking, rank number one on Google, search visibility, SEO, local SEO, AI search optimisation, AEO, GEO, Google Business Profile, AI receptionist, Google Ads API, programmatic SEO, Staffordshire, web design, digital marketing, marketing automation, AI consultant UK',
   verification: {
     google: 'FOZp3AiubuzQwsGbpopu8OBTtmjxt17FtQ2Lup2ERM4'
@@ -34,7 +33,7 @@ export const metadata = {
   },
   openGraph: {
     title: "Khamare Clarke | AI Implementation Specialist",
-    description: "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent. He implements AI across search, web, content, marketing, and automation for UK businesses, with documented results including 538% Google Business Profile growth and a 5X lead increase.",
+    description: "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent. He implements AI across search, web, content, marketing, and automation for UK businesses, with documented results including a 538% Google Business Profile interaction increase for Upgrade Roofing Solutions and a 5X lead increase for City Plaza Abu Dhabi.",
     type: 'website',
     url: 'https://khamareclarke.com',
     siteName: 'Khamare Clarke',
@@ -43,7 +42,7 @@ export const metadata = {
         url: '/images/about-image.png',
         width: 1200,
         height: 630,
-        alt: 'Khamare Clarke -- AI Implementation Specialist'
+        alt: 'Khamare Clarke | AI Implementation Specialist'
       }
     ],
     locale: 'en_GB',
@@ -51,7 +50,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "Khamare Clarke | AI Implementation Specialist",
-    description: "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent. He implements AI across search, web, content, marketing, and automation for UK businesses, with documented results including 538% Google Business Profile growth and a 5X lead increase.",
+    description: "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent. He implements AI across search, web, content, marketing, and automation for UK businesses, with documented results including a 538% Google Business Profile interaction increase for Upgrade Roofing Solutions and a 5X lead increase for City Plaza Abu Dhabi.",
     creator: '@khamareclarke',
     images: ['/images/about-image.png'],
   },
@@ -105,7 +104,7 @@ export default function RootLayout({ children }) {
               {
                 "@type": "Question",
                 "name": "What does an AI Implementation Specialist do?",
-                "acceptedAnswer": { "@type": "Answer", "text": "An AI Implementation Specialist assesses a business's current operations, identifies where AI can be applied practically, and implements the systems -- AI agents, automation workflows, search optimisation, web builds, and content systems -- working alongside the existing team. The emphasis is on measurable outcomes: leads captured, rankings achieved, time saved, cost per acquisition reduced." }
+                "acceptedAnswer": { "@type": "Answer", "text": "An AI Implementation Specialist assesses a business's current operations, identifies where AI can be applied practically, and implements the systems (AI agents, automation workflows, search optimisation, web builds, and content systems) working alongside the existing team. The emphasis is on measurable outcomes: leads captured, rankings achieved, time saved, cost per acquisition reduced." }
               },
               {
                 "@type": "Question",

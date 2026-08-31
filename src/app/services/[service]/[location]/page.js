@@ -122,17 +122,11 @@ export default function ServiceLocationPage({ params }) {
   const relatedServices = SERVICES.filter(s => s.slug !== service.slug).slice(0, 4);
 
   return (
-    <main className="flex min-h-screen flex-col bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a] relative overflow-hidden">
+    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/4 h-64 w-64 md:h-96 md:w-96 rounded-full bg-[#ffb700]/5 blur-3xl gradient-blob" />
-        <div className="absolute bottom-0 right-1/4 h-64 w-64 md:h-96 md:w-96 rounded-full bg-[#ff8c00]/4 blur-3xl gradient-blob-b" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 md:h-[600px] md:w-[600px] rounded-full bg-[#ffb700]/3 blur-[100px] gradient-blob-c" />
-      </div>
 
       <Navbar />
 
@@ -149,15 +143,18 @@ export default function ServiceLocationPage({ params }) {
           <span className="text-white">{location.name}</span>
         </nav>
 
-        {/* Label badge */}
-        <p className="inline-block bg-[#ffb700] text-[#1a1a1a] text-xs font-bold uppercase tracking-widest py-1 px-3 rounded-full mb-8">
-          {service.icon} Serving {location.name}
-        </p>
+        <div className="flex items-center gap-4 mb-8 h-4">
+          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
+            Serving {location.name}
+          </p>
+          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+        </div>
 
         {/* H1 */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
           {service.heading}{" "}
-          <span className="text-[#ffb700]">in {location.name}</span>
+          <span className="gold-text">in {location.name}</span>
         </h1>
         <p className="text-[#ADB7BE] text-lg mb-12 max-w-2xl leading-relaxed">
           {service.description}

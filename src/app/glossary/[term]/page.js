@@ -29,7 +29,7 @@ export function generateMetadata({ params }) {
           url: "/images/about-image.png",
           width: 1200,
           height: 630,
-          alt: `${term.title} -- Khamare Clarke Glossary`,
+          alt: `${term.title} | Khamare Clarke Glossary`,
         },
       ],
     },
@@ -70,7 +70,7 @@ export default function GlossaryTermPage({ params }) {
   const displayTitle = term.abbr ? `${term.title} (${term.abbr})` : term.title;
 
   return (
-    <main className="flex min-h-screen flex-col bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
+    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
@@ -84,11 +84,6 @@ export default function GlossaryTermPage({ params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-[#ffb700]/5 blur-3xl gradient-blob" />
-        <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-[#ff8c00]/4 blur-3xl gradient-blob-b" />
-      </div>
-
       <Navbar />
 
       <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
@@ -99,16 +94,20 @@ export default function GlossaryTermPage({ params }) {
           <span className="text-white">{term.title}</span>
         </nav>
 
-        <p className="inline-block bg-[#ffb700] text-[#1a1a1a] text-xs font-bold uppercase tracking-widest py-1 px-3 rounded-full mb-8">
-          {term.badge}
-        </p>
+        <div className="flex items-center gap-4 mb-8 h-4">
+          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
+            {term.badge}
+          </p>
+          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+        </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
           {term.h1}
         </h1>
 
         {/* Citable definition block */}
-        <div className="bg-gradient-to-br from-[#181818]/80 to-[#232323]/90 border border-[#ffb700]/30 rounded-2xl p-6 mb-12">
+        <div className="bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-6 mb-12">
           <p className="text-white text-lg leading-relaxed font-medium">{term.definition}</p>
         </div>
 
@@ -156,7 +155,7 @@ export default function GlossaryTermPage({ params }) {
                   href={`/glossary/${related.slug}`}
                   className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm"
                 >
-                  <span className="text-[#ffb700]">--</span>{" "}
+                  <span className="text-[#ffb700]">→</span>{" "}
                   {related.abbr ? `${related.title} (${related.abbr})` : related.title}
                 </Link>
               </li>
@@ -167,7 +166,7 @@ export default function GlossaryTermPage({ params }) {
                   href={term.expertisePage}
                   className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm"
                 >
-                  <span className="text-[#ffb700]">--</span> Related expertise
+                  <span className="text-[#ffb700]">→</span> Related expertise
                 </Link>
               </li>
             )}
@@ -176,7 +175,7 @@ export default function GlossaryTermPage({ params }) {
                 href="/glossary"
                 className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm"
               >
-                <span className="text-[#ffb700]">--</span> Back to full glossary
+                <span className="text-[#ffb700]">→</span> Back to full glossary
               </Link>
             </li>
           </ul>

@@ -7,12 +7,12 @@ import CTAButton from "../components/CTAButton";
 import { PERSON_SCHEMA } from "../../lib/schema";
 
 export const metadata = {
-  title: "About Khamare Clarke — AI Implementation Specialist in Stoke-on-Trent",
+  title: "About Khamare Clarke | AI Implementation Specialist in Stoke-on-Trent",
   description:
     "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent, Staffordshire. He implements AI across search, web, content, marketing, and automation for UK businesses, holding a BSc in Software Engineering, a BSc in Digital Marketing, and completing an MSc in Computer Science with AI at Keele University (2027).",
   alternates: { canonical: "https://khamareclarke.com/about" },
   openGraph: {
-    title: "About Khamare Clarke — AI Implementation Specialist in Stoke-on-Trent",
+    title: "About Khamare Clarke | AI Implementation Specialist in Stoke-on-Trent",
     description:
       "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent, Staffordshire. He implements AI across search, web, content, marketing, and automation for UK businesses, holding a BSc in Software Engineering, a BSc in Digital Marketing, and completing an MSc in Computer Science with AI at Keele University (2027).",
     url: "https://khamareclarke.com/about",
@@ -52,7 +52,7 @@ const ventures = [
 
 export default function AboutPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
+    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
@@ -62,22 +62,21 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaLD) }}
       />
 
-      <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-[#ffb700]/5 blur-3xl gradient-blob" />
-        <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-[#ff8c00]/4 blur-3xl gradient-blob-b" />
-      </div>
-
       <Navbar />
 
       <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
 
         {/* Page label */}
-        <p className="inline-block bg-[#ffb700] text-[#1a1a1a] text-xs font-bold uppercase tracking-widest py-1 px-3 rounded-full mb-8">
-          About
-        </p>
+        <div className="flex items-center gap-4 mb-8 h-4">
+          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
+            About
+          </p>
+          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+        </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-          Khamare Clarke — AI Implementation Specialist
+          Khamare Clarke
         </h1>
 
         {/* ── Who is Khamare Clarke? ── */}
@@ -102,7 +101,7 @@ export default function AboutPage() {
               cannot code, AI consultants who have never shipped a production
               system, or engineers who do not understand search. Khamare does
               all three. He implements AI across search, web, content,
-              marketing, and automation -- working alongside existing business
+              marketing, and automation. Working alongside existing business
               teams rather than replacing them. The code is written here, the
               campaigns are run here, and the systems are built here. No
               outsourcing to junior team members or offshore contractors.

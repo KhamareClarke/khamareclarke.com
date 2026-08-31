@@ -170,7 +170,7 @@ I can discuss specific payment options during our consultation call. What kind o
 
   'integration': {
     keywords: ['integrate', 'integration', 'existing systems', 'current systems', 'compatible', 'connect', 'work with'],
-    response: `Absolutely! I specialize in integrating with existing systems and making everything work together seamlessly.
+    response: `Yes. I specialise in integrating with existing systems so everything works together.
 
 I can integrate with most popular business tools and platforms:
 - CRM systems (Salesforce, HubHub, Pipedrive, etc.)
@@ -251,7 +251,7 @@ What systems are you looking to integrate? I can give you a more specific timeli
 
   'workflow disruption': {
     keywords: ['disrupt my current workflow', 'workflow disruption', 'will this disrupt', 'current workflow', 'business disruption'],
-    response: `No, I specifically design integrations to enhance your current workflow, not disrupt it. Here's how I ensure smooth transitions:
+    response: `No, I design integrations to fit your current workflow, not disrupt it. Here's how I keep changes smooth:
 
 My approach to minimize disruption:
 - Work with your existing processes first

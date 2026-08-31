@@ -43,14 +43,7 @@ export default function SitemapPage() {
   ];
 
   return (
-    <main className="flex min-h-screen flex-col bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a] relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 left-1/4 h-64 w-64 md:h-96 md:w-96 rounded-full bg-[#ffb700]/5 blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 h-64 w-64 md:h-96 md:w-96 rounded-full bg-white/3 blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-96 w-96 md:h-[600px] md:w-[600px] rounded-full bg-[#ffb700]/3 blur-[100px]" />
-      </div>
-
+    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <Navbar />
 
       <Section className="py-ds-6 relative z-10">
@@ -62,11 +55,15 @@ export default function SitemapPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <span className="inline-block bg-[#ffb700] text-[#222] font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
-            Sitemap
-          </span>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#ffb700]">
-            Site <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">Navigation</span>
+          <div className="flex items-center gap-4 mb-6 h-4">
+            <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
+              Sitemap
+            </p>
+            <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+          </div>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-white">
+            Site <span className="gold-text">Navigation</span>
           </h1>
           <p className="text-xl text-[#ADB7BE] max-w-3xl mx-auto leading-relaxed">
             Quick access to all pages and resources on khamareclarke.com
@@ -78,13 +75,13 @@ export default function SitemapPage() {
           {sitemapSections.map((section, index) => (
             <motion.div
               key={index}
-              className="bg-[#1a1a1a]/90 backdrop-blur-sm border-2 border-[#ffb700]/20 hover:border-[#ffb700]/40 rounded-2xl p-6 shadow-2xl transition-all duration-300"
+              className="bg-[#1a1a1a] border-2 border-[#ffb700]/20 hover:border-[#ffb700]/40 rounded-2xl p-6 shadow-2xl transition-all duration-300"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-[#ffb700] to-[#ff8c00]">
+              <h2 className="text-2xl font-bold mb-6 text-[#ffb700]">
                 {section.title}
               </h2>
               <ul className="space-y-3">
@@ -106,7 +103,7 @@ export default function SitemapPage() {
 
         {/* Quick Links */}
         <motion.div
-          className="mt-16 text-center bg-[#1a1a1a]/90 backdrop-blur-sm border-2 border-[#ffb700]/20 rounded-3xl p-8 md:p-12 shadow-2xl"
+          className="mt-16 text-center bg-[#1a1a1a] border-2 border-[#ffb700]/20 rounded-3xl p-8 md:p-12 shadow-2xl"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -120,7 +117,7 @@ export default function SitemapPage() {
           </p>
           <Link
             href="/#contact"
-            className="inline-flex items-center justify-center bg-gradient-to-r from-[#ffb700] to-[#ff8c00] hover:from-[#ff8c00] hover:to-[#ffb700] text-[#222] font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border-2 border-[#ffb700]"
+            className="inline-flex items-center justify-center bg-[#ffb700] hover:bg-[#ff8c00] text-[#222] font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border-2 border-[#ffb700]"
           >
             Contact Me →
           </Link>

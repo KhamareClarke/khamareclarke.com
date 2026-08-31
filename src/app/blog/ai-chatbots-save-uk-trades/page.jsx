@@ -1,5 +1,6 @@
 import React from "react";
-import Head from "next/head";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import CTAButton from "../../components/CTAButton";
 import { Section } from "../../components/ui/Section";
 import { Container } from "../../components/ui/Container";
@@ -7,26 +8,23 @@ import { Container } from "../../components/ui/Container";
 export const metadata = {
   title: "How AI Chatbots Save UK Trades 20+ Hours a Week | Resource Hub | REMAKE",
   description: "Discover how local trades automate admin, boost lead conversion, and reclaim time using AI chatbots. Real-world ROI for UK businesses.",
+  alternates: { canonical: "https://khamareclarke.com/blog/ai-chatbots-save-uk-trades" },
+  openGraph: {
+    title: "How AI Chatbots Save UK Trades 20+ Hours a Week",
+    description: "Discover how local trades automate admin, boost lead conversion, and reclaim time using AI chatbots. Real-world ROI for UK businesses.",
+    url: "https://khamareclarke.com/blog/ai-chatbots-save-uk-trades",
+    type: "article",
+    images: ["https://khamareclarke.com/images/blog/TradesChatBot.png.png"],
+  },
 };
 
 export default function BlogPost() {
   return (
-    <>
-      <Head>
-        <title>How AI Chatbots Save UK Trades 20+ Hours a Week | Resource Hub | REMAKE</title>
-        <meta name="description" content="Discover how local trades automate admin, boost lead conversion, and reclaim time using AI chatbots. Real-world ROI for UK businesses." />
-        <meta property="og:title" content="How AI Chatbots Save UK Trades 20+ Hours a Week" />
-        <meta property="og:description" content="Discover how local trades automate admin, boost lead conversion, and reclaim time using AI chatbots. Real-world ROI for UK businesses." />
-        <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://khamareclarke.com/images/blog/TradesChatBot.png.png" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="How AI Chatbots Save UK Trades 20+ Hours a Week" />
-        <meta name="twitter:description" content="Discover how local trades automate admin, boost lead conversion, and reclaim time using AI chatbots. Real-world ROI for UK businesses." />
-        <meta name="twitter:image" content="https://khamareclarke.com/images/blog/TradesChatBot.png.png" />
-      </Head>
+    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
+      <Navbar />
       <Section className="py-ds-6 bg-[#0A0A0A] text-white">
         <Container size="narrow">
-      <article className="max-w-3xl mx-auto text-white">
+      <article className="text-white">
         <img src="/images/blog/TradesChatBot.png.png" alt="AI chatbot helping UK tradespeople save time" className="w-full rounded-xl mb-8 border border-[#222]" />
         <h1 className="text-4xl font-extrabold mb-4 text-[#ffb700]">How AI Chatbots Save UK Trades 20+ Hours a Week</h1>
         <div className="mb-6 text-[#ADB7BE] text-sm">Category: AI Automation · ROI for Local Business · August 2025</div>
@@ -61,6 +59,7 @@ export default function BlogPost() {
       </article>
         </Container>
       </Section>
-    </>
+      <Footer />
+    </main>
   );
 }

@@ -19,7 +19,7 @@ export const PERSON_SCHEMA = {
     "width": 550,
     "height": 550
   },
-  "description": "An AI implementation specialist based in Stoke-on-Trent, Staffordshire, working alongside existing business teams to implement AI across search, web, content, marketing, and automation. MSc Computer Science with Artificial Intelligence, Keele (completing 2027); documented results include 538% Google Business Profile growth and 5X lead increase.",
+  "description": "An AI implementation specialist based in Stoke-on-Trent, Staffordshire, working alongside existing business teams to implement AI across search, web, content, marketing, and automation. MSc Computer Science with Artificial Intelligence, Keele University. Documented results include a 538% Google Business Profile interaction increase for Upgrade Roofing Solutions and a 5X lead increase for City Plaza Abu Dhabi.",
   "alumniOf": {
     "@type": "CollegeOrUniversity",
     "name": "Keele University",

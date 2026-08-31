@@ -35,6 +35,9 @@ module.exports = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        gold: "linear-gradient(135deg, #f9e27d 0%, #ffd54f 22%, #ffb700 42%, #d99600 60%, #ffda55 78%, #ffb700 100%)",
+        "gold-text":
+          "linear-gradient(135deg, #f9e27d 0%, #ffd54f 25%, #ffb700 50%, #fff1a8 78%, #ffb700 100%)",
       },
     },
     colors: {
@@ -97,6 +100,13 @@ module.exports = {
   900: '#ffb700',
   DEFAULT: '#ffb700',
 },
+      surface: {
+        DEFAULT: '#111015',
+        muted: '#181818',
+      },
+      muted: {
+        DEFAULT: '#ADB7BE',
+      },
     },
   },
   plugins: [],
