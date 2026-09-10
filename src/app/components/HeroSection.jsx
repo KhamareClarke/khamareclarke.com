@@ -31,7 +31,7 @@ const HeroSection = () => {
 
             <div className="mt-7">
               <BookingButton
-                className="inline-flex items-center justify-center bg-gold hover:bg-gold hover:brightness-110 text-surface font-black rounded-lg transition-all duration-200 text-lg lg:text-xl px-10 py-5 lg:px-12 lg:py-6 border-2 border-primary"
+                className="inline-flex items-center justify-center bg-crimson hover:bg-crimson hover:brightness-110 text-white font-black rounded-lg transition-all duration-200 text-lg lg:text-xl px-10 py-5 lg:px-12 lg:py-6 border-2 border-[#ff3b3b] shadow-[0_0_30px_-4px_rgba(255,30,30,0.6)]"
                 trackingLabel="hero_book_consultation"
               >
                 <span>Book a Consultation</span>

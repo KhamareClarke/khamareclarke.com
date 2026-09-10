@@ -36,6 +36,7 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         gold: "linear-gradient(135deg, #f9e27d 0%, #ffd54f 22%, #ffb700 42%, #d99600 60%, #ffda55 78%, #ffb700 100%)",
+        crimson: "var(--crimson-gradient)",
         "gold-text":
           "linear-gradient(135deg, #f9e27d 0%, #ffd54f 25%, #ffb700 50%, #fff1a8 78%, #ffb700 100%)",
       },

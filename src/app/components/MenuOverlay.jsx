@@ -19,7 +19,7 @@ const MenuOverlay = ({ links }) => {
         ))}
       </ul>
       <BookingButton
-        className="mt-6 bg-gradient-to-r from-[#ffb700] to-[#ff8c00] hover:from-[#ff8c00] hover:to-[#ffb700] text-[#222] font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center shadow-lg border-2 border-[#ffb700]"
+        className="mt-6 bg-crimson hover:brightness-110 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center shadow-[0_0_24px_-4px_rgba(255,30,30,0.6)] border-2 border-[#ff3b3b]"
         trackingLabel="menu_book_call"
       >
         <span className="mr-2">📞</span>

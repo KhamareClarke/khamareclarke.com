@@ -13,6 +13,12 @@
   --foreground-rgb: 255, 255, 255;
   --background-start: #0f1014;
   --background-end: #16181d;
+
+  /* Crimson CTA gradient — lit-from-within red for primary calls to action */
+  --crimson-start: #ff1e1e;
+  --crimson-end: #b30000;
+  --crimson-edge: #ff3b3b;
+  --crimson-gradient: linear-gradient(135deg, var(--crimson-start) 0%, var(--crimson-end) 100%);
 }
 
 /* Real-gold metallic gradient applied to text via background clip */
