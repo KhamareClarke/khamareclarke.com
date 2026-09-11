@@ -42,3 +42,6 @@ next-env.d.ts
 
 .vercel
 .aider*
+
+# /presentation deck review shots (scripts/shoot-deck.mjs)
+/.deck-shots/

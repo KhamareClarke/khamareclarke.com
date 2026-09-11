@@ -1,13 +1,26 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 const SESSION_KEY = 'kc-preloader-shown';
 
+// Routes that must never be covered by the preloader. /presentation is a live deck —
+// a 2.3s brand overlay in front of it is dead air while presenting.
+const EXCLUDED_ROUTES = ['/presentation'];
+
 export default function Preloader() {
+  const pathname = usePathname();
+  const excluded =
+    !!pathname && EXCLUDED_ROUTES.some((r) => pathname === r || pathname.startsWith(`${r}/`));
+
   const [phase, setPhase] = useState('init'); // init | show | fading | gone
 
   useEffect(() => {
+    if (excluded) {
+      setPhase('gone');
+      return;
+    }
     if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem(SESSION_KEY)) {
       setPhase('gone');
       return;
@@ -19,7 +32,7 @@ export default function Preloader() {
       try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (_) {}
     }, 2350);
     return () => { clearTimeout(fadeTimer); clearTimeout(goneTimer); };
-  }, []);
+  }, [excluded]);
 
   if (phase === 'init' || phase === 'gone') return null;
 
