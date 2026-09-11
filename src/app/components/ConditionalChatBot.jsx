@@ -6,9 +6,11 @@ import { FaWhatsapp } from 'react-icons/fa';
 const ConditionalChatBot = () => {
   const pathname = usePathname();
 
-  // Don't show the launcher on business-bundle or authenticated app areas
+  // Don't show the launcher on business-bundle, the full-screen deck,
+  // or authenticated app areas
   if (
     pathname === '/business-bundle' ||
+    pathname.startsWith('/presentation') ||
     pathname.startsWith('/portal') ||
     pathname.startsWith('/dashboard') ||
     pathname.startsWith('/login')

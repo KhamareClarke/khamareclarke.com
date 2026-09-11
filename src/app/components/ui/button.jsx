@@ -6,16 +6,18 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-bold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-bold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
+      // Each variant rings in its own colour — a crimson button must not
+      // inherit the gold ring from the base class.
       variant: {
-        default: "bg-crimson text-white border-2 border-[#ff3b3b] shadow-[0_0_22px_-4px_rgba(255,30,30,0.55)] hover:brightness-110 hover:shadow-[0_0_30px_-2px_rgba(255,30,30,0.8)] transition-all",
-        secondary: "bg-transparent gold-text hover:bg-primary/10 border-2 border-primary",
-        outline: "bg-transparent text-white border-2 border-white/20 hover:border-primary/60 hover:text-primary",
-        ghost: "bg-transparent text-muted hover:text-white hover:bg-surface-muted",
-        destructive: "bg-red-600 text-white hover:bg-red-700",
-        link: "gold-text underline-offset-4 hover:underline",
+        default: "bg-crimson text-white border-2 border-[#ff3b3b] shadow-[0_0_22px_-4px_rgba(255,30,30,0.55)] hover:brightness-110 hover:shadow-[0_0_30px_-2px_rgba(255,30,30,0.8)] transition-all focus-visible:ring-[#ff3b3b]",
+        secondary: "bg-transparent gold-text hover:bg-primary/10 border-2 border-primary focus-visible:ring-primary",
+        outline: "bg-transparent text-white border-2 border-white/20 hover:border-primary/60 hover:text-primary focus-visible:ring-white/40",
+        ghost: "bg-transparent text-muted hover:text-white hover:bg-surface-muted focus-visible:ring-white/40",
+        destructive: "bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500",
+        link: "gold-text underline-offset-4 hover:underline focus-visible:ring-primary",
       },
       size: {
         default: "px-6 py-3 text-base",
