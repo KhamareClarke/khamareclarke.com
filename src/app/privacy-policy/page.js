@@ -40,7 +40,7 @@ export default function PrivacyPolicyPage() {
             <p>
               This policy covers how Khamare Clarke (trading as an individual SEO and AI systems consultant,
               based in Stoke-on-Trent, England) handles personal data collected through khamareclarke.com.
-              Contact: <a href="mailto:systems@khamare.com" className="text-[#ffb700] hover:underline">systems@khamare.com</a>.
+              Contact: <a href="mailto:info@khamareclarke.com" className="text-[#ffb700] hover:underline">info@khamareclarke.com</a>.
             </p>
           </section>
 
@@ -112,7 +112,7 @@ export default function PrivacyPolicyPage() {
             </ul>
             <p className="mt-3">
               To exercise any of these rights, email{" "}
-              <a href="mailto:systems@khamare.com" className="text-[#ffb700] hover:underline">systems@khamare.com</a>.
+              <a href="mailto:info@khamareclarke.com" className="text-[#ffb700] hover:underline">info@khamareclarke.com</a>.
               Requests will be responded to within 30 days.
             </p>
           </section>
@@ -137,7 +137,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-xl font-bold text-white mb-3">Contact</h2>
             <p>
               For any privacy-related question or request:{" "}
-              <a href="mailto:systems@khamare.com" className="text-[#ffb700] hover:underline">systems@khamare.com</a>
+              <a href="mailto:info@khamareclarke.com" className="text-[#ffb700] hover:underline">info@khamareclarke.com</a>
             </p>
             <p className="mt-2">
               You also have the right to lodge a complaint with the Information Commissioner&apos;s Office (ICO)

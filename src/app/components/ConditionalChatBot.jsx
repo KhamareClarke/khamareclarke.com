@@ -20,7 +20,7 @@ const ConditionalChatBot = () => {
 
   return (
     <a
-      href="https://wa.me/447545207215"
+      href="https://wa.me/447473255886"
       target="_blank"
       rel="noreferrer"
       aria-label="Chat on WhatsApp"

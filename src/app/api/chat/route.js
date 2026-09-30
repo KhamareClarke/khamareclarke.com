@@ -422,8 +422,8 @@ Ready to see how I can help your business achieve similar results?`
     keywords: ['contact', 'get in touch', 'book', 'call', 'meeting', 'consultation', 'start', 'get started', 'how can i get started'],
     response: `Great! I'd love to help you get started. Here's how we can connect:
 
-Phone: +44 7545 207 215
-Email: systems@khamare.com
+Phone: +44 7473 255 886
+Email: info@khamareclarke.com
 LinkedIn: linkedin.com/in/khamareclarke
 
 The best way to start is with a free 30-minute strategy session where we can discuss your goals and see how I can help.

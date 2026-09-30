@@ -41,7 +41,7 @@ export default function TermsPage() {
               These terms govern services provided by Khamare Clarke (individual consultant, Stoke-on-Trent,
               England) to clients who have agreed to a service engagement. By engaging Khamare Clarke, you
               accept these terms. Questions:{" "}
-              <a href="mailto:systems@khamare.com" className="text-[#ffb700] hover:underline">systems@khamare.com</a>.
+              <a href="mailto:info@khamareclarke.com" className="text-[#ffb700] hover:underline">info@khamareclarke.com</a>.
             </p>
           </section>
 
@@ -156,7 +156,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-white mb-3">Contact</h2>
             <p>
-              <a href="mailto:systems@khamare.com" className="text-[#ffb700] hover:underline">systems@khamare.com</a>
+              <a href="mailto:info@khamareclarke.com" className="text-[#ffb700] hover:underline">info@khamareclarke.com</a>
             </p>
           </section>
 
