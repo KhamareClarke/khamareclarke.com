@@ -5,9 +5,17 @@ import PerformanceOptimizer from './components/PerformanceOptimizer'
 import AccessibilityEnhancer from './components/AccessibilityEnhancer'
 import ConditionalChatBot from './components/ConditionalChatBot'
 import Preloader from './components/Preloader'
+import MotionProvider from './components/MotionProvider'
+// CinematicLayer is disabled — see the note at its usage below. The file is kept so
+// restoring the film layer is a one-line change.
+// import CinematicLayer from './components/CinematicLayer'
 import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from '../lib/schema'
 
-const inter = Inter({ subsets: ['latin'] })
+// Self-hosted by next/font at build time — no runtime request to Google. `variable`
+// publishes the family as a CSS custom property so Tailwind's `font-sans` (and
+// therefore its Preflight `html` rule) resolve to the same face as the body class,
+// instead of silently falling back to the system stack.
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
 
 export const metadata = {
   title: "Khamare Clarke | AI Implementation Specialist",
@@ -20,7 +28,14 @@ export const metadata = {
   creator: 'Khamare Clarke',
   publisher: 'Khamare Clarke',
   icons: {
-    icon: '/images/logo.png',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
   formatDetection: {
     email: false,
@@ -69,8 +84,35 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        {/*
+          Preloader gate. Runs before first paint, so the overlay is decided before the
+          page can flash. Without this the page paints first and the preloader appears
+          afterwards, because the overlay only exists once React hydrates.
+          Sets data-kc-preload="skip" only for /presentation, where a brand overlay in
+          front of a live deck is dead air while presenting. It no longer skips
+          returning visitors: Master Clarke wants the preloader on every page, so the
+          overlay now runs on each navigation, not once per session.
+        */}
+        {/*
+          Motion gate. Adds .motion-ready before first paint ONLY when JavaScript runs
+          and the visitor has not asked for reduced motion. The reveal system's hidden
+          state is scoped to that class, so content is never hidden by the server HTML
+          or when JS is unavailable.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('motion-ready')}catch(e){}})();`,
+          }}
+        />
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var p=location.pathname;if(p==='/presentation'||p.indexOf('/presentation/')===0){document.documentElement.setAttribute('data-kc-preload','skip')}}catch(e){}})();`,
+          }}
+        />
+
         {/* Canonical entity schema — Person */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{
           __html: JSON.stringify(PERSON_SCHEMA)
@@ -95,42 +137,8 @@ export default function RootLayout({ children }) {
           })
         }} />
 
-        {/* FAQPage schema — mirrors FAQSection content */}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "What does an AI Implementation Specialist do?",
-                "acceptedAnswer": { "@type": "Answer", "text": "An AI Implementation Specialist assesses a business's current operations, identifies where AI can be applied practically, and implements the systems (AI agents, automation workflows, search optimisation, web builds, and content systems) working alongside the existing team. The emphasis is on measurable outcomes: leads captured, rankings achieved, time saved, cost per acquisition reduced." }
-              },
-              {
-                "@type": "Question",
-                "name": "How long does it take to see SEO results?",
-                "acceptedAnswer": { "@type": "Answer", "text": "For local SEO, meaningful movement typically appears within 60–90 days. Ranking targets are agreed at the start of every engagement. On the Get Found tier, if those agreed targets are not reached within 60 days, that month's fee is refunded in full." }
-              },
-              {
-                "@type": "Question",
-                "name": "What is AI search optimisation (AEO/GEO)?",
-                "acceptedAnswer": { "@type": "Answer", "text": "AEO (Answer Engine Optimisation) and GEO (Generative Engine Optimisation) are the disciplines of making a business appear in AI-generated answers — ChatGPT, Gemini, Perplexity, and Google AI Overviews. This is separate from traditional Google ranking and requires its own structured, entity-led approach." }
-              },
-              {
-                "@type": "Question",
-                "name": "What does the Get Found package cost?",
-                "acceptedAnswer": { "@type": "Answer", "text": "The Get Found tier starts at £495 per month and includes the full AI system for a one-person business: AI receptionist, CRM, SEO, Google Business Profile management, and monthly reporting." }
-              },
-              {
-                "@type": "Question",
-                "name": "Do you work with businesses outside Stoke-on-Trent?",
-                "acceptedAnswer": { "@type": "Answer", "text": "Yes. Most clients are UK-wide. The base is Stoke-on-Trent and I serve businesses across Staffordshire, Cheshire, the West Midlands, Greater Manchester, and the rest of the United Kingdom remotely." }
-              }
-            ]
-          })
-        }} />
-      </head>
-      <body className={inter.className}>
+              </head>
+      <body className={`${inter.variable} ${inter.className}`}>
         {/* START: GA4 + GTM Scripts with GDPR Consent */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA4_ID || 'G-PLACEHOLDER'}`}
@@ -221,8 +229,18 @@ export default function RootLayout({ children }) {
         <AccessibilityEnhancer />
 
         <main id="main-content">
-          {children}
+          <MotionProvider>{children}</MotionProvider>
         </main>
+
+        {/* Decorative film layer: colour grade, vignette, grain. DISABLED on
+            Master Clarke's instruction so the black is one flat black across the
+            whole page — the grade was washing gold over the top of the frame and
+            blue over the bottom, which made the header and hero read a lighter
+            black than the sections below (measured rgb 12-14 at the top against
+            rgb 10 elsewhere). To restore it, uncomment the import at the top of
+            this file and the element below; the component and all its CSS are
+            still in place. */}
+        {/* <CinematicLayer /> */}
 
         <ConditionalChatBot />
       </body>

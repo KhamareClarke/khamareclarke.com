@@ -83,7 +83,7 @@ export default function AIConsultantPage() {
 
       <Navbar />
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
 
         <div className="flex items-center gap-4 mb-8 h-4">
           <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
@@ -275,7 +275,7 @@ export default function AIConsultantPage() {
             operations, identify where AI would have the most immediate impact,
             and give you an honest picture of what implementation involves.
           </p>
-          <CTAButton eventLabel="expertise_ai_consultant_cta" caption="No pitch deck. No obligation.">
+          <CTAButton eventLabel="expertise_ai_consultant_cta" caption="The question you can't get answered. Straight, once.">
             Book Your Free Strategy Call
           </CTAButton>
         </div>

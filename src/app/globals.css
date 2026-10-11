@@ -19,29 +19,162 @@
   --crimson-end: #b30000;
   --crimson-edge: #ff3b3b;
   --crimson-gradient: linear-gradient(135deg, var(--crimson-start) 0%, var(--crimson-end) 100%);
+
+  /* THE gold: the same palette and the same swing as the preloader's canvas wave, but
+     only the part of that palette the preloader actually SHOWS.
+
+     This matters and is easy to get wrong. The canvas gradient's ends are fully
+     transparent — rgba(255,140,0,0) — so its deep amber #ff8c00 never appears on
+     screen at all. What you see on the mark is bright amber #ffb700 with a warm white
+     #fff8e1 band travelling through it. Painting #ff8c00 opaquely into the text, which
+     is what the previous version did, invents a muddy brown the preloader never
+     displays and makes the gold look like a colour fade instead of metal.
+
+     So the stops below are the VISIBLE range: amber, warm gold, warm white, back out.
+     The motion is unchanged and is what makes it match — see --gold-angle below. */
+  --gold-gradient: linear-gradient(
+    var(--gold-angle, 125deg),
+    #ffb700 0%,
+    #ffd54f 24%,
+    #fff8e1 50%,
+    #ffd54f 76%,
+    #ffb700 100%
+  );
 }
 
 /* Real-gold metallic gradient applied to text via background clip */
+/* ── Shared gold shimmer ──────────────────────────────────────────────
+   One keyframe drives every gold gradient on the page, so they all move on the
+   same timeline and stay in phase with each other — the effect the preloader's
+   canvas wave has, carried onto the page itself.
+
+   Each gradient is made wider than its element and swept by background-position.
+   Same animation name, same duration, no delay => they stay in sync.
+   The real palette is unchanged (#ffb700 / #ffd54f / #f9e27d / #fff1a8).
+   Killed automatically by the prefers-reduced-motion block further down. */
+@keyframes gold-wave {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: -220% 50%; }
+}
+/* 5.7s is the canvas wave's period, 2*PI/0.0011 ms, so the fallback runs at the same
+   rate as the real thing rather than the 14s it used to. */
+
+/* All gold gradients read ONE shared angle from --gold-angle, which a single
+   requestAnimationFrame loop in MotionProvider advances using the preloader canvas's
+   own sine. Driving them from one clock is the only way to guarantee they stay in phase:
+   a CSS keyframe animation cannot be re-phased once it has started, and rAF timestamps
+   share one time origin, so the gradients and the canvas are reading the same clock
+   rather than being synchronised after the fact. The keyframe above is kept as the
+   no-JS fallback. */
+.gold-text,
+.gold-rule,
+.gold-chip {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No loop runs, so --gold-angle never changes and the gold rests at 125deg. Nothing
+     to neutralise here — but if that resting value is ever changed, change the fallback
+     in --gold-gradient with it. */
+}
+
 .gold-text {
-  background-image: linear-gradient(135deg, #f9e27d 0%, #ffd54f 25%, #ffb700 50%, #fff1a8 78%, #ffb700 100%);
+  background-image: var(--gold-gradient);
+  background-size: 220% 100%;
+  background-position: 0% 50%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  animation: gold-wave 5.7s linear infinite;
 }
 
-/* Center all general text on the page on mobile */
+.gold-rule {
+  background-image: linear-gradient(
+    90deg,
+    rgba(255,140,0,0.15) 0%,
+    #ffb700 22%,
+    #fff8e1 38%,
+    #ffb700 54%,
+    rgba(255,140,0,0.15) 100%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  animation: gold-wave 5.7s linear infinite;
+}
+
+/* ─── Mobile text alignment ───────────────────────────────────────────────────
+   This rule used to force `text-align: center` onto body, p, h1-h6, span, a, button,
+   input and textarea below 768px. Because it targeted `body`, the value also inherited
+   into every div, so in practice every piece of text on the site was centred on a
+   phone. A paragraph that wraps to three lines has no consistent left edge for the eye
+   to return to on each line, which reads as unprofessional and is hardest to read
+   exactly where the screen is narrowest.
+
+   Centring is now OPT IN. Nothing is forced, so text is left aligned by default at
+   every viewport. Add `center-mobile` to a block that genuinely wants centring on a
+   phone, and the explicit `text-center` Tailwind classes already used across the site
+   go on working at every width. */
+
 @media (max-width: 768px) {
-  body, p:not(.no-center-mobile), h1, h2, h3, h4, h5, h6, span:not(.no-center-mobile), a:not(.no-center-mobile), button:not(.no-center-mobile), input, textarea {
-    text-align: center;
+  .center-mobile,
+  .center-mobile * {
+    text-align: center !important;
   }
-  .no-center-mobile, .no-center-mobile * {
-    text-align: left !important;
+  /* A button's own label stays centred inside its box; only the surrounding text
+     alignment is no longer forced, so buttons now sit with the content they belong to
+     rather than floating to the middle of the screen. */
+  button {
+    text-align: center;
   }
   .flex-center-mobile {
     justify-content: center !important;
     align-items: center !important;
   }
+}
+
+/* ─── Fixed-navbar content offset ─────────────────────────────────────────────
+   The navbar is position:fixed, so it never pushes page content down and every page
+   has to clear it for itself. Its rendered height is:
+
+     72px   below 768px           hamburger only, logo h-14
+     96px   from 768px to 1023px  hamburger plus CTA, logo md:h-20, py-2
+     146px  from 1024px up        inline links, lg:py-4, CTA with its caption shown
+
+   These are the bar's measured heights, not estimates. If the bar's padding, logo size
+   or breakpoints change, change these with them. The 1024px value went from 117px to
+   146px when the navbar CTA grew from the old small button to the `compact` size in
+   CTAButton (text-lg, px-8, py-4, 64px tall) and its caption to 16px. Do not change the
+   button's compact sizing again without re-measuring this value: if --nav-h is SHORTER
+   than the real bar, the bar sits on top of the hero, which is exactly what happened
+   and why the hero eyebrow was disappearing behind it.
+
+   `.page-top` applies that offset plus breathing room to a page's own content wrapper,
+   so no page's first line is ever half-swallowed by the bar. It is marked important
+   because the wrappers it lands on already carry Tailwind padding utilities (py-24,
+   py-ds-6) whose source order against a plain class is not something to rely on. */
+:root {
+  --nav-h: 72px;
+}
+@media (min-width: 768px) {
+  :root {
+    --nav-h: 96px;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --nav-h: 146px;
+  }
+}
+
+.page-top {
+  padding-top: calc(var(--nav-h) + 24px) !important;
+}
+
+/* In-page anchors (#contact, #services and the rest) land below the bar instead of
+   underneath it, which the fixed bar previously guaranteed to hide. */
+html {
+  scroll-padding-top: calc(var(--nav-h) + 16px);
 }
 
 /* Removed dark mode override, always use the same background */
@@ -67,7 +200,19 @@ html {
 html {
   font-size: 16px;
   line-height: 1.5;
-  letter-spacing: 0.01em;
+  /* No global tracking. This previously set +0.01em on the root, which is looser than
+     Inter is drawn to sit, and meant every element inherited a positive offset that the
+     display scale then had to fight with negative tracking. Inter's own spacing is
+     correct as designed, so tracking is set per role in design-tokens.css instead. */
+  letter-spacing: normal;
+  /* The browser will synthesise a bold before Inter finishes loading, and a fake weight
+     against the real face is obvious in a hero headline. Refusing synthesis makes the
+     text wait the instant it takes rather than render a wrong weight. */
+  font-synthesis: none;
+  /* Inter's optical-size axis is not exposed by the build we serve, so this is inert
+     today. Declared so that vendoring Inter v4 later enables optical sizing with no
+     second edit here. */
+  font-optical-sizing: auto;
 }
 
 body {
@@ -164,22 +309,146 @@ a {
 /* Scroll-reveal: CSS class for non-Framer elements.
    Floor at 0.85 — always readable. CSS animation fires after 1.5s
    as a fallback if IntersectionObserver never fires. */
-.scroll-reveal {
-  opacity: 0.85;
-  transform: translateY(12px);
-  animation: sr-fallback 0.35s ease-out 1.5s both;
+/* ── Cinematic reveal system ───────────────────────────────────────────
+   The hidden state is scoped to `.motion-ready`, a class an inline script adds to
+   <html> before first paint ONLY when JavaScript is running. So:
+     - JS off  -> the class is never added -> all content is visible. Nothing hidden.
+     - JS on   -> content starts hidden from the very first paint (no flash) and is
+                  revealed by the IntersectionObserver as it enters.
+   That is what makes a true 0 -> 1 fade safe here. The earlier attempt failed because
+   the hidden state lived in the server HTML, so the page painted first.
+
+   Distances are driven by --rv-y so they shrink on small screens. Transforms and
+   opacity only, so there is no layout shift. */
+.reveal,
+.reveal-img {
+  --rv-y: 52px;
+  --rv-dur: 900ms;
+  --rv-delay: 0ms;
+  --rv-blur: 10px;
+  --rv-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Exit is deliberately its own, quicker curve and carries NO delay or preloader
+     offset. An element leaving the viewport should get out of the way immediately;
+     only the entrance waits its turn in the stagger. */
+  --rv-exit-dur: 560ms;
+  --rv-exit-ease: cubic-bezier(0.4, 0, 0.75, 0.2);
+  /* Blocks recede slightly as they leave rather than simply sliding, which is what
+     reads as depth rather than a jump cut. Kept very small: it must be felt, not seen. */
+  --rv-scale: 0.985;
 }
-@keyframes sr-fallback {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+
+/* --rv-offset is the entrance's start gun. Everything is delayed by it, and it is
+   non-zero only while the preloader is actually covering the page, so the hero
+   resolves into view as the overlay lifts instead of finishing behind it.
+
+   It MUST be declared here on :root and never on .reveal itself — a value set on the
+   element would win over the inherited one and the preloader sync would silently do
+   nothing. */
+:root {
+  --rv-offset: 0ms;
 }
-.scroll-reveal.in-view {
-  animation: none;
+
+/* Preloader sync. On a first visit the overlay holds for 1900ms and then fades for
+   620ms, which previously meant the whole entrance played out unseen behind it and the
+   visitor got an already-formed hero. Offsetting by the hold time makes the fade-up
+   land exactly as the overlay starts lifting.
+
+   The two :not() guards keep this honest:
+     - "skip" (returning visitor, or /presentation) -> no preloader, so no offset.
+     - "done" (set by Preloader once it clears)      -> offset drops to 0 so anything
+       revealed further down the page while scrolling is not delayed by 1.9s.
+
+   1900ms mirrors HOLD_MS in Preloader.jsx. If that constant moves, move this with it. */
+html:not([data-kc-preload="skip"]):not([data-kc-preload="done"]) {
+  --rv-offset: 1900ms;
+}
+
+/* THE TRANSITION MUST LIVE ON THE HIDDEN STATE, NOT ON `.is-in`.
+
+   CSS resolves a transition from the AFTER-change style. When the observer removes
+   `.is-in`, the after-change style is this rule — so if the transition were declared
+   only on `.is-in` (as it was), the un-reveal would find no transition and SNAP to
+   invisible instead of fading. That was the real reason blocks never appeared to fade
+   out on the way back up, and fixing the observers alone would not have changed it. */
+.motion-ready .reveal {
+  opacity: 0;
+  transform: translate3d(0, var(--rv-y), 0) scale(var(--rv-scale));
+  transition:
+    opacity var(--rv-exit-dur) var(--rv-exit-ease),
+    transform var(--rv-exit-dur) var(--rv-exit-ease),
+    filter calc(var(--rv-exit-dur) * 0.8) var(--rv-exit-ease);
+}
+/* will-change is scoped to the hidden state on purpose. It creates a containing block
+   for `position: fixed` descendants, so leaving it on revealed elements would trap any
+   fixed-position child — the hero's booking modal sits inside a `.reveal` wrapper. */
+.motion-ready .reveal:not(.is-in) {
+  will-change: transform, opacity;
+}
+
+.motion-ready .reveal.is-in {
   opacity: 1;
-  transform: translateY(0);
-  transition: opacity 350ms ease-out, transform 350ms ease-out;
+  transform: none;
+  transition:
+    opacity var(--rv-dur) var(--rv-ease) calc(var(--rv-delay) + var(--rv-offset)),
+    transform var(--rv-dur) var(--rv-ease) calc(var(--rv-delay) + var(--rv-offset)),
+    filter calc(var(--rv-dur) * 0.75) var(--rv-ease) calc(var(--rv-delay) + var(--rv-offset));
+}
+
+/* Rack focus. A modifier, not a parallel system: it only contributes `filter`, so it
+   composes with either `.reveal` (text) or `.reveal-img` (portrait) without fighting
+   their transforms. Content resolves out of a soft blur into sharpness — the entrance
+   reads as a lens pulling focus rather than a block sliding into place. */
+.motion-ready .reveal-blur {
+  filter: blur(var(--rv-blur));
+}
+.motion-ready .reveal.is-in.reveal-blur,
+.motion-ready .reveal-img.is-in.reveal-blur {
+  filter: blur(0);
+}
+
+/* Images settle rather than slide — a slight scale reads as cinematic, not bouncy.
+   Slower than the text so the portrait keeps drifting after the copy has landed. */
+.motion-ready .reveal-img {
+  opacity: 0;
+  transform: scale(1.09);
+  transition:
+    opacity var(--rv-exit-dur) var(--rv-exit-ease),
+    transform var(--rv-exit-dur) var(--rv-exit-ease),
+    filter calc(var(--rv-exit-dur) * 0.8) var(--rv-exit-ease);
+}
+.motion-ready .reveal-img:not(.is-in) {
+  will-change: transform, opacity;
+}
+.motion-ready .reveal-img.is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 1150ms var(--rv-ease) calc(var(--rv-delay) + var(--rv-offset)),
+    transform 1400ms var(--rv-ease) calc(var(--rv-delay) + var(--rv-offset)),
+    filter 1100ms var(--rv-ease) calc(var(--rv-delay) + var(--rv-offset));
+}
+
+/* Smaller travel on phones — the same distance reads as a lurch at 390px. */
+@media (max-width: 640px) {
+  /* Shorter travel, because the same distance reads as a lurch on a narrow screen.
+     Blur is also halved: `filter: blur()` is the most expensive property in this
+     system to animate, and at 390px the rack-focus is barely legible anyway. On a
+     CPU-throttled low-end phone that is the difference between a clean pass and a
+     visible one, and it costs nothing visually. */
+  .reveal, .reveal-img { --rv-y: 26px; --rv-blur: 5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-ready .reveal,
+  .motion-ready .reveal.is-in,
+  .motion-ready .reveal-img,
+  .motion-ready .reveal-img.is-in {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 /* Background gradient blob drift — subtle, long-cycle, decorative */
@@ -213,13 +482,8 @@ a {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .scroll-reveal,
-  .scroll-reveal.in-view {
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-    transition: none !important;
-  }
+  /* `.scroll-reveal` / `.in-view` was dead legacy — no hidden state, no observer —
+     and has been removed from the markup. The live system is `.reveal` / `.is-in`. */
   .jarvis-mesh-blob-a, .jarvis-mesh-blob-b,
   .jarvis-core-arc-primary, .jarvis-core-arc-counter, .jarvis-core-center-dot,
   .jarvis-core-inner, .jarvis-typing-dot { animation: none !important; }
@@ -1720,4 +1984,226 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
     font-size: 12px;
     padding: 0.5rem 1rem;
   }
+}
+
+/* Animated gold gradient as a BACKGROUND. For elements that are not text (category
+   chips), where background-clip:text would hide them. Same keyframe and timing as
+   .gold-text, so it stays in phase with every other gold element on the page. */
+.gold-chip {
+  background-image: linear-gradient(
+    100deg,
+    #ffb700 0%,
+    #ffd54f 22%,
+    #fff1a8 34%,
+    #ffd54f 46%,
+    #ffb700 62%,
+    #ffb700 100%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  animation: gold-wave 5.7s linear infinite;
+}
+
+/* ===========================================
+   CINEMATIC ATMOSPHERE — additive film layer
+   ===========================================
+
+   Everything here is decorative and additive. It draws *over* the page but changes no
+   layout, no spacing and no composition: remove this whole block plus CinematicLayer
+   and the page is exactly as it was.
+
+   Three fixed overlays, in stacking order:
+     .cine-grade     z 12  — warm highlight / cool shadow colour grade
+     .cine-vignette  z 13  — corner falloff + soft top/bottom frame darkening
+     .cine-grain     z 60  — film grain, above the UI so the whole frame is textured
+
+   They sit below the navbar (z-20) and below the sticky CTAs (z-50) except for the
+   grain, which is deliberately above everything but the preloader (z-9999) so the
+   chrome is part of the same frame rather than pasted on top of it.
+   =========================================== */
+
+.cine-grade,
+.cine-vignette,
+.cine-grain {
+  position: fixed;
+  pointer-events: none;
+}
+
+/* Colour grade. Shadows go a touch cool, the top of the frame warms — the same
+   split-tone a film LUT applies. Alphas are deliberately tiny; this should be felt
+   rather than seen. */
+.cine-grade {
+  inset: 0;
+  z-index: 12;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%, rgba(255, 183, 0, 0.05), transparent 70%),
+    radial-gradient(ellipse 110% 75% at 50% 100%, rgba(28, 56, 110, 0.075), transparent 72%);
+}
+
+/* Vignette. The elliptical falloff pulls the eye to the centre of frame; the vertical
+   gradient gives a soft widescreen frame darkening at top and bottom. */
+.cine-vignette {
+  inset: 0;
+  z-index: 13;
+  background:
+    radial-gradient(
+      ellipse 118% 88% at 50% 42%,
+      rgba(0, 0, 0, 0) 42%,
+      rgba(0, 0, 0, 0.38) 78%,
+      rgba(0, 0, 0, 0.68) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0) 13%,
+      rgba(0, 0, 0, 0) 87%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+}
+
+/* Film grain. A monochrome fractal-noise tile, oversized and jittered on a stepped
+   timing function so it re-rolls a few times a second the way real grain does.
+   translate3d is animated rather than background-position so the whole thing stays on
+   the compositor. */
+.cine-grain {
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 60;
+  opacity: 0.048;
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+  animation: cine-grain-jitter 1.2s steps(1) infinite;
+}
+
+@keyframes cine-grain-jitter {
+  0%    { transform: translate3d(0, 0, 0); }
+  12.5% { transform: translate3d(-3%, -2%, 0); }
+  25%   { transform: translate3d(2%, -4%, 0); }
+  37.5% { transform: translate3d(-4%, 3%, 0); }
+  50%   { transform: translate3d(3%, 2%, 0); }
+  62.5% { transform: translate3d(-2%, 4%, 0); }
+  75%   { transform: translate3d(4%, -3%, 0); }
+  87.5% { transform: translate3d(-3%, -4%, 0); }
+  100%  { transform: translate3d(0, 0, 0); }
+}
+
+/* Gold key light. Placed behind the hero portrait so the subject reads as lit from
+   within the frame rather than pasted onto black. Purely decorative — it has no size
+   of its own and cannot affect the grid. */
+.cine-keylight {
+  position: absolute;
+  pointer-events: none;
+  /* Negative z-index is required, not cosmetic: inside the hero the portrait is a
+     static <img>, and a positioned child at z-index 0 or auto paints ABOVE in-flow
+     static content. Only a negative value drops the glow behind the cut-out. The
+     parent must set `isolation: isolate` so the light cannot escape behind the
+     page background. */
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(255, 183, 0, 0.30) 0%,
+    rgba(255, 150, 0, 0.14) 32%,
+    rgba(255, 120, 0, 0.05) 55%,
+    transparent 72%
+  );
+  filter: blur(28px);
+  animation: cine-keylight-breathe 9s ease-in-out infinite;
+}
+
+@keyframes cine-keylight-breathe {
+  0%, 100% { opacity: 0.72; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.06); }
+}
+
+/* HERO SECTION must establish its own stacking context so the key light sits behind
+   the portrait but in front of the page background. `.cine-hero-stage` wraps the
+   portrait column only — it is position:relative and nothing else, so it cannot
+   alter the hero's grid or spacing. */
+.cine-hero-stage {
+  position: relative;
+  isolation: isolate;
+}
+.cine-hero-stage > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Deeper separator: a gold light leak rather than a flat hairline. */
+.section-sep {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 183, 0, 0.17) 35%,
+    rgba(255, 210, 90, 0.22) 50%,
+    rgba(255, 183, 0, 0.17) 65%,
+    transparent
+  );
+  box-shadow: 0 0 20px 0 rgba(255, 183, 0, 0.09);
+}
+
+/* ── Scroll response: the frame opens going down, closes coming back up ──
+
+   Driven by a single `data-kc-scroll` attribute that CinematicLayer.jsx writes only
+   when the scroll DIRECTION flips. Nothing here reads scroll position per frame.
+
+   Only `opacity` is animated, on purpose. `filter: brightness()` on a full-viewport
+   element repaints the whole screen every frame of the transition — the single most
+   expensive thing this layer could do on a phone. Opacity runs on the compositor and
+   a full-page scroll costs a handful of attribute writes.
+
+   Direction is a subtlety, not a headline: the aim is that the frame is felt to
+   breathe, not that the visitor notices the page getting lighter. Scroll down and the
+   vignette eases off and the grain fines down; scroll up and it closes in again. */
+
+[data-kc-cinematic] .cine-grade,
+[data-kc-cinematic] .cine-vignette,
+[data-kc-cinematic] .cine-grain {
+  transition: opacity 620ms cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* Down — the frame opens. Widened from the original .58/.55/.030 so the change is
+   unmistakable rather than something you have to look for. */
+[data-kc-cinematic][data-kc-scroll="down"] .cine-vignette { opacity: 0.24; }
+[data-kc-cinematic][data-kc-scroll="down"] .cine-grade { opacity: 0.22; }
+[data-kc-cinematic][data-kc-scroll="down"] .cine-grain { opacity: 0.016; }
+
+/* Up — the frame closes back in, harder than before. */
+[data-kc-cinematic][data-kc-scroll="up"] .cine-vignette { opacity: 1; }
+[data-kc-cinematic][data-kc-scroll="up"] .cine-grade { opacity: 1; }
+[data-kc-cinematic][data-kc-scroll="up"] .cine-grain { opacity: 0.098; }
+
+/* The grain tile is 200% of the viewport and re-rolls 8 times a second. That is cheap
+   on a desktop GPU and noticeably not free on a mid-range phone, so on small screens
+   the re-roll is slowed rather than removed — the texture stays, the cost drops. */
+@media (max-width: 640px) {
+  .cine-grain { animation-duration: 2.4s; }
+}
+
+/* Reduced motion: keep the static grade, vignette and grain — they are texture, not
+   movement — but stop the grain re-rolling and the key light breathing. The scroll
+   listener is never attached in this mode (see CinematicLayer.jsx), so no direction
+   attribute is ever written; these !important rules are the second line of defence in
+   case one is left over from a mid-session preference change. */
+@media (prefers-reduced-motion: reduce) {
+  .cine-grain { animation: none !important; }
+  .cine-keylight { animation: none !important; opacity: 0.85; }
+  [data-kc-cinematic] .cine-grade,
+  [data-kc-cinematic] .cine-vignette,
+  [data-kc-cinematic] .cine-grain {
+    transition: none !important;
+  }
+  [data-kc-cinematic] .cine-grade { opacity: 1 !important; }
+  [data-kc-cinematic] .cine-vignette { opacity: 1 !important; }
+  [data-kc-cinematic] .cine-grain { opacity: 0.048 !important; }
+}
+
+/* Never print the film layer. */
+@media print {
+  .cine-grade,
+  .cine-vignette,
+  .cine-grain,
+  .cine-keylight { display: none !important; }
 }

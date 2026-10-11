@@ -63,7 +63,7 @@ export default function GlossaryHubPage() {
 
       <Navbar />
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
 
         <div className="flex items-center gap-4 mb-8">
           <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary" aria-hidden="true" />
@@ -126,7 +126,7 @@ export default function GlossaryHubPage() {
             Book a free 30-minute call. You will get a straight answer on which
             discipline matters most for your growth trajectory right now.
           </p>
-          <CTAButton eventLabel="glossary_hub_cta" caption="No pitch deck. No obligation.">
+          <CTAButton eventLabel="glossary_hub_cta" caption="What these mean for you, in plain English.">
             Book Your Free Strategy Call
           </CTAButton>
         </div>

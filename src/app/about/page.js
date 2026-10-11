@@ -64,7 +64,7 @@ export default function AboutPage() {
 
       <Navbar />
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
 
         {/* Page label */}
         <div className="flex items-center gap-4 mb-8 h-4">
@@ -329,7 +329,7 @@ export default function AboutPage() {
             situation and give you an honest assessment of what SEO and AI
             systems can do for your business.
           </p>
-          <CTAButton eventLabel="about_strategy_cta" caption="No pitch deck. No obligation.">
+          <CTAButton eventLabel="about_strategy_cta" caption="How I work, and what a build involves.">
             Book a Free Strategy Call
           </CTAButton>
         </div>

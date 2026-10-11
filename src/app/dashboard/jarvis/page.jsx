@@ -30,7 +30,7 @@ export default function JarvisFullPage() {
       <div className="flex h-screen items-center justify-center bg-[#070600]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/lion-logo.svg"
+          src="/images/logo.webp"
           alt=""
           aria-hidden="true"
           width={88}

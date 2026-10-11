@@ -10,14 +10,23 @@ import TestimonialsSection from "./components/TestimonialsSection";
 import PricingSection from "./components/PricingSection";
 import BlogSlider from "./components/BlogSlider";
 import StickyCTABar from "./components/StickyCTABar";
+import ScrollProgress from "./components/ScrollProgress";
 import { Section } from "./components/ui/Section";
 import { Container } from "./components/ui/Container";
+import { buildFaqSchema } from "../lib/faq-data";
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col bg-surface">
+      {/* FAQPage structured data, built from the same data the visitor reads below.
+          Scoped to the homepage because that is the only page carrying these FAQs. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqSchema()) }}
+      />
+      <ScrollProgress />
       <Navbar />
-      <Section className="mt-0 py-ds-4">
+      <Section className="mt-0 pb-ds-4 page-top">
         <Container size="main">
           <HeroSection />
           <hr aria-hidden="true" className="section-sep" />

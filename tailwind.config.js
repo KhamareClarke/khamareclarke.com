@@ -8,6 +8,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // Declares the family once, from the next/font custom property set in layout.js.
+      // Without this, Tailwind Preflight's `html` rule falls back to the system stack
+      // and only elements carrying the body class get Inter.
+      fontFamily: {
+        sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+      },
       maxWidth: {
         content: "var(--container-main)",
         "content-wide": "var(--container-wide)",
@@ -102,7 +108,7 @@ module.exports = {
   DEFAULT: '#ffb700',
 },
       surface: {
-        DEFAULT: '#111015',
+        DEFAULT: '#0a0a0a',
         muted: '#181818',
       },
       muted: {

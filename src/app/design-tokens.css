@@ -13,26 +13,77 @@
   --space-5: 48px;
   --space-6: 64px;
 
-  /* ─── Typography hierarchy ─── */
-  --font-size-h1: clamp(1.875rem, 4vw, 3.75rem);
-  --font-weight-h1: 800;
-  --letter-spacing-h1: -0.02em;
-  --line-height-h1: 1.1;
+  /* ─── Typography hierarchy ───
+     Type is set on a scale, and the two things that make a scale read as professional
+     rather than improvised are optical tracking and per-role line-height:
 
-  --font-size-h2: clamp(1.5rem, 3vw, 3rem);
+       - Tracking must TIGHTEN as size grows. Inter's sidebearings are generous, so at
+         display sizes the default spacing looks loose. Past about -0.045em the counters
+         in "a" and "e" start to close, so -0.04em is the floor, not the target.
+       - Line-height is not one value for all headings. A single-line hero wants 0.96;
+         a section heading that wraps to two lines needs 1.06 or the lines collide.
+       - Measure is capped so body copy stays in the readable band. 60–65ch is the
+         target; 68ch was above it and made long paragraphs tiring to track.
+
+     Weight is a LADDER, not a switch. 900 is reserved for the hero alone, 800 for
+     section headings, 700 for subheads and card titles, 600 for interface labels and
+     buttons, 500 for the nav, 400 for body. Previously only four weights existed,
+     at 900, 800, 700 and 400, so every heading sat at 700 or above and nav, buttons
+     and labels sat at body weight and read as prose rather than as controls.
+
+     The scale now has a FILLED MIDDLE. It previously ran 128 / 60 / 24 / 16px with
+     nothing at all between 24 and 60, which forced every subhead to improvise with an
+     ad-hoc Tailwind text-3xl/4xl/5xl and produced two competing h2 scales across
+     sections. h2-sm and h4 exist to close that hole, so a component needing an
+     intermediate size consumes the scale instead of inventing one.
+
+     NOTE ON OPTICAL SIZING. Inter's variable `opsz` axis would do part of this work
+     automatically, but the Inter build served through next/font exposes only `slnt`
+     and `wght` — verified against this Next version's own font data, not assumed. The
+     per-size tracking below is therefore doing that job by hand. True optical sizing
+     would mean vendoring Inter v4 and loading it via next/font/local. */
+  --font-size-h1: clamp(2.75rem, 1.2rem + 6.4vw, 8rem);        /*  44 → 128 */
+  --font-weight-h1: 900;
+  --letter-spacing-h1: -0.04em;
+  --line-height-h1: 0.96;
+
+  --font-size-h2: clamp(1.875rem, 1.15rem + 2.86vw, 3.75rem);   /*  30 →  60 */
   --font-weight-h2: 800;
-  --letter-spacing-h2: -0.02em;
-  --line-height-h2: 1.2;
+  --letter-spacing-h2: -0.028em;
+  --line-height-h2: 1.06;
 
-  --font-size-h3: clamp(1.25rem, 2vw, 1.5rem);
+  /* Subhead. Fills the gap between a section heading and a card title. */
+  --font-size-h2-sm: clamp(1.625rem, 1.2rem + 1.7vw, 2.75rem);  /*  26 →  44 */
+  --font-weight-h2-sm: 700;
+  --letter-spacing-h2-sm: -0.022em;
+  --line-height-h2-sm: 1.1;
+
+  --font-size-h3: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);       /*  20 →  24 */
   --font-weight-h3: 700;
-  --letter-spacing-h3: -0.01em;
-  --line-height-h3: 1.3;
+  --letter-spacing-h3: -0.015em;
+  --line-height-h3: 1.25;
+
+  /* Small heading. Sits just above body, for card headers and list leads. */
+  --font-size-h4: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);   /*  17 →  19 */
+  --font-weight-h4: 700;
+  --letter-spacing-h4: -0.01em;
+  --line-height-h4: 1.3;
 
   --font-size-body: 1rem;
   --font-size-body-sm: 0.875rem;
   --font-weight-body: 400;
   --line-height-body: 1.6;
+
+  /* Interface text. Applied by .ds-ui / .ds-nav, and by the button and nav styles. */
+  --font-weight-ui: 600;
+  --font-weight-nav: 500;
+
+  --font-size-lede: clamp(1.3125rem, 1.2rem + 0.4vw, 1.5rem); /* 21 →  24, matching the hero subhead */
+  --line-height-lede: 1.65;
+  --letter-spacing-lede: -0.004em;
+  --measure-lede: 62ch;
+  --measure-body: 64ch;
+  --tracking-eyebrow: 0.18em;
 
   --section-padding-y: var(--space-6);
   --section-padding-y-lg: 80px;
@@ -58,31 +109,94 @@
   --container-padding-x-sm: 24px;
 }
 
+/* `text-wrap: balance` evens out a heading's line lengths so a two-line h2 does not
+   end on a single orphaned word. It is ignored by engines that lack it, so headings
+   simply fall back to normal wrapping — no breakage. `pretty` on body copy does the
+   same job for the last line of a paragraph, without the cost balance carries. */
+
 .ds-heading-1 {
   font-size: var(--font-size-h1);
   font-weight: var(--font-weight-h1);
   letter-spacing: var(--letter-spacing-h1);
   line-height: var(--line-height-h1);
+  text-wrap: balance;
 }
 .ds-heading-2 {
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-h2);
   letter-spacing: var(--letter-spacing-h2);
   line-height: var(--line-height-h2);
+  text-wrap: balance;
 }
 .ds-heading-3 {
   font-size: var(--font-size-h3);
   font-weight: var(--font-weight-h3);
   letter-spacing: var(--letter-spacing-h3);
   line-height: var(--line-height-h3);
+  text-wrap: balance;
+}
+.ds-heading-2-sm {
+  font-size: var(--font-size-h2-sm);
+  font-weight: var(--font-weight-h2-sm);
+  letter-spacing: var(--letter-spacing-h2-sm);
+  line-height: var(--line-height-h2-sm);
+  text-wrap: balance;
+}
+.ds-heading-4 {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-h4);
+  letter-spacing: var(--letter-spacing-h4);
+  line-height: var(--line-height-h4);
+}
+/* Interface text. A button or a nav item is a control, not prose, so it sits a step
+   heavier than body copy — this is what the weight ladder is for. */
+.ds-ui {
+  font-weight: var(--font-weight-ui);
+}
+.ds-nav {
+  font-weight: var(--font-weight-nav);
 }
 .ds-body {
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-body);
   line-height: var(--line-height-body);
+  max-inline-size: var(--measure-body);
+  text-wrap: pretty;
 }
 .ds-body-sm {
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-body);
   line-height: var(--line-height-body);
+  text-wrap: pretty;
+}
+
+/* Section subhead. One measure for every section, so the copy blocks line up down the
+   page instead of each one inventing its own max-width. */
+.ds-lede {
+  font-size: var(--font-size-lede);
+  font-weight: 400;
+  line-height: var(--line-height-lede);
+  letter-spacing: var(--letter-spacing-lede);
+  max-inline-size: var(--measure-lede);
+  text-wrap: pretty;
+}
+
+/* Eyebrow / label. Mirrors the treatment already hard-coded in ui/Badge.jsx and the
+   hero, so eyebrow tracking is consistent by construction rather than by coincidence. */
+.ds-eyebrow {
+  font-size: 0.8125rem; /* 13px — up from 12px; at 12px tracked caps read as fine print */
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+/* Numerals. Inter ships proportional figures by default, so a "1" is narrower than a
+   "0" and a column of statistics never lines up. More visibly, CountUpNumber animates
+   these values, and proportional figures make the digits shift width mid-count, so the
+   number appears to jitter as it climbs. Tabular figures are fixed-width and fix both.
+   Apply to any figure that sits in a row, a stat block, or a price. */
+.ds-numeric {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }

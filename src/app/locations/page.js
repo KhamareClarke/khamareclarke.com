@@ -27,7 +27,7 @@ export default function LocationsPage() {
 
       <Navbar />
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
 
         <div className="flex items-center gap-4 mb-8 h-4">
           <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
@@ -133,7 +133,7 @@ export default function LocationsPage() {
           <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
             Every UK business is in scope. Book a free 30-minute call to discuss your situation specifically.
           </p>
-          <CTAButton eventLabel="locations_hub_cta" caption="No pitch deck. No obligation.">
+          <CTAButton eventLabel="locations_hub_cta" caption="What works where you are. Local, not generic.">
             Book Your Free Strategy Call
           </CTAButton>
         </div>

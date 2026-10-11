@@ -34,7 +34,7 @@ const CookieBanner = () => {
               🍪 We use cookies to improve your experience
             </h3>
             <p className="text-white/70 text-xs md:text-sm leading-relaxed">
-              We use cookies to analyze site traffic, personalize content, and improve our services. 
+              We use cookies to analyze site traffic, personalize content and improve our services. 
               By continuing to use our site, you consent to our use of cookies. 
               <a href="/cookies" className="text-[#ffb700] hover:text-[#ff8c00] underline ml-1">
                 Learn more

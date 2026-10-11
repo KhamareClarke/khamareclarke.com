@@ -86,7 +86,7 @@ export default function GlossaryTermPage({ params }) {
 
       <Navbar />
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
 
         <nav className="flex items-center gap-2 text-xs text-[#ADB7BE] mb-8" aria-label="Breadcrumb">
           <Link href="/glossary" className="hover:text-[#ffb700] transition-colors">Glossary</Link>
@@ -193,7 +193,7 @@ export default function GlossaryTermPage({ params }) {
           </p>
           <CTAButton
             eventLabel={`glossary_${term.slug}_cta`}
-            caption="No pitch deck. No obligation."
+            caption="How this applies to your business."
           >
             Book Your Free Strategy Call
           </CTAButton>

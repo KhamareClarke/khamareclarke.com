@@ -55,7 +55,7 @@ export default function TestYourselfChatgptSeo() {
       <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
         <Navbar />
 
-        <article className="relative z-10 max-w-3xl mx-auto px-6 py-24 text-white">
+        <article className="relative z-10 max-w-3xl mx-auto px-6 pb-24 page-top text-white">
           <div className="mb-6">
             <Link href="/blog" className="text-[#ffb700] text-sm font-semibold hover:underline">
               &larr; Back to Resource Hub
@@ -371,7 +371,7 @@ export default function TestYourselfChatgptSeo() {
               Book a free 30-minute call. No obligation. We will run your AI visibility audit
               live on the call and show you exactly where you stand and what to fix first.
             </p>
-            <CTAButton eventLabel="blog_chatgpt_seo_cta" caption="No pitch deck. No obligation.">
+            <CTAButton eventLabel="blog_chatgpt_seo_cta" caption="Your own AI visibility. I'll check it.">
               Book Your Free Strategy Call
             </CTAButton>
           </div>

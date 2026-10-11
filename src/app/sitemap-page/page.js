@@ -46,7 +46,7 @@ export default function SitemapPage() {
     <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <Navbar />
 
-      <Section className="py-ds-6 relative z-10">
+      <Section className="page-top relative z-10">
         <Container size="main">
         {/* Hero Section */}
         <motion.div

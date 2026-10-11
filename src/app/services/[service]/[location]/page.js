@@ -130,7 +130,7 @@ export default function ServiceLocationPage({ params }) {
 
       <Navbar />
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-[#ADB7BE] mb-8" aria-label="Breadcrumb">

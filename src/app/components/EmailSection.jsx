@@ -2,7 +2,6 @@
 
 import React, { useState, useCallback } from "react";
 import Image from "next/image";
-import { Badge } from "./ui/Badge";
 import CTAButton from "./CTAButton";
 
 const trackEvent = (category, action, label) => {
@@ -57,15 +56,14 @@ const EmailSection = () => {
   }, []);
 
   return (
-    <section id="contact" className="my-12 py-16 relative">
-      <div className="max-w-6xl mx-auto px-4 relative z-10">
+    <section id="contact" className="py-16 md:py-20 lg:py-24 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="mb-12 text-center">
-          <Badge variant="outline" className="mb-6">Consultation</Badge>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 leading-tight">
+          <h2 className="reveal ds-heading-2 text-white mb-4" style={{ "--rv-delay": "120ms" }}>
             Book a Consultation
           </h2>
-          <p className="text-[#ADB7BE] text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="reveal ds-lede gold-text mx-auto" style={{ "--rv-delay": "200ms" }}>
             Let's identify what's broken and the data-driven solution.
           </p>
         </div>
@@ -82,7 +80,7 @@ const EmailSection = () => {
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Request sent</h3>
+                <h3 className="text-lg font-bold text-white mb-2">Request sent</h3>
                 <p className="text-[#ADB7BE]">I'll get back to you within 24 hours with next steps.</p>
               </div>
             ) : (
@@ -98,11 +96,11 @@ const EmailSection = () => {
                       priority
                     />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-2 text-center">Book a Consultation</h3>
-                  <p className="text-[#ADB7BE] text-sm text-center">Fill out the form below to share details of your operation.</p>
+                  <h3 className="reveal text-lg font-bold text-white mb-2 text-center">Book a Consultation</h3>
+                  <p className="reveal text-[#ADB7BE] text-base text-center">Fill out the form below to share details of your operation.</p>
                 </div>
 
-                <form className="space-y-4" onSubmit={handleSubmit}>
+                <form className="reveal space-y-4" style={{ "--rv-delay": "200ms" }} onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <input
@@ -169,7 +167,7 @@ const EmailSection = () => {
                   </CTAButton>
 
                   <div className="text-center pt-2">
-                    <p className="text-[#ADB7BE] text-xs">No obligation.</p>
+                    <p className="gold-text text-lg">No obligation. Free audit.</p>
                   </div>
                 </form>
               </>

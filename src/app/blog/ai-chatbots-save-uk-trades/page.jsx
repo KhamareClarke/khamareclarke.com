@@ -22,7 +22,7 @@ export default function BlogPost() {
   return (
     <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <Navbar />
-      <Section className="py-ds-6 bg-[#0A0A0A] text-white">
+      <Section className="page-top bg-[#0A0A0A] text-white">
         <Container size="narrow">
       <article className="text-white">
         <img src="/images/blog/TradesChatBot.png.png" alt="AI chatbot helping UK tradespeople save time" className="w-full rounded-xl mb-8 border border-[#222]" />
@@ -46,7 +46,7 @@ export default function BlogPost() {
           </ul>
         </section>
         <section className="mb-12">
-          <CTAButton caption="Designed for trades and local businesses ready to automate enquiries and stop losing leads.">Book Your Free Strategy Call</CTAButton>
+          <CTAButton caption="What a chatbot would do for you, and where it helps.">Book Your Free Strategy Call</CTAButton>
         </section>
         <aside className="bg-[#181818] border border-[#222] rounded-xl p-6 shadow-lg mb-8">
           <h3 className="text-xl font-bold mb-2 text-white">Download the Free Guide</h3>

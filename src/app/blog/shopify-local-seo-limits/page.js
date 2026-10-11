@@ -55,7 +55,7 @@ export default function ShopifyLocalSeoLimits() {
       <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
         <Navbar />
 
-        <article className="relative z-10 max-w-3xl mx-auto px-6 py-24 text-white">
+        <article className="relative z-10 max-w-3xl mx-auto px-6 pb-24 page-top text-white">
           <div className="mb-6">
             <Link href="/blog" className="text-[#ffb700] text-sm font-semibold hover:underline">
               &larr; Back to Resource Hub
@@ -294,7 +294,7 @@ export default function ShopifyLocalSeoLimits() {
             <p className="text-[#ADB7BE] mb-6">
               We will assess your platform, your SEO ambitions, and whether the two are compatible.
             </p>
-            <CTAButton eventLabel="blog_shopify_cta" caption="No pitch deck. No obligation.">
+            <CTAButton eventLabel="blog_shopify_cta" caption="What Shopify can't do locally, and the workaround.">
               Book Your Free Strategy Call
             </CTAButton>
           </div>

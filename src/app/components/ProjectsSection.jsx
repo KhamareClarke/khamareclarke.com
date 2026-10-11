@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import CountUpNumber from "./CountUpNumber";
 import CTAButton from "./CTAButton";
-import { Badge } from "./ui/Badge";
 
 const allCards = [
   {
@@ -11,7 +12,7 @@ const allCards = [
     title: "Conversational AI Agent & CRM Automation",
     tag: "Voice & Web AI",
     timeframe: "90-Day Build",
-    description: "Designed, built, and deployed an autonomous voice receptionist integrated with GHL CRM and local search pack configuration to capture missed inbound contractor leads.",
+    description: "Designed, built and deployed an autonomous voice receptionist integrated with GHL CRM and local search pack configuration to capture missed inbound contractor leads.",
     metrics: [
       { value: "538%", label: "Google Business Profile interactions growth in 90 days" },
       { value: "30+", label: "Qualified leads booked in the first two weeks" },
@@ -23,7 +24,7 @@ const allCards = [
     title: "AEO/GEO & Generative Search Positioning",
     tag: "AI Engine Optimization",
     timeframe: "60-Day Run",
-    description: "Semantic indexing, schema structures, and context optimization ensuring luxury real estate and commercial property rankings across ChatGPT, Gemini, and Perplexity.",
+    description: "Semantic indexing, schema structures and context optimization ensuring luxury real estate and commercial property rankings across ChatGPT, Gemini, and Perplexity.",
     metrics: [
       { value: "5X", label: "Qualified leads within 60 days" },
       { value: "~20", label: "Qualified enquiries per day at peak" },
@@ -35,7 +36,7 @@ const allCards = [
     title: "Core Web Vitals & Search Architecture",
     tag: "Marketplace Infrastructure",
     timeframe: "6-Month Launch",
-    description: "Technical restructuring of high-performance custom marketplace platform, implementing headless programmatic routing, clean XML feeds, and assets rendering under 0.9 seconds.",
+    description: "Technical restructuring of high-performance custom marketplace platform, implementing headless programmatic routing, clean XML feeds and assets rendering under 0.9 seconds.",
     metrics: [
       { value: "312%", label: "Organic traffic growth in 6 months" },
       { value: "0.9s", label: "Core Web Vitals load time down from 4.2s" },
@@ -107,7 +108,7 @@ const allCards = [
     title: "Headless Core Web Vitals Optimization",
     tag: "Performance Optimization",
     timeframe: "90-Day Setup",
-    description: "Refactored front-end bundling, asset loading paths, and component structure to achieve near-perfect Lighthouse performance rankings.",
+    description: "Refactored front-end bundling, asset loading paths and component structure to achieve near-perfect Lighthouse performance rankings.",
     metrics: [
       { value: "98/100", label: "Lighthouse performance score in 14 days" },
       { value: "120%", label: "Page views increase in 90 days" },
@@ -245,7 +246,7 @@ function CaseStudyCard({ card, isActive }) {
             </span>
           </div>
         )}
-        <span className="absolute top-4 left-4 bg-primary text-[#111015] text-xs font-bold px-3 py-1 rounded-full z-10">
+        <span className="absolute top-4 left-4 bg-primary text-[#111015] text-[13px] font-bold px-3 py-1 rounded-full z-10">
           {card.tag}
         </span>
       </div>
@@ -253,19 +254,21 @@ function CaseStudyCard({ card, isActive }) {
       {/* Copy */}
       <div className="p-6 md:p-8 flex flex-col flex-1">
         <div className="flex items-baseline gap-3 mb-3">
-          <span className="text-sm font-bold text-primary flex-shrink-0 w-7">{String(card.id).padStart(2, '0')}</span>
-          <span className="text-[#ADB7BE] text-xs font-semibold uppercase tracking-widest">{card.company}</span>
+          <span className="gold-text text-sm font-bold flex-shrink-0 w-7">{String(card.id).padStart(2, '0')}</span>
+          <span className="text-[#ADB7BE] text-[13px] font-semibold uppercase tracking-widest">{card.company}</span>
         </div>
 
-        <h3 className="text-xl md:text-2xl font-extrabold text-white mb-1 leading-snug">{card.title}</h3>
-        <p className="text-[#ADB7BE] text-xs font-semibold mb-3">{card.tag} · {card.timeframe}</p>
-        <p className="text-[#ADB7BE] text-sm mb-6 leading-relaxed">{card.description}</p>
+        <h3 className="text-lg font-extrabold text-white mb-1 leading-snug">{card.title}</h3>
+        <p className="text-[#ADB7BE] text-[13px] font-semibold mb-3">{card.tag} · {card.timeframe}</p>
+        <p className="text-[#ADB7BE] text-base mb-6 leading-relaxed">{card.description}</p>
 
         <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-4">
           {card.metrics.map((m, i) => (
             <div key={i} className="border border-white/10 rounded-lg p-4">
-              <div className="text-primary font-black text-2xl md:text-3xl">{m.value}</div>
-              <div className="text-[#ADB7BE] text-sm leading-tight mt-1">{m.label}</div>
+              <div className="gold-text font-black text-2xl md:text-3xl">
+                <CountUpNumber value={m.value} />
+              </div>
+              <div className="text-[#ADB7BE] text-sm leading-snug mt-1">{m.label}</div>
             </div>
           ))}
         </div>
@@ -277,19 +280,23 @@ function CaseStudyCard({ card, isActive }) {
 const ProjectsSection = () => {
   const total = allCards.length;
   const [current, setCurrent] = useState(0);
-  const goTo = (idx) => setCurrent((idx + total) % total);
+  const [dir, setDir] = useState(1); // 1 = forward, -1 = back
+  const goTo = (idx) => {
+    const next = (idx + total) % total;
+    setDir(next === current ? dir : (idx > current ? 1 : -1));
+    setCurrent(next);
+  };
 
   return (
-    <section id="case-studies" className="text-white py-16 lg:py-20 relative">
-      <div className="container mx-auto px-4 relative z-10">
+    <section id="case-studies" className="text-white py-16 md:py-20 lg:py-24 relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="mb-10 md:mb-12 text-center">
-          <Badge variant="outline" className="mb-6">Documented results</Badge>
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-white">
-            Proof in the <span className="gold-text">pudding</span>
+          <h2 className="reveal ds-heading-2 text-white mb-4" style={{ "--rv-delay": "120ms" }}>
+            Documented <span className="gold-text">results</span>
           </h2>
-          <p className="text-[#ADB7BE] text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-            Eighteen documented builds across roofing, legal, logistics, dental, automotive, real estate, and more. Every number below is from a system I built and can walk you through — lead generation, secure and compliant by design.
+          <p className="reveal ds-lede text-[#ADB7BE] mx-auto" style={{ "--rv-delay": "200ms" }}>
+            Systems I built for roofing, legal, logistics, dental, automotive and real estate firms. Every number below is what each one did, and I can take you through any of them.
           </p>
         </div>
 
@@ -303,8 +310,22 @@ const ProjectsSection = () => {
             &#8592;
           </button>
 
-          <div className="w-full max-w-4xl">
-            <CaseStudyCard card={allCards[current]} isActive />
+          {/* Direction-aware slide between case studies. The outgoing card leaves the
+              way the incoming one arrives, so the motion says which way you moved.
+              overflow-hidden on the frame stops the sliding card widening the page. */}
+          <div className="w-full max-w-4xl overflow-hidden reveal">
+            <AnimatePresence mode="wait" initial={false} custom={dir}>
+              <motion.div
+                key={current}
+                custom={dir}
+                initial={{ x: dir > 0 ? 56 : -56, opacity: 0.35 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: dir > 0 ? -56 : 56, opacity: 0.35 }}
+                transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <CaseStudyCard card={allCards[current]} isActive />
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           <button
@@ -329,11 +350,11 @@ const ProjectsSection = () => {
         </div>
 
         {/* CTA */}
-        <div className="mt-10">
+        <div className="reveal mt-10 text-center" style={{ "--rv-delay": "420ms" }}>
           <CTAButton
             href="/#contact"
             eventLabel="projects_contact_cta"
-            caption="An honest look at where AI fits."
+            caption="Access the results."
           >
             Book a Consultation
           </CTAButton>

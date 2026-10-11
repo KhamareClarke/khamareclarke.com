@@ -2,19 +2,20 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import CTAButton from "./CTAButton";
-import { Badge } from "./ui/Badge";
 
 const blogPosts = [
   {
     title: "Analytics That Actually Gets Used",
     slug: "advanced-analytics-growth",
-    excerpt: "How a proper reporting setup replaced spreadsheets nobody looked at, and what changed once the numbers were easy to see.",
+    caption: "See the numbers, not the vanity.",
+    excerpt: "How a proper reporting setup replaced spreadsheets nobody looked at and what changed once the numbers were easy to see.",
     category: "Advanced Analytics",
     image: "/images/blog/unlock.png"
   },
   {
     title: "The AI Receptionist, Explained",
     slug: "ai-chatbots-save-uk-trades",
+    caption: "What it sounds like on a real call.",
     excerpt: "What actually happens when an AI handles your calls and enquiries, built for a real business, not a demo.",
     category: "AI Automation",
     image: "/images/blog/TradesChatBot.png.png"
@@ -22,14 +23,16 @@ const blogPosts = [
   {
     title: "Built to Answer Everything, Everywhere",
     slug: "ai-customer-enquiries-retail",
-    excerpt: "How one system handles enquiries across phone, form, and chat without dropping any of them, and what it took to get there.",
+    caption: "How nothing gets dropped.",
+    excerpt: "How one system handles enquiries across phone, form and chat without dropping any of them and what it took to get there.",
     category: "AI Automation",
     image: "/images/blog/automate.png"
   },
   {
     title: "Web Application Engineering: High-Performance Architecture built for Conversion",
     slug: "roi-websites-uk-smes",
-    excerpt: "My technical guide to building fast, well-engineered web systems. Discover how sub-second page rendering, headless architectures, and clean technical code drive real, measured business outcomes.",
+    caption: "What high performance costs to build.",
+    excerpt: "My technical guide to building fast, well-engineered web systems. Discover how sub-second page rendering, headless architectures and clean technical code drive real, measured business outcomes.",
     category: "Web & App Development",
     image: "/images/blog/SMEs.png.png"
   }
@@ -66,12 +69,11 @@ export default function BlogSlider() {
   const postsToShow = blogPosts.slice(start, end);
 
   return (
-    <section className="text-white py-12 md:py-16" id="resources">
-      <div className="container mx-auto px-4">
+    <section className="text-white py-16 md:py-20 lg:py-24" id="resources">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 mt-2 text-center">
-          <Badge variant="outline" className="mb-6">Resources</Badge>
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-3 leading-tight text-white">Field notes from the work</h2>
-          <div className="text-[#ADB7BE] max-w-2xl mx-auto text-base">Write-ups and videos from live implementations, what worked, with the numbers behind it.</div>
+          <h2 className="reveal ds-heading-2 text-white mb-4" style={{ "--rv-delay": "120ms" }}>Field notes from the work</h2>
+          <div className="reveal ds-lede text-[#ADB7BE] mx-auto" style={{ "--rv-delay": "200ms" }}>Write-ups and videos from live implementations, what worked, with the numbers behind it.</div>
         </div>
         <div className="relative flex items-center justify-center">
           <button
@@ -81,9 +83,13 @@ export default function BlogSlider() {
           >
             &#8592;
           </button>
-          <div className={`w-full grid gap-8 mx-auto`} style={{gridTemplateColumns: `repeat(${visible}, minmax(0, 1fr))`, maxWidth: visible === 1 ? '22rem' : visible === 2 ? '48rem' : '72rem'}}>
+          {/* Reveal sits on the GRID, not on each card. The cards carry their own
+              `transition-transform ... hover:-translate-y-1`; the reveal rule is more
+              specific and would replace that transition, turning a 300ms hover lift
+              into a 900ms one. The grid has no hover of its own, so it is safe here. */}
+          <div className={`reveal w-full grid gap-8 mx-auto`} style={{gridTemplateColumns: `repeat(${visible}, minmax(0, 1fr))`, maxWidth: visible === 1 ? '22rem' : visible === 2 ? '48rem' : '72rem', "--rv-delay": "280ms"}}>
             {postsToShow.map(post => (
-              <div key={post.slug} className="group bg-surface-muted border border-white/10 rounded-lg overflow-hidden flex flex-col">
+              <div key={post.slug} className="group bg-surface-muted border border-white/10 rounded-lg overflow-hidden flex flex-col transition-transform duration-300 ease-out hover:-translate-y-1">
                 <div className="relative w-full aspect-square bg-surface border-b border-white/10 flex items-center justify-center overflow-hidden">
                   {post.image ? (
                     <div
@@ -95,19 +101,19 @@ export default function BlogSlider() {
                       <span className="text-3xl opacity-30 text-white">{post.category.slice(0, 1)}</span>
                     </div>
                   )}
-                  <span className="absolute top-4 left-4 bg-primary text-[#111015] text-xs font-bold px-3 py-1 rounded-full z-10">
+                  <span className="gold-chip absolute top-4 left-4 text-[#111015] text-[13px] font-bold px-3 py-1 rounded-full z-10">
                     {post.category}
                   </span>
                 </div>
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-xl font-bold mb-2 text-white">{post.title}</h3>
-                  <p className="text-[#ADB7BE] mb-6 text-sm">{post.excerpt}</p>
+                  <h3 className="text-lg font-bold mb-2 text-white">{post.title}</h3>
+                  <p className="text-[#ADB7BE] mb-6 text-base">{post.excerpt}</p>
                   <div className="mt-auto">
                     <CTAButton
                       href={`/blog/${post.slug}`}
                       eventLabel={`blog_read_${post.slug}`}
                       icon="arrow"
-                      caption="Practical playbooks, not theory."
+                      caption={post.caption || "Practical playbooks, not theory."}
                     >
                       Read Article
                     </CTAButton>
@@ -134,7 +140,7 @@ export default function BlogSlider() {
             />
           ))}
         </div>
-        <div className="mt-8">
+        <div className="reveal mt-8 text-center" style={{ "--rv-delay": "380ms" }}>
           <CTAButton
             href="/blog"
             eventLabel="blog_view_all"

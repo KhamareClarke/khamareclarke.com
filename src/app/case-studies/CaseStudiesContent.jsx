@@ -136,7 +136,7 @@ export default function CaseStudiesContent() {
           <p className="text-xl text-[#ADB7BE] mb-8 max-w-2xl mx-auto">
             Book a 30-minute consultation. We will discuss where AI applies to your operation and identify potential efficiency gains.
           </p>
-          <CTAButton caption="No pitch deck. No obligation.">Book a Consultation</CTAButton>
+          <CTAButton caption="How each one was built. Start to finish.">Book a Consultation</CTAButton>
         </motion.div>
         </Container>
       </Section>

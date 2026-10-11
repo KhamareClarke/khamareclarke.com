@@ -55,7 +55,7 @@ export default function WordpressRealCeiling() {
       <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
         <Navbar />
 
-        <article className="relative z-10 max-w-3xl mx-auto px-6 py-24 text-white">
+        <article className="relative z-10 max-w-3xl mx-auto px-6 pb-24 page-top text-white">
           <div className="mb-6">
             <Link href="/blog" className="text-[#ffb700] text-sm font-semibold hover:underline">
               &larr; Back to Resource Hub
@@ -308,7 +308,7 @@ export default function WordpressRealCeiling() {
               We will assess your current platform, identify the technical ceiling, and tell you
               honestly whether you need to move.
             </p>
-            <CTAButton eventLabel="blog_wordpress_cta" caption="No pitch deck. No obligation.">
+            <CTAButton eventLabel="blog_wordpress_cta" caption="Whether WordPress is your ceiling. When it matters.">
               Book Your Free Strategy Call
             </CTAButton>
           </div>

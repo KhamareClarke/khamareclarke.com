@@ -72,7 +72,7 @@ export default function BlogHome() {
     <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <Navbar />
 
-      <Section className="py-ds-6 relative z-10">
+      <Section className="page-top relative z-10">
         <Container size="main" className="flex flex-col md:flex-row gap-ds-4">
         {/* Main content */}
         <div className="flex-1">

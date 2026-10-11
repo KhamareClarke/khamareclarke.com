@@ -3,6 +3,7 @@
 import React from "react";
 import { Section } from "./ui/Section";
 import { Container } from "./ui/Container";
+import GoldMark from "./GoldMark";
 
 const Footer = () => {
   return (
@@ -10,16 +11,40 @@ const Footer = () => {
       as="footer"
       className="bg-surface border-t border-white/5 pt-20 pb-12"
     >
+      {/* Animated gold gradient for the contact icons. They are stroked SVGs, so they
+          need a gradient stroke rather than background-clip:text, which would erase
+          them. Same gold values and sweep as the rest of the page. */}
+      <svg width="0" height="0" aria-hidden="true" style={{ position: 'absolute' }}>
+        <defs>
+          <linearGradient id="kcGoldStroke" x1="-1" y1="0" x2="0" y2="0" gradientUnits="objectBoundingBox">
+            <stop offset="0%" stopColor="#ffb700" />
+            <stop offset="35%" stopColor="#fff1a8" />
+            <stop offset="60%" stopColor="#ffd54f" />
+            <stop offset="100%" stopColor="#ffb700" />
+            <animateTransform
+              attributeName="gradientTransform"
+              type="translate"
+              from="0 0"
+              to="1 0"
+              dur="6s"
+              repeatCount="indefinite"
+            />
+          </linearGradient>
+        </defs>
+      </svg>
+
       <Container size="main">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+          {/* Columns are staggered so the footer resolves left-to-right as it enters,
+              the same way the sections above it do. */}
           {/* About */}
-          <div>
+          <div className="reveal" style={{ "--rv-delay": "0ms" }}>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-[#ffb700] rounded-full"></div>
-              <span className="text-[#ffb700] text-sm font-bold uppercase tracking-wider">Khamare Clarke</span>
+              <GoldMark className="h-14 w-14 md:h-20 md:w-20 shrink-0" />
+              <span className="gold-text text-sm font-bold uppercase tracking-wider">Khamare Clarke</span>
             </div>
-            <p className="text-white/80 mb-4 leading-relaxed text-sm sm:text-base">
+            <p className="text-white mb-4 leading-relaxed text-sm sm:text-base">
               The practical implementation of AI within SMEs. Assessed, implemented, compliant, documented, supported.
             </p>
             <div className="flex gap-4 mt-6">
@@ -47,41 +72,41 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="text-white font-bold mb-4 text-lg">Quick Links</h3>
-            <div className="flex flex-wrap gap-x-2 gap-y-1 text-white/70 text-sm">
-              <a href="/" className="hover:text-white transition-colors">Home</a>
+          <div className="reveal" style={{ "--rv-delay": "110ms" }}>
+            <h3 className="gold-text font-bold mb-4 text-lg">Quick Links</h3>
+            <div className="flex flex-wrap text-white gap-x-2 gap-y-1 text-sm">
+              <a href="/" className="hover:text-[#ffb700] transition-colors">Home</a>
               <span>·</span>
-              <a href="/about" className="hover:text-white transition-colors">About</a>
+              <a href="/about" className="hover:text-[#ffb700] transition-colors">About</a>
               <span>·</span>
-              <a href="/services" className="hover:text-white transition-colors">Services</a>
+              <a href="/services" className="hover:text-[#ffb700] transition-colors">Services</a>
               <span>·</span>
-              <a href="/case-studies" className="hover:text-white transition-colors">Case Studies</a>
+              <a href="/case-studies" className="hover:text-[#ffb700] transition-colors">Case Studies</a>
               <span>·</span>
-              <a href="/blog" className="hover:text-white transition-colors">Blog</a>
+              <a href="/blog" className="hover:text-[#ffb700] transition-colors">Blog</a>
               <span>·</span>
-              <a href="/expertise/seo" className="hover:text-white transition-colors">Expertise</a>
+              <a href="/expertise/seo" className="hover:text-[#ffb700] transition-colors">Expertise</a>
               <span>·</span>
-              <a href="/glossary" className="hover:text-white transition-colors">Glossary</a>
+              <a href="/glossary" className="hover:text-[#ffb700] transition-colors">Glossary</a>
             </div>
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="reveal" style={{ "--rv-delay": "220ms" }}>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-[#ffb700] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="url(#kcGoldStroke)" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <a href="mailto:info@khamareclarke.com" className="text-white/80 hover:text-[#ffb700] transition-colors">info@khamareclarke.com</a>
+                <a href="mailto:info@khamareclarke.com" className="text-white hover:text-[#ffb700] transition-colors">info@khamareclarke.com</a>
               </li>
               <li className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-[#ffb700] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="url(#kcGoldStroke)" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
                 <a
                   href="tel:+447473255886"
-                  className="text-white/80 hover:text-[#ffb700] transition-colors"
+                  className="text-white hover:text-[#ffb700] transition-colors"
                 >
                   +44 7473 255 886
                 </a>
@@ -91,22 +116,22 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/5">
+        <div className="reveal pt-8 border-t border-white/5" style={{ "--rv-delay": "120ms" }}>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-left">
               {/* START: Unified Branding */}
-              <p className="text-white/60 text-sm leading-relaxed">
-                <span className="text-[#ffb700] font-bold">Khamare Clarke</span> — AI Implementation Specialist | MSc Computer Science with Artificial Intelligence, Keele University (completing 2027)
+              <p className="text-white text-sm sm:text-base leading-relaxed">
+                <span className="gold-text font-bold">Khamare Clarke</span>, AI Implementation Specialist. MSc Computer Science with Artificial Intelligence, Keele University, completing 2027.
               </p>
               {/* END: Unified Branding */}
             </div>
-            <div className="flex items-center gap-4 flex-wrap justify-center md:justify-end text-sm text-white/50">
-              <span className="text-white/60">© 2026 Khamare Clarke.</span>
-              <a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a>
+            <div className="flex items-center gap-4 flex-wrap justify-center md:justify-end text-sm sm:text-base text-white">
+              <span className="text-white">© 2026 Khamare Clarke.</span>
+              <a href="/privacy-policy" className="hover:text-[#ffb700] transition-colors">Privacy Policy</a>
               <span>·</span>
-              <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>
+              <a href="/terms" className="hover:text-[#ffb700] transition-colors">Terms of Service</a>
               <span>·</span>
-              <a href="/cookies" className="hover:text-white transition-colors">Cookie Policy</a>
+              <a href="/cookies" className="hover:text-[#ffb700] transition-colors">Cookie Policy</a>
               <span>·</span>
               <a href="/sitemap.xml" className="hover:text-[#ffb700] transition-colors">Sitemap</a>
             </div>

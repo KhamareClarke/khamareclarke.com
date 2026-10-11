@@ -28,7 +28,7 @@ export function Badge({ className = "", variant = "outline", children, ...props 
         className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]"
         aria-hidden="true"
       />
-      <p className={`text-xs font-semibold tracking-[0.18em] uppercase leading-none whitespace-nowrap ${textColor}`}>
+      <p className={`ds-eyebrow whitespace-nowrap ${textColor}`}>
         {children}
       </p>
       <span

@@ -86,7 +86,7 @@ export default function AIAgentsPage() {
 
       <Navbar />
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
 
         <div className="flex items-center gap-4 mb-8 h-4">
           <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
@@ -294,7 +294,7 @@ export default function AIAgentsPage() {
             enquiry process, identify the gaps, and map out what an AI agent
             would look like for your specific business.
           </p>
-          <CTAButton eventLabel="expertise_ai_agents_cta" caption="No pitch deck. No obligation.">
+          <CTAButton eventLabel="expertise_ai_agents_cta" caption="What an agent would take off you. Hours back.">
             Book Your Free Strategy Call
           </CTAButton>
         </div>

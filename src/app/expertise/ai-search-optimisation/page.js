@@ -94,7 +94,7 @@ export default function AISearchOptimisationPage() {
 
       <Navbar />
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 py-24">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
 
         <div className="flex items-center gap-4 mb-8 h-4">
           <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
@@ -323,7 +323,7 @@ export default function AISearchOptimisationPage() {
             visibility in Google and AI engines and map out what it would take
             to build a presence that compounds over time.
           </p>
-          <CTAButton eventLabel="expertise_ai_search_cta" caption="No pitch deck. No obligation.">
+          <CTAButton eventLabel="expertise_ai_search_cta" caption="Why AI doesn't mention you, and what changes that.">
             Book Your Free Strategy Call
           </CTAButton>
         </div>

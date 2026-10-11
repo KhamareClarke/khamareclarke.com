@@ -22,6 +22,7 @@ export default function CTAButton({
   eventLabel = 'cta_click',
   variant = 'primary',
   fullWidth = false,
+  compact = false,
   caption = null,
   captionClassName = "",
   href = null,
@@ -42,7 +43,17 @@ export default function CTAButton({
     ghost: 'ghost',
   };
 
-  const baseClass = `group inline-flex items-center justify-center gap-2 font-bold py-3 px-6 text-base ${fullWidth ? 'w-full' : ''}`;
+  // Two sizes only. The default is the hero-sized button, which every section uses so
+  // they all match. `compact` is for the navbar, where the section sizing would push the
+  // fixed bar past the height `--nav-h` reserves and drop it onto the hero. It is a
+  // switch here rather than something the caller sets, because Tailwind resolves
+  // conflicting utilities by stylesheet order rather than by the order they appear in
+  // this string, so the navbar cannot win by passing its own padding and text classes.
+  // If this size changes, `--nav-h` in globals.css must be re-measured to match.
+  const sizeClass = compact
+    ? 'text-lg px-8 py-4'
+    : 'text-lg lg:text-xl px-10 py-5 lg:px-12 lg:py-6';
+  const baseClass = `group inline-flex items-center justify-center gap-2 font-bold ${sizeClass} ${fullWidth ? 'w-full' : ''}`;
 
   const className$ = cn(
     buttonVariants({ variant: variants[variant] || 'default', size: 'default' }),
@@ -58,7 +69,7 @@ export default function CTAButton({
   );
 
   const captionEl = caption ? (
-    <p className={`mt-2 text-center ${captionClassName} text-[11px] sm:text-xs text-white/60 leading-snug`}>
+    <p className={`gold-text mt-2 text-center ${captionClassName} ${compact ? 'text-base' : 'text-lg'} leading-snug`}>
       {caption}
     </p>
   ) : null;

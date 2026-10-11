@@ -13,7 +13,7 @@ export default function ServicesPage() {
     <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <Navbar />
 
-      <Section className="py-ds-6 relative z-10">
+      <Section className="page-top relative z-10">
         <Container size="main">
         {/* Hero Section */}
         <motion.div
@@ -164,7 +164,7 @@ export default function ServicesPage() {
           <p className="text-xl text-[#ADB7BE] mb-8 max-w-2xl mx-auto">
             Book a free strategy call and see where AI would make the biggest difference in your business.
           </p>
-          <CTAButton caption="Designed for teams ready to simplify delivery and scale intelligently.">Book Your Free Strategy Call</CTAButton>
+          <CTAButton caption="Which of these you need. Nothing you don't.">Book Your Free Strategy Call</CTAButton>
         </motion.div>
         </Container>
       </Section>

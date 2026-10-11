@@ -20,7 +20,7 @@ export default function TermsPage() {
     <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
       <Navbar />
 
-      <article className="relative z-10 max-w-3xl mx-auto px-6 py-24 text-white w-full">
+      <article className="relative z-10 max-w-3xl mx-auto px-6 pb-24 page-top text-white w-full">
         <div className="mb-10">
           <div className="flex items-center gap-4 mb-6 h-4">
             <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
