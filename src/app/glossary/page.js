@@ -1,6 +1,11 @@
 import Link from "next/link";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import PageShell from "../components/PageShell";
+import PageHero from "../components/ui/PageHero";
+import SectionHeading from "../components/ui/SectionHeading";
+import CtaPanel from "../components/ui/CtaPanel";
+import { Section } from "../components/ui/Section";
+import { Container } from "../components/ui/Container";
+import Card from "../components/ui/Card";
 import CTAButton from "../components/CTAButton";
 import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../lib/schema";
 import { GLOSSARY_TERMS, GLOSSARY_FAMILIES } from "../../lib/glossary-data";
@@ -47,37 +52,37 @@ export default function GlossaryHubPage() {
   }));
 
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSetSchema) }}
-      />
+    <PageShell
+      schema={
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSetSchema) }}
+          />
+        </>
+      }
+    >
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
 
-      <Navbar />
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
-
-        <div className="flex items-center gap-4 mb-8">
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary" aria-hidden="true" />
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-            Glossary
-          </p>
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary" aria-hidden="true" />
-        </div>
-
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
-          SEO and AI{" "}
-          <span className="gold-text">Glossary</span>
-        </h1>
-        <p className="text-[#ADB7BE] text-lg mb-12 max-w-2xl leading-relaxed">
+        <PageHero
+          eyebrow="Glossary"
+          title={
+            <>
+              SEO and AI <span className="gold-text">Glossary</span>
+            </>
+          }
+          size="compact"
+        />
+        <p className="reveal mt-6 text-muted text-lg mb-12 max-w-2xl leading-relaxed" style={{ "--rv-delay": "200ms" }}>
           Plain-English definitions of every term a UK business owner, marketer, or
           fellow professional might encounter. Each page gives you the citable definition
           in the first two sentences, then explains why it matters and how it is applied
@@ -86,54 +91,45 @@ export default function GlossaryHubPage() {
 
         {termsByFamily.map((family) => (
           <section key={family.id} className="mb-14" aria-labelledby={`family-${family.id}`}>
-            <div className="mb-6">
-              <h2
-                id={`family-${family.id}`}
-                className="text-2xl sm:text-3xl font-bold text-white border-l-4 border-[#ffb700] pl-4"
-              >
-                {family.label}
-              </h2>
-              {family.description && (
-                <p className="text-[#ADB7BE] text-sm mt-2 pl-5">{family.description}</p>
-              )}
-            </div>
+            <SectionHeading id={`family-${family.id}`}>{family.label}</SectionHeading>
+            {family.description && (
+              <p className="reveal text-muted text-sm -mt-6 mb-6" style={{ "--rv-delay": "200ms" }}>{family.description}</p>
+            )}
 
             <ul className="grid sm:grid-cols-2 gap-3">
-              {family.terms.map((term) => (
+              {family.terms.map((term, index) => (
                 <li key={term.slug}>
-                  <Link
+                  <Card
+                    as={Link}
                     href={`/glossary/${term.slug}`}
-                    className="group flex flex-col bg-gradient-to-br from-[#181818]/80 to-[#232323]/90 border border-white/10 hover:border-[#ffb700]/30 rounded-xl px-4 py-3 transition-all duration-200"
+                    className="group flex flex-col h-full hover:border-primary/30 transition-colors reveal"
+                    style={{ "--rv-delay": `${Math.min(index, 6) * 110}ms` }}
                   >
-                    <span className="text-white font-semibold text-sm group-hover:text-[#ffb700] transition-colors">
+                    <span className="text-white font-semibold text-sm group-hover:text-primary transition-colors">
                       {term.abbr ? `${term.title} (${term.abbr})` : term.title}
                     </span>
-                    <span className="text-[#ADB7BE] text-xs mt-0.5 line-clamp-1">
+                    <span className="text-muted text-xs mt-0.5 line-clamp-1">
                       {term.definition.split(".")[0]}.
                     </span>
-                  </Link>
+                  </Card>
                 </li>
               ))}
             </ul>
           </section>
         ))}
 
-        <div className="mt-8 bg-gradient-to-br from-[#181818]/80 to-[#232323]/90 border border-[#ffb700]/30 rounded-2xl p-10 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Not sure which of these applies to your business?
-          </h2>
-          <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
-            Book a free 30-minute call. You will get a straight answer on which
-            discipline matters most for your growth trajectory right now.
-          </p>
+        <CtaPanel
+          className="mt-8"
+          heading={<>Not sure which of these applies to <span className="gold-text">your business</span>?</>}
+          body="Book a free 30-minute call. You will get a straight answer on which discipline matters most for your growth trajectory right now."
+        >
           <CTAButton eventLabel="glossary_hub_cta" caption="What these mean for you, in plain English.">
             Book Your Free Strategy Call
           </CTAButton>
-        </div>
+        </CtaPanel>
 
-      </div>
-
-      <Footer />
-    </main>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }

@@ -1,6 +1,11 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import PageShell from "../components/PageShell";
+import PageHero from "../components/ui/PageHero";
+import SectionHeading from "../components/ui/SectionHeading";
+import { Section } from "../components/ui/Section";
+import { Container } from "../components/ui/Container";
 
+// Metadata is untouched by this migration — title, description, canonical and OG all
+// stay exactly as they were. A design change must never move a page's search identity.
 export const metadata = {
   title: "Privacy Policy | Khamare Clarke",
   description: "How Khamare Clarke collects, uses, and protects your personal data. UK GDPR compliant.",
@@ -15,140 +20,158 @@ export const metadata = {
   },
 };
 
+const notDone = [
+  "Your data is not sold to any third party.",
+  "Your data is not shared with advertisers.",
+  "You will not be added to a marketing list without your explicit consent.",
+];
+
+const processors = [
+  { name: "LeadConnector / GoHighLevel", detail: "booking and CRM" },
+  { name: "Google Analytics 4", detail: "anonymised usage analytics" },
+  { name: "Vercel", detail: "website hosting (data processed in transit)" },
+];
+
+const rights = [
+  "Access the personal data held about you",
+  "Request correction of inaccurate data",
+  "Request deletion of your data",
+  "Object to processing based on legitimate interest",
+  "Request restriction of processing",
+];
+
 export default function PrivacyPolicyPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <Navbar />
+    <PageShell>
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
+          <PageHero eyebrow="Legal" title="Privacy Policy" />
 
-      <article className="relative z-10 max-w-3xl mx-auto px-6 pb-24 page-top text-white w-full">
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-6 h-4">
-            <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-            <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-              Legal
-            </p>
-            <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
+          <p className="reveal text-muted text-sm mt-6" style={{ "--rv-delay": "260ms" }}>
+            Last updated: July 2025
+          </p>
+
+          <div className="mt-16 space-y-10 text-muted leading-relaxed">
+
+            <section aria-labelledby="privacy-covers">
+              <SectionHeading id="privacy-covers">Who this covers</SectionHeading>
+              <p className="reveal" style={{ "--rv-delay": "200ms" }}>
+                This policy covers how Khamare Clarke (trading as an individual SEO and AI systems consultant,
+                based in Stoke-on-Trent, England) handles personal data collected through khamareclarke.com.
+                Contact: <a href="mailto:info@khamareclarke.com" className="text-primary hover:underline">info@khamareclarke.com</a>.
+              </p>
+            </section>
+
+            <section aria-labelledby="privacy-collected">
+              <SectionHeading id="privacy-collected">What data is collected and why</SectionHeading>
+
+              <h3 className="text-base font-semibold text-white/90 mb-2 mt-5">Contact form</h3>
+              <p className="reveal" style={{ "--rv-delay": "200ms" }}>
+                When you submit the contact or enquiry form, your name, email address, phone number, and message
+                are collected. This data is used solely to respond to your enquiry. The legal basis is legitimate
+                interest: you have initiated contact about a potential business relationship.
+              </p>
+
+              <h3 className="text-base font-semibold text-white/90 mb-2 mt-5">Booking</h3>
+              <p className="reveal" style={{ "--rv-delay": "280ms" }}>
+                Strategy call bookings are handled through LeadConnector (GoHighLevel). When you book, your
+                data is processed by LeadConnector under their own privacy policy. Booking data is used to
+                schedule and follow up on your call.
+              </p>
+
+              <h3 className="text-base font-semibold text-white/90 mb-2 mt-5">Analytics</h3>
+              <p className="reveal" style={{ "--rv-delay": "360ms" }}>
+                Google Analytics 4 is used to understand how visitors use the site (pages viewed, time on site,
+                general location, device type). IP addresses are anonymised. No cross-site tracking is performed.
+                The legal basis is legitimate interest in understanding site performance.
+              </p>
+            </section>
+
+            <section aria-labelledby="privacy-not-done">
+              <SectionHeading id="privacy-not-done">What is not done with your data</SectionHeading>
+              <ul className="list-disc list-inside space-y-1 text-muted">
+                {notDone.map((item, index) => (
+                  <li key={item} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section aria-labelledby="privacy-processors">
+              <SectionHeading id="privacy-processors">Third-party processors</SectionHeading>
+              <p className="reveal" style={{ "--rv-delay": "200ms" }}>The following services process data as part of operating this site:</p>
+              <ul className="list-disc list-inside space-y-1 text-muted mt-2">
+                {processors.map((processor, index) => (
+                  <li key={processor.name} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
+                    <strong className="text-white">{processor.name}</strong> — {processor.detail}
+                  </li>
+                ))}
+              </ul>
+              <p className="reveal mt-3" style={{ "--rv-delay": "280ms" }}>
+                Each processor operates under their own terms and privacy policies, which apply to data they hold.
+              </p>
+            </section>
+
+            <section aria-labelledby="privacy-retention">
+              <SectionHeading id="privacy-retention">How long data is kept</SectionHeading>
+              <p className="reveal" style={{ "--rv-delay": "200ms" }}>
+                Enquiry and contact data is retained for as long as there is an active business relationship or
+                ongoing correspondence, and for up to two years after the last contact. Analytics data is retained
+                at the default GA4 retention period (14 months).
+              </p>
+            </section>
+
+            <section aria-labelledby="privacy-rights">
+              <SectionHeading id="privacy-rights">
+                Your rights under <span className="gold-text">UK GDPR</span>
+              </SectionHeading>
+              <p className="reveal" style={{ "--rv-delay": "200ms" }}>You have the right to:</p>
+              <ul className="list-disc list-inside space-y-1 text-muted mt-2">
+                {rights.map((item, index) => (
+                  <li key={item} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="reveal mt-3" style={{ "--rv-delay": "280ms" }}>
+                To exercise any of these rights, email{" "}
+                <a href="mailto:info@khamareclarke.com" className="text-primary hover:underline">info@khamareclarke.com</a>.
+                Requests will be responded to within 30 days.
+              </p>
+            </section>
+
+            <section aria-labelledby="privacy-cookies">
+              <SectionHeading id="privacy-cookies">Cookies</SectionHeading>
+              <p className="reveal" style={{ "--rv-delay": "200ms" }}>
+                This site uses cookies for analytics (Google Analytics 4). No advertising or tracking cookies
+                are set beyond this. You can disable cookies in your browser settings at any time.
+              </p>
+            </section>
+
+            <section aria-labelledby="privacy-changes">
+              <SectionHeading id="privacy-changes">Changes to this policy</SectionHeading>
+              <p className="reveal" style={{ "--rv-delay": "200ms" }}>
+                If this policy changes materially, the "last updated" date above will be revised. Continued use
+                of the site after a change constitutes acceptance of the updated policy.
+              </p>
+            </section>
+
+            <section aria-labelledby="privacy-contact">
+              <SectionHeading id="privacy-contact">Contact</SectionHeading>
+              <p className="reveal" style={{ "--rv-delay": "200ms" }}>
+                For any privacy-related question or request:{" "}
+                <a href="mailto:info@khamareclarke.com" className="text-primary hover:underline">info@khamareclarke.com</a>
+              </p>
+              <p className="reveal mt-2" style={{ "--rv-delay": "280ms" }}>
+                You also have the right to lodge a complaint with the Information Commissioner&apos;s Office (ICO)
+                at <span className="text-white/60">ico.org.uk</span> if you believe your data has been handled unlawfully.
+              </p>
+            </section>
+
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">Privacy Policy</h1>
-          <p className="text-white/50 text-sm">Last updated: July 2025</p>
-        </div>
-
-        <div className="prose prose-invert prose-sm max-w-none space-y-10 text-white/80 leading-relaxed">
-
-          <section>
-            <h2 className="text-xl font-bold text-white mb-3">Who this covers</h2>
-            <p>
-              This policy covers how Khamare Clarke (trading as an individual SEO and AI systems consultant,
-              based in Stoke-on-Trent, England) handles personal data collected through khamareclarke.com.
-              Contact: <a href="mailto:info@khamareclarke.com" className="text-[#ffb700] hover:underline">info@khamareclarke.com</a>.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-white mb-3">What data is collected and why</h2>
-
-            <h3 className="text-base font-semibold text-white/90 mb-2 mt-5">Contact form</h3>
-            <p>
-              When you submit the contact or enquiry form, your name, email address, phone number, and message
-              are collected. This data is used solely to respond to your enquiry. The legal basis is legitimate
-              interest: you have initiated contact about a potential business relationship.
-            </p>
-
-            <h3 className="text-base font-semibold text-white/90 mb-2 mt-5">Booking</h3>
-            <p>
-              Strategy call bookings are handled through LeadConnector (GoHighLevel). When you book, your
-              data is processed by LeadConnector under their own privacy policy. Booking data is used to
-              schedule and follow up on your call.
-            </p>
-
-            <h3 className="text-base font-semibold text-white/90 mb-2 mt-5">Analytics</h3>
-            <p>
-              Google Analytics 4 is used to understand how visitors use the site (pages viewed, time on site,
-              general location, device type). IP addresses are anonymised. No cross-site tracking is performed.
-              The legal basis is legitimate interest in understanding site performance.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-white mb-3">What is not done with your data</h2>
-            <ul className="list-disc list-inside space-y-1 text-white/80">
-              <li>Your data is not sold to any third party.</li>
-              <li>Your data is not shared with advertisers.</li>
-              <li>You will not be added to a marketing list without your explicit consent.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-white mb-3">Third-party processors</h2>
-            <p>The following services process data as part of operating this site:</p>
-            <ul className="list-disc list-inside space-y-1 text-white/80 mt-2">
-              <li><strong className="text-white">LeadConnector / GoHighLevel</strong> — booking and CRM</li>
-              <li><strong className="text-white">Google Analytics 4</strong> — anonymised usage analytics</li>
-              <li><strong className="text-white">Vercel</strong> — website hosting (data processed in transit)</li>
-            </ul>
-            <p className="mt-3">
-              Each processor operates under their own terms and privacy policies, which apply to data they hold.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-white mb-3">How long data is kept</h2>
-            <p>
-              Enquiry and contact data is retained for as long as there is an active business relationship or
-              ongoing correspondence, and for up to two years after the last contact. Analytics data is retained
-              at the default GA4 retention period (14 months).
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-white mb-3">Your rights under UK GDPR</h2>
-            <p>You have the right to:</p>
-            <ul className="list-disc list-inside space-y-1 text-white/80 mt-2">
-              <li>Access the personal data held about you</li>
-              <li>Request correction of inaccurate data</li>
-              <li>Request deletion of your data</li>
-              <li>Object to processing based on legitimate interest</li>
-              <li>Request restriction of processing</li>
-            </ul>
-            <p className="mt-3">
-              To exercise any of these rights, email{" "}
-              <a href="mailto:info@khamareclarke.com" className="text-[#ffb700] hover:underline">info@khamareclarke.com</a>.
-              Requests will be responded to within 30 days.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-white mb-3">Cookies</h2>
-            <p>
-              This site uses cookies for analytics (Google Analytics 4). No advertising or tracking cookies
-              are set beyond this. You can disable cookies in your browser settings at any time.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-white mb-3">Changes to this policy</h2>
-            <p>
-              If this policy changes materially, the "last updated" date above will be revised. Continued use
-              of the site after a change constitutes acceptance of the updated policy.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-white mb-3">Contact</h2>
-            <p>
-              For any privacy-related question or request:{" "}
-              <a href="mailto:info@khamareclarke.com" className="text-[#ffb700] hover:underline">info@khamareclarke.com</a>
-            </p>
-            <p className="mt-2">
-              You also have the right to lodge a complaint with the Information Commissioner&apos;s Office (ICO)
-              at <span className="text-white/60">ico.org.uk</span> if you believe your data has been handled unlawfully.
-            </p>
-          </section>
-
-        </div>
-      </article>
-
-      <Footer />
-    </main>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }
