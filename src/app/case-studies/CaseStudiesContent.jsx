@@ -100,7 +100,7 @@ export default function CaseStudiesContent() {
         </div>
 
         {/* CTA Section */}
-        <CtaPanel
+        <CtaPanel headingLevel="h2"
           className="my-24"
           heading={
             <>

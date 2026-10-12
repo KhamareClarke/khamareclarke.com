@@ -118,7 +118,7 @@ export default function GlossaryHubPage() {
           </section>
         ))}
 
-        <CtaPanel
+        <CtaPanel headingLevel="h2"
           className="mt-8"
           heading={<>Not sure which of these applies to <span className="gold-text">your business</span>?</>}
           body="Book a free 30-minute call. You will get a straight answer on which discipline matters most for your growth trajectory right now."

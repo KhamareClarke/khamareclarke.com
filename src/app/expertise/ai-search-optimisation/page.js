@@ -1,8 +1,13 @@
 // src/app/expertise/ai-search-optimisation/page.js
 
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import Link from "next/link";
+import PageShell from "../../components/PageShell";
+import PageHero from "../../components/ui/PageHero";
+import SectionHeading from "../../components/ui/SectionHeading";
+import CtaPanel from "../../components/ui/CtaPanel";
+import { Section } from "../../components/ui/Section";
+import { Container } from "../../components/ui/Container";
+import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
 import { PERSON_SCHEMA } from "../../../lib/schema";
 
@@ -82,45 +87,45 @@ const faqSchema = {
 
 export default function AISearchOptimisationPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
-      <Navbar />
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
-
-        <div className="flex items-center gap-4 mb-8 h-4">
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-            Expertise
+    <PageShell
+      schema={
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          />
+        </>
+      }
+    >
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
+          <PageHero
+            eyebrow="Expertise"
+            size="compact"
+            title={
+              <>
+                AI Search Optimisation{" "}
+                <span className="gold-text">— AEO and GEO Explained</span>
+              </>
+            }
+          />
+          <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
+            Your customers are searching on ChatGPT, Gemini, and Perplexity as
+            well as Google. If your business is not showing up there, a growing
+            share of demand is going to whoever is.
           </p>
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-        </div>
-
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
-          AI Search Optimisation{" "}
-          <span className="gold-text">— AEO and GEO Explained</span>
-        </h1>
-        <p className="text-[#ADB7BE] text-lg mb-16 max-w-2xl">
-          Your customers are searching on ChatGPT, Gemini, and Perplexity as
-          well as Google. If your business is not showing up there, a growing
-          share of demand is going to whoever is.
-        </p>
 
         {/* Q1 */}
         <section className="mt-12" aria-labelledby="q1">
-          <h2 id="q1" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What is answer engine optimisation (AEO)?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q1">
+            What is <span className="gold-text">answer engine optimisation (AEO)</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Answer engine optimisation (AEO) is the practice of structuring a
               website's content so that search engines and AI models surface it
               as a direct answer to a user's question. Where traditional SEO
@@ -128,7 +133,7 @@ export default function AISearchOptimisationPage() {
               content itself quoted or summarised — in featured snippets, voice
               search results, and AI-generated overviews.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The technical implementation involves question-and-answer content
               architecture, FAQ and HowTo schema markup, concise paragraph
               openings that answer the question in one or two sentences before
@@ -141,11 +146,11 @@ export default function AISearchOptimisationPage() {
 
         {/* Q2 */}
         <section className="mt-12" aria-labelledby="q2">
-          <h2 id="q2" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What is generative engine optimisation (GEO)?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q2">
+            What is <span className="gold-text">generative engine optimisation (GEO)</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Generative engine optimisation (GEO) is the process of making a
               business more likely to be cited by large language models — ChatGPT,
               Gemini, Perplexity, and others — when they generate answers to
@@ -153,7 +158,7 @@ export default function AISearchOptimisationPage() {
               recognition: teaching AI models who you are, what you do, where
               you operate, and why you are authoritative.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               GEO involves building topical authority (owning a subject across
               many related pages), establishing the business as a recognised
               entity in structured data and knowledge graphs, ensuring
@@ -166,11 +171,11 @@ export default function AISearchOptimisationPage() {
 
         {/* Q3 */}
         <section className="mt-12" aria-labelledby="q3">
-          <h2 id="q3" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How do ChatGPT, Gemini, and Perplexity decide which businesses to cite?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q3">
+            How do <span className="gold-text">ChatGPT, Gemini, and Perplexity</span> decide which businesses to cite?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               AI models draw on a combination of training data, live web
               retrieval (in models with browsing enabled), and entity
               relationships. Businesses that appear frequently in authoritative
@@ -179,7 +184,7 @@ export default function AISearchOptimisationPage() {
               produce content that directly answers specific questions are more
               likely to be cited.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               There is no single ranking factor the way there is in traditional
               SEO. It is a question of entity authority across multiple signals:
               how many times has a source been cited elsewhere, is it consistent
@@ -194,18 +199,18 @@ export default function AISearchOptimisationPage() {
 
         {/* Q4 */}
         <section className="mt-12" aria-labelledby="q4">
-          <h2 id="q4" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What is the difference between SEO and GEO?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q4">
+            What is the difference between <span className="gold-text">SEO and GEO</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Traditional SEO optimises pages to rank in a list of ten results.
               GEO optimises a business to be cited within an AI-generated
               answer, which may not link to a ranked list at all — the AI just
               tells the user what it knows. The user never sees the search
               results page.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The underlying content principles overlap: clear, authoritative,
               well-structured writing is good for both. But GEO places far
               greater emphasis on entity recognition (schema markup, knowledge
@@ -220,11 +225,11 @@ export default function AISearchOptimisationPage() {
 
         {/* Q5 */}
         <section className="mt-12" aria-labelledby="q5">
-          <h2 id="q5" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How do you optimise for AI Overviews in Google Search?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q5">
+            How do you optimise for <span className="gold-text">AI Overviews</span> in Google Search?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Google's AI Overviews pull from pages that Google already trusts
               for a given topic. The core requirements are: demonstrating
               first-hand expertise through original content that could only come
@@ -233,7 +238,7 @@ export default function AISearchOptimisationPage() {
               structured data — FAQ, HowTo, and Article schema — so Google
               understands the content type.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               Factual accuracy matters more here than in standard organic
               rankings. Google is putting its own reputation behind the answer
               it surfaces in an Overview, so it selects sources that are
@@ -246,11 +251,11 @@ export default function AISearchOptimisationPage() {
 
         {/* Q6 */}
         <section className="mt-12" aria-labelledby="q6">
-          <h2 id="q6" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How much does AI search optimisation cost?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q6">
+            How much does <span className="gold-text">AI search optimisation</span> cost?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               AI search optimisation is included in the{" "}
               <strong className="text-white">Run The Area</strong> (from
               £1,250/mo) and{" "}
@@ -259,7 +264,7 @@ export default function AISearchOptimisationPage() {
               search visibility simultaneously, because separating the two
               produces worse results for both.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               For businesses that already have traditional SEO handled and want
               to focus specifically on AI search visibility and entity authority,
               a scoped project can be discussed. Book a strategy call and bring
@@ -271,11 +276,11 @@ export default function AISearchOptimisationPage() {
 
         {/* Synonym coverage */}
         <section className="mt-12" aria-labelledby="synonyms-ai-search">
-          <h2 id="synonyms-ai-search" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            AEO specialist, GEO consultant, AI visibility expert: different names for the same emerging discipline
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="synonyms-ai-search">
+            <span className="gold-text">AEO specialist</span>, GEO consultant, AI visibility expert: different names for the same emerging discipline
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Answer engine optimisation (AEO) and generative engine optimisation (GEO) are terms that describe the
               same practice from slightly different angles. AEO focuses on getting a business cited as the answer
               to a specific question in an AI response. GEO focuses on the broader goal of visibility across
@@ -283,7 +288,7 @@ export default function AISearchOptimisationPage() {
               understands how retrieval-augmented generation works, what signals AI crawlers prioritise, and how
               to structure content and entity data so that a business becomes the source an AI engine reaches for.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               "Generative search optimisation" is another way to describe this discipline. All of these labels
               converge on the same technical reality: getting a business into the training data, crawl data, and
               retrieval index that AI engines use to construct their answers. The technical foundations are the same
@@ -294,7 +299,7 @@ export default function AISearchOptimisationPage() {
         </section>
 
         {/* Internal links */}
-        <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related expertise">
+        <Card as="nav" aria-label="Related expertise" className="reveal mt-16" style={{ "--rv-delay": "200ms" }}>
           <p className="text-white font-bold mb-4">Related expertise</p>
           <ul className="space-y-2">
             {[
@@ -303,33 +308,32 @@ export default function AISearchOptimisationPage() {
               { href: "/expertise/ai-agents", label: "AI agents for UK businesses" },
               { href: "/expertise/google-ads-api", label: "Google Ads API" },
               { href: "/about", label: "About Khamare Clarke" },
-            ].map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-[#ffb700]">→</span> {l.label}
+            ].map((l, index) => (
+              <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
+                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
+                  <span className="text-primary">→</span> {l.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </nav>
+        </Card>
 
         {/* CTA */}
-        <div className="mt-12 bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-10 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Find out where your business stands in AI search.
-          </h2>
-          <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
-            Book a free 30-minute strategy call. We will look at your current
-            visibility in Google and AI engines and map out what it would take
-            to build a presence that compounds over time.
-          </p>
+        <CtaPanel headingLevel="h2"
+          className="mt-12"
+          heading={
+            <>
+              Find out where your business stands in <span className="gold-text">AI search.</span>
+            </>
+          }
+          body="Book a free 30-minute strategy call. We will look at your current visibility in Google and AI engines and map out what it would take to build a presence that compounds over time."
+        >
           <CTAButton eventLabel="expertise_ai_search_cta" caption="Why AI doesn't mention you, and what changes that.">
             Book Your Free Strategy Call
           </CTAButton>
-        </div>
-      </div>
-
-      <Footer />
-    </main>
+        </CtaPanel>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }

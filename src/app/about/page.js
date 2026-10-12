@@ -305,6 +305,7 @@ export default function AboutPage() {
           {/* ── CTA ── */}
           <CtaPanel
             className="mt-20"
+            headingLevel="h2"
             heading={
               <>
                 Book a free <span className="gold-text">30-minute strategy call.</span>

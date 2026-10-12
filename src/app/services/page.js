@@ -138,7 +138,7 @@ export default function ServicesPage() {
           <PricingSection />
 
           {/* CTA Section */}
-          <CtaPanel
+          <CtaPanel headingLevel="h2"
             className="my-24"
             heading={
               <>

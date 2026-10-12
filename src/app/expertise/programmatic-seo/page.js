@@ -1,8 +1,13 @@
 // src/app/expertise/programmatic-seo/page.js
 
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import Link from "next/link";
+import PageShell from "../../components/PageShell";
+import PageHero from "../../components/ui/PageHero";
+import SectionHeading from "../../components/ui/SectionHeading";
+import CtaPanel from "../../components/ui/CtaPanel";
+import { Section } from "../../components/ui/Section";
+import { Container } from "../../components/ui/Container";
+import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
 import { PERSON_SCHEMA } from "../../../lib/schema";
 
@@ -74,46 +79,46 @@ const faqSchema = {
 
 export default function ProgrammaticSEOPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
-      <Navbar />
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
-
-        <div className="flex items-center gap-4 mb-8 h-4">
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-            Expertise
+    <PageShell
+      schema={
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          />
+        </>
+      }
+    >
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
+          <PageHero
+            eyebrow="Expertise"
+            size="compact"
+            title={
+              <>
+                Programmatic SEO{" "}
+                <span className="gold-text">— Engineered Pages That Scale</span>
+              </>
+            }
+          />
+          <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
+            When there are hundreds of keywords worth owning and no time to write
+            each page by hand, programmatic SEO is the answer. Provided it is
+            built by someone who can write the code and understand the search
+            implications at the same time.
           </p>
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-        </div>
-
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
-          Programmatic SEO{" "}
-          <span className="gold-text">— Engineered Pages That Scale</span>
-        </h1>
-        <p className="text-[#ADB7BE] text-lg mb-16 max-w-2xl">
-          When there are hundreds of keywords worth owning and no time to write
-          each page by hand, programmatic SEO is the answer. Provided it is
-          built by someone who can write the code and understand the search
-          implications at the same time.
-        </p>
 
         {/* Q1 */}
         <section className="mt-12" aria-labelledby="q1">
-          <h2 id="q1" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What is programmatic SEO?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q1">
+            What is <span className="gold-text">programmatic SEO</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Programmatic SEO is the practice of building large numbers of
               search-optimised pages from a structured data source — a database,
               a spreadsheet, or an API — rather than writing each page manually.
@@ -121,7 +126,7 @@ export default function ProgrammaticSEOPage() {
               thousands of unique, indexable URLs, each targeting a specific
               keyword variation, location, or product category.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The approach is used by marketplaces, directories, job boards,
               property platforms, and any business with a structured inventory
               that maps to real search demand. The companies that scale fastest
@@ -133,11 +138,11 @@ export default function ProgrammaticSEOPage() {
 
         {/* Q2 */}
         <section className="mt-12" aria-labelledby="q2">
-          <h2 id="q2" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            When does programmatic SEO make sense for a business?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q2">
+            When does <span className="gold-text">programmatic SEO</span> make sense for a business?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Programmatic SEO makes sense when a business has a large,
               structured inventory that maps naturally to search demand: property
               listings, job boards, product catalogues, service-area pages, or
@@ -146,7 +151,7 @@ export default function ProgrammaticSEOPage() {
               a national trades company that wants to rank in every UK city and
               town for its service.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               It does not make sense when the keyword set is small, when the
               data does not vary meaningfully between pages, or when a business
               does not have the domain authority to get a large number of new
@@ -158,11 +163,11 @@ export default function ProgrammaticSEOPage() {
 
         {/* Q3 */}
         <section className="mt-12" aria-labelledby="q3">
-          <h2 id="q3" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What is the difference between a programmatic page and a doorway page?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q3">
+            What is the difference between a <span className="gold-text">programmatic page</span> and a doorway page?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               A doorway page is a low-quality page created solely to rank for a
               keyword, with no genuine value for the user. Google penalises
               these explicitly. A programmatic page, done correctly, provides
@@ -170,7 +175,7 @@ export default function ProgrammaticSEOPage() {
               different context, different utility for the person who lands on
               it.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The distinction is in the quality and uniqueness of the content,
               not the method of generation. A page listing real service
               availability in a specific postcode, with accurate local data and
@@ -184,11 +189,11 @@ export default function ProgrammaticSEOPage() {
 
         {/* Q4 */}
         <section className="mt-12" aria-labelledby="q4">
-          <h2 id="q4" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How does an engineer approach programmatic SEO differently?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q4">
+            How does an engineer approach <span className="gold-text">programmatic SEO</span> differently?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An engineer builds the data pipeline, the template logic, and the
               deployment infrastructure themselves. That means the content is
               generated from real structured data rather than thin rewrites, the
@@ -197,7 +202,7 @@ export default function ProgrammaticSEOPage() {
               is applied at scale programmatically — not added manually to each
               page after the fact.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               Khamare builds programmatic SEO projects in Next.js, which gives
               full control over rendering strategy (static generation,
               incremental static regeneration, or server rendering depending on
@@ -211,11 +216,11 @@ export default function ProgrammaticSEOPage() {
 
         {/* Q5 */}
         <section className="mt-12" aria-labelledby="q5">
-          <h2 id="q5" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What results can programmatic SEO deliver?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q5">
+            What <span className="gold-text">results</span> can programmatic SEO deliver?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               At scale, a well-executed programmatic SEO build can produce
               thousands of ranking pages targeting long-tail queries that a
               business would never have the resource to write manually. The
@@ -223,7 +228,7 @@ export default function ProgrammaticSEOPage() {
               low-volume but collectively significant — compounds over time
               in a way that a handful of high-competition pages cannot.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The key metric is not page count but indexed, ranking, converting
               URLs. A build that generates 5,000 pages and gets 200 of them
               indexed and ranking for relevant terms is more valuable than a
@@ -234,7 +239,7 @@ export default function ProgrammaticSEOPage() {
         </section>
 
         {/* Internal links */}
-        <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related expertise">
+        <Card as="nav" aria-label="Related expertise" className="reveal mt-16" style={{ "--rv-delay": "200ms" }}>
           <p className="text-white font-bold mb-4">Related expertise</p>
           <ul className="space-y-2">
             {[
@@ -243,34 +248,32 @@ export default function ProgrammaticSEOPage() {
               { href: "/expertise/ai-agents", label: "AI agents for UK businesses" },
               { href: "/expertise/google-ads-api", label: "Google Ads API" },
               { href: "/about", label: "About Khamare Clarke" },
-            ].map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-[#ffb700]">→</span> {l.label}
+            ].map((l, index) => (
+              <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
+                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
+                  <span className="text-primary">→</span> {l.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </nav>
+        </Card>
 
         {/* CTA */}
-        <div className="mt-12 bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-10 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Want to know whether programmatic SEO fits your business?
-          </h2>
-          <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
-            Book a free 30-minute strategy call. Bring your current keyword
-            targets and site structure and we will assess whether a programmatic
-            build makes sense, what the data requirements are, and what the
-            projected output looks like.
-          </p>
+        <CtaPanel headingLevel="h2"
+          className="mt-12"
+          heading={
+            <>
+              Want to know whether <span className="gold-text">programmatic SEO</span> fits your business?
+            </>
+          }
+          body="Book a free 30-minute strategy call. Bring your current keyword targets and site structure and we will assess whether a programmatic build makes sense, what the data requirements are, and what the projected output looks like."
+        >
           <CTAButton eventLabel="expertise_programmatic_seo_cta" caption="How many pages you actually need. A real number.">
             Book Your Free Strategy Call
           </CTAButton>
-        </div>
-      </div>
-
-      <Footer />
-    </main>
+        </CtaPanel>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }

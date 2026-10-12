@@ -1,8 +1,13 @@
 // src/app/expertise/seo/page.js
 
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import Link from "next/link";
+import PageShell from "../../components/PageShell";
+import PageHero from "../../components/ui/PageHero";
+import SectionHeading from "../../components/ui/SectionHeading";
+import CtaPanel from "../../components/ui/CtaPanel";
+import { Section } from "../../components/ui/Section";
+import { Container } from "../../components/ui/Container";
+import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
 import { PERSON_SCHEMA } from "../../../lib/schema";
 
@@ -80,46 +85,46 @@ const faqSchema = {
 
 export default function SEOSpecialistPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
-      <Navbar />
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
-
-        <div className="flex items-center gap-4 mb-8 h-4">
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-            Expertise
+    <PageShell
+      schema={
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          />
+        </>
+      }
+    >
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
+          <PageHero
+            eyebrow="Expertise"
+            size="compact"
+            title={
+              <>
+                SEO Specialist{" "}
+                <span className="gold-text">
+                  — What a Specialist Does That an Agency Won't
+                </span>
+              </>
+            }
+          />
+          <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
+            SEO advice is everywhere. Someone accountable for the work, the
+            rankings, and the phone calls is harder to find.
           </p>
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-        </div>
-
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
-          SEO Specialist{" "}
-          <span className="gold-text">
-            — What a Specialist Does That an Agency Won't
-          </span>
-        </h1>
-        <p className="text-[#ADB7BE] text-lg mb-16 max-w-2xl">
-          SEO advice is everywhere. Someone accountable for the work, the
-          rankings, and the phone calls is harder to find.
-        </p>
 
         {/* Q1 */}
         <section className="mt-12" aria-labelledby="q1">
-          <h2 id="q1" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What does an SEO specialist do?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q1">
+            What does an <span className="gold-text">SEO specialist</span> do?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An SEO specialist audits, fixes, and grows a website's visibility
               in search engines. That includes technical SEO (site speed,
               crawlability, structured data), on-page content optimisation,
@@ -127,7 +132,7 @@ export default function SEOSpecialistPage() {
               geography. The goal is qualified traffic: visitors who are looking
               for exactly what you sell.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The work is continuous, not a one-off project. Search algorithms
               update, competitors invest, and what worked twelve months ago may
               no longer be sufficient. A specialist monitors, adjusts, and
@@ -139,18 +144,18 @@ export default function SEOSpecialistPage() {
 
         {/* Q2 */}
         <section className="mt-12" aria-labelledby="q2">
-          <h2 id="q2" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How is an SEO specialist different from an SEO agency?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q2">
+            How is an SEO specialist different from an <span className="gold-text">SEO agency</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An agency allocates your account to a junior executive who works
               from a template. You may meet a senior person at the pitch, then
               never see them again. A specialist does the work themselves. You
               know exactly who is accountable for rankings, who is writing the
               copy, and who will answer when something changes in the algorithm.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               Agencies also tend to separate SEO from development. If a
               technical issue is found — a slow page, a crawl block, a broken
               structured data implementation — it goes on a list for another
@@ -162,11 +167,11 @@ export default function SEOSpecialistPage() {
 
         {/* Q3 */}
         <section className="mt-12" aria-labelledby="q3">
-          <h2 id="q3" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How long does SEO take to show results?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q3">
+            How long does SEO take to <span className="gold-text">show results</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               For local SEO with Google Business Profile work, results can
               appear within weeks. Upgrade Roofing Solutions saw a 538% increase
               in Google Business Profile interactions within 90 days, with over
@@ -174,7 +179,7 @@ export default function SEOSpecialistPage() {
               typical — it reflects a strong starting position, fast technical
               improvements, and a well-managed local campaign.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               For competitive organic rankings, three to six months is a
               realistic window for measurable movement. Timelines depend on
               domain authority, competition, and how technically sound the site
@@ -187,11 +192,11 @@ export default function SEOSpecialistPage() {
 
         {/* Q4 */}
         <section className="mt-12" aria-labelledby="q4">
-          <h2 id="q4" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What does local SEO involve?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q4">
+            What does <span className="gold-text">local SEO</span> involve?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Local SEO targets searches tied to a geographic area: "roofer
               Stoke-on-Trent", "accountant near me", "plumber open now". It
               covers Google Business Profile optimisation, local citation
@@ -199,7 +204,7 @@ export default function SEOSpecialistPage() {
               directories), review strategy, and locally-focused on-page
               content.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               Schema markup is critical here. Google reads structured data to
               understand what a business does, where it operates, and which
               queries it is relevant to. Most local businesses have no schema
@@ -212,32 +217,32 @@ export default function SEOSpecialistPage() {
 
         {/* Q5 */}
         <section className="mt-12" aria-labelledby="q5">
-          <h2 id="q5" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How much does SEO cost in the UK?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q5">
+            How much does <span className="gold-text">SEO cost</span> in the UK?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Khamare Clarke's SEO retainers run at three tiers:
             </p>
             <ul className="space-y-3 pl-4">
-              <li className="flex items-start gap-3">
-                <span className="text-[#ffb700] font-bold mt-1">—</span>
+              <li className="reveal flex items-start gap-3" style={{ "--rv-delay": "0ms" }}>
+                <span className="text-primary font-bold mt-1">—</span>
                 <span>
                   <strong className="text-white">Get Found</strong> — from
                   £495/mo. Google Business Profile domination, local map pack
                   visibility, citation clean-up.
                 </span>
               </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#ffb700] font-bold mt-1">—</span>
+              <li className="reveal flex items-start gap-3" style={{ "--rv-delay": "90ms" }}>
+                <span className="text-primary font-bold mt-1">—</span>
                 <span>
                   <strong className="text-white">Run The Area</strong> — from
                   £1,250/mo. Full local SEO plus organic content, technical
                   fixes, and competitor gap analysis.
                 </span>
               </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#ffb700] font-bold mt-1">—</span>
+              <li className="reveal flex items-start gap-3" style={{ "--rv-delay": "180ms" }}>
+                <span className="text-primary font-bold mt-1">—</span>
                 <span>
                   <strong className="text-white">Own The Market</strong> — from
                   £2,500/mo. Full-stack SEO, AI search optimisation, programmatic
@@ -245,7 +250,7 @@ export default function SEOSpecialistPage() {
                 </span>
               </li>
             </ul>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               UK SEO agencies typically charge £1,000–£5,000/mo for
               multi-person account teams. A specialist at £495–£2,500/mo with
               direct accountability is a different proposition.
@@ -255,18 +260,18 @@ export default function SEOSpecialistPage() {
 
         {/* Q6 */}
         <section className="mt-12" aria-labelledby="q6">
-          <h2 id="q6" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            Who is Khamare Clarke and why does his background matter for SEO?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q6">
+            Who is <span className="gold-text">Khamare Clarke</span> and why does his background matter for SEO?
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Khamare Clarke is based in Stoke-on-Trent, Staffordshire. He
               holds a BSc in Software Engineering, a BSc in Digital Marketing,
               and is completing an MSc in Computer Science with Artificial
               Intelligence at Keele University (due 2027). He is certified in
               Google Ads and Google Analytics.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The engineering background means he can audit and fix a site's
               technical foundation without relying on a separate developer team.
               The marketing background means strategy is built around
@@ -275,7 +280,7 @@ export default function SEOSpecialistPage() {
               writes and structures content for both Google and AI answer
               engines like ChatGPT, Gemini, and Perplexity.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "360ms" }}>
               Documented results: Upgrade Roofing Solutions — 538% Google
               Business Profile interaction growth in 90 days, 30+ qualified
               calls in the first two weeks. City Plaza Abu Dhabi — 5X leads
@@ -287,11 +292,11 @@ export default function SEOSpecialistPage() {
 
         {/* Synonym coverage */}
         <section className="mt-12" aria-labelledby="synonyms">
-          <h2 id="synonyms" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            SEO consultant, SEO expert, SEO freelancer: what these terms mean in practice
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="synonyms">
+            <span className="gold-text">SEO consultant</span>, SEO expert, SEO freelancer: what these terms mean in practice
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Businesses searching for an SEO consultant, SEO expert, or SEO freelancer are looking for the same
               thing: someone accountable, doing the work themselves, with a track record they can verify. The
               distinction between those labels is mostly one of business structure. A freelancer operates independently.
@@ -299,7 +304,7 @@ export default function SEOSpecialistPage() {
               Khamare Clarke operates as all three: strategic, technical, and directly accountable for every element
               of the work.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The phrase "search engine optimisation specialist" covers the same territory as SEO specialist.
               The important differentiation is not the label but the scope of work: does the person write the
               content, fix the code, and update the schema themselves, or do they produce a report and hand it
@@ -309,8 +314,7 @@ export default function SEOSpecialistPage() {
           </div>
         </section>
 
-        {/* Internal links */}
-        <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related expertise">
+        <Card as="nav" aria-label="Related expertise" className="reveal mt-16" style={{ "--rv-delay": "200ms" }}>
           <p className="text-white font-bold mb-4">Related expertise</p>
           <ul className="space-y-2">
             {[
@@ -319,33 +323,32 @@ export default function SEOSpecialistPage() {
               { href: "/expertise/ai-agents", label: "AI agents for UK businesses" },
               { href: "/expertise/google-ads-api", label: "Google Ads API" },
               { href: "/about", label: "About Khamare Clarke" },
-            ].map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-[#ffb700]">→</span> {l.label}
+            ].map((l, index) => (
+              <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
+                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
+                  <span className="text-primary">→</span> {l.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </nav>
+        </Card>
 
         {/* CTA */}
-        <div className="mt-12 bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-10 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Ready to talk about your rankings?
-          </h2>
-          <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
-            Book a free 30-minute strategy call. No obligation, no sales team.
-            You will get an honest assessment of where your site stands and
-            what it would take to move it.
-          </p>
+        <CtaPanel headingLevel="h2"
+          className="mt-12"
+          heading={
+            <>
+              Ready to talk about your <span className="gold-text">rankings?</span>
+            </>
+          }
+          body="Book a free 30-minute strategy call. No obligation, no sales team. You will get an honest assessment of where your site stands and what it would take to move it."
+        >
           <CTAButton eventLabel="expertise_seo_cta" caption="Why the page isn't ranking. The actual cause.">
             Book Your Free Strategy Call
           </CTAButton>
-        </div>
-      </div>
-
-      <Footer />
-    </main>
+        </CtaPanel>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }

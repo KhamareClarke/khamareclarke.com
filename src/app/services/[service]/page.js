@@ -176,7 +176,7 @@ export default function ServiceHubPage({ params }) {
         </nav>
 
         {/* CTA */}
-        <CtaPanel
+        <CtaPanel headingLevel="h2"
           className="mt-12"
           heading={<>Ready to discuss {service.heading}?</>}
           body="30 minutes. No obligation. An honest look at where your business stands and what it would take to move it."

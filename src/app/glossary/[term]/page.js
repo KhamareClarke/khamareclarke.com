@@ -177,7 +177,7 @@ export default function GlossaryTermPage({ params }) {
         </nav>
 
         {/* CTA */}
-        <CtaPanel
+        <CtaPanel headingLevel="h2"
           className="mt-12"
           heading={<>Apply {displayTitle} to your business</>}
           body="Book a free 30-minute strategy call. No obligation, no sales team. You will get an honest assessment of where your business stands and what this would change."

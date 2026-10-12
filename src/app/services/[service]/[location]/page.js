@@ -273,7 +273,7 @@ export default function ServiceLocationPage({ params }) {
         </nav>
 
         {/* CTA */}
-        <CtaPanel
+        <CtaPanel headingLevel="h2"
           className="mt-12"
           heading={<>Ready to talk about {service.shortTitle} in {location.name}?</>}
           body={`30 minutes. No obligation. An honest assessment of where your ${location.name} business stands and what it would take to move it.`}

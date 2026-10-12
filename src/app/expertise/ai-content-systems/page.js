@@ -1,8 +1,13 @@
 // src/app/expertise/ai-content-systems/page.js
 
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import Link from "next/link";
+import PageShell from "../../components/PageShell";
+import PageHero from "../../components/ui/PageHero";
+import SectionHeading from "../../components/ui/SectionHeading";
+import CtaPanel from "../../components/ui/CtaPanel";
+import { Section } from "../../components/ui/Section";
+import { Container } from "../../components/ui/Container";
+import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
 import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../../lib/schema";
 
@@ -63,41 +68,41 @@ const faqSchema = {
 
 export default function AIContentSystemsPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-
-      <Navbar />
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
-
-        <div className="flex items-center gap-4 mb-8 h-4">
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-            Expertise
+    <PageShell
+      schema={
+        <>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }} />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }} />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        </>
+      }
+    >
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
+          <PageHero
+            eyebrow="Expertise"
+            size="compact"
+            title={
+              <>
+                AI Content Systems{" "}
+                <span className="gold-text">| Scale Without Noise</span>
+              </>
+            }
+          />
+          <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
+            Content volume without strategic structure produces noise: pages that do not
+            rank, do not convert, and are not cited by AI models. An AI content system
+            is the opposite: a structured pipeline that produces accurate, search-intent-aligned
+            content at a pace no manual process can match -- and structured from the first
+            page for both Google and AI search visibility.
           </p>
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-        </div>
-
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
-          AI Content Systems{" "}
-          <span className="gold-text">| Scale Without Noise</span>
-        </h1>
-        <p className="text-[#ADB7BE] text-lg mb-16 max-w-2xl">
-          Content volume without strategic structure produces noise: pages that do not
-          rank, do not convert, and are not cited by AI models. An AI content system
-          is the opposite: a structured pipeline that produces accurate, search-intent-aligned
-          content at a pace no manual process can match -- and structured from the first
-          page for both Google and AI search visibility.
-        </p>
 
         <section className="mt-12" aria-labelledby="q1">
-          <h2 id="q1" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What an AI content system is
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q1">
+            What an <span className="gold-text">AI content system</span> is
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI content system is a structured pipeline for producing content at
               scale, using AI assistance to reduce the time cost of output without
               sacrificing accuracy, brand voice, or intent alignment. It is not a
@@ -106,7 +111,7 @@ export default function AIContentSystemsPage() {
               citation patterns -- with a production process that keeps a human in
               control of accuracy and relevance.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The distinction from raw AI-generated content is significant. AI-generated
               content produces volume; AI-assisted content within a structured editorial
               process produces output that ranks, converts, and gets cited. The AI
@@ -117,9 +122,9 @@ export default function AIContentSystemsPage() {
         </section>
 
         <section className="mt-12" aria-labelledby="content-types">
-          <h2 id="content-types" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            Content types produced
-          </h2>
+          <SectionHeading id="content-types">
+            Content <span className="gold-text">types produced</span>
+          </SectionHeading>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
               ["Service and location pages", "Programmatic pages at scale: accurate, unique content for every service-by-location combination. Built to rank for local commercial queries."],
@@ -128,21 +133,21 @@ export default function AIContentSystemsPage() {
               ["Blog and editorial content", "Search-intent-led posts with Article schema, structured for both traditional ranking and AI search visibility."],
               ["Email and nurture content", "Follow-up sequences and campaign copy that converts warm leads without requiring manual writing for every send."],
               ["Structured data markup", "JSON-LD implementation across all content types: FAQPage, Article, DefinedTerm, BreadcrumbList, WebPage."],
-            ].map(([title, body]) => (
-              <div key={title} className="bg-[#1a1a1a] border border-[#ffb700]/20 rounded-xl p-5">
-                <p className="text-[#ffb700] font-semibold text-sm mb-2">{title}</p>
-                <p className="text-[#ADB7BE] text-sm leading-relaxed">{body}</p>
-              </div>
+            ].map(([title, body], index) => (
+              <Card key={title} className="reveal" style={{ "--rv-delay": `${index * 110}ms` }}>
+                <p className="text-primary font-semibold text-sm mb-2">{title}</p>
+                <p className="text-muted text-sm leading-relaxed">{body}</p>
+              </Card>
             ))}
           </div>
         </section>
 
         <section className="mt-12" aria-labelledby="q4">
-          <h2 id="q4" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            Content and AI search visibility
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+          <SectionHeading id="q4">
+            Content and <span className="gold-text">AI search visibility</span>
+          </SectionHeading>
+          <div className="space-y-4 text-muted text-lg leading-relaxed">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               AI models cite content that states facts clearly, is structured for easy
               extraction, and comes from sources they have indexed as authoritative.
               An AI content system is built from the start with these citation patterns
@@ -151,7 +156,7 @@ export default function AIContentSystemsPage() {
               Entity consistency across pages so AI models can build a reliable picture
               of what the business does and who it serves.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The growing proportion of searches answered by AI-generated summaries --
               in ChatGPT, Gemini, Perplexity, and Google AI Overviews -- means that
               content not structured for these patterns is invisible to a segment that
@@ -163,7 +168,7 @@ export default function AIContentSystemsPage() {
           </div>
         </section>
 
-        <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related expertise">
+        <Card as="nav" aria-label="Related expertise" className="reveal mt-16" style={{ "--rv-delay": "200ms" }}>
           <p className="text-white font-bold mb-4">Related expertise</p>
           <ul className="space-y-2">
             {[
@@ -173,32 +178,31 @@ export default function AIContentSystemsPage() {
               { href: "/expertise/seo", label: "SEO specialist" },
               { href: "/expertise/digital-marketing", label: "Digital marketing" },
               { href: "/expertise/web-design-development", label: "Web design and development" },
-            ].map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-[#ffb700]">--</span> {l.label}
+            ].map((l, index) => (
+              <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
+                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
+                  <span className="text-primary">--</span> {l.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </nav>
+        </Card>
 
-        <div className="mt-12 bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-10 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Ready to build a content system that actually ranks?
-          </h2>
-          <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
-            Book a free 30-minute call. We will look at your current content,
-            identify the highest-priority gaps, and outline what a structured
-            AI content system would produce for your business.
-          </p>
+        <CtaPanel headingLevel="h2"
+          className="mt-12"
+          heading={
+            <>
+              Ready to build a <span className="gold-text">content system</span> that actually ranks?
+            </>
+          }
+          body="Book a free 30-minute call. We will look at your current content, identify the highest-priority gaps, and outline what a structured AI content system would produce for your business."
+        >
           <CTAButton eventLabel="expertise_ai_content_systems_cta" caption="The content you can't keep up with. What to automate.">
             Book Your Free Strategy Call
           </CTAButton>
-        </div>
-      </div>
-
-      <Footer />
-    </main>
+        </CtaPanel>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }

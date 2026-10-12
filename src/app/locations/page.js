@@ -143,6 +143,7 @@ export default function LocationsPage() {
           {/* CTA */}
           <CtaPanel
             className="mt-20"
+            headingLevel="h2"
             heading={
               <>
                 Not sure if your <span className="gold-text">area is covered?</span>
