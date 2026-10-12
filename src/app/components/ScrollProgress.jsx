@@ -8,8 +8,13 @@ import { useEffect, useState } from "react";
  * which is what carries someone through a long page rather than letting them drift.
  *
  * Deliberately outside the layout flow (fixed, 2px) so it can never shift content.
- * Not animated independently — it only follows scroll position, so it is safe under
- * prefers-reduced-motion and needs no media query.
+ *
+ * Two motions, and they are independent of each other: `scaleX` follows the scroll
+ * position and is driven from here, while the gold sweeping along the fill comes from
+ * the `.gold-rule` class in globals.css — the same keyframe, duration and zero delay as
+ * every other gold gradient, so the bar is in phase with the text rather than drifting.
+ * The sweep needs no media query of its own: the blanket prefers-reduced-motion rule in
+ * globals.css zeroes its duration and iteration count along with everything else.
  */
 const ScrollProgress = () => {
   const [progress, setProgress] = useState(0);

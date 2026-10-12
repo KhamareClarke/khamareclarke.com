@@ -27,11 +27,17 @@ export const metadata = {
   authors: [{ name: 'Khamare Clarke' }],
   creator: 'Khamare Clarke',
   publisher: 'Khamare Clarke',
+  // The vector mark leads the list deliberately. The circuit-lion is a dense thin-line
+  // drawing, and the raster favicons were downscaled from the 768px source, which turns
+  // it to mush at 16/32/48px. Browsers that can take an SVG (Chrome, Firefox, Edge) now
+  // get a crisp one; the PNGs and the .ico stay behind it as fallbacks, and `.ico` is
+  // listed LAST because `sizes: 'any'` makes it compete with the SVG if it comes first.
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/images/logo.svg', type: 'image/svg+xml' },
       { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
       { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+      { url: '/favicon.ico', sizes: 'any' },
     ],
     apple: [
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
