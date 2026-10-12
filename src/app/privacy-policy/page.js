@@ -45,7 +45,9 @@ export default function PrivacyPolicyPage() {
     <PageShell>
       <Section className="mt-0 pb-ds-4 page-top">
         <Container size="narrow">
-          <PageHero eyebrow="Legal" title="Privacy Policy" />
+          {/* size="compact" — see the note in terms/page.js: a short page title on a
+              legal page is not a display title, so it does not take the hero scale. */}
+          <PageHero eyebrow="Legal" size="compact" title="Privacy Policy" />
 
           <p className="reveal text-muted text-sm mt-6" style={{ "--rv-delay": "260ms" }}>
             Last updated: July 2025

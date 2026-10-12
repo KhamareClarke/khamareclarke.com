@@ -25,7 +25,9 @@ export default function TermsPage() {
     <PageShell>
       <Section className="mt-0 pb-ds-4 page-top">
         <Container size="narrow">
-          <PageHero eyebrow="Legal" title="Terms of Service" />
+          {/* size="compact": "Terms of Service" is a short title but not a display
+              title, and the hero scale rendered it at 111px over dense legal text. */}
+          <PageHero eyebrow="Legal" size="compact" title="Terms of Service" />
 
           <p className="reveal text-muted text-sm mt-6" style={{ "--rv-delay": "260ms" }}>
             Last updated: July 2025
