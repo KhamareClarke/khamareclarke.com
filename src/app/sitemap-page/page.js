@@ -48,6 +48,7 @@ export default function SitemapPage() {
         <Container size="main">
           <PageHero
             eyebrow="Sitemap"
+            size="compact"
             title={
               <>
                 Site <span className="gold-text">Navigation</span>
@@ -96,7 +97,7 @@ export default function SitemapPage() {
             className="reveal mt-16 text-center p-8 md:p-12"
             style={{ "--rv-delay": "200ms" }}
           >
-            <SectionHeading id="need-help" align="center">
+            <SectionHeading size="small" id="need-help" align="center">
               Need Help Finding <span className="gold-text">Something?</span>
             </SectionHeading>
             <p className="reveal text-muted mb-8 max-w-2xl mx-auto" style={{ "--rv-delay": "200ms" }}>

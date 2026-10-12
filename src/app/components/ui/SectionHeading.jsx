@@ -23,16 +23,34 @@ import React from "react";
  * 'center' for the ones the homepage centres. It changes alignment only — the type
  * scale, weight, tracking and reveal timing are identical either way.
  *
+ * SIZE, for pages whose h1 is not the hero scale. `ds-heading-2` runs to 60px, which
+ * outranks a 44px page title — so on /terms, /privacy-policy and /sitemap-page, whose
+ * h1 is `size="compact"` (26-44px), a 60px section heading was visually outranking the
+ * page it belongs to. `small` uses ds-heading-3 (20-24px, weight 700), which restores a
+ * 44 > 24 hierarchy and is the right register for dense legal text anyway. Both are
+ * existing tokens; nothing new was added to the ladder.
+ *
+ * The in-between size this leaves out — roughly 30px — is a real gap in
+ * design-tokens.css, which jumps from 24px to 60px. If a page ever needs it, that is a
+ * new token, and a decision rather than a tweak.
+ *
  * @param {React.ReactNode} children - the heading text; wrap a word in <span className="gold-text"> for the accent
  * @param {React.ReactNode} [lede] - supporting paragraph
  * @param {string} [id] - for aria-labelledby on the enclosing <section>
  * @param {'left'|'center'} [align='left']
+ * @param {'default'|'small'} [size='default'] - 'small' = ds-heading-3, for pages whose h1 is not the hero scale
  */
+const headingSizes = {
+  default: "ds-heading-2",
+  small: "ds-heading-3",
+};
+
 export default function SectionHeading({
   children,
   lede,
   id,
   align = "left",
+  size = "default",
   className = "",
 }) {
   return (
@@ -42,7 +60,7 @@ export default function SectionHeading({
     >
       <h2
         id={id}
-        className="reveal ds-heading-2 text-white mb-4"
+        className={`reveal ${headingSizes[size] || headingSizes.default} text-white mb-4`}
         style={{ "--rv-delay": "120ms" }}
       >
         {children}

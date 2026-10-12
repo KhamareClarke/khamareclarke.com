@@ -36,7 +36,7 @@ export default function TermsPage() {
           <div className="mt-16 space-y-10 text-muted leading-relaxed">
 
             <section aria-labelledby="terms-applies">
-              <SectionHeading id="terms-applies">Who these terms apply to</SectionHeading>
+              <SectionHeading size="small" id="terms-applies">Who these terms apply to</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 These terms govern services provided by Khamare Clarke (individual consultant, Stoke-on-Trent,
                 England) to clients who have agreed to a service engagement. By engaging Khamare Clarke, you
@@ -46,7 +46,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-services">
-              <SectionHeading id="terms-services">Services</SectionHeading>
+              <SectionHeading size="small" id="terms-services">Services</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 Services include but are not limited to: local SEO, AI search optimisation, Google Business
                 Profile management, AI receptionist and lead response systems, Google Ads management, website
@@ -56,7 +56,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-payment">
-              <SectionHeading id="terms-payment">Contract terms and payment</SectionHeading>
+              <SectionHeading size="small" id="terms-payment">Contract terms and payment</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 <strong className="text-white">Get Found</strong> packages operate on a rolling monthly basis
                 from day one. <strong className="text-white">Run The Area</strong> and{" "}
@@ -72,7 +72,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-guarantee">
-              <SectionHeading id="terms-guarantee">
+              <SectionHeading size="small" id="terms-guarantee">
                 The ranked-or-refunded <span className="gold-text">guarantee</span>
               </SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -85,7 +85,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-responsibilities">
-              <SectionHeading id="terms-responsibilities">Client responsibilities</SectionHeading>
+              <SectionHeading size="small" id="terms-responsibilities">Client responsibilities</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 You agree to provide timely access, logins, content, and approvals as reasonably required.
                 Delays caused by your side may affect timelines. You are responsible for ensuring that any
@@ -94,7 +94,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-ip">
-              <SectionHeading id="terms-ip">Intellectual property</SectionHeading>
+              <SectionHeading size="small" id="terms-ip">Intellectual property</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 Content, strategies, and systems created during an engagement remain the property of Khamare
                 Clarke until full payment is received, at which point ownership of deliverables agreed in
@@ -105,7 +105,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-liability">
-              <SectionHeading id="terms-liability">Results and liability</SectionHeading>
+              <SectionHeading size="small" id="terms-liability">Results and liability</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 SEO, AI search, and digital marketing involve third-party platforms (Google, OpenAI, and others)
                 that change their algorithms and policies. Outcomes cannot be guaranteed beyond what is explicitly
@@ -120,7 +120,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-confidentiality">
-              <SectionHeading id="terms-confidentiality">Confidentiality</SectionHeading>
+              <SectionHeading size="small" id="terms-confidentiality">Confidentiality</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 Both parties agree to keep confidential any non-public information shared during the engagement.
                 This does not prevent Khamare Clarke from using anonymised results or metrics in case studies,
@@ -129,7 +129,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-termination">
-              <SectionHeading id="terms-termination">Termination</SectionHeading>
+              <SectionHeading size="small" id="terms-termination">Termination</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 Either party may terminate a rolling monthly engagement by giving notice as specified in the
                 client agreement (typically 30 days). Fixed-term agreements (six-month initial terms) may be
@@ -139,7 +139,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-law">
-              <SectionHeading id="terms-law">Governing law</SectionHeading>
+              <SectionHeading size="small" id="terms-law">Governing law</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 These terms and any disputes arising from them are governed by the law of England and Wales.
                 Both parties agree to the exclusive jurisdiction of the courts of England and Wales.
@@ -147,7 +147,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-changes">
-              <SectionHeading id="terms-changes">Changes to these terms</SectionHeading>
+              <SectionHeading size="small" id="terms-changes">Changes to these terms</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 These terms may be updated from time to time. The version in force at the time your engagement
                 begins is the one that applies to that engagement, unless both parties agree in writing to adopt
@@ -156,7 +156,7 @@ export default function TermsPage() {
             </section>
 
             <section aria-labelledby="terms-contact">
-              <SectionHeading id="terms-contact">Contact</SectionHeading>
+              <SectionHeading size="small" id="terms-contact">Contact</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 <a href="mailto:info@khamareclarke.com" className="text-primary hover:underline">info@khamareclarke.com</a>
               </p>

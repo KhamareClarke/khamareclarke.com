@@ -56,7 +56,7 @@ export default function PrivacyPolicyPage() {
           <div className="mt-16 space-y-10 text-muted leading-relaxed">
 
             <section aria-labelledby="privacy-covers">
-              <SectionHeading id="privacy-covers">Who this covers</SectionHeading>
+              <SectionHeading size="small" id="privacy-covers">Who this covers</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 This policy covers how Khamare Clarke (trading as an individual SEO and AI systems consultant,
                 based in Stoke-on-Trent, England) handles personal data collected through khamareclarke.com.
@@ -65,7 +65,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section aria-labelledby="privacy-collected">
-              <SectionHeading id="privacy-collected">What data is collected and why</SectionHeading>
+              <SectionHeading size="small" id="privacy-collected">What data is collected and why</SectionHeading>
 
               <h3 className="text-base font-semibold text-white/90 mb-2 mt-5">Contact form</h3>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -90,7 +90,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section aria-labelledby="privacy-not-done">
-              <SectionHeading id="privacy-not-done">What is not done with your data</SectionHeading>
+              <SectionHeading size="small" id="privacy-not-done">What is not done with your data</SectionHeading>
               <ul className="list-disc list-inside space-y-1 text-muted">
                 {notDone.map((item, index) => (
                   <li key={item} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
@@ -101,7 +101,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section aria-labelledby="privacy-processors">
-              <SectionHeading id="privacy-processors">Third-party processors</SectionHeading>
+              <SectionHeading size="small" id="privacy-processors">Third-party processors</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>The following services process data as part of operating this site:</p>
               <ul className="list-disc list-inside space-y-1 text-muted mt-2">
                 {processors.map((processor, index) => (
@@ -116,7 +116,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section aria-labelledby="privacy-retention">
-              <SectionHeading id="privacy-retention">How long data is kept</SectionHeading>
+              <SectionHeading size="small" id="privacy-retention">How long data is kept</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 Enquiry and contact data is retained for as long as there is an active business relationship or
                 ongoing correspondence, and for up to two years after the last contact. Analytics data is retained
@@ -125,7 +125,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section aria-labelledby="privacy-rights">
-              <SectionHeading id="privacy-rights">
+              <SectionHeading size="small" id="privacy-rights">
                 Your rights under <span className="gold-text">UK GDPR</span>
               </SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>You have the right to:</p>
@@ -144,7 +144,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section aria-labelledby="privacy-cookies">
-              <SectionHeading id="privacy-cookies">Cookies</SectionHeading>
+              <SectionHeading size="small" id="privacy-cookies">Cookies</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 This site uses cookies for analytics (Google Analytics 4). No advertising or tracking cookies
                 are set beyond this. You can disable cookies in your browser settings at any time.
@@ -152,7 +152,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section aria-labelledby="privacy-changes">
-              <SectionHeading id="privacy-changes">Changes to this policy</SectionHeading>
+              <SectionHeading size="small" id="privacy-changes">Changes to this policy</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 If this policy changes materially, the "last updated" date above will be revised. Continued use
                 of the site after a change constitutes acceptance of the updated policy.
@@ -160,7 +160,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section aria-labelledby="privacy-contact">
-              <SectionHeading id="privacy-contact">Contact</SectionHeading>
+              <SectionHeading size="small" id="privacy-contact">Contact</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 For any privacy-related question or request:{" "}
                 <a href="mailto:info@khamareclarke.com" className="text-primary hover:underline">info@khamareclarke.com</a>
