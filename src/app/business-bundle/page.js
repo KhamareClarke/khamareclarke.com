@@ -4,7 +4,7 @@ import { FaCheckCircle, FaStar } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import CTAButton from "../components/CTAButton";
 import CookieBanner from "../components/CookieBanner";
-import Footer from "../components/Footer";
+import PageShell from "../components/PageShell";
 import { Section } from "../components/ui/Section";
 import { Container } from "../components/ui/Container";
 
@@ -178,16 +178,21 @@ function BusinessBundleClientContent() {
 
 
   return (
-    <main className="flex min-h-screen flex-col bg-surface">
+    // PageShell supplies the shared Navbar, ScrollProgress and Footer. This route used
+    // to render a Footer and NO navigation at all, so a visitor arriving here from an
+    // ad had no way to reach any other page — the one structural addition in this file.
+    // `page-top` on the hero clears the fixed navbar, which is 146px tall on desktop;
+    // without it the bar sits on top of the offer frame.
+    <PageShell>
       {/* Full-Screen Hero with Frame */}
-      <Section as="section" className="min-h-screen flex items-center justify-center bg-surface relative overflow-hidden p-2 xs:p-3 sm:p-4 md:p-6 lg:p-8">
+      <Section as="section" className="page-top min-h-screen flex items-center justify-center bg-surface relative overflow-hidden p-2 xs:p-3 sm:p-4 md:p-6 lg:p-8">
         {/* Main Content Frame */}
-        <div className="relative z-10 w-full max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto">
-          <div className="bg-[#1a1a1a] border border-[#ffb700]/20 xs:border-2 xs:border-[#ffb700]/30 rounded-xl xs:rounded-2xl sm:rounded-3xl p-3 xs:p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 shadow-xl xs:shadow-2xl">
+        <div className="reveal reveal-blur relative z-10 w-full max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto" style={{ "--rv-delay": "60ms" }}>
+          <div className="bg-surface-muted border border-primary/20 xs:border-2 xs:border-primary/30 rounded-xl xs:rounded-2xl sm:rounded-3xl p-3 xs:p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 shadow-xl xs:shadow-2xl">
             
             {/* Badge */}
             <div className="flex justify-center mb-3 xs:mb-4 sm:mb-6 md:mb-8">
-              <span className="inline-flex items-center rounded-full bg-[#1a1a1a] border border-[#ffb700]/50 text-[#ffb700] px-2 py-1 xs:px-3 xs:py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-3 text-xs xs:text-sm sm:text-base font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center rounded-full bg-surface-muted border border-primary/50 text-primary px-2 py-1 xs:px-3 xs:py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-3 text-xs xs:text-sm sm:text-base font-bold uppercase tracking-wider">
                 🚀 Best for Startups
               </span>
             </div>
@@ -197,20 +202,20 @@ function BusinessBundleClientContent() {
               AI Business Growth Specialist
             </h1>
 
-            <h2 className="text-center text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-[#ffb700] font-bold mb-4 xs:mb-5 sm:mb-6 md:mb-8">
+            <h2 className="text-center text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-primary font-bold mb-4 xs:mb-5 sm:mb-6 md:mb-8">
               Accelerate Revenue with Smart Automation
             </h2>
 
             {/* Price Section */}
             <div className="text-center mb-4">
-              <div className="inline-flex items-center gap-2 bg-[#0f0f0f] border border-[#ffb700]/30 rounded-lg px-5 py-3">
-                <span className="text-3xl sm:text-4xl font-black text-[#ffb700]">£699</span>
+              <div className="inline-flex items-center gap-2 bg-surface-muted border border-primary/30 rounded-lg px-5 py-3">
+                <span className="text-3xl sm:text-4xl font-black text-primary">£699</span>
               </div>
             </div>
 
             {/* Description */}
             <p className="text-center text-white/90 max-w-full xs:max-w-lg sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed mb-4 xs:mb-5 sm:mb-6 md:mb-8 lg:mb-10 px-2 xs:px-0">
-              <span className="text-[#ffb700] font-medium">Done-for-you websites, ads, and AI systems that deliver predictable growth for UK businesses.</span>
+              <span className="text-primary font-medium">Done-for-you websites, ads, and AI systems that deliver predictable growth for UK businesses.</span>
             </p>
             
             <p className="text-center text-white font-medium text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl mb-6 xs:mb-7 sm:mb-8 md:mb-10 lg:mb-12 px-2 xs:px-0">
@@ -220,7 +225,7 @@ function BusinessBundleClientContent() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 xs:mb-7 sm:mb-8 md:mb-10 lg:mb-12">
               <CTAButton
-                className="whitespace-nowrap px-4 py-2.5 xs:px-6 xs:py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 lg:px-12 lg:py-6 text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-black text-black rounded-2xl shadow-xl xs:shadow-2xl hover:shadow-[#fdbd18]/50 transform hover:scale-105 transition-all duration-300 border xs:border-2 border-[#fdbd18] w-full sm:w-auto min-w-[250px] md:min-w-[300px]"
+                className="whitespace-nowrap px-4 py-2.5 xs:px-6 xs:py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 lg:px-12 lg:py-6 text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-black text-black rounded-2xl shadow-xl xs:shadow-2xl hover:shadow-primary/50 transform hover:scale-105 transition-all duration-300 border xs:border-2 border-primary w-full sm:w-auto min-w-[250px] md:min-w-[300px]"
                 eventLabel="hero_cta"
               >
                 📞 Book Your Free Growth Call
@@ -230,7 +235,7 @@ function BusinessBundleClientContent() {
                 onClick={() => {
                   document.getElementById('explainer-section')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="group relative inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 xs:px-6 xs:py-3 sm:px-8 sm:py-4 text-sm xs:text-base sm:text-lg font-bold text-white bg-transparent border-2 border-white/30 hover:border-[#fdbd18] rounded-2xl hover:bg-[#fdbd18]/10 transition-all duration-300 w-full sm:w-auto"
+                className="group relative inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 xs:px-6 xs:py-3 sm:px-8 sm:py-4 text-sm xs:text-base sm:text-lg font-bold text-white bg-transparent border-2 border-white/30 hover:border-primary rounded-2xl hover:bg-primary/10 transition-all duration-300 w-full sm:w-auto"
               >
                 <span className="relative z-10">👀 See How It Works</span>
               </button>
@@ -254,26 +259,26 @@ function BusinessBundleClientContent() {
 
             {/* Social Proof */}
             <div className="text-center">
-              <div className="flex items-center justify-center gap-1 xs:gap-2 text-[#ffb700] mb-3 xs:mb-4 sm:mb-6 flex-wrap">
+              <div className="flex items-center justify-center gap-1 xs:gap-2 text-primary mb-3 xs:mb-4 sm:mb-6 flex-wrap">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <FaStar key={i} className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl" />
                 ))}
                 <span className="ml-1 xs:ml-2 sm:ml-4 text-white font-medium text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl">"Transparent and efficient - got results in 2 weeks"</span>
               </div>
               
-              <div className="bg-[#0f0f0f] border border-white/20 rounded-lg xs:rounded-xl sm:rounded-2xl px-3 py-2 xs:px-4 xs:py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 max-w-full xs:max-w-lg sm:max-w-2xl md:max-w-3xl mx-auto">
+              <div className="bg-surface-muted border border-white/20 rounded-lg xs:rounded-xl sm:rounded-2xl px-3 py-2 xs:px-4 xs:py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 max-w-full xs:max-w-lg sm:max-w-2xl md:max-w-3xl mx-auto">
                 <p className="text-white/90 text-xs xs:text-sm sm:text-base md:text-lg mb-1 xs:mb-2 sm:mb-3">
-                  ✅ <span className="font-semibold text-[#ffb700]">14‑day revision window</span> - Perfect your site until it's exactly right
+                  ✅ <span className="font-semibold text-primary">14‑day revision window</span> - Perfect your site until it's exactly right
                 </p>
                 <p className="text-white/90 text-xs xs:text-sm sm:text-base md:text-lg">
-                  🎯 <span className="font-semibold text-[#ffb700]">45‑minute handover call</span> - Learn everything you need to succeed
+                  🎯 <span className="font-semibold text-primary">45‑minute handover call</span> - Learn everything you need to succeed
                 </p>
               </div>
             </div>
             
             {/* Review Section */}
             <div className="text-center mt-6">
-              <p className="text-[#ffb700] text-sm sm:text-base font-semibold mb-1">
+              <p className="text-primary text-sm sm:text-base font-semibold mb-1">
                 ★★★★★ 5.0/5.0 from real UK business owners
               </p>
               <p className="text-white text-xs sm:text-sm mb-4">
@@ -293,16 +298,16 @@ function BusinessBundleClientContent() {
       </Section>
 
       {/* START: Offer Framing Block */}
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="wide">
           <div className="grid md:grid-cols-3 gap-8">
             
             {/* Bundle Includes */}
-            <div className="text-center bg-[#1a1a1a] border-2 border-[#fdbd18]/20 hover:border-[#fdbd18]/40 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-[#ffb700] rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="text-center bg-surface-muted border-2 border-primary/20 hover:border-primary/40 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-2xl">📦</span>
               </div>
-              <h3 className="text-xl font-bold text-[#fdbd18] mb-4">Bundle Includes</h3>
+              <h3 className="text-xl font-bold text-primary mb-4">Bundle Includes</h3>
               <ul className="text-white/90 space-y-2 text-sm">
                 <li>✓ AI-Powered Website</li>
                 <li>✓ Google Ads Setup</li>
@@ -313,11 +318,11 @@ function BusinessBundleClientContent() {
             </div>
 
             {/* Guarantee */}
-            <div className="text-center bg-[#1a1a1a] border-2 border-[#fdbd18]/20 hover:border-[#fdbd18]/40 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-[#ffb700] rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="text-center bg-surface-muted border-2 border-primary/20 hover:border-primary/40 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-2xl">🛡️</span>
               </div>
-              <h3 className="text-xl font-bold text-[#fdbd18] mb-4">Guarantee</h3>
+              <h3 className="text-xl font-bold text-primary mb-4">Guarantee</h3>
               <p className="text-white/90 text-sm leading-relaxed">
                 <strong className="text-white">Leads in 30 Days</strong><br/>
                 or We Work Free Until You Do
@@ -325,11 +330,11 @@ function BusinessBundleClientContent() {
             </div>
 
             {/* Proof */}
-            <div className="text-center bg-[#1a1a1a] border-2 border-[#fdbd18]/20 hover:border-[#fdbd18]/40 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-[#ffb700] rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="text-center bg-surface-muted border-2 border-primary/20 hover:border-primary/40 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-2xl">🏆</span>
               </div>
-              <h3 className="text-xl font-bold text-[#fdbd18] mb-4">Proof</h3>
+              <h3 className="text-xl font-bold text-primary mb-4">Proof</h3>
               <p className="text-white/90 text-sm mb-4">Trusted by UK startups & SMEs</p>
               <div className="flex justify-center items-center gap-3 opacity-80">
                 <img src="/images/testimonials/omni-logo.png" alt="Omni WTMS" className="h-10 w-auto object-contain mix-blend-lighten brightness-110" />
@@ -350,18 +355,18 @@ function BusinessBundleClientContent() {
             
             {/* Badge */}
             <div className="flex justify-center mb-6">
-              <span className="inline-flex items-center rounded-full bg-[#1a1a1a] border border-[#ffb700]/50 text-[#ffb700] px-4 py-2 text-sm font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center rounded-full bg-surface-muted border border-primary/50 text-primary px-4 py-2 text-sm font-bold uppercase tracking-wider">
                 ✨ Complete Package
               </span>
             </div>
 
             {/* Headline */}
-            <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-4">
+            <h2 className="ds-heading-2 text-center text-white mb-4">
               What's Included
             </h2>
             
             <p className="text-center text-white/80 text-lg sm:text-xl mb-12 max-w-3xl mx-auto leading-relaxed">
-              <span className="text-[#ffb700] font-semibold">Everything you need to dominate your market</span> - delivered in one complete, conversion-optimized package.
+              <span className="text-primary font-semibold">Everything you need to dominate your market</span> - delivered in one complete, conversion-optimized package.
             </p>
             
             {/* Features Grid */}
@@ -376,14 +381,14 @@ function BusinessBundleClientContent() {
                 { icon: "⚡", text: "7-Day Delivery Guarantee" },
                 { icon: "🛠️", text: "30 Days After-Launch Support" }
               ].map((item, i) => (
-                <div key={i} className="group bg-[#0f0f0f] border border-[#ffb700]/20 rounded-xl p-4 hover:border-[#ffb700]/50 hover:bg-[#ffb700]/5 transition-all duration-300 hover:scale-105">
+                <div key={i} className="group bg-surface-muted border border-primary/20 rounded-xl p-4 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-105">
                   <div className="flex flex-col items-center text-center gap-3">
                     <div className="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">
                       {item.icon}
                     </div>
                     <div className="flex items-center gap-2 mb-2">
-                      <FaCheckCircle className="text-[#ffb700] flex-shrink-0" />
-                      <div className="w-full h-px bg-[#ffb700]/30"></div>
+                      <FaCheckCircle className="text-primary flex-shrink-0" />
+                      <div className="w-full h-px bg-primary/30"></div>
                     </div>
                     <p className="text-white/90 text-sm font-medium leading-tight">{item.text}</p>
                   </div>
@@ -392,9 +397,9 @@ function BusinessBundleClientContent() {
             </div>
 
             {/* Value Proposition */}
-            <div className="bg-[#0f0f0f] border border-[#ffb700]/30 rounded-2xl p-6 mb-8">
+            <div className="bg-surface-muted border border-primary/30 rounded-2xl p-6 mb-8">
               <div className="text-center">
-                <p className="text-[#ffb700] font-bold text-lg mb-2">
+                <p className="text-primary font-bold text-lg mb-2">
                   🎯 Built to Convert. Delivered Fast. Zero Surprises.
                 </p>
                 <p className="text-white/80 text-base">
@@ -406,7 +411,7 @@ function BusinessBundleClientContent() {
             {/* CTA */}
             <div className="text-center">
               <CTAButton
-                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-[#ffb700]/50 border-2 border-[#ffb700]"
+                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-primary/50 border-2 border-primary"
                 eventLabel="secure_spot_cta"
               >
                 🚀 Secure Your Spot Now
@@ -420,23 +425,23 @@ function BusinessBundleClientContent() {
       </Section>
 
       {/* Testimonials Section */}
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="wide">
           <div className="p-8 sm:p-12">
             {/* Badge */}
             <div className="flex justify-center mb-6">
-              <span className="inline-flex items-center rounded-full border border-[#ffb700]/50 text-[#ffb700] px-4 py-2 text-sm font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center rounded-full border border-primary/50 text-primary px-4 py-2 text-sm font-bold uppercase tracking-wider">
                 ✨ Client Success Stories
               </span>
             </div>
 
             {/* Headline */}
-            <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-black text-[#ffb700] leading-tight mb-4">
+            <h2 className="ds-heading-2 text-center text-primary mb-4">
               Real Results from Real Clients
             </h2>
             
             <p className="text-center text-white/80 text-lg sm:text-xl mb-12 max-w-3xl mx-auto leading-relaxed">
-              <span className="text-[#ffb700] font-semibold">See how businesses like yours transformed their online presence</span> and achieved remarkable results.
+              <span className="text-primary font-semibold">See how businesses like yours transformed their online presence</span> and achieved remarkable results.
             </p>
             
             {/* Testimonials Grid */}
@@ -461,24 +466,24 @@ function BusinessBundleClientContent() {
                   avatar: "/images/testimonials/myapproved.png"
                 }
               ].map((testimonial, i) => (
-                <div key={i} className="group bg-[#0f0f0f] border border-[#ffb700]/20 rounded-xl p-4 sm:p-6 hover:border-[#ffb700]/50 hover:bg-[#ffb700]/5 transition-all duration-300 hover:scale-105">
+                <div key={i} className="group bg-surface-muted border border-primary/20 rounded-xl p-4 sm:p-6 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-105">
                   <div className="flex justify-center mb-4">
                     <img 
                       src={testimonial.avatar} 
                       alt={testimonial.author}
-                      className="w-16 h-16 rounded-full border-2 border-[#ffb700]/50 object-cover"
+                      className="w-16 h-16 rounded-full border-2 border-primary/50 object-cover"
                       onError={(e) => {
                         e.target.style.display = 'none';
                         e.target.nextSibling.style.display = 'flex';
                       }}
                     />
-                    <div className="w-16 h-16 rounded-full bg-[#ffb700]/20 border-2 border-[#ffb700]/50 items-center justify-center text-[#ffb700] font-bold text-2xl" style={{display: 'none'}}>
+                    <div className="w-16 h-16 rounded-full bg-primary/20 border-2 border-primary/50 items-center justify-center text-primary font-bold text-2xl" style={{display: 'none'}}>
                       {testimonial.author.charAt(0)}
                     </div>
                   </div>
                   <p className="text-white/90 text-lg mb-6 italic text-center">"{testimonial.quote}"</p>
                   <div className="text-center">
-                    <p className="text-[#ffb700] font-bold text-sm">- {testimonial.author}</p>
+                    <p className="text-primary font-bold text-sm">- {testimonial.author}</p>
                     <p className="text-white/60 text-xs">{testimonial.company}</p>
                   </div>
                 </div>
@@ -491,7 +496,7 @@ function BusinessBundleClientContent() {
                 Join hundreds of successful businesses who chose to work with us.
               </p>
               <CTAButton
-                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-[#ffb700]/50 border-2 border-[#ffb700]"
+                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-primary/50 border-2 border-primary"
                 eventLabel="success_story_cta"
               >
                 💼 Start Your Success Story
@@ -505,23 +510,23 @@ function BusinessBundleClientContent() {
       </Section>
 
       {/* How It Works */}
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="wide">
           <div className="p-8 sm:p-12">
             {/* Badge */}
             <div className="flex justify-center mb-6">
-              <span className="inline-flex items-center rounded-full bg-[#1a1a1a] border border-[#ffb700]/50 text-[#ffb700] px-4 py-2 text-sm font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center rounded-full bg-surface-muted border border-primary/50 text-primary px-4 py-2 text-sm font-bold uppercase tracking-wider">
                 ⚡ Simple 3-Step Process
               </span>
             </div>
 
             {/* Headline */}
-            <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-4">
+            <h2 className="ds-heading-2 text-center text-white mb-4">
               How It Works
             </h2>
             
             <p className="text-center text-white/80 text-lg sm:text-xl mb-12 max-w-3xl mx-auto leading-relaxed">
-              <span className="text-[#ffb700] font-semibold">From zero to launch in just 14 days</span> with our streamlined process
+              <span className="text-primary font-semibold">From zero to launch in just 14 days</span> with our streamlined process
             </p>
             
             {/* Steps Grid */}
@@ -549,19 +554,19 @@ function BusinessBundleClientContent() {
                   icon: "🚀"
                 },
               ].map((item, i) => (
-                <div key={i} className="group bg-[#0f0f0f] border border-[#ffb700]/20 rounded-2xl p-8 hover:border-[#ffb700]/50 hover:bg-[#ffb700]/5 transition-all duration-300 hover:scale-[1.02]">
+                <div key={i} className="group bg-surface-muted border border-primary/20 rounded-2xl p-8 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-[1.02]">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#ffb700] text-black text-xl font-bold">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-black text-xl font-bold">
                       {item.icon}
                     </div>
-                    <div className="text-2xl font-bold text-[#ffb700]">
+                    <div className="text-2xl font-bold text-primary">
                       STEP {item.step}
                     </div>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
                   <p className="text-white/80 mb-5 leading-relaxed">{item.desc}</p>
-                  <div className="flex items-center gap-2 text-sm text-[#ffb700] font-medium">
-                    <div className="w-2 h-2 bg-[#ffb700] rounded-full"></div>
+                  <div className="flex items-center gap-2 text-sm text-primary font-medium">
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
                     {item.foot}
                   </div>
                 </div>
@@ -571,10 +576,10 @@ function BusinessBundleClientContent() {
             {/* CTA */}
             <div className="text-center">
               <p className="text-white/80 text-lg mb-6">
-                Limited slots (2) for faster delivery. <span className="text-[#ffb700] font-semibold">Book now</span> to secure your spot.
+                Limited slots (2) for faster delivery. <span className="text-primary font-semibold">Book now</span> to secure your spot.
               </p>
               <CTAButton
-                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-[#ffb700]/50 border-2 border-[#ffb700]"
+                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-primary/50 border-2 border-primary"
                 eventLabel="kickoff_booking_cta"
               >
                 🚀 Book Your Kickoff
@@ -589,7 +594,7 @@ function BusinessBundleClientContent() {
 
       {/* Limited Time Banner */}
       <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="wide">
           <div className="flex flex-col items-center text-center">
             {/* FOMO Timer */}
@@ -610,12 +615,12 @@ function BusinessBundleClientContent() {
             </div>
             
             <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-[#ffb700] rounded-full"></div>
-              <span className="text-[#ffb700] text-sm font-bold uppercase tracking-wider">Limited Time Offer</span>
-              <div className="w-2 h-2 bg-[#ffb700] rounded-full"></div>
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
+              <span className="text-primary text-sm font-bold uppercase tracking-wider">Limited Time Offer</span>
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
             </div>
             
-            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+            <h3 className="ds-heading-2-sm text-white mb-4">
               Your growth plan for <span className="gold-text">£699</span>
             </h3>
 
@@ -624,7 +629,7 @@ function BusinessBundleClientContent() {
             </p>
             
             <CTAButton
-              className="px-8 py-3 text-black font-bold rounded-xl hover:scale-105 transform transition-all duration-300 text-base shadow-lg hover:shadow-[#ffb700]/30 border border-[#ffb700]"
+              className="px-8 py-3 text-black font-bold rounded-xl hover:scale-105 transform transition-all duration-300 text-base shadow-lg hover:shadow-primary/30 border border-primary"
               eventLabel="limited_time_cta"
             >
               🚀 Secure Your Spot Now
@@ -635,17 +640,17 @@ function BusinessBundleClientContent() {
 
       {/* Why Not Competitors */}
       <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="main">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+            <h2 className="ds-heading-2-sm text-white mb-4">
               Why Not <span className="text-red-400">Fiverr, Wix, or Upwork?</span>
             </h2>
             <p className="text-white/70">Here's what you get with us vs. the alternatives</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#0f0f0f]/50 border border-red-500/20 rounded-xl p-6 text-center">
+            <div className="bg-surface-muted/50 border border-red-500/20 rounded-xl p-6 text-center">
               <div className="text-3xl mb-3">🎭</div>
               <h3 className="text-red-400 font-bold mb-2">Fiverr</h3>
               <ul className="text-white/60 text-sm space-y-1">
@@ -656,7 +661,7 @@ function BusinessBundleClientContent() {
               </ul>
             </div>
             
-            <div className="bg-[#0f0f0f]/50 border border-red-500/20 rounded-xl p-6 text-center">
+            <div className="bg-surface-muted/50 border border-red-500/20 rounded-xl p-6 text-center">
               <div className="text-3xl mb-3">🏗️</div>
               <h3 className="text-red-400 font-bold mb-2">Wix/Squarespace</h3>
               <ul className="text-white/60 text-sm space-y-1">
@@ -667,9 +672,9 @@ function BusinessBundleClientContent() {
               </ul>
             </div>
             
-            <div className="bg-[#0f0f0f]/50 border border-[#ffb700]/30 rounded-xl p-6 text-center">
+            <div className="bg-surface-muted/50 border border-primary/30 rounded-xl p-6 text-center">
               <div className="text-3xl mb-3">🚀</div>
-              <h3 className="text-[#ffb700] font-bold mb-2">Our Business Bundle</h3>
+              <h3 className="text-primary font-bold mb-2">Our Business Bundle</h3>
               <ul className="text-white/80 text-sm space-y-1">
                 <li>✅ Custom AI-powered system</li>
                 <li>✅ 7-day delivery guarantee</li>
@@ -683,18 +688,18 @@ function BusinessBundleClientContent() {
 
       {/* Growth Plan */}
       <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="wide">
-          <div className="p-8 sm:p-12 bg-[#0f0f0f] border border-white/5 rounded-2xl">
+          <div className="p-8 sm:p-12 bg-surface-muted border border-white/5 rounded-2xl">
             {/* Badge */}
             <div className="flex justify-center mb-6">
-              <span className="inline-flex items-center rounded-full bg-[#1a1a1a] border border-[#ffb700]/50 text-[#ffb700] px-4 py-2 text-sm font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center rounded-full bg-surface-muted border border-primary/50 text-primary px-4 py-2 text-sm font-bold uppercase tracking-wider">
                 🚀 Growth Plan
               </span>
             </div>
 
             {/* Headline */}
-            <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-4">
+            <h2 className="ds-heading-2 text-center text-white mb-4">
               Want Ongoing Growth & Support?
             </h2>
             
@@ -712,7 +717,7 @@ function BusinessBundleClientContent() {
                 { text: "Priority support", icon: "⚡" },
                 { text: "Monthly performance reports", icon: "📈" }
               ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3 p-4 bg-surface-muted rounded-lg border border-white/5 hover:border-[#ffb700]/30 transition-colors">
+                <div key={i} className="flex items-start gap-3 p-4 bg-surface-muted rounded-lg border border-white/5 hover:border-primary/30 transition-colors">
                   <span className="text-xl mt-0.5">{item.icon}</span>
                   <p className="text-white/90">{item.text}</p>
                 </div>
@@ -733,7 +738,7 @@ function BusinessBundleClientContent() {
                 Stay ahead of the competition, never worry about updates or growth again.
               </p>
               <CTAButton
-                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-[#ffb700]/50 border-2 border-[#ffb700]"
+                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-primary/50 border-2 border-primary"
                 eventLabel="growth_plan_cta"
               >
                 🚀 Learn More About Growth Plan
@@ -748,16 +753,16 @@ function BusinessBundleClientContent() {
 
       {/* FAQ Section */}
       <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="main">
           {/* Section Header */}
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-[#ffb700] rounded-full"></div>
-              <span className="text-[#ffb700] text-sm font-bold uppercase tracking-wider">Section 6</span>
-              <div className="w-2 h-2 bg-[#ffb700] rounded-full"></div>
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
+              <span className="text-primary text-sm font-bold uppercase tracking-wider">Section 6</span>
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+            <h2 className="ds-heading-2 text-white mb-4">
               Frequently Asked <span className="gold-text">Questions</span>
             </h2>
             <p className="text-white/70 max-w-2xl mx-auto">
@@ -787,7 +792,7 @@ function BusinessBundleClientContent() {
             ].map((item, i) => (
               <div key={i} className="group">
                 <div 
-                  className="flex items-start justify-between p-6 bg-[#0f0f0f] border border-white/5 rounded-xl cursor-pointer transition-all duration-300 hover:border-[#ffb700]/30 group-hover:bg-[#0f0f0f]/70"
+                  className="flex items-start justify-between p-6 bg-surface-muted border border-white/5 rounded-xl cursor-pointer transition-all duration-300 hover:border-primary/30 group-hover:bg-surface-muted/70"
                   onClick={() => toggleFAQ(i)}
                 >
                   <h3 className="text-lg font-bold text-white pr-4">{item.question}</h3>
@@ -812,7 +817,7 @@ function BusinessBundleClientContent() {
               Still have questions? We're here to help.
             </p>
             <CTAButton
-              className="px-8 py-4 text-black font-bold rounded-xl hover:scale-105 transform transition-all duration-300 text-base shadow-lg hover:shadow-[#ffb700]/30 border-2 border-[#ffb700]"
+              className="px-8 py-4 text-black font-bold rounded-xl hover:scale-105 transform transition-all duration-300 text-base shadow-lg hover:shadow-primary/30 border-2 border-primary"
               eventLabel="free_consultation_cta"
             >
               📞 Book a Free Consultation
@@ -828,11 +833,11 @@ function BusinessBundleClientContent() {
           {/* Section Header */}
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-[#ffb700] rounded-full"></div>
-              <span className="text-[#ffb700] text-sm font-bold uppercase tracking-wider">Get Started</span>
-              <div className="w-2 h-2 bg-[#ffb700] rounded-full"></div>
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
+              <span className="text-primary text-sm font-bold uppercase tracking-wider">Get Started</span>
+              <div className="w-2 h-2 bg-primary rounded-full"></div>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
+            <h2 className="ds-heading-2 text-white mb-4">
               Book Your <span className="gold-text">Spot</span>
             </h2>
             <p className="text-white/70 max-w-2xl mx-auto">
@@ -841,7 +846,7 @@ function BusinessBundleClientContent() {
           </div>
           
           {/* Form Container */}
-          <div className="bg-[#0f0f0f] border border-white/5 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 max-w-2xl mx-auto">
+          <div className="bg-surface-muted border border-white/5 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 max-w-2xl mx-auto">
             {formSubmitted ? (
               <div className="text-center py-8">
                 <div className="text-green-400 text-6xl mb-4">✅</div>
@@ -867,7 +872,7 @@ function BusinessBundleClientContent() {
                   <input 
                     name="name"
                     type="text" 
-                    className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#ffb700] focus:border-transparent transition-all duration-200 text-sm sm:text-base" 
+                    className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-sm sm:text-base" 
                     placeholder="Your name"
                     required
                   />
@@ -877,7 +882,7 @@ function BusinessBundleClientContent() {
                   <input 
                     name="email"
                     type="email" 
-                    className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#ffb700] focus:border-transparent transition-all duration-200 text-sm sm:text-base" 
+                    className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-sm sm:text-base" 
                     placeholder="you@example.com"
                     required
                   />
@@ -890,7 +895,7 @@ function BusinessBundleClientContent() {
                   <input 
                     name="phone"
                     type="tel" 
-                    className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#ffb700] focus:border-transparent transition-all duration-200 text-sm sm:text-base" 
+                    className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-sm sm:text-base" 
                     placeholder="+44"
                     required
                   />
@@ -899,7 +904,7 @@ function BusinessBundleClientContent() {
                   <label className="block text-white/80 text-sm font-medium">Business Type</label>
                   <select 
                     name="businessType"
-                    className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#ffb700] focus:border-transparent transition-all duration-200 appearance-none"
+                    className="w-full bg-surface border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 appearance-none"
                     required
                   >
                     <option value="">Select business type</option>
@@ -917,7 +922,7 @@ function BusinessBundleClientContent() {
                 <textarea 
                   name="message"
                   rows="3" 
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#ffb700] focus:border-transparent transition-all duration-200 resize-none text-sm sm:text-base"
+                  className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 resize-none text-sm sm:text-base"
                   placeholder="Tell us about your project..."
                 ></textarea>
               </div>
@@ -925,7 +930,7 @@ function BusinessBundleClientContent() {
               <div className="pt-2">
                 <button 
                   type="submit" 
-                  className="group relative w-full flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 bg-[#ffb700] text-black font-bold rounded-xl hover:scale-[1.02] transform transition-all duration-300 text-base sm:text-lg shadow-lg hover:shadow-[#ffb700]/30 border-2 border-[#ffb700] overflow-hidden"
+                  className="group relative w-full flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 bg-primary text-black font-bold rounded-xl hover:scale-[1.02] transform transition-all duration-300 text-base sm:text-lg shadow-lg hover:shadow-primary/30 border-2 border-primary overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     <span>🚀</span>
@@ -935,10 +940,10 @@ function BusinessBundleClientContent() {
                 </button>
                 <div className="mt-4 p-3 bg-surface-muted rounded-lg border border-white/5">
                   <div className="flex items-center justify-center gap-2 mb-2">
-                    <svg className="w-4 h-4 text-[#ffb700]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-[#ffb700] text-xs font-bold">PRIVACY GUARANTEE</span>
+                    <span className="text-primary text-xs font-bold">PRIVACY GUARANTEE</span>
                   </div>
                   <p className="text-center text-white/60 text-xs leading-relaxed">
                     🔒 Your data is 100% secure • We never spam or share your information • GDPR compliant • 24-hour response guarantee
@@ -953,14 +958,14 @@ function BusinessBundleClientContent() {
 
       {/* START: Social Proof Section */}
       <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="main">
           {/* Testimonial Carousel */}
           <div className="text-center mb-12">
-            <span className="inline-block bg-[#fdbd18] text-black font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
+            <span className="inline-block bg-primary text-black font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
               Client Success Stories
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#fdbd18] mb-8">
+            <h2 className="ds-heading-2 text-primary mb-8">
               Real Results from Real UK Businesses
             </h2>
           </div>
@@ -986,15 +991,15 @@ function BusinessBundleClientContent() {
                 rating: 5
               }
             ].map((testimonial, index) => (
-              <div key={index} className="bg-[#1a1a1a] border-2 border-[#fdbd18]/20 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div key={index} className="bg-surface-muted border-2 border-primary/20 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="flex items-center mb-4">
                   {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <span key={i} className="text-[#fdbd18] text-lg">★</span>
+                    <span key={i} className="text-primary text-lg">★</span>
                   ))}
                 </div>
                 <p className="text-white/90 mb-4 italic">"{testimonial.quote}"</p>
                 <div className="text-sm">
-                  <p className="text-[#fdbd18] font-semibold">{testimonial.author}</p>
+                  <p className="text-primary font-semibold">{testimonial.author}</p>
                   <p className="text-white/60">{testimonial.company}</p>
                 </div>
               </div>
@@ -1005,16 +1010,16 @@ function BusinessBundleClientContent() {
           <div className="text-center">
             <h3 className="text-xl font-bold text-white mb-6">Trusted & Certified</h3>
             <div className="flex justify-center items-center gap-8 flex-wrap">
-              <div className="flex items-center gap-2 bg-[#1a1a1a]/90 border border-[#fdbd18]/30 rounded-lg px-4 py-2">
+              <div className="flex items-center gap-2 bg-surface-muted/90 border border-primary/30 rounded-lg px-4 py-2">
                 <span className="text-green-400 text-lg">🔒</span>
                 <span className="text-white text-sm font-medium">SSL Secure</span>
               </div>
-              <div className="flex items-center gap-2 bg-[#1a1a1a]/90 border border-[#fdbd18]/30 rounded-lg px-4 py-2">
+              <div className="flex items-center gap-2 bg-surface-muted/90 border border-primary/30 rounded-lg px-4 py-2">
                 <span className="text-blue-400 text-lg">🇬🇧</span>
                 <span className="text-white text-sm font-medium">UK-Based</span>
               </div>
-              <div className="flex items-center gap-2 bg-[#1a1a1a]/90 border border-[#fdbd18]/30 rounded-lg px-4 py-2">
-                <span className="text-[#fdbd18] text-lg">🤖</span>
+              <div className="flex items-center gap-2 bg-surface-muted/90 border border-primary/30 rounded-lg px-4 py-2">
+                <span className="text-primary text-lg">🤖</span>
                 <span className="text-white text-sm font-medium">AI Certified</span>
               </div>
             </div>
@@ -1025,20 +1030,20 @@ function BusinessBundleClientContent() {
 
       {/* START: Pricing Clarity Section */}
       <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface text-center">
+      <Section className="bg-surface text-center reveal">
         <Container size="main">
           <div className="max-w-3xl mx-auto">
-            <span className="inline-block bg-[#fdbd18] text-black font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
+            <span className="inline-block bg-primary text-black font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
               Transparent Pricing
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#fdbd18] mb-6">
+            <h2 className="ds-heading-2 text-primary mb-6">
               No Hidden Fees. No Surprises.
             </h2>
             <p className="text-xl md:text-2xl text-white/90 mb-8">
-              Packages from <span className="text-[#fdbd18] font-bold">£750</span>. Clear, fixed pricing - no hidden fees.
+              Packages from <span className="text-primary font-bold">£750</span>. Clear, fixed pricing - no hidden fees.
             </p>
             <CTAButton
-              className="inline-flex items-center justify-center text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg border-2 border-[#fdbd18]"
+              className="inline-flex items-center justify-center text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg border-2 border-primary"
               eventLabel="pricing_section"
             >
               💰 Get My Quote
@@ -1050,21 +1055,21 @@ function BusinessBundleClientContent() {
 
       {/* START: Deliverables Section */}
       <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="main">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <div className="bg-[#1a1a1a] border-2 border-[#ffb700]/20 rounded-3xl p-2 shadow-2xl">
-                <div className="bg-[#0f0f0f] rounded-2xl p-8">
+              <div className="bg-surface-muted border-2 border-primary/20 rounded-3xl p-2 shadow-2xl">
+                <div className="bg-surface-muted rounded-2xl p-8">
                   <div className="text-center mb-6">
-                    <span className="inline-block bg-[#ffb700] text-[#222] font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-4">
+                    <span className="inline-block bg-primary text-[#222] font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-4">
                       Bundle Explainer
                     </span>
-                    <div className="w-full h-64 bg-[#0a0a0a] rounded-xl flex items-center justify-center border-2 border-[#ffb700]/30">
+                    <div className="w-full h-64 bg-surface rounded-xl flex items-center justify-center border-2 border-primary/30">
                       <div className="text-center">
                         <div className="text-6xl mb-4">🎬</div>
-                        <p className="text-[#ffb700] font-semibold">Explainer Video Coming Soon</p>
-                        <p className="text-[#ADB7BE] text-sm">Visual breakdown of your bundle</p>
+                        <p className="text-primary font-semibold">Explainer Video Coming Soon</p>
+                        <p className="text-muted text-sm">Visual breakdown of your bundle</p>
                       </div>
                     </div>
                   </div>
@@ -1072,7 +1077,7 @@ function BusinessBundleClientContent() {
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <h2 className="text-4xl md:text-5xl font-extrabold mb-8 text-[#ffb700]">
+              <h2 className="ds-heading-2 text-primary mb-8">
                 Here's What You Get
               </h2>
               <ul className="space-y-4 mb-8">
@@ -1086,13 +1091,13 @@ function BusinessBundleClientContent() {
                   "✔️ After-Launch Support"
                 ].map((item, index) => (
                   <li key={index} className="flex items-center gap-3 text-white text-lg">
-                    <span className="text-[#ffb700] text-xl">{item.split(' ')[0]}</span>
+                    <span className="text-primary text-xl">{item.split(' ')[0]}</span>
                     <span>{item.substring(3)}</span>
                   </li>
                 ))}
               </ul>
               <CTAButton
-                className="inline-flex items-center justify-center text-[#222] font-bold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg border-2 border-[#ffb700]"
+                className="inline-flex items-center justify-center text-[#222] font-bold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg border-2 border-primary"
                 eventLabel="deliverables_secure_spot"
               >
                 Secure My Spot →
@@ -1105,13 +1110,13 @@ function BusinessBundleClientContent() {
 
       {/* START: FAQ SECTION */}
       <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="main">
           <div className="text-center mb-12">
-            <span className="inline-block bg-[#ffb700] text-[#222] font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
+            <span className="inline-block bg-primary text-[#222] font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
               FAQ
             </span>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#ffb700] mb-4">
+            <h2 className="ds-heading-2 text-primary mb-4">
               Frequently Asked Questions
             </h2>
           </div>
@@ -1130,11 +1135,11 @@ function BusinessBundleClientContent() {
                 answer: "Yes – the package includes 14 days of revisions and full access for edits."
               }
             ].map((faq, index) => (
-              <details key={index} className="bg-[#1a1a1a] border-2 border-[#ffb700]/20 hover:border-[#ffb700]/40 rounded-xl transition-all duration-300 shadow-lg">
-                <summary className="cursor-pointer p-6 text-white font-semibold text-lg hover:text-[#ffb700] transition-colors duration-300">
+              <details key={index} className="bg-surface-muted border-2 border-primary/20 hover:border-primary/40 rounded-xl transition-all duration-300 shadow-lg">
+                <summary className="cursor-pointer p-6 text-white font-semibold text-lg hover:text-primary transition-colors duration-300">
                   {faq.question}
                 </summary>
-                <div className="px-6 pb-6 text-[#ADB7BE] leading-relaxed">
+                <div className="px-6 pb-6 text-muted leading-relaxed">
                   {faq.answer}
                 </div>
               </details>
@@ -1214,59 +1219,59 @@ function BusinessBundleClientContent() {
 
       {/* Lead Magnet - 7-Figure AI Playbook - Horizontal Layout */}
       <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="main">
           {/* Horizontal Container */}
-          <div className="bg-[#ffb700] rounded-3xl p-1 shadow-2xl">
+          <div className="bg-primary rounded-3xl p-1 shadow-2xl">
             <div className="bg-surface rounded-3xl overflow-hidden">
               <div className="grid grid-cols-1 lg:grid-cols-3 min-h-[500px]">
                 
                 {/* Left Content Section - Takes up 2/3 of width */}
                 <div className="lg:col-span-2 p-8 md:p-12 flex flex-col justify-center">
                   <div className="max-w-2xl">
-                    <span className="inline-block bg-[#ffb700] text-[#222] font-bold py-2 px-6 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
+                    <span className="inline-block bg-primary text-[#222] font-bold py-2 px-6 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
                       FREE DOWNLOAD
                     </span>
                     
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#ffb700] mb-6 leading-tight">
+                    <h2 className="ds-heading-2 text-primary mb-6">
                       The 7-Figure AI Playbook for UK Businesses
                     </h2>
                     
                     <p className="text-white text-lg md:text-xl mb-8 leading-relaxed">
-                      Get instant access to the exact AI systems and automations that have generated over <span className="text-[#ffb700] font-bold">£12,000,000+</span> in revenue for UK businesses. This comprehensive playbook reveals:
+                      Get instant access to the exact AI systems and automations that have generated over <span className="text-primary font-bold">£12,000,000+</span> in revenue for UK businesses. This comprehensive playbook reveals:
                     </p>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                       <div className="flex items-start gap-3 text-white/90">
-                        <span className="text-[#ffb700] mt-1">•</span>
+                        <span className="text-primary mt-1">•</span>
                         <span className="text-base">7 proven AI workflows that save 20+ hours/week</span>
                       </div>
                       <div className="flex items-start gap-3 text-white/90">
-                        <span className="text-[#ffb700] mt-1">•</span>
+                        <span className="text-primary mt-1">•</span>
                         <span className="text-base">Client acquisition systems that consistently fill your pipeline</span>
                       </div>
                       <div className="flex items-start gap-3 text-white/90">
-                        <span className="text-[#ffb700] mt-1">•</span>
+                        <span className="text-primary mt-1">•</span>
                         <span className="text-base">Revenue-boosting automations you can implement today</span>
                       </div>
                       <div className="flex items-start gap-3 text-white/90">
-                        <span className="text-[#ffb700] mt-1">•</span>
+                        <span className="text-primary mt-1">•</span>
                         <span className="text-base">Exclusive case studies from successful UK businesses</span>
                       </div>
                       <div className="flex items-start gap-3 text-white/90 md:col-span-2">
-                        <span className="text-[#ffb700] mt-1">•</span>
+                        <span className="text-primary mt-1">•</span>
                         <span className="text-base">Step-by-step implementation guides</span>
                       </div>
                     </div>
                     
-                    <p className="text-[#ADB7BE] text-base">
+                    <p className="text-muted text-base">
                       Designed for operators who want plug-and-play leverage in under 10 minutes.
                     </p>
                   </div>
                 </div>
                 
                 {/* Right Form Section - Takes up 1/3 of width */}
-                <div className="lg:col-span-1 bg-[#ffb700] p-8 md:p-12 flex flex-col justify-center">
+                <div className="lg:col-span-1 bg-primary p-8 md:p-12 flex flex-col justify-center">
                   <div className="bg-white rounded-2xl p-6 shadow-xl">
                     <div className="text-center mb-6">
                       <div className="text-5xl mb-4">📚</div>
@@ -1296,13 +1301,13 @@ function BusinessBundleClientContent() {
                         type="text" 
                         placeholder="Your Name" 
                         required
-                        className="w-full rounded-lg px-4 py-3 border-2 border-gray-200 focus:border-[#ffb700] focus:outline-none text-black bg-white placeholder-gray-500 font-medium transition-all duration-300" 
+                        className="w-full rounded-lg px-4 py-3 border-2 border-gray-200 focus:border-primary focus:outline-none text-black bg-white placeholder-gray-500 font-medium transition-all duration-300" 
                       />
                       <input 
                         type="email" 
                         placeholder="Your Email" 
                         required
-                        className="w-full rounded-lg px-4 py-3 border-2 border-gray-200 focus:border-[#ffb700] focus:outline-none text-black bg-white placeholder-gray-500 font-medium transition-all duration-300" 
+                        className="w-full rounded-lg px-4 py-3 border-2 border-gray-200 focus:border-primary focus:outline-none text-black bg-white placeholder-gray-500 font-medium transition-all duration-300" 
                       />
                       
                       <CTAButton
@@ -1332,14 +1337,14 @@ function BusinessBundleClientContent() {
       </Section>
 
       {/* Policies note */}
-      <Section className="bg-surface">
+      <Section className="bg-surface reveal">
         <Container size="main" className="text-center">
           <p className="text-white text-base font-semibold">Policies • Limited spots • Upfront clarity • Satisfaction-first</p>
         </Container>
       </Section>
 
       {/* Sticky Mobile CTA */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#ffb700] p-3 sm:p-4 z-40 md:hidden border-t-2 border-[#ffb700] shadow-2xl transition-transform duration-300 pb-safe" id="mobile-cta">
+      <div className="fixed bottom-0 left-0 right-0 bg-primary p-3 sm:p-4 z-40 md:hidden border-t-2 border-primary shadow-2xl transition-transform duration-300 pb-safe" id="mobile-cta">
         <div className="flex flex-col items-center w-full">
           <CTAButton
             className="block w-full text-center bg-black text-white font-bold py-3 sm:py-4 rounded-xl text-base sm:text-lg shadow-lg active:scale-95 transition-transform duration-150"
@@ -1386,7 +1391,7 @@ function BusinessBundleClientContent() {
       `}</style>
 
       {/* START: Sticky CTA Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-black text-white flex justify-center py-3 px-4 z-40 border-t-2 border-[#fdbd18]/30">
+      <div className="fixed bottom-0 left-0 right-0 bg-black text-white flex justify-center py-3 px-4 z-40 border-t-2 border-primary/30">
         <CTAButton
           className="text-black font-bold py-3 px-6 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-sm sm:text-base"
           eventLabel="sticky_cta"
@@ -1419,8 +1424,7 @@ function BusinessBundleClientContent() {
       {/* END: WhatsApp Floating Button */}
       
       <CookieBanner />
-      <Footer />
-    </main>
+    </PageShell>
   );
 }
 
