@@ -285,7 +285,7 @@ export default function AIConsultantPage() {
           body="Book a free 30-minute strategy call. We will look at your current operations, identify where AI would have the most immediate impact, and give you an honest picture of what implementation involves."
         >
           <CTAButton eventLabel="expertise_ai_consultant_cta" caption="The question you can't get answered. Straight, once.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
         </Container>

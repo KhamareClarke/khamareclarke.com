@@ -204,7 +204,7 @@ function BusinessBundleClientContent() {
             body="Thirty minutes on a call. Bring your questions and I will tell you what the build would involve for your business."
           >
             <CTAButton eventLabel="secure_spot_cta" caption="Free 30-minute introductory call.">
-              Book Your Free Growth Call
+              Book a Consultation
             </CTAButton>
           </CtaPanel>
 
@@ -242,7 +242,7 @@ function BusinessBundleClientContent() {
 
             <div className="reveal mt-12 text-center" style={{ "--rv-delay": "380ms" }}>
               <CTAButton eventLabel="free_consultation_cta" caption="Free 30-minute introductory call.">
-                Book Your Free Growth Call
+                Book a Consultation
               </CTAButton>
             </div>
           </section>
@@ -288,7 +288,7 @@ function BusinessBundleClientContent() {
         id="mobile-cta"
       >
         <CTAButton eventLabel="mobile_sticky_cta" fullWidth compact caption="Free 30-minute call.">
-          Secure Your Spot
+          Book a Consultation
         </CTAButton>
       </div>
 
@@ -309,7 +309,7 @@ function BusinessBundleClientContent() {
       {/* Sticky CTA bar, desktop only */}
       <div className="hidden md:flex fixed bottom-0 left-0 right-0 z-40 justify-center bg-surface border-t border-white/10 py-3 px-4">
         <CTAButton eventLabel="sticky_cta" compact caption="Free 30-minute call.">
-          Book Your Free Growth Call
+          Book a Consultation
         </CTAButton>
       </div>
 

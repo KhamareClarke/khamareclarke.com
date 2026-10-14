@@ -186,7 +186,7 @@ export default function ServiceHubPage({ params }) {
           body="30 minutes. No obligation. An honest look at where your business stands and what it would take to move it."
         >
           <CTAButton eventLabel={`service_hub_${service.slug}_cta`} caption="Priorities and deliverables agreed in writing.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
 

@@ -128,7 +128,7 @@ export default function GlossaryHubPage() {
           body="Book a free 30-minute call. You will get a straight answer on which discipline matters most for your growth trajectory right now."
         >
           <CTAButton eventLabel="glossary_hub_cta" caption="What these mean for you, in plain English.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
 

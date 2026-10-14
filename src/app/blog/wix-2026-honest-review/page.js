@@ -301,7 +301,7 @@ export default function Wix2026HonestReview() {
               body="Bring your current site, your growth goals, and your questions. We will give you a straight answer on whether your platform is the constraint."
             >
               <CTAButton eventLabel="blog_wix_cta" caption="Whether the platform is your ceiling. The real limit.">
-                Book Your Free Strategy Call
+                Book a Consultation
               </CTAButton>
             </CtaPanel>
 

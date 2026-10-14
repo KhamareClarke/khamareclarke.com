@@ -312,7 +312,7 @@ export default function WordpressRealCeiling() {
               body="We will assess your current platform, identify the technical ceiling, and tell you honestly whether you need to move."
             >
               <CTAButton eventLabel="blog_wordpress_cta" caption="Whether WordPress is your ceiling. When it matters.">
-                Book Your Free Strategy Call
+                Book a Consultation
               </CTAButton>
             </CtaPanel>
 

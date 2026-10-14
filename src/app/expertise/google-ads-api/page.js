@@ -278,7 +278,7 @@ export default function GoogleAdsAPIPage() {
           body="Book a free 30-minute strategy call. Bring your current account and spend data. We will identify where the inefficiencies are and what API-level automation would change."
         >
           <CTAButton eventLabel="expertise_google_ads_cta" caption="The ad account, and what's being wasted.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
         </Container>

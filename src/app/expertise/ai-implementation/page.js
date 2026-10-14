@@ -288,7 +288,7 @@ export default function AIImplementationPage() {
           body="Book a free 30-minute strategy call. We will audit your current operations, identify the highest-leverage AI applications, and give you an honest picture of what implementation involves and what it will measurably change."
         >
           <CTAButton eventLabel="expertise_ai_implementation_cta" caption="What AI can take off you, task by task.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
         </Container>

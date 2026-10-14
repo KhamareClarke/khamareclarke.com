@@ -202,7 +202,7 @@ export default function AIContentSystemsPage() {
           body="Book a free 30-minute call. We will look at your current content, identify the highest-priority gaps, and outline what a structured AI content system would produce for your business."
         >
           <CTAButton eventLabel="expertise_ai_content_systems_cta" caption="The content you can't keep up with. What to automate.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
         </Container>

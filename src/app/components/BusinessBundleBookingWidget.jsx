@@ -52,7 +52,7 @@ const BusinessBundleBookingWidget = ({
         scrolling="no"
         id="HzYuX1w1R30U3Xr2fU7x_1759339495789"
         title="Business Bundle Booking Widget"
-        aria-label="Book your business bundle consultation"
+        aria-label="Book a consultation with Khamare Clarke"
       />
     </div>
   );

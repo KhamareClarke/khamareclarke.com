@@ -23,7 +23,7 @@ const MenuOverlay = ({ links }) => {
         trackingLabel="menu_book_call"
       >
         <span className="mr-2">📞</span>
-        Book a Call
+        Book a Consultation
       </BookingButton>
     </div>
   );

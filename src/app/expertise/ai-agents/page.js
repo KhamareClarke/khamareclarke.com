@@ -304,7 +304,7 @@ export default function AIAgentsPage() {
           body="Book a free 30-minute strategy call. We will look at your current enquiry process, identify the gaps, and map out what an AI agent would look like for your specific business."
         >
           <CTAButton eventLabel="expertise_ai_agents_cta" caption="What an agent would take off you. Hours back.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
         </Container>

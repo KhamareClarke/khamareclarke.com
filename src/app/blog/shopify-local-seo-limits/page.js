@@ -299,7 +299,7 @@ export default function ShopifyLocalSeoLimits() {
               body="We will assess your platform, your SEO ambitions, and whether the two are compatible."
             >
               <CTAButton eventLabel="blog_shopify_cta" caption="What Shopify can't do locally, and the workaround.">
-                Book Your Free Strategy Call
+                Book a Consultation
               </CTAButton>
             </CtaPanel>
 

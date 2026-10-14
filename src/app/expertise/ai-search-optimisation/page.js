@@ -333,7 +333,7 @@ export default function AISearchOptimisationPage() {
           body="Book a free 30-minute strategy call. We will look at your current visibility in Google and AI engines and map out what it would take to build a presence that compounds over time."
         >
           <CTAButton eventLabel="expertise_ai_search_cta" caption="Why AI doesn't mention you, and what changes that.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
         </Container>

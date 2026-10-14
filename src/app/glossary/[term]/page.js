@@ -190,7 +190,7 @@ export default function GlossaryTermPage({ params }) {
             eventLabel={`glossary_${term.slug}_cta`}
             caption="How this applies to your business."
           >
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
 

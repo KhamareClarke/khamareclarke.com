@@ -384,7 +384,7 @@ export default function TestYourselfChatgptSeo() {
               }
             >
               <CTAButton eventLabel="blog_chatgpt_seo_cta" caption="Your own AI visibility. I'll check it.">
-                Book Your Free Strategy Call
+                Book a Consultation
               </CTAButton>
             </CtaPanel>
 

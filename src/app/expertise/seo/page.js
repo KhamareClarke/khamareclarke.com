@@ -347,7 +347,7 @@ export default function SEOSpecialistPage() {
           body="Book a free 30-minute strategy call. No obligation, no sales team. You will get an honest assessment of where your site stands and what it would take to move it."
         >
           <CTAButton eventLabel="expertise_seo_cta" caption="Why the page isn't ranking. The actual cause.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
         </Container>

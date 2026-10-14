@@ -320,7 +320,7 @@ export default function AboutPage() {
               eventLabel="about_strategy_cta"
               caption="How I work, and what a build involves."
             >
-              Book a Free Strategy Call
+              Book a Consultation
             </CTAButton>
           </CtaPanel>
         </Container>

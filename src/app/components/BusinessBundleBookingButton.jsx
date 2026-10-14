@@ -84,7 +84,7 @@ const BusinessBundleBookingButton = ({
 
             {/* Booking Widget */}
             <div className="p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Book Your Business Bundle Consultation</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Book a Consultation</h2>
               <BusinessBundleBookingWidget 
                 height="500px"
                 onLoad={() => {

@@ -294,7 +294,7 @@ export default function AiAgentStandardAsPhoneNumber() {
               body="We will look at your current enquiry handling, identify where leads are falling through, and show you what an AI agent would concretely change."
             >
               <CTAButton eventLabel="blog_ai_agent_cta" caption="Whether an agent suits your phone line. Yes or no.">
-                Book Your Free Strategy Call
+                Book a Consultation
               </CTAButton>
             </CtaPanel>
 

@@ -239,7 +239,7 @@ export default function GoogleRankingPage() {
           body="Book a free 30-minute call. We will look at your current rankings, identify the highest-value keywords you are not holding, and give you an honest picture of what closing that gap requires."
         >
           <CTAButton eventLabel="expertise_google_ranking_cta" caption="Priorities and deliverables agreed in writing.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
         </Container>

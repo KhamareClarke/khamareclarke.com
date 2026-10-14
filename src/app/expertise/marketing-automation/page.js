@@ -217,7 +217,7 @@ export default function MarketingAutomationPage() {
           body="Book a free 30-minute call. We will map your current lead flow, identify where enquiries are being lost, and build a system that closes that gap automatically."
         >
           <CTAButton eventLabel="expertise_marketing_automation_cta" caption="What keeps slipping through, and where it goes.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
         </Container>

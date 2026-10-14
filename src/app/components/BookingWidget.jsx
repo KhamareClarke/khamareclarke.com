@@ -50,7 +50,7 @@ const BookingWidget = ({
         style={combinedStyle}
         scrolling="yes"
         id="k6UtbKZXRHXyxKxEAm0i_1766768206080"
-        title="Book a Meeting with Khamare Clarke"
+        title="Book a Consultation"
         loading="lazy"
         allow="payment"
       />

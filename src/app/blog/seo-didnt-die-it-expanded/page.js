@@ -335,7 +335,7 @@ export default function SeoDidntDie() {
               body="We will audit your current SEO layer coverage and identify the highest-leverage gaps."
             >
               <CTAButton eventLabel="blog_seo_expanded_cta" caption="Where search is going, and where to put the effort.">
-                Book Your Free Strategy Call
+                Book a Consultation
               </CTAButton>
             </CtaPanel>
 

@@ -117,9 +117,9 @@ export default function BlogHome() {
             </form>
           </Card>
           <Card className="reveal" style={{ "--rv-delay": "310ms" }}>
-            <h4 className="text-lg font-semibold mb-2 text-white">Book a Free Strategy Call</h4>
+            <h4 className="text-lg font-semibold mb-2 text-white">Book a Consultation</h4>
             <p className="text-muted mb-4">See how AI and automation can grow your UK business.</p>
-            <a href="#contact" className="inline-block bg-primary text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-primary-hover transition border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary">Book Now</a>
+            <a href="#contact" className="inline-block bg-primary text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-primary-hover transition border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary">Book a Consultation</a>
             <div className="mt-2 text-center text-xs text-white/70">
               Designed for businesses ready to simplify operations and scale intelligently.
             </div>

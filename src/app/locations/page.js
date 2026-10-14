@@ -162,7 +162,7 @@ export default function LocationsPage() {
             body="Every UK business is in scope. Book a free 30-minute call to discuss your situation specifically."
           >
             <CTAButton eventLabel="locations_hub_cta" caption="What works where you are. Local, not generic.">
-              Book Your Free Strategy Call
+              Book a Consultation
             </CTAButton>
           </CtaPanel>
         </Container>

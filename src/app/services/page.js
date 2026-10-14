@@ -181,7 +181,7 @@ export default function ServicesPage() {
               eventLabel="services_consultation_cta"
               caption="Free 30-minute introductory call. No obligation."
             >
-              Book a Call
+              Book a Consultation
             </CTAButton>
           </CtaPanel>
 

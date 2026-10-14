@@ -285,7 +285,7 @@ export default function ServiceLocationPage({ params }) {
           body={`30 minutes. No obligation. An honest assessment of where your ${location.name} business stands and what it would take to move it.`}
         >
           <CTAButton eventLabel={`service_${service.slug}_${location.slug}_cta`} caption="Priorities and deliverables agreed in writing.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
 

@@ -273,7 +273,7 @@ export default function ProgrammaticSEOPage() {
           body="Book a free 30-minute strategy call. Bring your current keyword targets and site structure and we will assess whether a programmatic build makes sense, what the data requirements are, and what the projected output looks like."
         >
           <CTAButton eventLabel="expertise_programmatic_seo_cta" caption="How many pages you actually need. A real number.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
         </CtaPanel>
         </Container>
