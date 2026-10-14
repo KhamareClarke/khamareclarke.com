@@ -62,7 +62,7 @@ export default function ClientsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
+    <main id="main-content" className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
       <header className="border-b border-[#222] bg-[#0a0a0a]/80 backdrop-blur-sm sticky top-0 z-10">
         <Container size="wide" className="py-4 flex items-center justify-between">
           <div className="flex items-center gap-6">

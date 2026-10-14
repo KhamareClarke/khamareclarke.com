@@ -243,7 +243,7 @@ export default function PresentationPage() {
   const isTitle = slide.kind === 'title';
 
   return (
-    <main className="flex h-[100dvh] w-full flex-col overflow-hidden bg-surface text-white">
+    <main id="main-content" className="flex h-[100dvh] w-full flex-col overflow-hidden bg-surface text-white">
       {/* Progress rail — centred, including the slide counter */}
       <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-6 pt-6 sm:px-10 sm:pt-8">
         <GoldRule />

@@ -68,7 +68,7 @@ export default function DocumentsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
+    <main id="main-content" className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
       <PortalHeader email={me?.email} fullName={me?.fullName} />
       <Section>
         <Container size="wide" className="py-8">

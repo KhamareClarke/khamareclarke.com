@@ -70,31 +70,19 @@ const AccessibilityEnhancer = () => {
       document.head.appendChild(style);
     };
 
-    // Add ARIA labels where missing
+    // Label form inputs that have no <label>, using their placeholder text.
+    //
+    // This function used to also invent aria-label="Button" on any unnamed
+    // <button> containing an <svg>, and aria-label="Link" on the same for <a>.
+    // Both were removed. A control announced as "Button" is worse than one
+    // announced as nothing: it tells the user nothing while looking correct and
+    // passing an audit, so the real defect is hidden instead of surfaced.
+    // Icon-only controls are named where they are built — the mobile menu toggle
+    // carries "Open navigation menu" — and anything missed is *reported* rather
+    // than mislabelled: runAccessibilityAudit warns about buttons with no
+    // accessible name. The skip link, focus management and the focus-visible
+    // ring above are untouched.
     const enhanceARIA = () => {
-      // Add ARIA labels to buttons without text
-      const buttons = document.querySelectorAll('button:not([aria-label]):not([aria-labelledby])');
-      buttons.forEach(button => {
-        if (!button.textContent.trim()) {
-          const icon = button.querySelector('svg');
-          if (icon) {
-            button.setAttribute('aria-label', 'Button');
-          }
-        }
-      });
-
-      // Add ARIA labels to links without text
-      const links = document.querySelectorAll('a:not([aria-label]):not([aria-labelledby])');
-      links.forEach(link => {
-        if (!link.textContent.trim()) {
-          const icon = link.querySelector('svg');
-          if (icon) {
-            link.setAttribute('aria-label', 'Link');
-          }
-        }
-      });
-
-      // Ensure form inputs have labels
       const inputs = document.querySelectorAll('input:not([aria-label]):not([aria-labelledby])');
       inputs.forEach(input => {
         const label = document.querySelector(`label[for="${input.id}"]`);

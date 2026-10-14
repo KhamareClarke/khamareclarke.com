@@ -90,7 +90,7 @@ export default function DashboardPage() {
 
   if (loggedIn === false || loggedIn === null) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
+      <main id="main-content" className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
         <div className="animate-pulse text-[#ffb700]">Loading...</div>
       </main>
     );
@@ -134,7 +134,7 @@ export default function DashboardPage() {
     .map((lead, i) => ({ ...lead, rowKey: lead.id ?? `row-${i}` }));
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
+    <main id="main-content" className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
       <header className="border-b border-[#222] bg-[#0a0a0a]/80 backdrop-blur-sm sticky top-0 z-10">
         <Container size="wide" className="py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
