@@ -198,7 +198,7 @@ function BusinessBundleClientContent() {
           {/* The closing call to action sits directly under the headline and intro, so the
               page asks for the call while the offer is still on screen. */}
           <CtaPanel
-            className="mt-20"
+            className="mt-16"
             headingLevel="h2"
             heading={<>Ready to start your <span className="gold-text">build?</span></>}
             body="Thirty minutes on a call. Bring your questions and I will tell you what the build would involve for your business."

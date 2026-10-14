@@ -289,7 +289,7 @@ export default function AIAgentsPage() {
 
         {/* CTA */}
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Find out how many <span className="gold-text">leads you are currently missing.</span>

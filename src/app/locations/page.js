@@ -149,7 +149,7 @@ export default function LocationsPage() {
 
           {/* CTA */}
           <CtaPanel
-            className="mt-20"
+            className="mt-16"
             headingLevel="h2"
             heading={
               <>

@@ -205,7 +205,7 @@ export default function MarketingAutomationPage() {
         </Card>
 
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Ready to stop losing leads to <span className="gold-text">slow follow-up?</span>

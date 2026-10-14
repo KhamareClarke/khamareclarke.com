@@ -190,7 +190,7 @@ export default function AIContentSystemsPage() {
         </Card>
 
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Ready to build a <span className="gold-text">content system</span> that actually ranks?

@@ -131,7 +131,7 @@ export default function SeoDidntDie() {
               What are the four layers now?
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Layer 1: Traditional search rankings (Google, Bing)
             </h3>
 
@@ -154,7 +154,7 @@ export default function SeoDidntDie() {
               review response strategy. Layer one, executed properly.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Layer 2: Answer Engine Optimisation (AEO)
             </h3>
 
@@ -184,7 +184,7 @@ export default function SeoDidntDie() {
               .
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Layer 3: Generative Engine Optimisation (GEO)
             </h3>
 
@@ -215,7 +215,7 @@ export default function SeoDidntDie() {
               to see exactly where you stand right now.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Layer 4: Programmatic SEO at scale
             </h3>
 

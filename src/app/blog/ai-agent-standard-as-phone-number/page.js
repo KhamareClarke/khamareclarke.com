@@ -124,7 +124,7 @@ export default function AiAgentStandardAsPhoneNumber() {
               through the cracks entirely.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Enquiries at 2am
             </h3>
 
@@ -145,7 +145,7 @@ export default function AiAgentStandardAsPhoneNumber() {
               the lead before your working day started.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Automatic follow-up
             </h3>
 
@@ -164,7 +164,7 @@ export default function AiAgentStandardAsPhoneNumber() {
               and the follow-up needs to be softer. The agent handles both without your attention.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Review requests
             </h3>
 
@@ -191,7 +191,7 @@ export default function AiAgentStandardAsPhoneNumber() {
               then handles.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Lead qualification before the owner sees it
             </h3>
 

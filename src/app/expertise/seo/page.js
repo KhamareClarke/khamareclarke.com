@@ -304,7 +304,7 @@ export default function SEOSpecialistPage() {
 
         {/* CTA */}
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Ready to talk about your <span className="gold-text">rankings?</span>

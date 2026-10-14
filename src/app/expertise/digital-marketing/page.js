@@ -208,7 +208,7 @@ export default function DigitalMarketingPage() {
         </Card>
 
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Ready to build the full <span className="gold-text">digital marketing system?</span>

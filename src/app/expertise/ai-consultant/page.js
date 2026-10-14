@@ -271,7 +271,7 @@ export default function AIConsultantPage() {
         </Card>
 
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Ready to talk about <span className="gold-text">AI adoption</span> for your business?

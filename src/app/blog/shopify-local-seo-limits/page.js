@@ -150,7 +150,7 @@ export default function ShopifyLocalSeoLimits() {
               What are the specific <span className="gold-text">SEO constraints</span>?
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Rigid URL architecture you cannot change
             </h3>
 
@@ -181,7 +181,7 @@ export default function ShopifyLocalSeoLimits() {
               control the architecture, you cannot fully engineer the authority flow.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Canonical issues with faceted navigation
             </h3>
 
@@ -208,7 +208,7 @@ export default function ShopifyLocalSeoLimits() {
               commerce setup, canonicals are managed programmatically with complete control.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Limited page control and no programmatic generation
             </h3>
 
@@ -237,7 +237,7 @@ export default function ShopifyLocalSeoLimits() {
               requires.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Handling local service businesses and custom booking flows
             </h3>
 

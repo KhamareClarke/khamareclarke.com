@@ -270,7 +270,7 @@ export default function AIImplementationPage() {
         </Card>
 
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Ready to <span className="gold-text">implement?</span>

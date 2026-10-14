@@ -150,7 +150,7 @@ export default function WordpressRealCeiling() {
               Where does <span className="gold-text">the ceiling</span> actually appear?
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Core Web Vitals under a theme-and-plugin stack
             </h3>
 
@@ -185,7 +185,7 @@ export default function WordpressRealCeiling() {
               disadvantage in high-intent local service searches where Google is surfacing fast sites.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Programmatic SEO at scale
             </h3>
 
@@ -229,7 +229,7 @@ export default function WordpressRealCeiling() {
               that often defeats the purpose of using WordPress in the first place.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Local service businesses needing scale
             </h3>
 

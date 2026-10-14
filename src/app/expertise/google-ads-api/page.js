@@ -261,7 +261,7 @@ export default function GoogleAdsAPIPage() {
 
         {/* CTA */}
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Want better performance from your <span className="gold-text">Google Ads spend?</span>

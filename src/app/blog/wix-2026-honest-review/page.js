@@ -106,7 +106,7 @@ export default function Wix2026HonestReview() {
               What Wix <span className="gold-text">gets right</span> now
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Core Web Vitals on simple sites
             </h3>
 
@@ -126,7 +126,7 @@ export default function Wix2026HonestReview() {
               crowd has not updated their priors to reflect.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Schema markup support
             </h3>
 
@@ -147,7 +147,7 @@ export default function Wix2026HonestReview() {
               and it is better than having no schema at all.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Page speed improvements
             </h3>
 
@@ -170,7 +170,7 @@ export default function Wix2026HonestReview() {
               Where does Wix still <span className="gold-text">hit the ceiling</span>?
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               URL structure inflexibility
             </h3>
 
@@ -192,7 +192,7 @@ export default function Wix2026HonestReview() {
               structure is cosmetic rather than functional for URL architecture purposes.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               No programmatic page generation
             </h3>
 
@@ -219,7 +219,7 @@ export default function Wix2026HonestReview() {
               the platform.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               JavaScript-heavy rendering and AI crawlers
             </h3>
 
@@ -248,7 +248,7 @@ export default function Wix2026HonestReview() {
               platforms.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Partial server-side rendering gaps
             </h3>
 

@@ -258,7 +258,7 @@ export default function ProgrammaticSEOPage() {
 
         {/* CTA */}
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Want to know whether <span className="gold-text">programmatic SEO</span> fits your business?

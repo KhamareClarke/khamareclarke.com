@@ -90,8 +90,14 @@
   --measure-body: 64ch;
   --tracking-eyebrow: 0.18em;
 
-  --section-padding-y: var(--space-6);
-  --section-padding-y-lg: 80px;
+  /* Section rhythm. These describe what the six homepage section components already render as
+     Tailwind `py-16 md:py-20 lg:py-24` — 64 / 80 / 96. The old values here (64 and a flat 80)
+     described something the site had stopped doing, so the tokens now match reality. Change the
+     rhythm in both places or neither: see AchievementsSection, ProjectsSection, PricingSection,
+     BlogSlider, FAQSection and EmailSection. */
+  --section-padding-y: 64px;
+  --section-padding-y-md: 80px;
+  --section-padding-y-lg: 96px;
 
   /* ─── Border radius ─── */
   --radius-default: 12px;

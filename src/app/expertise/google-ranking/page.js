@@ -227,7 +227,7 @@ export default function GoogleRankingPage() {
         </Card>
 
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Ready to appear first when your <span className="gold-text">customers are searching?</span>

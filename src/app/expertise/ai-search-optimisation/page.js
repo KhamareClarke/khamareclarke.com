@@ -313,7 +313,7 @@ export default function AISearchOptimisationPage() {
 
         {/* CTA */}
         <CtaPanel headingLevel="h2"
-          className="mt-12"
+          className="mt-16"
           heading={
             <>
               Find out where your business stands in <span className="gold-text">AI search.</span>

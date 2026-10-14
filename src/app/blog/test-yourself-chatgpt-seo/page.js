@@ -116,7 +116,7 @@ export default function TestYourselfChatgptSeo() {
               Step-by-step: how to <span className="gold-text">run the test properly</span>
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Step 1: Set up three tabs
             </h3>
 
@@ -144,7 +144,7 @@ export default function TestYourselfChatgptSeo() {
               </li>
             </ul>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Step 2: Run the right queries
             </h3>
 
@@ -166,7 +166,7 @@ export default function TestYourselfChatgptSeo() {
               Full AI visibility means appearing consistently across query variants, across platforms.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Step 3: Note who appears and where their citations come from
             </h3>
 
@@ -268,7 +268,7 @@ export default function TestYourselfChatgptSeo() {
               sits. GEO is not a single tactic. It is a combination of:
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Entity consistency across the web
             </h3>
 
@@ -279,7 +279,7 @@ export default function TestYourselfChatgptSeo() {
               is in Stoke and which is in Derby. Entity confusion means citation frequency drops.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Structured data implementation
             </h3>
 
@@ -296,7 +296,7 @@ export default function TestYourselfChatgptSeo() {
               has it. In a competitive local market, that gap translates directly to citation frequency.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Citation in authoritative content
             </h3>
 
@@ -314,7 +314,7 @@ export default function TestYourselfChatgptSeo() {
               that has always mattered for Google rankings and now matters for AI visibility too.
             </p>
 
-            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal ds-subheading gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Content that directly answers generative queries
             </h3>
 
