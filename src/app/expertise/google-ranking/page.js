@@ -101,7 +101,7 @@ export default function GoogleRankingPage() {
           <SectionHeading id="q1">
             What <span className="gold-text">better Google visibility</span> means for your business.
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Position one on Google captures approximately 27 to 30 per cent of all
               clicks for a given search query. Position three captures around 11 per cent.
@@ -145,7 +145,7 @@ export default function GoogleRankingPage() {
           <SectionHeading id="timeline">
             Realistic <span className="gold-text">timelines</span>
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               For a local service business targeting a town-level keyword with low to
               medium competition -- a trades business, a professional services firm,
@@ -169,7 +169,7 @@ export default function GoogleRankingPage() {
           <SectionHeading id="q3">
             Google ranking and <span className="gold-text">AI search</span>
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Google still handles the overwhelming majority of UK search queries. The
               businesses that appear in Google AI Overviews -- the AI-generated summaries

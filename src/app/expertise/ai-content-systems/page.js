@@ -102,7 +102,7 @@ export default function AIContentSystemsPage() {
           <SectionHeading id="q1">
             What an <span className="gold-text">AI content system</span> is
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI content system is a structured pipeline for producing content at
               scale, using AI assistance to reduce the time cost of output without
@@ -147,7 +147,7 @@ export default function AIContentSystemsPage() {
           <SectionHeading id="q4">
             Content and <span className="gold-text">AI search visibility</span>
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               AI models cite content that states facts clearly, is structured for easy
               extraction, and comes from sources they have indexed as authoritative.

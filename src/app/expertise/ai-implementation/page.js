@@ -112,7 +112,7 @@ export default function AIImplementationPage() {
           <SectionHeading id="q1">
             What is <span className="gold-text">AI implementation</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               AI implementation is the process of identifying where artificial
               intelligence can produce a measurable business outcome, selecting
@@ -135,7 +135,7 @@ export default function AIImplementationPage() {
           <SectionHeading id="q2">
             What an <span className="gold-text">AI implementation specialist</span> does
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               The scope covers the full cycle. Operational audit: mapping current
               workflows, identifying where time and leads are lost, and
@@ -162,7 +162,7 @@ export default function AIImplementationPage() {
           <SectionHeading id="q3">
             The <span className="gold-text">five-stage implementation method</span>
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <ol className="space-y-6 list-none">
               {[
                 ["Operational audit", "Mapping current workflows, identifying where time and leads are lost, and ranking AI applications by commercial impact. The audit produces a prioritised action list, not a 200-page report."],
@@ -187,7 +187,7 @@ export default function AIImplementationPage() {
           <SectionHeading id="q4">
             How <span className="gold-text">AI implementation</span> is different from AI consultancy
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI consultant typically produces a strategy document or roadmap.
               An AI implementation specialist builds the systems that the strategy

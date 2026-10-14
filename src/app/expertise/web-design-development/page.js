@@ -101,7 +101,7 @@ export default function WebDesignDevelopmentPage() {
           <SectionHeading id="q1">
             Conversion-focused <span className="gold-text">web design</span>
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Conversion-focused web design is design informed by search intent and
               user behaviour at the point of landing. Every layout decision -- headline
@@ -123,7 +123,7 @@ export default function WebDesignDevelopmentPage() {
           <SectionHeading id="q2">
             Why <span className="gold-text">web design matters</span> for SEO
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Web design and SEO are not separate disciplines. Core Web Vitals --
               the page speed and stability signals Google uses as a ranking factor
@@ -165,7 +165,7 @@ export default function WebDesignDevelopmentPage() {
           <SectionHeading id="q4">
             What all builds have in <span className="gold-text">common</span>
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               All sites are built with Next.js using static-site generation. Pages are
               pre-rendered as HTML at build time, which means they are fast, crawlable

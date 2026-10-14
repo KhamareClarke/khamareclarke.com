@@ -175,8 +175,8 @@ export default function ServiceLocationPage({ params }) {
           <SectionHeading id="location-context">
             {service.shortTitle} in {location.name} — the context
           </SectionHeading>
-          <p className="reveal text-muted text-lg leading-relaxed mb-4" style={{ "--rv-delay": "200ms" }}>{intro}</p>
-          <p className="reveal text-muted text-lg leading-relaxed" style={{ "--rv-delay": "280ms" }}>{localNote}</p>
+          <p className="reveal text-muted ds-body-lg mb-4" style={{ "--rv-delay": "200ms" }}>{intro}</p>
+          <p className="reveal text-muted ds-body-lg" style={{ "--rv-delay": "280ms" }}>{localNote}</p>
         </section>
 
         {/* What this service involves */}
@@ -184,7 +184,7 @@ export default function ServiceLocationPage({ params }) {
           <SectionHeading id="service-scope">
             What does {service.heading} involve for a {location.name} business?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Every engagement starts with an audit: what is the current state of the site, the Google Business Profile (where applicable), the local citations, and the structured data? The audit identifies the highest-leverage actions — the fixes that produce the fastest ranking movement — and those go first.
             </p>
@@ -225,7 +225,7 @@ export default function ServiceLocationPage({ params }) {
               <h3 className="text-lg font-bold text-white mb-3">
                 Does Khamare Clarke offer {service.shortTitle} in {location.name}?
               </h3>
-              <p className="text-muted leading-relaxed">
+              <p className="text-muted ds-body">
                 Yes. {service.heading} services are available to businesses in {location.name} and the wider {location.region} area. Most work is delivered remotely with no loss of quality. For {location.name} clients where an in-person meeting would help, that can be arranged.
               </p>
             </div>
@@ -234,7 +234,7 @@ export default function ServiceLocationPage({ params }) {
               <h3 className="text-lg font-bold text-white mb-3">
                 How much does {service.shortTitle} cost in {location.name}?
               </h3>
-              <p className="text-muted leading-relaxed">
+              <p className="text-muted ds-body">
                 Pricing depends on the scope of the work, the competition level in {location.name}, and the volume of work required. A 30-minute strategy call gives an accurate picture for your specific situation in {location.name}.
               </p>
             </div>
@@ -243,7 +243,7 @@ export default function ServiceLocationPage({ params }) {
               <h3 className="text-lg font-bold text-white mb-3">
                 How long before a {location.name} business sees results?
               </h3>
-              <p className="text-muted leading-relaxed">
+              <p className="text-muted ds-body">
                 For local campaigns, movement in search visibility typically becomes
                 measurable over the first three to six months. Priorities and deliverables
                 are agreed in writing at the start of every engagement.

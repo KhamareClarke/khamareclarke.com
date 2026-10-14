@@ -114,7 +114,7 @@ export default function AIAgentsPage() {
           <SectionHeading id="q1">
             What is an <span className="gold-text">AI receptionist</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI receptionist is a software system that handles inbound
               enquiries — via web chat, SMS, WhatsApp, or phone — automatically
@@ -139,7 +139,7 @@ export default function AIAgentsPage() {
           <SectionHeading id="q2">
             What does an <span className="gold-text">AI agent</span> actually do for a trades business?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               For a trades business — roofer, plumber, electrician, builder —
               the problem is not finding leads. The problem is responding to
@@ -169,7 +169,7 @@ export default function AIAgentsPage() {
           <SectionHeading id="q3">
             How quickly can an <span className="gold-text">AI agent respond</span> to enquiries?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI agent responds within seconds of an enquiry being submitted,
               at any time of day or night. That is not a headline feature — it
@@ -195,7 +195,7 @@ export default function AIAgentsPage() {
           <SectionHeading id="q4">
             How does an AI agent <span className="gold-text">integrate with existing systems</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               AI agents connect to existing tools through APIs and webhooks.
               Common integrations include Google Calendar and Calendly for
@@ -220,7 +220,7 @@ export default function AIAgentsPage() {
           <SectionHeading id="q5">
             What is the <span className="gold-text">return on investment</span> for an AI receptionist?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               The return depends on average job value and the volume of leads
               currently being missed or delayed. A trades business with a £500
@@ -247,7 +247,7 @@ export default function AIAgentsPage() {
           <SectionHeading id="synonyms-agents">
             <span className="gold-text">AI systems engineer</span>, automation engineer, AI developer, AI architect: the same discipline with different labels
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               The terms AI systems engineer, automation engineer, AI developer, and AI architect describe overlapping
               roles that differ mainly in emphasis. An AI systems engineer builds and integrates the components of

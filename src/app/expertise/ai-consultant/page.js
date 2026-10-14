@@ -111,7 +111,7 @@ export default function AIConsultantPage() {
           <SectionHeading id="q1">
             What does an <span className="gold-text">AI consultant</span> do?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI consultant helps businesses identify where artificial intelligence
               can be applied practically, selects the right tools and approaches, and
@@ -135,7 +135,7 @@ export default function AIConsultantPage() {
           <SectionHeading id="q2">
             What is the difference between an AI consultant and an <span className="gold-text">AI specialist</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI specialist typically refers to someone with deep technical knowledge
               in a narrow area: computer vision, natural language processing, or machine
@@ -157,7 +157,7 @@ export default function AIConsultantPage() {
           <SectionHeading id="q3">
             What is an <span className="gold-text">AI strategy consultant</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI strategy consultant helps a business develop a coherent plan for
               adopting AI: what to automate, in what order, with what tools, and at what
@@ -180,7 +180,7 @@ export default function AIConsultantPage() {
           <SectionHeading id="q4">
             How is an artificial intelligence consultant different from a <span className="gold-text">digital marketing consultant</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               A digital marketing consultant focuses on channels: SEO, paid ads, social
               media, email. An artificial intelligence consultant focuses on the systems
@@ -203,7 +203,7 @@ export default function AIConsultantPage() {
           <SectionHeading id="q5">
             What does <span className="gold-text">Khamare Clarke</span> offer as an AI adviser?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               The AI advisory work covers four connected areas. First, AI agent design
               and deployment: receptionists that respond to enquiries in seconds, lead
@@ -230,7 +230,7 @@ export default function AIConsultantPage() {
           <SectionHeading id="synonyms-consultant">
             <span className="gold-text">AI expert</span>, AI adviser, AI specialist: what these terms mean in practice
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Businesses searching for an AI expert, AI adviser, or AI specialist are
               typically looking for someone who can tell them what to build, help them

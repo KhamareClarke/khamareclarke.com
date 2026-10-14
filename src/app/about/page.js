@@ -115,7 +115,7 @@ export default function AboutPage() {
             <SectionHeading id="who-heading">
               Who is <span className="gold-text">Khamare Clarke</span>?
             </SectionHeading>
-            <div className="space-y-5 text-muted text-lg leading-relaxed">
+            <div className="space-y-5 text-muted ds-body-lg">
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 Khamare Clarke is an AI Implementation Specialist based in
                 Stoke-on-Trent, Staffordshire, serving businesses across the
@@ -150,7 +150,7 @@ export default function AboutPage() {
             <SectionHeading id="what-heading">
               What does an <span className="gold-text">AI Implementation Specialist</span> do?
             </SectionHeading>
-            <div className="space-y-5 text-muted text-lg leading-relaxed">
+            <div className="space-y-5 text-muted ds-body-lg">
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 An AI implementation specialist assesses a business's current
                 operations, identifies where AI can be applied practically, and
@@ -260,7 +260,7 @@ export default function AboutPage() {
           <section className="mt-16" aria-labelledby="area-heading">
             <SectionHeading id="area-heading">Service area</SectionHeading>
             <p
-              className="reveal text-muted text-lg leading-relaxed"
+              className="reveal text-muted ds-body-lg"
               style={{ "--rv-delay": "200ms" }}
             >
               Based in Stoke-on-Trent, Staffordshire. Khamare works with UK

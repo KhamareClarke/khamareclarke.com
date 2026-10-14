@@ -88,14 +88,14 @@ export default function WordpressRealCeiling() {
               &middot; August 2025 &middot; 9 min read
             </p>
 
-            <p className="text-muted text-lg leading-relaxed mb-8 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body-lg mb-8 reveal" style={{ "--rv-delay": "280ms" }}>
               WordPress powers around 43% of all websites (W3Techs, 2024). That fact alone should
               tell you something: a platform used by almost half the web is not a platform that cannot
               rank. Many high-authority sites, major publishers, and successful businesses run on
               WordPress and appear at the top of competitive search results.
             </p>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
               The ceiling is not inherent to WordPress as a piece of software. The ceiling is in what
               most businesses actually build with it: a themed, plugin-heavy site that trades
               flexibility for convenience and ends up constrained at the exact point where growth
@@ -107,12 +107,12 @@ export default function WordpressRealCeiling() {
               When is WordPress <span className="gold-text">completely fine</span>?
             </SectionHeading>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               Let us be direct about this before we get to the limitations, because the limitations
               only matter in specific contexts.
             </p>
 
-            <p className="text-muted leading-relaxed mb-4 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-4 reveal" style={{ "--rv-delay": "280ms" }}>
               WordPress is a sound choice when:
             </p>
 
@@ -141,7 +141,7 @@ export default function WordpressRealCeiling() {
               </li>
             </ul>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
               These are real, common use cases. If you are in one of them, the ceiling does not apply
               to you yet. The question is whether you expect to stay there.
             </p>
@@ -154,14 +154,14 @@ export default function WordpressRealCeiling() {
               Core Web Vitals under a theme-and-plugin stack
             </h3>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               Google&apos;s Core Web Vitals (Largest Contentful Paint, Cumulative Layout Shift,
               Interaction to Next Paint) are page experience signals that feed into ranking. They are
               not the dominant ranking factor, but in competitive niches where two sites have comparable
               content quality and authority, technical performance creates the tiebreak.
             </p>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
               The problem with a typical WordPress build is the accumulation of render-blocking
               resources. A theme loads its own CSS framework. A page builder (Elementor, Divi, WPBakery)
               loads its own JavaScript. Each plugin adds HTTP requests, often without considering the
@@ -170,7 +170,7 @@ export default function WordpressRealCeiling() {
               is not catastrophic in isolation, but it is representative of the structural bloat pattern.
             </p>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
               A skilled developer can optimise a WordPress site aggressively: a lightweight theme like
               GeneratePress, judicious plugin selection, critical CSS inlining, lazy loading, a CDN,
               and server-side caching can bring a WordPress site to very strong Core Web Vitals scores.
@@ -179,7 +179,7 @@ export default function WordpressRealCeiling() {
               flexibility over render efficiency.
             </p>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               If your site is on a page builder theme and has never had a performance audit, there is
               a meaningful chance that your LCP is above 4 seconds on mobile. That is a competitive
               disadvantage in high-intent local service searches where Google is surfacing fast sites.
@@ -189,7 +189,7 @@ export default function WordpressRealCeiling() {
               Programmatic SEO at scale
             </h3>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
               This is the harder ceiling, and it affects a specific category of business ambition.
               Programmatic SEO means generating large numbers of pages from structured data: location
               pages, service-by-area combinations, product-category intersections. A plumber wanting to
@@ -197,7 +197,7 @@ export default function WordpressRealCeiling() {
               location pages. A national trades directory might need tens of thousands.
             </p>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
               WordPress can technically do this. Custom post types, taxonomy pages, and plugins like
               ACF (Advanced Custom Fields) allow you to structure templated content at volume. But the
               execution hits practical constraints:
@@ -221,7 +221,7 @@ export default function WordpressRealCeiling() {
               </li>
             </ul>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               A custom Next.js build with a Postgres or Airtable data source can generate 500 location
               pages at build time, serve them as static HTML, and index them cleanly without database
               load, without plugin conflicts, and with complete control over the URL structure. That is
@@ -233,7 +233,7 @@ export default function WordpressRealCeiling() {
               Local service businesses needing scale
             </h3>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
               For a single-location business with a five-page site, WordPress is adequate. For a
               multi-location service business wanting to dominate the map pack across 20 service areas,
               the requirements change. You need:
@@ -246,7 +246,7 @@ export default function WordpressRealCeiling() {
               <li className="reveal" style={{ "--rv-delay": "270ms" }}>Sub-1.5 second LCP across all pages on mobile</li>
             </ul>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
               A WordPress site can be engineered to meet these requirements. The question is always
               whether the engineering cost exceeds the cost of building on a platform where these
               requirements are met by default. In my experience working with UK service businesses,
@@ -257,13 +257,13 @@ export default function WordpressRealCeiling() {
               What does an engineered site do differently?
             </SectionHeading>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               An engineered site is not magic. It is a site built with the constraints of SEO
               requirements baked into the architecture from the start, rather than bolted on afterwards
               through plugins.
             </p>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
               In practice this means: a Next.js or similar React framework using static site generation
               for content pages; complete control over URL structure and metadata at page level;
               structured data injected programmatically from a data source; no render-blocking
@@ -271,7 +271,7 @@ export default function WordpressRealCeiling() {
               framework level, not by a plugin.
             </p>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
               The site you are on right now is built this way. The same approach is what I use when
               the client&apos;s growth ambitions require it. It is not appropriate for every project.
               It is necessary for the projects where it is necessary. Understanding which category
@@ -282,7 +282,7 @@ export default function WordpressRealCeiling() {
               The honest summary
             </SectionHeading>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               WordPress can rank. A well-built WordPress site beats a poorly-built custom site every
               time. The ceiling is not a WordPress problem; it is a use-case problem. When your growth
               requires programmatic scale, sub-second mobile performance, or a level of technical
@@ -290,14 +290,14 @@ export default function WordpressRealCeiling() {
               the constraint.
             </p>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "280ms" }}>
               If you are unsure which category your business is in, the most useful thing you can do
               is run a technical audit before you commission any content work. The audit will tell you
               whether the platform is the ceiling or the content is. Those have different solutions,
               and confusing them wastes money.
             </p>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
               For the broader context of what modern search optimisation covers across all four layers,
               see the flagship post:{" "}
               <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">

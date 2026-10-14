@@ -122,7 +122,7 @@ export default function AISearchOptimisationPage() {
           <SectionHeading id="q1">
             What is <span className="gold-text">answer engine optimisation (AEO)</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Answer engine optimisation (AEO) is the practice of structuring a
               website's content so that search engines and AI models surface it
@@ -147,7 +147,7 @@ export default function AISearchOptimisationPage() {
           <SectionHeading id="q2">
             What is <span className="gold-text">generative engine optimisation (GEO)</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Generative engine optimisation (GEO) is the process of making a
               business more likely to be cited by large language models — ChatGPT,
@@ -172,7 +172,7 @@ export default function AISearchOptimisationPage() {
           <SectionHeading id="q3">
             How do <span className="gold-text">ChatGPT, Gemini, and Perplexity</span> decide which businesses to cite?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               AI models draw on a combination of training data, live web
               retrieval (in models with browsing enabled), and entity
@@ -200,7 +200,7 @@ export default function AISearchOptimisationPage() {
           <SectionHeading id="q4">
             What is the difference between <span className="gold-text">SEO and GEO</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Traditional SEO optimises pages to rank in a list of ten results.
               GEO optimises a business to be cited within an AI-generated
@@ -226,7 +226,7 @@ export default function AISearchOptimisationPage() {
           <SectionHeading id="q5">
             How do you optimise for <span className="gold-text">AI Overviews</span> in Google Search?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Google's AI Overviews pull from pages that Google already trusts
               for a given topic. The core requirements are: demonstrating
@@ -252,7 +252,7 @@ export default function AISearchOptimisationPage() {
           <SectionHeading id="q6">
             How much does <span className="gold-text">AI search optimisation</span> cost?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Google rankings and AI search visibility are handled together,
               because separating the two produces worse results for both.
@@ -272,7 +272,7 @@ export default function AISearchOptimisationPage() {
           <SectionHeading id="synonyms-ai-search">
             <span className="gold-text">AEO specialist</span>, GEO consultant, AI visibility expert: different names for the same emerging discipline
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Answer engine optimisation (AEO) and generative engine optimisation (GEO) are terms that describe the
               same practice from slightly different angles. AEO focuses on getting a business cited as the answer

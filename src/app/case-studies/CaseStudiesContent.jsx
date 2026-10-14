@@ -1,6 +1,5 @@
 "use client";
 import ProjectsSection from "../components/ProjectsSection";
-import TestimonialsSection from "../components/TestimonialsSection";
 import CTAButton from "../components/CTAButton";
 import PageHero from "../components/ui/PageHero";
 import AchievementsSection from "../components/AchievementsSection";
@@ -82,7 +81,6 @@ export default function CaseStudiesContent() {
         <ProjectsSection />
 
         {/* Testimonials */}
-        <TestimonialsSection />
 
         {/* Success Stories Detail */}
         <div className="my-24">

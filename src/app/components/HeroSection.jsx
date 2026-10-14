@@ -83,7 +83,7 @@ const HeroSection = (overrides = {}) => {
               {subtitle}
             </p>
 
-            <p className="reveal reveal-blur mt-4 sm:mt-6 text-xl lg:text-2xl max-w-3xl text-muted leading-relaxed" style={{ "--rv-delay": "460ms" }}>
+            <p className="reveal reveal-blur mt-4 sm:mt-6 text-xl lg:text-2xl max-w-3xl text-muted ds-body" style={{ "--rv-delay": "460ms" }}>
               {lede}
             </p>
 

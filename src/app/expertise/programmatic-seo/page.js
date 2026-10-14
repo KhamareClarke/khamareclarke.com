@@ -115,7 +115,7 @@ export default function ProgrammaticSEOPage() {
           <SectionHeading id="q1">
             What is <span className="gold-text">programmatic SEO</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Programmatic SEO is the practice of building large numbers of
               search-optimised pages from a structured data source — a database,
@@ -139,7 +139,7 @@ export default function ProgrammaticSEOPage() {
           <SectionHeading id="q2">
             When does <span className="gold-text">programmatic SEO</span> make sense for a business?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Programmatic SEO makes sense when a business has a large,
               structured inventory that maps naturally to search demand: property
@@ -164,7 +164,7 @@ export default function ProgrammaticSEOPage() {
           <SectionHeading id="q3">
             What is the difference between a <span className="gold-text">programmatic page</span> and a doorway page?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               A doorway page is a low-quality page created solely to rank for a
               keyword, with no genuine value for the user. Google penalises
@@ -190,7 +190,7 @@ export default function ProgrammaticSEOPage() {
           <SectionHeading id="q4">
             How does an engineer approach <span className="gold-text">programmatic SEO</span> differently?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An engineer builds the data pipeline, the template logic, and the
               deployment infrastructure themselves. That means the content is
@@ -217,7 +217,7 @@ export default function ProgrammaticSEOPage() {
           <SectionHeading id="q5">
             What <span className="gold-text">results</span> can programmatic SEO deliver?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               At scale, a well-executed programmatic SEO build can produce
               thousands of ranking pages targeting long-tail queries that a

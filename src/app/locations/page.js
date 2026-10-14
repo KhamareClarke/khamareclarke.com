@@ -137,7 +137,7 @@ export default function LocationsPage() {
             <SectionHeading id="area-note">
               How remote <span className="gold-text">service delivery</span> works
             </SectionHeading>
-            <div className="space-y-5 text-muted text-lg leading-relaxed">
+            <div className="space-y-5 text-muted ds-body-lg">
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 All campaign work — audits, technical SEO, content strategy, Google Business Profile management, AI system setup — is delivered remotely. That means a business in London, Leeds, or Liverpool gets the same quality of work as one in Stoke-on-Trent. There is no geographic discount on quality.
               </p>

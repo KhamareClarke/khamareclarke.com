@@ -102,7 +102,7 @@ export default function DigitalMarketingPage() {
           <SectionHeading id="q1">
             What a <span className="gold-text">digital marketing consultant</span> does
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               A digital marketing consultant develops and executes strategy across the
               channels that drive revenue for a specific business: search, paid
@@ -149,7 +149,7 @@ export default function DigitalMarketingPage() {
           <SectionHeading id="q3">
             How <span className="gold-text">AI changes digital marketing</span>
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               AI changes digital marketing in two directions simultaneously. On the
               visibility side, search is shifting from ten blue links to AI-generated

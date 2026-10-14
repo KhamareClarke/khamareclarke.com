@@ -37,7 +37,7 @@ export default function TermsPage() {
             Last updated: July 2025
           </p>
 
-          <div className="mt-16 space-y-10 text-muted leading-relaxed">
+          <div className="mt-16 space-y-10 text-muted ds-body">
 
             <section aria-labelledby="terms-applies">
               <SectionHeading size="small" id="terms-applies">Who these terms apply to</SectionHeading>

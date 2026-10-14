@@ -116,7 +116,7 @@ export default function GoogleAdsAPIPage() {
           <SectionHeading id="q1">
             What is the <span className="gold-text">Google Ads API</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               The Google Ads API is the programmatic interface that allows
               developers to manage Google Ads accounts directly through code,
@@ -140,7 +140,7 @@ export default function GoogleAdsAPIPage() {
           <SectionHeading id="q2">
             Why does running ads through the API <span className="gold-text">produce better results</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               The API removes the bottleneck of manual campaign management.
               Changes that would take hours to implement manually across
@@ -166,7 +166,7 @@ export default function GoogleAdsAPIPage() {
           <SectionHeading id="q3">
             How does <span className="gold-text">ads engineering</span> differ from a standard agency?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               A standard agency manages campaigns through the Google Ads
               interface. Changes are made manually, during business hours, by
@@ -193,7 +193,7 @@ export default function GoogleAdsAPIPage() {
           <SectionHeading id="q4">
             What campaigns benefit most from the <span className="gold-text">Ads API</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Any campaign with a large and frequently-changing keyword set
               benefits from API management: e-commerce with broad product
@@ -219,7 +219,7 @@ export default function GoogleAdsAPIPage() {
           <SectionHeading id="q5">
             How much does <span className="gold-text">Ads API management</span> cost?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Ads API management brings together SEO, AI search optimisation,
               and paid search engineering as a single integrated system. When

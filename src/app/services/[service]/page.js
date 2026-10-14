@@ -99,7 +99,7 @@ export default function ServiceHubPage({ params }) {
           <SectionHeading id="what-heading">
             What is {service.heading}?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               {service.description} Every engagement runs to priorities and deliverables agreed in writing before work begins.
             </p>

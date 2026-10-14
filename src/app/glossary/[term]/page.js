@@ -105,7 +105,7 @@ export default function GlossaryTermPage({ params }) {
 
         {/* Citable definition block */}
         <div className="reveal mt-6 bg-surface-muted border border-primary/30 rounded-lg p-6 mb-12" style={{ "--rv-delay": "200ms" }}>
-          <p className="text-white text-lg leading-relaxed font-medium">{term.definition}</p>
+          <p className="text-white ds-body-lg font-medium">{term.definition}</p>
         </div>
 
         {/* Why it matters */}
@@ -113,7 +113,7 @@ export default function GlossaryTermPage({ params }) {
           <SectionHeading id="why-matters">
             Why {term.title.toLowerCase()} matters for UK businesses
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             {term.whyItMatters.map((para, i) => (
               <p key={i} className="reveal" style={{ "--rv-delay": `${200 + i * 80}ms` }}>{para}</p>
             ))}
@@ -125,7 +125,7 @@ export default function GlossaryTermPage({ params }) {
           <SectionHeading id="how-applied">
             How Khamare Clarke applies {term.title.toLowerCase()}
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             {term.howKhamareApplies.map((para, i) => (
               <p key={i} className="reveal" style={{ "--rv-delay": `${200 + i * 80}ms` }}>{para}</p>
             ))}
@@ -136,7 +136,7 @@ export default function GlossaryTermPage({ params }) {
         {term.faq.map((item, i) => (
           <section key={i} className="mt-12" aria-labelledby={`faq-${i}`}>
             <SectionHeading id={`faq-${i}`}>{item.q}</SectionHeading>
-            <p className="reveal text-muted text-lg leading-relaxed" style={{ "--rv-delay": "200ms" }}>{item.a}</p>
+            <p className="reveal text-muted ds-body-lg" style={{ "--rv-delay": "200ms" }}>{item.a}</p>
           </section>
         ))}
 

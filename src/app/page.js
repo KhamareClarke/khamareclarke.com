@@ -5,7 +5,6 @@ import ProjectsSection from "./components/ProjectsSection";
 import EmailSection from "./components/EmailSection";
 import FAQSection from "./components/FAQSection";
 import AchievementsSection from "./components/AchievementsSection";
-import TestimonialsSection from "./components/TestimonialsSection";
 import PricingSection from "./components/PricingSection";
 import BlogSlider from "./components/BlogSlider";
 import PageShell from "./components/PageShell";
@@ -48,10 +47,12 @@ export default function Home() {
               the same position and the same markup as before. Only the six capability cards
               that sat between the portrait and the CTA are not restored.
 
-              The portrait and the CTA below are copied line for line from
+              The portrait and the CTA below were copied line for line from the old
               components/ServicesSection.jsx, including the reveal delays. That component
-              has no importer now, so this block is the only live copy of them: editing one
-              no longer changes the other, and ServicesSection.jsx may be out of date. */}
+              had been unimported since this block replaced it, so it was deleted rather
+              than left to drift; this block is now the only copy. If you need the six
+              capability cards that used to sit between the portrait and the CTA, they are
+              in git at cdbd3e3f:src/app/components/ServicesSection.jsx. */}
           <div className="mb-10 text-center">
             <h2 className="reveal ds-heading-2 text-white mb-4" style={{ "--rv-delay": "120ms" }}>
               Khamare <span className="gold-text">Clarke</span>
@@ -92,7 +93,6 @@ export default function Home() {
 
           <hr aria-hidden="true" className="section-sep" />
           <ProjectsSection />
-          <TestimonialsSection />
           <hr aria-hidden="true" className="section-sep" />
           <PricingSection />
           <hr aria-hidden="true" className="section-sep" />

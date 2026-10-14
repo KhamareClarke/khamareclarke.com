@@ -232,7 +232,7 @@ function BusinessBundleClientContent() {
                     </span>
                   </button>
                   <div className={`overflow-hidden transition-all duration-300 ease-out ${openFAQ === index ? 'max-h-96' : 'max-h-0'}`}>
-                    <div className="px-5 sm:px-6 pb-5 text-muted leading-relaxed text-sm sm:text-base">
+                    <div className="px-5 sm:px-6 pb-5 text-muted ds-body text-sm sm:text-base">
                       {faq.answer}
                     </div>
                   </div>

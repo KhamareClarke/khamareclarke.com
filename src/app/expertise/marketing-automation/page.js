@@ -101,7 +101,7 @@ export default function MarketingAutomationPage() {
           <SectionHeading id="q1">
             What <span className="gold-text">marketing automation</span> actually does
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Marketing automation performs the follow-up, qualification, and nurturing
               work that would otherwise require manual effort or simply not happen.
@@ -144,7 +144,7 @@ export default function MarketingAutomationPage() {
           <SectionHeading id="q3">
             Why most <span className="gold-text">CRM implementations</span> fail
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Most CRM implementations fail because the system is installed but not
               configured for the business's actual workflow. The team is not trained to
@@ -167,7 +167,7 @@ export default function MarketingAutomationPage() {
           <SectionHeading id="q4">
             How it connects to the <span className="gold-text">wider system</span>
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               CRM and marketing automation works best as part of a joined-up system.
               The website generates enquiries that land in the CRM. The AI receptionist

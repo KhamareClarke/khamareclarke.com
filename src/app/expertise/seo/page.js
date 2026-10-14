@@ -121,7 +121,7 @@ export default function SEOSpecialistPage() {
           <SectionHeading id="q1">
             What does an <span className="gold-text">SEO specialist</span> do?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An SEO specialist audits, fixes, and grows a website's visibility
               in search engines. That includes technical SEO (site speed,
@@ -145,7 +145,7 @@ export default function SEOSpecialistPage() {
           <SectionHeading id="q2">
             How is an SEO specialist different from an <span className="gold-text">SEO agency</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An agency allocates your account to a junior executive who works
               from a template. You may meet a senior person at the pitch, then
@@ -168,7 +168,7 @@ export default function SEOSpecialistPage() {
           <SectionHeading id="q3">
             How long does SEO take to <span className="gold-text">show results</span>?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               For local SEO with Google Business Profile work, results can
               appear within weeks. Upgrade Roofing Solutions saw a 538% increase
@@ -193,7 +193,7 @@ export default function SEOSpecialistPage() {
           <SectionHeading id="q4">
             What does <span className="gold-text">local SEO</span> involve?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Local SEO targets searches tied to a geographic area: "roofer
               Stoke-on-Trent", "accountant near me", "plumber open now". It
@@ -218,7 +218,7 @@ export default function SEOSpecialistPage() {
           <SectionHeading id="q5">
             How much does <span className="gold-text">SEO cost</span> in the UK?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Pricing depends on the scope of the work, the competition in your
               market, and the volume of technical and content work required. A
@@ -233,7 +233,7 @@ export default function SEOSpecialistPage() {
           <SectionHeading id="q6">
             Who is <span className="gold-text">Khamare Clarke</span> and why does his background matter for SEO?
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Khamare Clarke is based in Stoke-on-Trent, Staffordshire. He
               holds a BSc in Software Engineering, a BSc in Digital Marketing,
@@ -264,7 +264,7 @@ export default function SEOSpecialistPage() {
           <SectionHeading id="synonyms">
             <span className="gold-text">SEO consultant</span>, SEO expert, SEO freelancer: what these terms mean in practice
           </SectionHeading>
-          <div className="space-y-4 text-muted text-lg leading-relaxed">
+          <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Businesses searching for an SEO consultant, SEO expert, or SEO freelancer are looking for the same
               thing: someone accountable, doing the work themselves, with a track record they can verify. The

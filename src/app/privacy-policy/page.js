@@ -57,7 +57,7 @@ export default function PrivacyPolicyPage() {
             Last updated: July 2025
           </p>
 
-          <div className="mt-16 space-y-10 text-muted leading-relaxed">
+          <div className="mt-16 space-y-10 text-muted ds-body">
 
             <section aria-labelledby="privacy-covers">
               <SectionHeading size="small" id="privacy-covers">Who this covers</SectionHeading>

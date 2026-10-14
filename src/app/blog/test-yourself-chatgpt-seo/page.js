@@ -88,7 +88,7 @@ export default function TestYourselfChatgptSeo() {
               &middot; August 2025 &middot; 8 min read
             </p>
 
-            <p className="text-muted text-lg leading-relaxed mb-8 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body-lg mb-8 reveal" style={{ "--rv-delay": "280ms" }}>
               You can do this right now, before you finish reading this post. Open a new tab.
               Go to ChatGPT. Type:
             </p>
@@ -97,7 +97,7 @@ export default function TestYourselfChatgptSeo() {
               &ldquo;Who are the best [your service] companies in [your city]?&rdquo;
             </div>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
               Then do the same on Gemini and Perplexity. You will get an answer. It will mention
               specific businesses. Read it carefully, because what you are looking at is not a
               chatbot&apos;s opinion. It is a commercial ranking. It reflects who has AI visibility
@@ -105,7 +105,7 @@ export default function TestYourselfChatgptSeo() {
               search.
             </p>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               If your business appears, that is a signal worth understanding and strengthening. If
               your business does not appear and your competitors do, you have a concrete gap to close.
               Either way, the three minutes this test takes will tell you more about your current
@@ -120,7 +120,7 @@ export default function TestYourselfChatgptSeo() {
               Step 1: Set up three tabs
             </h3>
 
-            <p className="text-muted leading-relaxed mb-4 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-4 reveal" style={{ "--rv-delay": "200ms" }}>
               Open the following in separate tabs:
             </p>
 
@@ -148,7 +148,7 @@ export default function TestYourselfChatgptSeo() {
               Step 2: Run the right queries
             </h3>
 
-            <p className="text-muted leading-relaxed mb-4 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-4 reveal" style={{ "--rv-delay": "280ms" }}>
               Do not just ask one question. Run several variations that reflect how a real buyer
               thinks:
             </p>
@@ -160,7 +160,7 @@ export default function TestYourselfChatgptSeo() {
               <li className="reveal" style={{ "--rv-delay": "270ms" }}>&ldquo;Who should I call for an emergency roof repair in the Midlands?&rdquo;</li>
             </ul>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
               The variation matters because different phrasing activates different retrieval pathways.
               A business that appears on the first query but not the fourth has partial AI visibility.
               Full AI visibility means appearing consistently across query variants, across platforms.
@@ -170,21 +170,21 @@ export default function TestYourselfChatgptSeo() {
               Step 3: Note who appears and where their citations come from
             </h3>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               On Perplexity, you can see the source links. Click them. The sources will typically be:
               directory listings (Checkatrade, Yell, TrustATrader), local news articles, review
               platforms, the business&apos;s own website, or specialist trade publications. This tells
               you exactly where AI citation authority comes from in your market.
             </p>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
               On ChatGPT and Gemini, you will not always see explicit citations, but the underlying
               mechanism is similar: the models surface businesses that have a strong, consistent
               presence in the text data they were trained on, combined with current web retrieval
               where RAG is active.
             </p>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
               Record which businesses appear across all three platforms and all query variants. That
               list is your competitive AI visibility benchmark.
             </p>
@@ -193,14 +193,14 @@ export default function TestYourselfChatgptSeo() {
               What does appearing in AI answers actually mean commercially?
             </SectionHeading>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               In traditional search, appearing in position 1 on Google for a high-intent keyword is
               valuable because users click on it. The click-through rate at position 1 is documented
               at around 27% on average (First Page Sage, 2024), meaning roughly one in four people
               who see the result click through.
             </p>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
               In generative AI, the dynamics are different. AI answers often do not generate a direct
               click. The user reads the answer, sees the business name recommended, and then separately
               searches for that business or calls directly. The commercial effect is a branded search
@@ -209,7 +209,7 @@ export default function TestYourselfChatgptSeo() {
               correctly.
             </p>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
               What appearing in AI answers does mean concretely:
             </p>
 
@@ -234,14 +234,14 @@ export default function TestYourselfChatgptSeo() {
               What does not appearing mean?
             </SectionHeading>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               It means your competitors who do appear are receiving the implicit endorsement you are
               not. In a local service market with three or four serious competitors, the one that
               appears in AI recommendations consistently has a structural advantage in the discovery
               phase of the customer journey.
             </p>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
               It also means your entity data is insufficient. AI systems build their understanding
               of local businesses from entity consistency: whether your business name, address, phone
               number, and service description appear consistently across the web. Inconsistent NAP
@@ -249,7 +249,7 @@ export default function TestYourselfChatgptSeo() {
               volume all contribute to poor AI entity recognition.
             </p>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
               The businesses that appear in AI recommendations are almost always those with: strong
               Google Business Profile signals, high review volume and recency, consistent directory
               listings, authoritative mentions on third-party sites, and well-structured website
@@ -260,7 +260,7 @@ export default function TestYourselfChatgptSeo() {
               How is <span className="gold-text">AI visibility</span> actually built?
             </SectionHeading>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               This is where the technical discipline of{" "}
               <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                 Generative Engine Optimisation (GEO)
@@ -272,7 +272,7 @@ export default function TestYourselfChatgptSeo() {
               Entity consistency across the web
             </h3>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
               Every directory, review platform, and third-party mention of your business should have
               identical name, address, phone number, and website URL. Inconsistencies create entity
               disambiguation problems for AI systems trying to identify which &ldquo;Clarke Roofing&rdquo;
@@ -283,14 +283,14 @@ export default function TestYourselfChatgptSeo() {
               Structured data implementation
             </h3>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
               Schema markup (JSON-LD) tells search engines and AI crawlers exactly what your business
               is, what services it provides, where it operates, and what its authority signals are.
               LocalBusiness schema, Service schema, FAQ schema, and Review schema all contribute to
               the structured entity profile that AI systems pull from.
             </p>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               This is not optional infrastructure for AI visibility. It is foundational. A site without
               well-implemented structured data is giving AI systems less to work with than a site that
               has it. In a competitive local market, that gap translates directly to citation frequency.
@@ -300,14 +300,14 @@ export default function TestYourselfChatgptSeo() {
               Citation in authoritative content
             </h3>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
               A 2024 study by Seer Interactive found that brands mentioned in authoritative third-party
               content were more likely to appear in AI-generated answers than brands present only on
               their own domains. This means your presence in local news, trade publications, case study
               features, and high-authority directories is an active AI visibility signal.
             </p>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
               Getting mentioned in a Staffordshire business directory, a local construction industry
               publication, or a case study on a supplier&apos;s website all contribute to the web of
               citations that AI systems use to assess entity authority. This is a form of off-site SEO
@@ -318,7 +318,7 @@ export default function TestYourselfChatgptSeo() {
               Content that directly answers generative queries
             </h3>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               Generative AI answers are built by assembling relevant content from across the web.
               If your website has a page that directly answers &ldquo;what is the average cost of
               roof repair in Stoke-on-Trent?&rdquo;, that page is a candidate for citation when
@@ -326,7 +326,7 @@ export default function TestYourselfChatgptSeo() {
               are not a candidate.
             </p>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "280ms" }}>
               This is why content strategy for GEO is different from traditional keyword-driven
               content strategy. You are not writing for a keyword. You are writing for a question
               format that a generative system will encounter from real users, and you are structuring
@@ -337,7 +337,7 @@ export default function TestYourselfChatgptSeo() {
               What does the test tell you to do?
             </SectionHeading>
 
-            <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
+            <p className="text-muted ds-body mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               If you ran the test at the top of this post, you now have a real data point on your AI
               visibility position. Here is how to interpret what you found:
             </p>
@@ -361,7 +361,7 @@ export default function TestYourselfChatgptSeo() {
               </li>
             </ul>
 
-            <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "280ms" }}>
+            <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "280ms" }}>
               The test takes two minutes. Costs nothing. If you want to know your current AI Visibility
               Score in more detail, including a breakdown of where your entity data is inconsistent
               and which citations you are missing in your specific market, that is a conversation I
