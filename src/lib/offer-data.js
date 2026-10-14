@@ -30,7 +30,11 @@ export const OFFER_PILLARS = [
   {
     no: "02",
     title: "Capture Enquiries",
-    body: "Enquiry capture, CRM connections and appropriate follow-up automation.",
+    // The second sentence is the original offer card's own wording, restored by the client's
+    // instruction after it was lost when the Services pillars became the card. It asserts a
+    // service the card had stopped naming: Google and Meta Ads management is part of this
+    // offer, and this is the only place on the site that says so. Do not drop it as a tidy-up.
+    body: "Enquiry capture, CRM connections and appropriate follow-up automation. Google and Meta Ads run inside the same system.",
   },
   {
     no: "03",
