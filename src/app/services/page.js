@@ -50,52 +50,16 @@ export const metadata = {
 };
 
 /*
- * The four pillars. APPROVED AND LOCKED — wording must not be changed.
+ * The pillars and the assurance lines are no longer defined on this page. They moved to
+ * lib/offer-data.js, which is now the single source for the offer on every page that
+ * renders the card. The wording that used to sit here IS that file's wording — this page's
+ * copy was the approved version — so nothing on this page reads differently.
  *
- * Passed into OfferCard as props rather than edited in place, because OfferCard is the
- * component the homepage renders too, and this page is the only one in scope.
+ * What did change is the other two pages: the homepage and /business-bundle used to carry a
+ * different set of pillars and a different assurance block, including a security line that
+ * named a certification the repository could not evidence. They now read what this page
+ * reads. See the note at the top of lib/offer-data.js.
  */
-const PILLARS = [
-  {
-    no: "01",
-    title: "Get Found",
-    body: "Website infrastructure, technical and local SEO and relevant AI search visibility.",
-  },
-  {
-    no: "02",
-    title: "Capture Enquiries",
-    body: "Enquiry capture, CRM connections and appropriate follow-up automation.",
-  },
-  {
-    no: "03",
-    title: "Connect Operations",
-    body: "Agreed integrations and workflows that reduce repetitive work.",
-  },
-  {
-    no: "04",
-    title: "Manage and Improve",
-    body: "Monitoring, maintenance, reporting and continuous improvement within scope.",
-  },
-];
-
-/*
- * The assurance lines. The published security line asserts GDPR compliance as a property
- * of the build and reads as a certification; this states what is done instead.
- */
-const ASSURANCE = [
-  {
-    label: "Security",
-    body: "Considered from the assessment onward: access controls, data minimisation, secrets held outside the codebase.",
-  },
-  {
-    label: "Documentation",
-    body: "Every part of the build recorded step by step, so you always know what has been done and what it covers.",
-  },
-  {
-    label: "Direct support",
-    body: "From me, as it runs. No ticket queue.",
-  },
-];
 
 /*
  * REMOVED at Master Clarke's instruction: the assessment, where AI fits,
@@ -180,9 +144,10 @@ export default function ServicesPage() {
             </div>
 
             <div className="mt-16">
+              {/* No pillars or assurance passed: they come from lib/offer-data.js, so this
+                  card is the same card the homepage renders. `outcome={null}` stays, because
+                  this page deliberately omits the card's closing line. */}
               <OfferCard
-                pillars={PILLARS}
-                assurance={ASSURANCE}
                 eventLabel="services_offer_cta"
                 ctaCaption="Free 30-minute introductory call. No obligation."
                 outcome={null}

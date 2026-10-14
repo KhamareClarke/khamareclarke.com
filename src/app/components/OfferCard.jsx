@@ -2,67 +2,32 @@
 
 import React from "react";
 import CTAButton from "./CTAButton";
+import { OFFER_PILLARS, OFFER_ASSURANCE } from "../../lib/offer-data";
 
 /**
  * The offer — one card.
  *
- * Extracted verbatim from PricingSection so the homepage and /business-bundle render the
- * SAME card rather than two copies that drift. Every default below is the homepage's own
- * value, so `<OfferCard />` reproduces the homepage's markup exactly.
+ * Extracted from PricingSection so the homepage, /services and /business-bundle render the
+ * SAME card rather than three copies that drift. Every default below reproduces the card
+ * those pages show, so `<OfferCard />` is the whole offer.
  *
  * PRICE: £999 per month, confirmed by the client (2026-10-11). Was previously shown with
  * no period because nothing in the repo documented the basis.
  *
- * The pillar and assurance copy is the homepage's, unchanged. /business-bundle renders
- * this card with only `eventLabel` overridden, so its hero CTA keeps its own analytics
- * label while the card itself is identical.
+ * The pillars and the assurance lines are NOT defined here. They live in
+ * lib/offer-data.js, which is the single source for all three pages. They used to exist in
+ * this file and separately as props passed by /services, which is why the homepage and
+ * /services used to describe the same price differently. Pass `pillars` or `assurance` only
+ * if a page genuinely needs different text, which none currently does.
  *
  * NOTE ON THE CTA: it carries `href="#contact"`, but CTAButton checks `useBookingWidget`
  * first and that branch wins, so an anchor is never rendered — the button opens the
  * booking widget. The href is kept because it is the homepage's own markup.
  */
 
-const PILLARS = [
-  {
-    no: "01",
-    title: "Get found",
-    body: "Custom software: websites, apps, portals and platforms built to rank and convert. Technical and local SEO, AI search optimisation (AEO and GEO), and programmatic search at scale.",
-  },
-  {
-    no: "02",
-    title: "Capture & convert",
-    body: "Enquiries captured from forms, calls and messaging. CRM, qualification, follow-up and automated appointment booking. Google and Meta Ads run inside the same system.",
-  },
-  {
-    no: "03",
-    title: "Automate operations",
-    body: "Workflow automation across the tools you already use. Your software and data joined up. Email marketing built into your pipeline.",
-  },
-  {
-    no: "04",
-    title: "Measure & improve",
-    body: "Reporting on what is actually happening: enquiries, response times and search visibility. The system gets tuned as it runs.",
-  },
-];
-
-const ASSURANCE = [
-  {
-    label: "Security & compliance",
-    body: "Built GDPR compliant, to the Cyber Essentials Plus control set. Hardened against credential leaks and the common vulnerability classes.",
-  },
-  {
-    label: "Full documentation",
-    body: "Every part of the build recorded step by step, so you always know what has been done and what it covers.",
-  },
-  {
-    label: "Direct support",
-    body: "From me, as it runs. No ticket queue.",
-  },
-];
-
 export default function OfferCard({
-  pillars = PILLARS,
-  assurance = ASSURANCE,
+  pillars = OFFER_PILLARS,
+  assurance = OFFER_ASSURANCE,
   eventLabel = "pricing_what_you_get_cta",
   ctaHref = "#contact",
   ctaCaption = "What the £999 buys, line by line.",
