@@ -45,30 +45,27 @@ export const OFFER_PILLARS = [
 ];
 
 /*
- * The offer as structured data describes it.
+ * What the Managed Business Systems offer covers, as structured data states it.
  *
  * Read by lib/schema.js (the ProfessionalService offer catalogue) and by
- * app/business-bundle/layout.js (that page's Service node). Both used to carry their own copy
- * of a nine-deliverable sentence, and the two had drifted from the card.
+ * app/business-bundle/layout.js (that page's Service node). Both files previously held their
+ * own literal copy of this sentence; holding it once means the two can never drift apart,
+ * while the wording itself is untouched.
  *
- * This is the four pillars' own wording, in the pillars' order, and nothing else. It
- * deliberately does not claim website development, custom applications or complex
- * integrations as included in the monthly fee: pillar 01 says "website infrastructure", and
- * pillar 03 says "agreed integrations", which is a scoped commitment rather than an open one.
- * A bespoke build belongs to the separate offer in the same catalogue.
+ * THIS SENTENCE IS THE ORIGINAL, VERBATIM. It was briefly replaced with a reworded version
+ * built from the four card pillars; that replacement is reverted, because rewording it
+ * changed the commercial scope the offer is advertised as covering, and scope changes need
+ * the client's explicit authorisation rather than a tidy-up.
  *
- * COMPLIANCE NOTE: pillar 01 names Google Business Profile optimisation. That is kept because
- * removing it would narrow what the fee is advertised as covering, which is a commercial
- * decision rather than a tidy-up. Google Ads is deliberately absent here — it is a capability
- * of the business, listed in the ProfessionalService serviceType and the Person knowsAbout,
- * not part of this monthly offer.
+ * The four pillars on the card ARE A SUMMARY OF THE OFFER, NOT AN EXHAUSTIVE LIST of what is
+ * included. So a service named here and absent from the pillars is not thereby excluded —
+ * Google and Meta Ads management is the live example. Do not "reconcile" the two by deleting
+ * anything from this string.
+ *
+ * If this text ever needs to change, that is a commercial decision: ask first.
  */
 export const OFFER_SCHEMA_DESCRIPTION =
-  "One managed service across four areas. Get found: website infrastructure, technical and " +
-  "local SEO, Google Business Profile optimisation and AI search visibility. Capture " +
-  "enquiries: enquiry capture, CRM connections and follow-up automation. Connect operations: " +
-  "agreed integrations and workflows that reduce repetitive work. Manage and improve: " +
-  "monitoring, maintenance, reporting and continuous improvement within scope.";
+  "One managed service covering website development, technical and local SEO, Google Business Profile optimisation, AI search visibility, enquiry capture, CRM integration, follow-up automation, workflow automation and reporting.";
 
 export const OFFER_ASSURANCE = [
   {
