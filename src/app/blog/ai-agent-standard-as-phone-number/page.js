@@ -293,7 +293,7 @@ export default function AiAgentStandardAsPhoneNumber() {
               heading={<>Book a free <span className="gold-text">30-minute call.</span> No obligation.</>}
               body="We will look at your current enquiry handling, identify where leads are falling through, and show you what an AI agent would concretely change."
             >
-              <CTAButton eventLabel="blog_ai_agent_cta" caption="Whether an agent suits your phone line. Yes or no.">
+              <CTAButton eventLabel="blog_ai_agent_cta" caption="Whether an agent suits your phone line.">
                 Book a Consultation
               </CTAButton>
             </CtaPanel>

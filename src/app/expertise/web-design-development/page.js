@@ -214,7 +214,7 @@ export default function WebDesignDevelopmentPage() {
           }
           body="Book a free 30-minute call. We will look at your current site, identify the highest-impact structural changes, and discuss what a purpose-built replacement would look like."
         >
-          <CTAButton eventLabel="expertise_web_design_cta" caption="Whether the site is holding you back. Yes or no.">
+          <CTAButton eventLabel="expertise_web_design_cta" caption="Whether the site is holding you back.">
             Book a Consultation
           </CTAButton>
         </CtaPanel>

@@ -141,10 +141,13 @@ export default function BlogSlider() {
           ))}
         </div>
         <div className="reveal mt-8 text-center" style={{ "--rv-delay": "380ms" }}>
+          {/* Caption removed at the client's instruction. It read "Actionable insights on
+              demand." — "actionable" is on the banned consultant vocabulary list in
+              ANTI-AI-COPY.md section 2.4, and the caption was repeating what the section
+              heading above it already says. No replacement: the button label carries it. */}
           <CTAButton
             href="/blog"
             eventLabel="blog_view_all"
-            caption="Actionable insights on demand."
           >
             View All Resources
           </CTAButton>

@@ -334,7 +334,7 @@ export default function SeoDidntDie() {
               heading={<>Book a free <span className="gold-text">30-minute call.</span> No obligation.</>}
               body="We will audit your current SEO layer coverage and identify the highest-leverage gaps."
             >
-              <CTAButton eventLabel="blog_seo_expanded_cta" caption="Where search is going, and where to put the effort.">
+              <CTAButton eventLabel="blog_seo_expanded_cta" caption="Where to put the effort.">
                 Book a Consultation
               </CTAButton>
             </CtaPanel>

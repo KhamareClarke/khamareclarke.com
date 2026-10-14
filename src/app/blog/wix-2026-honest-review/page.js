@@ -300,7 +300,7 @@ export default function Wix2026HonestReview() {
               heading={<>Book a free <span className="gold-text">30-minute call.</span> No obligation.</>}
               body="Bring your current site, your growth goals, and your questions. We will give you a straight answer on whether your platform is the constraint."
             >
-              <CTAButton eventLabel="blog_wix_cta" caption="Whether the platform is your ceiling. The real limit.">
+              <CTAButton eventLabel="blog_wix_cta" caption="Whether the platform is your ceiling.">
                 Book a Consultation
               </CTAButton>
             </CtaPanel>

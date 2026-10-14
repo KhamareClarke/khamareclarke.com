@@ -219,7 +219,7 @@ export default function DigitalMarketingPage() {
           }
           body="Book a free 30-minute strategy call. We will identify which channels matter most for your business right now and what a coherent multi-channel system looks like in practice."
         >
-          <CTAButton eventLabel="expertise_digital_marketing_cta" caption="Which channel is paying off, and the numbers behind it.">
+          <CTAButton eventLabel="expertise_digital_marketing_cta" caption="Which channel is paying off.">
             Book a Consultation
           </CTAButton>
         </CtaPanel>

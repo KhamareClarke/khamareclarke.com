@@ -64,7 +64,7 @@ export default function BlogPost() {
             </section>
 
             <section className="mb-12 reveal" style={{ "--rv-delay": "260ms" }}>
-              <CTAButton caption="What a chatbot would do for you, and where it helps.">Book a Consultation</CTAButton>
+              <CTAButton caption="What a chatbot would do for you.">Book a Consultation</CTAButton>
             </section>
 
             <Card className="reveal mb-8" style={{ "--rv-delay": "200ms" }}>
