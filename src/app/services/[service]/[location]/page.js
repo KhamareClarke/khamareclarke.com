@@ -222,7 +222,7 @@ export default function ServiceLocationPage({ params }) {
 
           <div className="space-y-6">
             <div className="reveal" style={{ "--rv-delay": "200ms" }}>
-              <h3 className="text-lg font-bold text-white mb-3">
+              <h3 className="ds-subheading-18 text-white mb-3">
                 Does Khamare Clarke offer {service.shortTitle} in {location.name}?
               </h3>
               <p className="text-muted ds-body">
@@ -231,7 +231,7 @@ export default function ServiceLocationPage({ params }) {
             </div>
 
             <div className="reveal" style={{ "--rv-delay": "280ms" }}>
-              <h3 className="text-lg font-bold text-white mb-3">
+              <h3 className="ds-subheading-18 text-white mb-3">
                 How much does {service.shortTitle} cost in {location.name}?
               </h3>
               <p className="text-muted ds-body">
@@ -240,7 +240,7 @@ export default function ServiceLocationPage({ params }) {
             </div>
 
             <div className="reveal" style={{ "--rv-delay": "360ms" }}>
-              <h3 className="text-lg font-bold text-white mb-3">
+              <h3 className="ds-subheading-18 text-white mb-3">
                 How long before a {location.name} business sees results?
               </h3>
               <p className="text-muted ds-body">

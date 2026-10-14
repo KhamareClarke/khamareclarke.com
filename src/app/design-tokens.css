@@ -190,6 +190,31 @@
   text-wrap: pretty;
 }
 
+/* The 18px sub-heading. Captures, to the pixel, a treatment that was written three different
+   ways in four places: `text-lg font-bold text-white` on /locations and the location template
+   (~900 instances), `text-white font-bold text-lg tracking-[-0.01em]` on the offer card's
+   pillars, and `gold-text font-bold mb-4 text-lg` in the footer. All three computed to 18px,
+   weight 700, line-height 28px — Tailwind's text-lg metrics — so this token states those and
+   nothing else. It sets NO colour: the same metrics appear white and gold, so callers keep
+   `text-white` or add `gold-text`. Adopting it is appearance-identical; the before/after
+   heading fingerprint is the proof.
+
+   THE OTHER HEADING TREATMENTS ARE DELIBERATE AND ARE NOT TO BE UNIFIED. Measured, in full,
+   so nobody has to rediscover them. Sizes and line-heights are written as words here on
+   purpose: the audit script reads numeric fractions in comments as claims.
+     20px, weight 600, line-height 26px, gold  — blog subheadings, `.ds-subheading gold-text`
+     20px, weight 700, line-height 28px, gold  — /case-studies industry cards
+     18px, weight 800, line-height 24.75px, white — case-study card titles, leading-snug
+     18px, weight 700, line-height 28px, white — /locations, location template, offer pillars
+     18px, weight 700, line-height 28px, gold  — footer Quick Links
+   The client's instruction was explicit: preserve all six heading treatments, and do not
+   unify headings to gold 20px.
+.ds-subheading-18 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+
 /* Section subheading inside a content page. This is the treatment the blog posts already used
    in 29 places — gold, 20px, semibold — promoted to a token so the pages that had improvised
    their own (white, bold, 18px) can share it. */

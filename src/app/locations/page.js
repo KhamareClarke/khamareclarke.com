@@ -78,7 +78,7 @@ export default function LocationsPage() {
                   className="reveal"
                   style={{ "--rv-delay": `${Math.min(index, 6) * 90}ms` }}
                 >
-                  <h3 className="text-white font-bold text-lg mb-2">{location.name}</h3>
+                  <h3 className="ds-subheading-18 text-white mb-2">{location.name}</h3>
                   <p className="text-muted text-sm leading-relaxed mb-4">{location.intro}</p>
                   <ul className="space-y-1">
                     {SERVICES.slice(0, 4).map((service) => (

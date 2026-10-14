@@ -80,7 +80,7 @@ const BookingButton = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-6 pt-5 pb-3 border-b border-[#ffb700]/20">
-              <h2 className="text-lg font-bold text-white">Book a Consultation</h2>
+              <h2 className="ds-subheading-18 text-white">Book a Consultation</h2>
               <button
                 onClick={closeModal}
                 className="text-[#ADB7BE] hover:text-white transition-colors p-1 rounded"

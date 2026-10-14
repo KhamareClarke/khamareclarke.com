@@ -70,7 +70,7 @@ export default function OfferCard({
               <div key={pillar.no}>
                 <div className="flex items-center gap-2.5 mb-2">
                   <span className="gold-text font-bold text-base leading-none tabular-nums">{pillar.no}</span>
-                  <h3 className="text-white font-bold text-lg tracking-[-0.01em]">
+                  <h3 className="ds-subheading-18 text-white tracking-[-0.01em]">
                     {pillar.title}
                   </h3>
                 </div>
