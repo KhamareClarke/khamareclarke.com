@@ -1,5 +1,6 @@
 import PageShell from "../components/PageShell";
 import PageHero from "../components/ui/PageHero";
+import AchievementsSection from "../components/AchievementsSection";
 import SectionHeading from "../components/ui/SectionHeading";
 import { Section } from "../components/ui/Section";
 import { Container } from "../components/ui/Container";
@@ -29,6 +30,9 @@ export default function TermsPage() {
               title, and the hero scale rendered it at 111px over dense legal text. */}
           <PageHero eyebrow="Legal" size="compact" title="Terms of Service" />
 
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
+
           <p className="reveal text-muted text-sm mt-6" style={{ "--rv-delay": "260ms" }}>
             Last updated: July 2025
           </p>
@@ -41,7 +45,7 @@ export default function TermsPage() {
                 These terms govern services provided by Khamare Clarke (individual consultant, Stoke-on-Trent,
                 England) to clients who have agreed to a service engagement. By engaging Khamare Clarke, you
                 accept these terms. Questions:{" "}
-                <a href="mailto:info@khamareclarke.com" className="text-primary hover:underline">info@khamareclarke.com</a>.
+                <a href="mailto:info@khamareclarke.com" className="gold-text hover:underline">info@khamareclarke.com</a>.
               </p>
             </section>
 
@@ -158,7 +162,7 @@ export default function TermsPage() {
             <section aria-labelledby="terms-contact">
               <SectionHeading size="small" id="terms-contact">Contact</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
-                <a href="mailto:info@khamareclarke.com" className="text-primary hover:underline">info@khamareclarke.com</a>
+                <a href="mailto:info@khamareclarke.com" className="gold-text hover:underline">info@khamareclarke.com</a>
               </p>
             </section>
 

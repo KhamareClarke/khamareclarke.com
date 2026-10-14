@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -96,12 +97,15 @@ export default function GlossaryTermPage({ params }) {
         <Container size="narrow">
 
         <nav className="flex items-center gap-2 text-xs text-muted mb-8" aria-label="Breadcrumb">
-          <Link href="/glossary" className="hover:text-primary transition-colors">Glossary</Link>
+          <Link href="/glossary" className="hover:gold-text transition-colors">Glossary</Link>
           <span>/</span>
           <span className="text-white">{term.title}</span>
         </nav>
 
         <PageHero eyebrow={term.badge} title={term.h1} size="compact" />
+
+        {/* The trust strip that sits under the hero on the homepage. */}
+        <AchievementsSection />
 
         {/* Citable definition block */}
         <div className="reveal mt-6 bg-surface-muted border border-primary/30 rounded-lg p-6 mb-12" style={{ "--rv-delay": "200ms" }}>
@@ -148,9 +152,9 @@ export default function GlossaryTermPage({ params }) {
               <li key={related.slug} className="reveal" style={{ "--rv-delay": `${Math.min(index, 6) * 90}ms` }}>
                 <Link
                   href={`/glossary/${related.slug}`}
-                  className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm"
+                  className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm"
                 >
-                  <span className="text-primary">→</span>{" "}
+                  <span className="gold-text">→</span>{" "}
                   {related.abbr ? `${related.title} (${related.abbr})` : related.title}
                 </Link>
               </li>
@@ -159,18 +163,18 @@ export default function GlossaryTermPage({ params }) {
               <li className="reveal" style={{ "--rv-delay": "200ms" }}>
                 <Link
                   href={term.expertisePage}
-                  className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm"
+                  className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm"
                 >
-                  <span className="text-primary">→</span> Related expertise
+                  <span className="gold-text">→</span> Related expertise
                 </Link>
               </li>
             )}
             <li className="reveal" style={{ "--rv-delay": "280ms" }}>
               <Link
                 href="/glossary"
-                className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm"
+                className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm"
               >
-                <span className="text-primary">→</span> Back to full glossary
+                <span className="gold-text">→</span> Back to full glossary
               </Link>
             </li>
           </ul>

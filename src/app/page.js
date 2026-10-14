@@ -1,5 +1,6 @@
+import Image from "next/image";
 import HeroSection from "./components/HeroSection";
-import ServicesSection from "./components/ServicesSection";
+import CTAButton from "./components/CTAButton";
 import ProjectsSection from "./components/ProjectsSection";
 import EmailSection from "./components/EmailSection";
 import FAQSection from "./components/FAQSection";
@@ -19,8 +20,13 @@ export default function Home() {
     // ScrollProgress, Navbar, the Section, Footer, StickyCTABar — so the output is
     // unchanged, and this is what guarantees PageShell can never drift away from the
     // homepage it was taken from. `stickyCta` is the homepage's own mobile CTA bar.
+    // `showEnquiryForm={false}` because EmailSection below renders the enquiry form
+    // itself, inside its own card with the contact image and heading — suppressing the
+    // shell's copy keeps the homepage exactly as it is while every other page gains the
+    // form from PageShell.
     <PageShell
       stickyCta
+      showEnquiryForm={false}
       schema={
         /* FAQPage structured data, built from the same data the visitor reads below.
            Scoped to the homepage because that is the only page carrying these FAQs. */
@@ -36,7 +42,55 @@ export default function Home() {
           <hr aria-hidden="true" className="section-sep" />
           <AchievementsSection />
           <hr aria-hidden="true" className="section-sep" />
-          <ServicesSection />
+
+          {/* Restored at the client's request. This is ServicesSection, which came off the
+              homepage — the heading, the paragraph, the portrait and the CTA are back, in
+              the same position and the same markup as before. Only the six capability cards
+              that sat between the portrait and the CTA are not restored.
+
+              The portrait and the CTA below are copied line for line from
+              components/ServicesSection.jsx, including the reveal delays. That component
+              has no importer now, so this block is the only live copy of them: editing one
+              no longer changes the other, and ServicesSection.jsx may be out of date. */}
+          <div className="mb-10 text-center">
+            <h2 className="reveal ds-heading-2 text-white mb-4" style={{ "--rv-delay": "120ms" }}>
+              Khamare <span className="gold-text">Clarke</span>
+            </h2>
+
+            <p className="reveal ds-lede text-[#ADB7BE] mx-auto" style={{ "--rv-delay": "200ms" }}>
+              Twelve years in software engineering, artificial intelligence and machine
+              learning. I have worked as an AI Solution Architect and a Google Cloud
+              Engineer, and I train AI models. I now apply that same architecture to SMEs,
+              using practical AI as a productive tool, not a novelty toy like vibe coders do
+              nowadays. A structured audit quickly exposes exactly where a business is
+              leaking, and the fix follows fast, not the months manual implementation used
+              to take.
+            </p>
+          </div>
+
+          <div className="reveal-img mx-auto mb-12 max-w-md" style={{ "--rv-delay": "120ms" }}>
+            <div className="bg-surface-muted border border-white/10 rounded-lg p-2">
+              <Image
+                src="/images/about-image.png"
+                width={400}
+                height={400}
+                alt="Khamare Clarke, AI Implementation Specialist"
+                className="rounded-lg w-full h-auto aspect-square object-cover"
+              />
+            </div>
+          </div>
+
+          <div className="reveal mt-10 text-center" style={{ "--rv-delay": "420ms" }}>
+            <CTAButton
+              href="/#contact"
+              eventLabel="capability_cta"
+              caption="An honest look at where AI is needed."
+            >
+              Book a Consultation
+            </CTAButton>
+          </div>
+
+          <hr aria-hidden="true" className="section-sep" />
           <ProjectsSection />
           <TestimonialsSection />
           <hr aria-hidden="true" className="section-sep" />

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -89,6 +90,9 @@ export default function DigitalMarketingPage() {
               </>
             }
           />
+
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Digital marketing works when the channels compound each other. SEO builds the
             organic base. Paid search adds volume. Email and CRM automation converts leads
@@ -137,7 +141,7 @@ export default function DigitalMarketingPage() {
               ["Content and AI content", "Content strategy and AI-assisted production structured for search intent and AI search visibility."],
             ].map(([title, body], index) => (
               <Card key={title} className="reveal" style={{ "--rv-delay": `${index * 110}ms` }}>
-                <p className="text-primary font-semibold text-sm mb-2">{title}</p>
+                <p className="gold-text font-semibold text-sm mb-2">{title}</p>
                 <p className="text-muted text-sm leading-relaxed">{body}</p>
               </Card>
             ))}
@@ -173,12 +177,12 @@ export default function DigitalMarketingPage() {
           </SectionHeading>
           <div className="grid sm:grid-cols-2 gap-6">
             <Card className="reveal" style={{ "--rv-delay": "0ms" }}>
-              <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Upgrade Roofing Solutions</p>
+              <p className="gold-text text-xs font-bold uppercase tracking-widest mb-3">Upgrade Roofing Solutions</p>
               <p className="ds-numeric text-white text-4xl font-extrabold mb-2">538%</p>
               <p className="text-muted text-sm leading-relaxed">Growth in Google Business Profile interactions in 90 days. More than 30 qualified inbound calls in the first two weeks.</p>
             </Card>
             <Card className="reveal" style={{ "--rv-delay": "110ms" }}>
-              <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">City Plaza Abu Dhabi</p>
+              <p className="gold-text text-xs font-bold uppercase tracking-widest mb-3">City Plaza Abu Dhabi</p>
               <p className="ds-numeric text-white text-4xl font-extrabold mb-2">5X</p>
               <p className="text-muted text-sm leading-relaxed">Lead volume within 60 days, scaling to approximately 20 qualified enquiries per day at peak.</p>
             </Card>
@@ -195,11 +199,11 @@ export default function DigitalMarketingPage() {
               { href: "/expertise/google-ads-api", label: "Google Ads API" },
               { href: "/expertise/marketing-automation", label: "CRM and marketing automation" },
               { href: "/expertise/ai-content-systems", label: "AI content systems" },
-              { href: "/expertise/google-ranking", label: "Rank number one on Google" },
+              { href: "/expertise/google-ranking", label: "Google Ranking & SEO Services" },
             ].map((l, index) => (
               <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
-                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-primary">--</span> {l.label}
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">--</span> {l.label}
                 </Link>
               </li>
             ))}

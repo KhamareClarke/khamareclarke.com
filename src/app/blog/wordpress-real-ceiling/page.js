@@ -2,6 +2,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -65,7 +66,7 @@ export default function WordpressRealCeiling() {
         <Container size="narrow">
           <article className="text-white">
             <div className="mb-6">
-              <Link href="/blog" className="text-primary text-sm font-semibold hover:underline">
+              <Link href="/blog" className="gold-text text-sm font-semibold hover:underline">
                 &larr; Back to Resource Hub
               </Link>
             </div>
@@ -76,9 +77,12 @@ export default function WordpressRealCeiling() {
               size="compact"
             />
 
+            {/* The trust strip that sits under the hero on the homepage. */}
+            <AchievementsSection />
+
             <p className="text-muted text-sm mt-6 mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               By{" "}
-              <Link href="/about" className="text-primary hover:underline">
+              <Link href="/about" className="gold-text hover:underline">
                 Khamare Clarke
               </Link>{" "}
               &middot; August 2025 &middot; 9 min read
@@ -146,7 +150,7 @@ export default function WordpressRealCeiling() {
               Where does <span className="gold-text">the ceiling</span> actually appear?
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Core Web Vitals under a theme-and-plugin stack
             </h3>
 
@@ -181,7 +185,7 @@ export default function WordpressRealCeiling() {
               disadvantage in high-intent local service searches where Google is surfacing fast sites.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Programmatic SEO at scale
             </h3>
 
@@ -225,7 +229,7 @@ export default function WordpressRealCeiling() {
               that often defeats the purpose of using WordPress in the first place.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Local service businesses needing scale
             </h3>
 
@@ -296,7 +300,7 @@ export default function WordpressRealCeiling() {
             <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "360ms" }}>
               For the broader context of what modern search optimisation covers across all four layers,
               see the flagship post:{" "}
-              <Link href="/blog/seo-didnt-die-it-expanded" className="text-primary hover:underline">
+              <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                 SEO didn&apos;t die, it expanded
               </Link>
               .
@@ -316,17 +320,17 @@ export default function WordpressRealCeiling() {
               <p className="text-muted text-sm mb-4 reveal" style={{ "--rv-delay": "200ms" }}>Related reading:</p>
               <ul className="space-y-2 text-sm">
                 <li className="reveal" style={{ "--rv-delay": "0ms" }}>
-                  <Link href="/blog/seo-didnt-die-it-expanded" className="text-primary hover:underline">
+                  <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                     They Told You SEO Was Dead. It Didn&apos;t Die &mdash; It Expanded.
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "90ms" }}>
-                  <Link href="/blog/shopify-local-seo-limits" className="text-primary hover:underline">
+                  <Link href="/blog/shopify-local-seo-limits" className="gold-text hover:underline">
                     Shopify Is Built to Sell Products. That&apos;s Exactly Why It Struggles at Local SEO.
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "180ms" }}>
-                  <Link href="/blog/wix-2026-honest-review" className="text-primary hover:underline">
+                  <Link href="/blog/wix-2026-honest-review" className="gold-text hover:underline">
                     Wix in 2026: Better Than Its Reputation, Still Behind the Ceiling.
                   </Link>
                 </li>

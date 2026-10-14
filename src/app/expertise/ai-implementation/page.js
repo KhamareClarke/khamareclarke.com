@@ -3,6 +3,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -68,7 +69,7 @@ const faqSchema = {
       name: "What does AI implementation cost?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Implementation is delivered across three retainer tiers. The Get Found tier (from £495 per month, rolling monthly) covers AI receptionist, CRM, SEO, and Google Business Profile management. The Run The Area tier (from £1,250 per month) adds a new website, programmatic service and location pages, and email campaigns. The Own The Market tier (from £2,500 per month) adds Google Ads via the Ads API, custom AI applications, and quarterly strategy sessions. All tiers include a ranked-or-refunded guarantee on agreed search targets.",
+        text: "Implementation is delivered across three retainer tiers. The Get Found tier (from £495 per month, rolling monthly) covers AI receptionist, CRM, SEO, and Google Business Profile management. The Run The Area tier (from £1,250 per month) adds a new website, programmatic service and location pages, and email campaigns. The Own The Market tier (from £2,500 per month) adds Google Ads via the Ads API, custom AI applications, and quarterly strategy sessions. Priorities and deliverables are agreed in writing before work begins.",
       },
     },
   ],
@@ -106,6 +107,9 @@ export default function AIImplementationPage() {
               </>
             }
           />
+
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Strategy without implementation is just documentation. The work here is
             identifying the highest-leverage AI applications for your business, building
@@ -177,7 +181,7 @@ export default function AIImplementationPage() {
                 ["Ongoing support", "Monitoring, iteration, and expansion. Monthly reporting in plain English: what moved, what changed, what is next."],
               ].map(([title, body], i) => (
                 <li key={i} className="reveal flex gap-5" style={{ "--rv-delay": `${i * 90}ms` }}>
-                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary font-bold text-sm">{i + 1}</span>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center gold-text font-bold text-sm">{i + 1}</span>
                   <div>
                     <p className="text-white font-semibold mb-1">{title}</p>
                     <p>{body}</p>
@@ -226,7 +230,7 @@ export default function AIImplementationPage() {
               ["Google Ads", "Paid search managed through the Ads API, not a dashboard. Lower cost per lead, full transparency."],
             ].map(([title, body], index) => (
               <Card key={title} className="reveal" style={{ "--rv-delay": `${index * 110}ms` }}>
-                <p className="text-primary font-semibold text-sm mb-2">{title}</p>
+                <p className="gold-text font-semibold text-sm mb-2">{title}</p>
                 <p className="text-muted text-sm leading-relaxed">{body}</p>
               </Card>
             ))}
@@ -239,12 +243,12 @@ export default function AIImplementationPage() {
           </SectionHeading>
           <div className="grid sm:grid-cols-2 gap-6">
             <Card className="reveal" style={{ "--rv-delay": "0ms" }}>
-              <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Upgrade Roofing Solutions</p>
+              <p className="gold-text text-xs font-bold uppercase tracking-widest mb-3">Upgrade Roofing Solutions</p>
               <p className="ds-numeric text-white text-4xl font-extrabold mb-2">538%</p>
               <p className="text-muted text-sm leading-relaxed">Growth in Google Business Profile interactions in 90 days. More than 30 qualified inbound calls in the first two weeks.</p>
             </Card>
             <Card className="reveal" style={{ "--rv-delay": "110ms" }}>
-              <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">City Plaza Abu Dhabi</p>
+              <p className="gold-text text-xs font-bold uppercase tracking-widest mb-3">City Plaza Abu Dhabi</p>
               <p className="ds-numeric text-white text-4xl font-extrabold mb-2">5X</p>
               <p className="text-muted text-sm leading-relaxed">Lead volume within 60 days, scaling to approximately 20 qualified enquiries per day at peak.</p>
             </Card>
@@ -266,8 +270,8 @@ export default function AIImplementationPage() {
               { href: "/about", label: "About Khamare Clarke" },
             ].map((l, index) => (
               <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
-                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-primary">→</span> {l.label}
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">→</span> {l.label}
                 </Link>
               </li>
             ))}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -89,6 +90,9 @@ export default function WebDesignDevelopmentPage() {
               </>
             }
           />
+
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             A themed template does not rank. A site designed in a vacuum does not
             convert. Web design and development here are the same discipline: the visual
@@ -153,7 +157,7 @@ export default function WebDesignDevelopmentPage() {
               ["Custom integrations", "Website connected to CRM, payment systems, AI agents, Google Ads API, and third-party data sources."],
             ].map(([title, body], index) => (
               <Card key={title} className="reveal" style={{ "--rv-delay": `${index * 110}ms` }}>
-                <p className="text-primary font-semibold text-sm mb-2">{title}</p>
+                <p className="gold-text font-semibold text-sm mb-2">{title}</p>
                 <p className="text-muted text-sm leading-relaxed">{body}</p>
               </Card>
             ))}
@@ -190,11 +194,11 @@ export default function WebDesignDevelopmentPage() {
               { href: "/expertise/programmatic-seo", label: "Programmatic SEO -- engineered pages that scale" },
               { href: "/expertise/seo", label: "SEO specialist" },
               { href: "/expertise/digital-marketing", label: "Digital marketing" },
-              { href: "/expertise/google-ranking", label: "Rank number one on Google" },
+              { href: "/expertise/google-ranking", label: "Google Ranking & SEO Services" },
             ].map((l, index) => (
               <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
-                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-primary">--</span> {l.label}
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">--</span> {l.label}
                 </Link>
               </li>
             ))}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PageShell from "../components/PageShell";
 import PageHero from "../components/ui/PageHero";
+import AchievementsSection from "../components/AchievementsSection";
 import SectionHeading from "../components/ui/SectionHeading";
 import { Section } from "../components/ui/Section";
 import { Container } from "../components/ui/Container";
@@ -57,6 +58,9 @@ export default function SitemapPage() {
             lede="Quick access to all pages and resources on khamareclarke.com"
           />
 
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
+
           {/* Sitemap Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {sitemapSections.map((section, index) => (
@@ -72,7 +76,7 @@ export default function SitemapPage() {
                     the tag: ds-heading-2 is up to 60px and would wreck a four-column
                     card, so this uses ds-heading-3 (20-24px, weight 700) — the token in
                     the ladder that covers card titles — on a heading that keeps its h2. */}
-                <h2 className="ds-heading-3 mb-6 text-primary">
+                <h2 className="ds-heading-3 mb-6 gold-text">
                   {section.title}
                 </h2>
                 <ul className="space-y-3">
@@ -80,9 +84,9 @@ export default function SitemapPage() {
                     <li key={idx}>
                       <Link
                         href={link.url}
-                        className="text-muted hover:text-primary transition-colors duration-300 flex items-center gap-2 group"
+                        className="text-muted hover:gold-text transition-colors duration-300 flex items-center gap-2 group"
                       >
-                        <span className="text-primary group-hover:translate-x-1 transition-transform duration-300">→</span>
+                        <span className="gold-text group-hover:translate-x-1 transition-transform duration-300">→</span>
                         {link.name}
                       </Link>
                     </li>
@@ -120,7 +124,7 @@ export default function SitemapPage() {
               href="/sitemap.xml"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:text-primary-hover transition-colors duration-300 underline"
+              className="gold-text hover:opacity-80 transition-opacity duration-300 underline"
             >
               View XML Sitemap
             </a>

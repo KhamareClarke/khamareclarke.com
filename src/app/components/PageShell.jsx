@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ScrollProgress from "./ScrollProgress";
 import StickyCTABar from "./StickyCTABar";
+import EnquirySection from "./EnquirySection";
 
 /**
  * The page envelope every marketing page shares.
@@ -25,20 +26,28 @@ import StickyCTABar from "./StickyCTABar";
  * fixed mobile CTA bar — a conversion change rather than a visual one — so it is
  * opt-in per page via `stickyCta`. Ask before turning it on everywhere.
  *
+ * EnquirySection IS included by default, so every marketing page carries the unified
+ * enquiry form. The homepage and /business-bundle render their own instances (the
+ * homepage inside EmailSection, the bundle with its own lead attribution) and suppress
+ * this one with `showEnquiryForm={false}`, so no page shows two.
+ *
  * `/presentation` and the dashboard/portal/login shells deliberately do not use this:
  * a slide deck and an auth-gated app are not marketing pages and never carried this
- * chrome.
+ * chrome. They therefore do not get the enquiry form, which is correct — a marketing
+ * lead form has no place behind a login.
  *
  * @param {React.ReactNode} [schema] - JSON-LD <script> elements, rendered first
  * @param {boolean} [stickyCta=false] - include the homepage's mobile sticky CTA bar
+ * @param {boolean} [showEnquiryForm=true] - set false on pages that render their own
  */
-export default function PageShell({ children, schema, stickyCta = false, className = "" }) {
+export default function PageShell({ children, schema, stickyCta = false, showEnquiryForm = true, className = "" }) {
   return (
     <main className={`flex min-h-screen flex-col bg-surface ${className}`.trim()}>
       {schema}
       <ScrollProgress />
       <Navbar />
       {children}
+      {showEnquiryForm ? <EnquirySection /> : null}
       <Footer />
       {stickyCta ? <StickyCTABar /> : null}
     </main>

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -65,7 +66,7 @@ export default function AiAgentStandardAsPhoneNumber() {
         <Container size="narrow">
           <article className="text-white">
             <div className="mb-6">
-              <Link href="/blog" className="text-primary text-sm font-semibold hover:underline">
+              <Link href="/blog" className="gold-text text-sm font-semibold hover:underline">
                 &larr; Back to Resource Hub
               </Link>
             </div>
@@ -76,9 +77,12 @@ export default function AiAgentStandardAsPhoneNumber() {
               size="compact"
             />
 
+            {/* The trust strip that sits under the hero on the homepage. */}
+            <AchievementsSection />
+
             <p className="text-muted text-sm mt-6 mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               By{" "}
-              <Link href="/about" className="text-primary hover:underline">
+              <Link href="/about" className="gold-text hover:underline">
                 Khamare Clarke
               </Link>{" "}
               &middot; August 2025 &middot; 9 min read
@@ -120,7 +124,7 @@ export default function AiAgentStandardAsPhoneNumber() {
               through the cracks entirely.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Enquiries at 2am
             </h3>
 
@@ -141,7 +145,7 @@ export default function AiAgentStandardAsPhoneNumber() {
               the lead before your working day started.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Automatic follow-up
             </h3>
 
@@ -160,7 +164,7 @@ export default function AiAgentStandardAsPhoneNumber() {
               and the follow-up needs to be softer. The agent handles both without your attention.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Review requests
             </h3>
 
@@ -187,7 +191,7 @@ export default function AiAgentStandardAsPhoneNumber() {
               then handles.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Lead qualification before the owner sees it
             </h3>
 
@@ -298,12 +302,12 @@ export default function AiAgentStandardAsPhoneNumber() {
               <p className="text-muted text-sm mb-4 reveal" style={{ "--rv-delay": "200ms" }}>Related reading:</p>
               <ul className="space-y-2 text-sm">
                 <li className="reveal" style={{ "--rv-delay": "0ms" }}>
-                  <Link href="/blog/seo-didnt-die-it-expanded" className="text-primary hover:underline">
+                  <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                     They Told You SEO Was Dead. It Didn&apos;t Die &mdash; It Expanded.
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "90ms" }}>
-                  <Link href="/blog/test-yourself-chatgpt-seo" className="text-primary hover:underline">
+                  <Link href="/blog/test-yourself-chatgpt-seo" className="gold-text hover:underline">
                     Test It Yourself: Ask ChatGPT Who Does SEO in Your Area.
                   </Link>
                 </li>

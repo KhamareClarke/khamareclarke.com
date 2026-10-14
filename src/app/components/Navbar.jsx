@@ -101,7 +101,7 @@ const Navbar = () => {
             compact
             icon="phone"
             eventLabel="nav_book_consultation"
-            caption="Free audit. Identify the gaps."
+            caption="Free 30-minute introductory call. No obligation."
             captionClassName="hidden lg:block"
           >
             Book a Consultation

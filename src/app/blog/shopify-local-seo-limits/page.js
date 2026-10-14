@@ -2,6 +2,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -65,7 +66,7 @@ export default function ShopifyLocalSeoLimits() {
         <Container size="narrow">
           <article className="text-white">
             <div className="mb-6">
-              <Link href="/blog" className="text-primary text-sm font-semibold hover:underline">
+              <Link href="/blog" className="gold-text text-sm font-semibold hover:underline">
                 &larr; Back to Resource Hub
               </Link>
             </div>
@@ -76,9 +77,12 @@ export default function ShopifyLocalSeoLimits() {
               size="compact"
             />
 
+            {/* The trust strip that sits under the hero on the homepage. */}
+            <AchievementsSection />
+
             <p className="text-muted text-sm mt-6 mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               By{" "}
-              <Link href="/about" className="text-primary hover:underline">
+              <Link href="/about" className="gold-text hover:underline">
                 Khamare Clarke
               </Link>{" "}
               &middot; August 2025 &middot; 9 min read
@@ -146,17 +150,17 @@ export default function ShopifyLocalSeoLimits() {
               What are the specific <span className="gold-text">SEO constraints</span>?
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Rigid URL architecture you cannot change
             </h3>
 
             <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               Shopify enforces a fixed URL structure for its core content types. Products live at
-              <code className="text-primary bg-[#1a1a1a] px-1 rounded mx-1">/products/product-name</code>.
+              <code className="gold-text bg-[#1a1a1a] px-1 rounded mx-1">/products/product-name</code>.
               Collections live at{" "}
-              <code className="text-primary bg-[#1a1a1a] px-1 rounded mx-1">/collections/collection-name</code>.
+              <code className="gold-text bg-[#1a1a1a] px-1 rounded mx-1">/collections/collection-name</code>.
               Blog posts live at{" "}
-              <code className="text-primary bg-[#1a1a1a] px-1 rounded mx-1">/blogs/news/post-name</code>
+              <code className="gold-text bg-[#1a1a1a] px-1 rounded mx-1">/blogs/news/post-name</code>
               (or whatever your blog handle is). You cannot change these path prefixes.
             </p>
 
@@ -177,7 +181,7 @@ export default function ShopifyLocalSeoLimits() {
               control the architecture, you cannot fully engineer the authority flow.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Canonical issues with faceted navigation
             </h3>
 
@@ -204,7 +208,7 @@ export default function ShopifyLocalSeoLimits() {
               commerce setup, canonicals are managed programmatically with complete control.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Limited page control and no programmatic generation
             </h3>
 
@@ -227,13 +231,13 @@ export default function ShopifyLocalSeoLimits() {
               For a trades business, a professional services firm, or any service provider that needs
               to capture local intent across multiple areas, this is the primary constraint. Shopify
               does not support the engineering approach that{" "}
-              <Link href="/blog/seo-didnt-die-it-expanded" className="text-primary hover:underline">
+              <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                 programmatic SEO
               </Link>{" "}
               requires.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Handling local service businesses and custom booking flows
             </h3>
 
@@ -279,11 +283,11 @@ export default function ShopifyLocalSeoLimits() {
             <p className="text-muted leading-relaxed mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               For the full picture on platform constraints across WordPress and Wix as well, see the
               related posts on{" "}
-              <Link href="/blog/wordpress-real-ceiling" className="text-primary hover:underline">
+              <Link href="/blog/wordpress-real-ceiling" className="gold-text hover:underline">
                 the WordPress ceiling
               </Link>{" "}
               and{" "}
-              <Link href="/blog/wix-2026-honest-review" className="text-primary hover:underline">
+              <Link href="/blog/wix-2026-honest-review" className="gold-text hover:underline">
                 Wix in 2026
               </Link>
               .
@@ -303,17 +307,17 @@ export default function ShopifyLocalSeoLimits() {
               <p className="text-muted text-sm mb-4 reveal" style={{ "--rv-delay": "280ms" }}>Related reading:</p>
               <ul className="space-y-2 text-sm">
                 <li className="reveal" style={{ "--rv-delay": "0ms" }}>
-                  <Link href="/blog/seo-didnt-die-it-expanded" className="text-primary hover:underline">
+                  <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                     They Told You SEO Was Dead. It Didn&apos;t Die &mdash; It Expanded.
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "90ms" }}>
-                  <Link href="/blog/wordpress-real-ceiling" className="text-primary hover:underline">
+                  <Link href="/blog/wordpress-real-ceiling" className="gold-text hover:underline">
                     The Real Ceiling on Your WordPress Site
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "180ms" }}>
-                  <Link href="/blog/wix-2026-honest-review" className="text-primary hover:underline">
+                  <Link href="/blog/wix-2026-honest-review" className="gold-text hover:underline">
                     Wix in 2026: Better Than Its Reputation, Still Behind the Ceiling.
                   </Link>
                 </li>

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -65,7 +66,7 @@ export default function Wix2026HonestReview() {
         <Container size="narrow">
           <article className="text-white">
             <div className="mb-6">
-              <Link href="/blog" className="text-primary text-sm font-semibold hover:underline">
+              <Link href="/blog" className="gold-text text-sm font-semibold hover:underline">
                 &larr; Back to Resource Hub
               </Link>
             </div>
@@ -76,9 +77,12 @@ export default function Wix2026HonestReview() {
               size="compact"
             />
 
+            {/* The trust strip that sits under the hero on the homepage. */}
+            <AchievementsSection />
+
             <p className="text-muted text-sm mt-6 mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               By{" "}
-              <Link href="/about" className="text-primary hover:underline">
+              <Link href="/about" className="gold-text hover:underline">
                 Khamare Clarke
               </Link>{" "}
               &middot; August 2025 &middot; 8 min read
@@ -102,7 +106,7 @@ export default function Wix2026HonestReview() {
               What Wix <span className="gold-text">gets right</span> now
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Core Web Vitals on simple sites
             </h3>
 
@@ -122,7 +126,7 @@ export default function Wix2026HonestReview() {
               crowd has not updated their priors to reflect.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Schema markup support
             </h3>
 
@@ -131,7 +135,7 @@ export default function Wix2026HonestReview() {
               schema, Event schema, Product schema, and FAQ schema can be implemented through the
               Wix dashboard without custom code. For businesses that do not have technical SEO resource,
               this lowers the barrier to basic schema implementation, which matters for{" "}
-              <Link href="/blog/seo-didnt-die-it-expanded" className="text-primary hover:underline">
+              <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                 AEO visibility in AI-augmented search results
               </Link>
               .
@@ -143,7 +147,7 @@ export default function Wix2026HonestReview() {
               and it is better than having no schema at all.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Page speed improvements
             </h3>
 
@@ -166,13 +170,13 @@ export default function Wix2026HonestReview() {
               Where does Wix still <span className="gold-text">hit the ceiling</span>?
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               URL structure inflexibility
             </h3>
 
             <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               Wix&apos;s URL structure is not fully under your control. Blog posts sit under
-              <code className="text-primary bg-[#1a1a1a] px-1 rounded mx-1">/blog/</code>.
+              <code className="gold-text bg-[#1a1a1a] px-1 rounded mx-1">/blog/</code>.
               Portfolio items, bookings pages, and store pages have their own enforced path prefixes.
               You can rename these prefixes to some extent, but you cannot create arbitrary hierarchical
               URL structures for SEO purposes.
@@ -181,14 +185,14 @@ export default function Wix2026HonestReview() {
             <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "280ms" }}>
               This matters most when you need a site architecture that reflects topical depth. A local
               service business wanting
-              <code className="text-primary bg-[#1a1a1a] px-1 rounded mx-1">/services/roofing/stoke-on-trent</code>
+              <code className="gold-text bg-[#1a1a1a] px-1 rounded mx-1">/services/roofing/stoke-on-trent</code>
               and
-              <code className="text-primary bg-[#1a1a1a] px-1 rounded mx-1">/services/roofing/crewe</code>
+              <code className="gold-text bg-[#1a1a1a] px-1 rounded mx-1">/services/roofing/crewe</code>
               in a clean hierarchy cannot build that cleanly in Wix. The platform&apos;s folder
               structure is cosmetic rather than functional for URL architecture purposes.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               No programmatic page generation
             </h3>
 
@@ -215,14 +219,14 @@ export default function Wix2026HonestReview() {
               the platform.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               JavaScript-heavy rendering and AI crawlers
             </h3>
 
             <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "360ms" }}>
               This is a newer constraint, and it is specific to the Layer 3 (GEO) visibility discussed
               in the{" "}
-              <Link href="/blog/seo-didnt-die-it-expanded" className="text-primary hover:underline">
+              <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                 SEO expansion post
               </Link>
               . Generative AI systems like ChatGPT browse the web via retrieval-augmented generation,
@@ -244,7 +248,7 @@ export default function Wix2026HonestReview() {
               platforms.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Partial server-side rendering gaps
             </h3>
 
@@ -305,17 +309,17 @@ export default function Wix2026HonestReview() {
               <p className="text-muted text-sm mb-4 reveal" style={{ "--rv-delay": "200ms" }}>Related reading:</p>
               <ul className="space-y-2 text-sm">
                 <li className="reveal" style={{ "--rv-delay": "0ms" }}>
-                  <Link href="/blog/seo-didnt-die-it-expanded" className="text-primary hover:underline">
+                  <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                     They Told You SEO Was Dead. It Didn&apos;t Die &mdash; It Expanded.
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "90ms" }}>
-                  <Link href="/blog/wordpress-real-ceiling" className="text-primary hover:underline">
+                  <Link href="/blog/wordpress-real-ceiling" className="gold-text hover:underline">
                     The Real Ceiling on Your WordPress Site
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "180ms" }}>
-                  <Link href="/blog/shopify-local-seo-limits" className="text-primary hover:underline">
+                  <Link href="/blog/shopify-local-seo-limits" className="gold-text hover:underline">
                     Shopify Is Built to Sell Products. That&apos;s Exactly Why It Struggles at Local SEO.
                   </Link>
                 </li>

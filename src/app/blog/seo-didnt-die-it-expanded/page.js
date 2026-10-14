@@ -2,6 +2,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -65,7 +66,7 @@ export default function SeoDidntDie() {
         <Container size="narrow">
           <article className="text-white">
             <div className="mb-6">
-              <Link href="/blog" className="text-primary text-sm font-semibold hover:underline">
+              <Link href="/blog" className="gold-text text-sm font-semibold hover:underline">
                 &larr; Back to Resource Hub
               </Link>
             </div>
@@ -76,9 +77,12 @@ export default function SeoDidntDie() {
               size="compact"
             />
 
+            {/* The trust strip that sits under the hero on the homepage. */}
+            <AchievementsSection />
+
             <p className="text-muted text-sm mt-6 mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               By{" "}
-              <Link href="/about" className="text-primary hover:underline">
+              <Link href="/about" className="gold-text hover:underline">
                 Khamare Clarke
               </Link>{" "}
               &middot; August 2025 &middot; 8 min read
@@ -127,7 +131,7 @@ export default function SeoDidntDie() {
               What are the four layers now?
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Layer 1: Traditional search rankings (Google, Bing)
             </h3>
 
@@ -150,7 +154,7 @@ export default function SeoDidntDie() {
               review response strategy. Layer one, executed properly.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Layer 2: Answer Engine Optimisation (AEO)
             </h3>
 
@@ -174,13 +178,13 @@ export default function SeoDidntDie() {
               This layer did not exist at scale three years ago. It exists now. Ignoring it means
               handing visibility to competitors who are paying attention. See more on this in the
               context of{" "}
-              <Link href="/services" className="text-primary hover:underline">
+              <Link href="/services" className="gold-text hover:underline">
                 AI search optimisation
               </Link>
               .
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Layer 3: Generative Engine Optimisation (GEO)
             </h3>
 
@@ -205,13 +209,13 @@ export default function SeoDidntDie() {
               third-party sites was far more likely to be cited in AI-generated answers than content
               hosted only on a brand&apos;s own domain. Your presence on the wider web matters for
               this layer in ways it has not mattered before. Read the dedicated post on{" "}
-              <Link href="/blog/test-yourself-chatgpt-seo" className="text-primary hover:underline">
+              <Link href="/blog/test-yourself-chatgpt-seo" className="gold-text hover:underline">
                 testing your own AI visibility
               </Link>{" "}
               to see exactly where you stand right now.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Layer 4: Programmatic SEO at scale
             </h3>
 
@@ -227,15 +231,15 @@ export default function SeoDidntDie() {
               This is engineering work, not content work. It requires control over your URL structure,
               your rendering pipeline, and your data sources. It is why platform-hosted sites (WordPress
               with a theme, Wix, Shopify) hit a ceiling that custom-built sites do not. The{" "}
-              <Link href="/blog/wordpress-real-ceiling" className="text-primary hover:underline">
+              <Link href="/blog/wordpress-real-ceiling" className="gold-text hover:underline">
                 post on WordPress
               </Link>
               ,{" "}
-              <Link href="/blog/shopify-local-seo-limits" className="text-primary hover:underline">
+              <Link href="/blog/shopify-local-seo-limits" className="gold-text hover:underline">
                 the one on Shopify
               </Link>
               , and the{" "}
-              <Link href="/blog/wix-2026-honest-review" className="text-primary hover:underline">
+              <Link href="/blog/wix-2026-honest-review" className="gold-text hover:underline">
                 Wix assessment
               </Link>{" "}
               all cover where each platform caps and why.
@@ -339,27 +343,27 @@ export default function SeoDidntDie() {
               <p className="text-muted text-sm mb-4 reveal" style={{ "--rv-delay": "360ms" }}>Related reading:</p>
               <ul className="space-y-2 text-sm">
                 <li className="reveal" style={{ "--rv-delay": "0ms" }}>
-                  <Link href="/blog/wordpress-real-ceiling" className="text-primary hover:underline">
+                  <Link href="/blog/wordpress-real-ceiling" className="gold-text hover:underline">
                     The Real Ceiling on Your WordPress Site
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "90ms" }}>
-                  <Link href="/blog/shopify-local-seo-limits" className="text-primary hover:underline">
+                  <Link href="/blog/shopify-local-seo-limits" className="gold-text hover:underline">
                     Shopify Is Built to Sell Products. That&apos;s Exactly Why It Struggles at Local SEO.
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "180ms" }}>
-                  <Link href="/blog/wix-2026-honest-review" className="text-primary hover:underline">
+                  <Link href="/blog/wix-2026-honest-review" className="gold-text hover:underline">
                     Wix in 2026: Better Than Its Reputation, Still Behind the Ceiling.
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "270ms" }}>
-                  <Link href="/blog/test-yourself-chatgpt-seo" className="text-primary hover:underline">
+                  <Link href="/blog/test-yourself-chatgpt-seo" className="gold-text hover:underline">
                     Test It Yourself: Ask ChatGPT Who Does SEO in Your Area.
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "360ms" }}>
-                  <Link href="/blog/ai-agent-standard-as-phone-number" className="text-primary hover:underline">
+                  <Link href="/blog/ai-agent-standard-as-phone-number" className="gold-text hover:underline">
                     Within Five Years, an AI Agent Will Be as Standard as a Phone Number.
                   </Link>
                 </li>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -113,6 +114,9 @@ export default function AISearchOptimisationPage() {
               </>
             }
           />
+
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Your customers are searching on ChatGPT, Gemini, and Perplexity as
             well as Google. If your business is not showing up there, a growing
@@ -310,8 +314,8 @@ export default function AISearchOptimisationPage() {
               { href: "/about", label: "About Khamare Clarke" },
             ].map((l, index) => (
               <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
-                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-primary">→</span> {l.label}
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">→</span> {l.label}
                 </Link>
               </li>
             ))}

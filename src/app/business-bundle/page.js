@@ -1,19 +1,28 @@
 "use client";
 
-import { FaCheckCircle, FaStar } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import AchievementsSection from "../components/AchievementsSection";
 import CTAButton from "../components/CTAButton";
 import CookieBanner from "../components/CookieBanner";
+import EnquiryForm from "../components/EnquiryForm";
+import OfferCard from "../components/OfferCard";
 import PageShell from "../components/PageShell";
-import { Section } from "../components/ui/Section";
+import Badge from "../components/ui/Badge";
 import { Container } from "../components/ui/Container";
+import CtaPanel from "../components/ui/CtaPanel";
+import { Section } from "../components/ui/Section";
+import SectionHeading from "../components/ui/SectionHeading";
+import { BUNDLE_FAQ } from "./faq";
 
-// Metadata lives in layout.js (server) — cannot export from "use client" page.
+// Metadata lives in layout.js (server) — cannot export from a "use client" page.
+
+// The scope, the management line and the exclusions are NOT restated here. The hero
+// renders the homepage's own offer card (components/OfferCard.jsx), which carries the
+// four pillars and the assurance block, so a second set on this page would state the
+// same offer twice.
 
 function BusinessBundleClientContent() {
   const [openFAQ, setOpenFAQ] = useState(null);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formError, setFormError] = useState(null);
 
   // Track page view and capture UTM parameters
   useEffect(() => {
@@ -26,12 +35,12 @@ function BusinessBundleClientContent() {
       utm_content: urlParams.get('utm_content') || '',
       utm_term: urlParams.get('utm_term') || ''
     };
-    
+
     // Store UTM params in sessionStorage for later use
     if (utmParams.utm_source !== 'direct') {
       sessionStorage.setItem('utm_params', JSON.stringify(utmParams));
     }
-    
+
     // Track page view with UTM data
     if (typeof window !== 'undefined' && typeof gtag !== 'undefined') {
       gtag('event', 'view_business_bundle', {
@@ -40,7 +49,7 @@ function BusinessBundleClientContent() {
         ...utmParams
       });
     }
-    
+
     // Push to dataLayer for GTM
     if (typeof window !== 'undefined' && window.dataLayer) {
       window.dataLayer.push({
@@ -49,13 +58,13 @@ function BusinessBundleClientContent() {
         ...utmParams
       });
     }
-    
+
     // Custom booking widget event listeners
     const handleBookingEvent = (e) => {
       // Listen for custom booking widget events
       if (e.data.event && e.data.event.indexOf('booking') === 0) {
         const eventName = e.data.event;
-        
+
         if (eventName === 'booking.widget_opened') {
           // User opened booking widget
           if (typeof gtag !== 'undefined') {
@@ -88,11 +97,11 @@ function BusinessBundleClientContent() {
           }
         }
       }
-      
+
       // Keep legacy Calendly support for any remaining instances
       if (e.data.event && e.data.event.indexOf('calendly') === 0) {
         const eventName = e.data.event;
-        
+
         if (eventName === 'calendly.event_type_viewed') {
           if (typeof gtag !== 'undefined') {
             gtag('event', 'calendly_start', {
@@ -111,9 +120,9 @@ function BusinessBundleClientContent() {
         }
       }
     };
-    
+
     window.addEventListener('message', handleBookingEvent);
-    
+
     return () => {
       window.removeEventListener('message', handleBookingEvent);
     };
@@ -123,1287 +132,191 @@ function BusinessBundleClientContent() {
     setOpenFAQ(openFAQ === index ? null : index);
   };
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    setFormError(null);
-    
-    const data = {
-      name: e.target.name.value,
-      email: e.target.email.value,
-      phone: e.target.phone.value,
-      businessType: e.target.businessType.value,
-      message: e.target.message.value,
-    };
-    const JSONdata = JSON.stringify(data);
-    const endpoint = "/api/send";
-
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSONdata,
-    };
-
-    try {
-      console.log("Sending request to:", endpoint);
-      console.log("Request data:", data);
-      
-      const response = await fetch(endpoint, options);
-      console.log("Response status:", response.status);
-      
-      const resData = await response.json();
-      console.log("Response data:", resData);
-
-      if (response.status === 200) {
-        console.log("Business Bundle form submitted successfully.");
-        setFormSubmitted(true);
-        
-        // Track form submission
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'form_submit', {
-            event_category: 'engagement',
-            event_label: 'business_bundle_form'
-          });
-        }
-      } else {
-        console.error("Form submission failed:", resData);
-        setFormError(resData.error || "Form submission failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Network error:", error);
-      setFormError(`Network error: ${error.message}. Please check your connection and try again.`);
-    }
-  };
-
-
   return (
-    // PageShell supplies the shared Navbar, ScrollProgress and Footer. This route used
-    // to render a Footer and NO navigation at all, so a visitor arriving here from an
-    // ad had no way to reach any other page — the one structural addition in this file.
-    // `page-top` on the hero clears the fixed navbar, which is 146px tall on desktop;
-    // without it the bar sits on top of the offer frame.
-    <PageShell>
-      {/* Full-Screen Hero with Frame */}
-      <Section as="section" className="page-top min-h-screen flex items-center justify-center bg-surface relative overflow-hidden p-2 xs:p-3 sm:p-4 md:p-6 lg:p-8">
-        {/* Main Content Frame */}
-        <div className="reveal reveal-blur relative z-10 w-full max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto" style={{ "--rv-delay": "60ms" }}>
-          <div className="bg-surface-muted border border-primary/20 xs:border-2 xs:border-primary/30 rounded-xl xs:rounded-2xl sm:rounded-3xl p-3 xs:p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 shadow-xl xs:shadow-2xl">
-            
-            {/* Badge */}
-            <div className="flex justify-center mb-3 xs:mb-4 sm:mb-6 md:mb-8">
-              <span className="inline-flex items-center rounded-full bg-surface-muted border border-primary/50 text-primary px-2 py-1 xs:px-3 xs:py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-3 text-xs xs:text-sm sm:text-base font-bold uppercase tracking-wider">
-                🚀 Best for Startups
-              </span>
+    // PageShell supplies the shared Navbar, ScrollProgress and Footer, plus the site-wide
+    // EnquirySection. This page renders its own enquiry form instead — it needs the
+    // businessType field so /api/send files its leads as 'business-bundle' — so the
+    // shell's copy is suppressed to avoid two forms on one page.
+    <PageShell showEnquiryForm={false}>
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
+
+          {/* Hero. A duplicate of the homepage's own offer card
+              (components/OfferCard.jsx), so both pages present the same £999/month service
+              in the same way. The service name stays above it as the page's eyebrow; the
+              card carries the price, the pillars and the CTA.
+
+              NOT text-center, deliberately. The card's pillars and assurance lines have no
+              alignment of their own, so a centred section centres them — which rendered the
+              same card two different ways, left-aligned on the homepage and centred here.
+              The heading block is centred by its own flex wrapper instead. */}
+          <section>
+            <div className="flex justify-center mb-10">
+              <Badge>Managed Business Systems</Badge>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-center text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white leading-tight tracking-tight mb-2 xs:mb-3 sm:mb-4">
-              AI Business Growth Specialist
+            <OfferCard eventLabel="hero_cta" />
+          </section>
+
+          {/* The trust strip that sits under the hero on the homepage. This page's hero is
+              its own section rather than a PageHero, so it takes the strip explicitly. */}
+          <AchievementsSection />
+
+          <hr aria-hidden="true" className="section-sep mt-16" />
+
+          {/* The page's own headline and intro, moved down here from the hero, followed by
+              Master Clarke's four pillars. The h1 lives in this section now — the hero
+              above it is the offer card, so the page still has exactly one h1. */}
+          <section id="explainer-section" className="mt-16 text-center" aria-labelledby="service-heading">
+            <h1
+              id="service-heading"
+              className="reveal reveal-blur ds-heading-2-sm text-white"
+              style={{ "--rv-delay": "60ms" }}
+            >
+              Your website, marketing and operations.{" "}
+              <span className="gold-text">Working together.</span>
             </h1>
 
-            <h2 className="text-center text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-primary font-bold mb-4 xs:mb-5 sm:mb-6 md:mb-8">
-              Accelerate Revenue with Smart Automation
-            </h2>
-
-            {/* Price Section */}
-            <div className="text-center mb-4">
-              <div className="inline-flex items-center gap-2 bg-surface-muted border border-primary/30 rounded-lg px-5 py-3">
-                <span className="text-3xl sm:text-4xl font-black text-primary">£699</span>
-              </div>
-            </div>
-
-            {/* Description */}
-            <p className="text-center text-white/90 max-w-full xs:max-w-lg sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed mb-4 xs:mb-5 sm:mb-6 md:mb-8 lg:mb-10 px-2 xs:px-0">
-              <span className="text-primary font-medium">Done-for-you websites, ads, and AI systems that deliver predictable growth for UK businesses.</span>
-            </p>
-            
-            <p className="text-center text-white font-medium text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl mb-6 xs:mb-7 sm:mb-8 md:mb-10 lg:mb-12 px-2 xs:px-0">
-              Built to convert. Delivered in 14 days. One transparent price. Zero surprises.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 xs:mb-7 sm:mb-8 md:mb-10 lg:mb-12">
-              <CTAButton
-                className="whitespace-nowrap px-4 py-2.5 xs:px-6 xs:py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 lg:px-12 lg:py-6 text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-black text-black rounded-2xl shadow-xl xs:shadow-2xl hover:shadow-primary/50 transform hover:scale-105 transition-all duration-300 border xs:border-2 border-primary w-full sm:w-auto min-w-[250px] md:min-w-[300px]"
-                eventLabel="hero_cta"
-              >
-                📞 Book Your Free Growth Call
-              </CTAButton>
-              
-              <button
-                onClick={() => {
-                  document.getElementById('explainer-section')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="group relative inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 xs:px-6 xs:py-3 sm:px-8 sm:py-4 text-sm xs:text-base sm:text-lg font-bold text-white bg-transparent border-2 border-white/30 hover:border-primary rounded-2xl hover:bg-primary/10 transition-all duration-300 w-full sm:w-auto"
-              >
-                <span className="relative z-10">👀 See How It Works</span>
-              </button>
-            </div>
-
-            {/* Trust Indicators */}
-            <div className="flex items-center justify-center gap-1 mb-2 flex-wrap">
-              <div className="flex items-center gap-1 bg-green-500/20 border border-green-500/30 rounded-full px-1 py-0.5">
-                <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-green-300 text-xs">14-Day Delivery</span>
-              </div>
-              <div className="flex items-center gap-1 bg-blue-500/20 border border-blue-500/30 rounded-full px-1 py-0.5">
-                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" />
-                <span className="text-blue-300 text-xs">Secure Payment</span>
-              </div>
-              <div className="flex items-center gap-1 bg-purple-500/20 border border-purple-500/30 rounded-full px-1 py-0.5">
-                <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse" />
-                <span className="text-purple-300 text-xs">Free Revisions</span>
-              </div>
-            </div>
-
-            {/* Social Proof */}
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-1 xs:gap-2 text-primary mb-3 xs:mb-4 sm:mb-6 flex-wrap">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <FaStar key={i} className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl" />
-                ))}
-                <span className="ml-1 xs:ml-2 sm:ml-4 text-white font-medium text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl">"Transparent and efficient - got results in 2 weeks"</span>
-              </div>
-              
-              <div className="bg-surface-muted border border-white/20 rounded-lg xs:rounded-xl sm:rounded-2xl px-3 py-2 xs:px-4 xs:py-3 sm:px-6 sm:py-4 md:px-8 md:py-6 max-w-full xs:max-w-lg sm:max-w-2xl md:max-w-3xl mx-auto">
-                <p className="text-white/90 text-xs xs:text-sm sm:text-base md:text-lg mb-1 xs:mb-2 sm:mb-3">
-                  ✅ <span className="font-semibold text-primary">14‑day revision window</span> - Perfect your site until it's exactly right
-                </p>
-                <p className="text-white/90 text-xs xs:text-sm sm:text-base md:text-lg">
-                  🎯 <span className="font-semibold text-primary">45‑minute handover call</span> - Learn everything you need to succeed
-                </p>
-              </div>
-            </div>
-            
-            {/* Review Section */}
-            <div className="text-center mt-6">
-              <p className="text-primary text-sm sm:text-base font-semibold mb-1">
-                ★★★★★ 5.0/5.0 from real UK business owners
-              </p>
-              <p className="text-white text-xs sm:text-sm mb-4">
-                "Delivered our site in 7 days! Doubled our leads with AI." – Myapproved.com
-              </p>
-
-              {/* Logos Section */}
-              <div className="flex justify-center gap-4 mt-4">
-                <img src="/images/testimonials/identi-logo.png" alt="Identi Logo" className="h-8 sm:h-10" />
-                <img src="/images/testimonials/myapproved-logo.png" alt="MyApproved Logo" className="h-8 sm:h-10" />
-                <img src="/images/testimonials/omni-logo.png" alt="Omni Logo" className="h-8 sm:h-10" />
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </Section>
-
-      {/* START: Offer Framing Block */}
-      <Section className="bg-surface reveal">
-        <Container size="wide">
-          <div className="grid md:grid-cols-3 gap-8">
-            
-            {/* Bundle Includes */}
-            <div className="text-center bg-surface-muted border-2 border-primary/20 hover:border-primary/40 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl">📦</span>
-              </div>
-              <h3 className="text-xl font-bold text-primary mb-4">Bundle Includes</h3>
-              <ul className="text-white/90 space-y-2 text-sm">
-                <li>✓ AI-Powered Website</li>
-                <li>✓ Google Ads Setup</li>
-                <li>✓ AI CRM System</li>
-                <li>✓ Lead Generation</li>
-                <li>✓ Analytics Dashboard</li>
-              </ul>
-            </div>
-
-            {/* Guarantee */}
-            <div className="text-center bg-surface-muted border-2 border-primary/20 hover:border-primary/40 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl">🛡️</span>
-              </div>
-              <h3 className="text-xl font-bold text-primary mb-4">Guarantee</h3>
-              <p className="text-white/90 text-sm leading-relaxed">
-                <strong className="text-white">Leads in 30 Days</strong><br/>
-                or We Work Free Until You Do
-              </p>
-            </div>
-
-            {/* Proof */}
-            <div className="text-center bg-surface-muted border-2 border-primary/20 hover:border-primary/40 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl">🏆</span>
-              </div>
-              <h3 className="text-xl font-bold text-primary mb-4">Proof</h3>
-              <p className="text-white/90 text-sm mb-4">Trusted by UK startups & SMEs</p>
-              <div className="flex justify-center items-center gap-3 opacity-80">
-                <img src="/images/testimonials/omni-logo.png" alt="Omni WTMS" className="h-10 w-auto object-contain mix-blend-lighten brightness-110" />
-                <img src="/images/testimonials/identi-logo.png" alt="IdentI Marketing" className="h-10 w-auto object-contain mix-blend-lighten brightness-110" />
-                <img src="/images/testimonials/myapproved-logo.png" alt="MyApproved.com" className="h-10 w-auto object-contain mix-blend-lighten brightness-110" />
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
-      {/* END: Offer Framing Block */}
-
-      {/* What's Included Section */}
-      <Section id="explainer-section" className="bg-surface">
-        <Container size="wide">
-          {/* Main Content Frame */}
-          <div className="p-8 sm:p-12">
-            
-            {/* Badge */}
-            <div className="flex justify-center mb-6">
-              <span className="inline-flex items-center rounded-full bg-surface-muted border border-primary/50 text-primary px-4 py-2 text-sm font-bold uppercase tracking-wider">
-                ✨ Complete Package
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h2 className="ds-heading-2 text-center text-white mb-4">
-              What's Included
-            </h2>
-            
-            <p className="text-center text-white/80 text-lg sm:text-xl mb-12 max-w-3xl mx-auto leading-relaxed">
-              <span className="text-primary font-semibold">Everything you need to dominate your market</span> - delivered in one complete, conversion-optimized package.
-            </p>
-            
-            {/* Features Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-              {[
-                { icon: "🌐", text: "Bespoke Website (mobile, SEO, fast, branded)" },
-                { icon: "🤖", text: "AI Chatbot (lead capture or bookings)" },
-                { icon: "📞", text: "AI Voice Receptionist (or WhatsApp agent)" },
-                { icon: "📍", text: "Google Business Profile & Local SEO" },
-                { icon: "📱", text: "Social Media Launch (setup + 8 posts)" },
-                { icon: "🏠", text: "1 Year Hosting" },
-                { icon: "⚡", text: "7-Day Delivery Guarantee" },
-                { icon: "🛠️", text: "30 Days After-Launch Support" }
-              ].map((item, i) => (
-                <div key={i} className="group bg-surface-muted border border-primary/20 rounded-xl p-4 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-105">
-                  <div className="flex flex-col items-center text-center gap-3">
-                    <div className="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300">
-                      {item.icon}
-                    </div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <FaCheckCircle className="text-primary flex-shrink-0" />
-                      <div className="w-full h-px bg-primary/30"></div>
-                    </div>
-                    <p className="text-white/90 text-sm font-medium leading-tight">{item.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Value Proposition */}
-            <div className="bg-surface-muted border border-primary/30 rounded-2xl p-6 mb-8">
-              <div className="text-center">
-                <p className="text-primary font-bold text-lg mb-2">
-                  🎯 Built to Convert. Delivered Fast. Zero Surprises.
-                </p>
-                <p className="text-white/80 text-base">
-                  Everything you need to launch and grow - in one package.
-                </p>
-              </div>
-            </div>
-
-            {/* CTA */}
-            <div className="text-center">
-              <CTAButton
-                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-primary/50 border-2 border-primary"
-                eventLabel="secure_spot_cta"
-              >
-                🚀 Secure Your Spot Now
-              </CTAButton>
-              <p className="text-white/60 text-sm mt-4">
-                Limited slots available • No setup fees • 7-day delivery guarantee
-              </p>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Testimonials Section */}
-      <Section className="bg-surface reveal">
-        <Container size="wide">
-          <div className="p-8 sm:p-12">
-            {/* Badge */}
-            <div className="flex justify-center mb-6">
-              <span className="inline-flex items-center rounded-full border border-primary/50 text-primary px-4 py-2 text-sm font-bold uppercase tracking-wider">
-                ✨ Client Success Stories
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h2 className="ds-heading-2 text-center text-primary mb-4">
-              Real Results from Real Clients
-            </h2>
-            
-            <p className="text-center text-white/80 text-lg sm:text-xl mb-12 max-w-3xl mx-auto leading-relaxed">
-              <span className="text-primary font-semibold">See how businesses like yours transformed their online presence</span> and achieved remarkable results.
-            </p>
-            
-            {/* Testimonials Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
-              {[
-                {
-                  quote: "Professional, fast, and results-driven. Our website now converts visitors into paying customers.",
-                  author: "James Morgan",
-                  company: "Operations Lead, Omni WTMS",
-                  avatar: "/images/testimonials/identi.png"
-                },
-                {
-                  quote: "Delivered our site in 7 days! Doubled our leads with AI.",
-                  author: "Olivia Chen",
-                  company: "CEO, IdentI Marketing",
-                  avatar: "/images/testimonials/omni.png"
-                },
-                {
-                  quote: "Professional, fast, and the chatbot is a game-changer.",
-                  author: "Simon Ellis",
-                  company: "Head of Growth, MyApproved.com",
-                  avatar: "/images/testimonials/myapproved.png"
-                }
-              ].map((testimonial, i) => (
-                <div key={i} className="group bg-surface-muted border border-primary/20 rounded-xl p-4 sm:p-6 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-105">
-                  <div className="flex justify-center mb-4">
-                    <img 
-                      src={testimonial.avatar} 
-                      alt={testimonial.author}
-                      className="w-16 h-16 rounded-full border-2 border-primary/50 object-cover"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'flex';
-                      }}
-                    />
-                    <div className="w-16 h-16 rounded-full bg-primary/20 border-2 border-primary/50 items-center justify-center text-primary font-bold text-2xl" style={{display: 'none'}}>
-                      {testimonial.author.charAt(0)}
-                    </div>
-                  </div>
-                  <p className="text-white/90 text-lg mb-6 italic text-center">"{testimonial.quote}"</p>
-                  <div className="text-center">
-                    <p className="text-primary font-bold text-sm">- {testimonial.author}</p>
-                    <p className="text-white/60 text-xs">{testimonial.company}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA */}
-            <div className="text-center">
-              <p className="text-white/80 text-lg mb-6">
-                Join hundreds of successful businesses who chose to work with us.
-              </p>
-              <CTAButton
-                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-primary/50 border-2 border-primary"
-                eventLabel="success_story_cta"
-              >
-                💼 Start Your Success Story
-              </CTAButton>
-              <p className="text-white/60 text-sm mt-4">
-                Limited spots available • No setup fees • 7-day delivery guarantee
-              </p>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* How It Works */}
-      <Section className="bg-surface reveal">
-        <Container size="wide">
-          <div className="p-8 sm:p-12">
-            {/* Badge */}
-            <div className="flex justify-center mb-6">
-              <span className="inline-flex items-center rounded-full bg-surface-muted border border-primary/50 text-primary px-4 py-2 text-sm font-bold uppercase tracking-wider">
-                ⚡ Simple 3-Step Process
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h2 className="ds-heading-2 text-center text-white mb-4">
-              How It Works
-            </h2>
-            
-            <p className="text-center text-white/80 text-lg sm:text-xl mb-12 max-w-3xl mx-auto leading-relaxed">
-              <span className="text-primary font-semibold">From zero to launch in just 14 days</span> with our streamlined process
-            </p>
-            
-            {/* Steps Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              {[
-                { 
-                  step: "1", 
-                  title: "Book your spot", 
-                  desc: "Lock in a kickoff date. I'll share a quick prep checklist.", 
-                  foot: "Kickoff meeting + planning",
-                  icon: "📅"
-                },
-                { 
-                  step: "2", 
-                  title: "We build in 14 days", 
-                  desc: "Design, content, set-up, and integrations - handled.", 
-                  foot: "Reviews + content staging",
-                  icon: "⚡"
-                },
-                { 
-                  step: "3", 
-                  title: "Go live + iterate", 
-                  desc: "Launch, measure, and tweak based on real data.", 
-                  foot: "Post‑launch tweaks + tracking",
-                  icon: "🚀"
-                },
-              ].map((item, i) => (
-                <div key={i} className="group bg-surface-muted border border-primary/20 rounded-2xl p-8 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-[1.02]">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-black text-xl font-bold">
-                      {item.icon}
-                    </div>
-                    <div className="text-2xl font-bold text-primary">
-                      STEP {item.step}
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                  <p className="text-white/80 mb-5 leading-relaxed">{item.desc}</p>
-                  <div className="flex items-center gap-2 text-sm text-primary font-medium">
-                    <div className="w-2 h-2 bg-primary rounded-full"></div>
-                    {item.foot}
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            {/* CTA */}
-            <div className="text-center">
-              <p className="text-white/80 text-lg mb-6">
-                Limited slots (2) for faster delivery. <span className="text-primary font-semibold">Book now</span> to secure your spot.
-              </p>
-              <CTAButton
-                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-primary/50 border-2 border-primary"
-                eventLabel="kickoff_booking_cta"
-              >
-                🚀 Book Your Kickoff
-              </CTAButton>
-              <p className="text-white/60 text-sm mt-4">
-                No commitment • 7-day delivery guarantee • 30-day support included
-              </p>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Limited Time Banner */}
-      <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface reveal">
-        <Container size="wide">
-          <div className="flex flex-col items-center text-center">
-            {/* FOMO Timer */}
-            <div className="bg-red-600/20 border border-red-500/50 rounded-lg px-4 py-2 mb-6">
-              <div className="flex items-center justify-center gap-3 text-red-400">
-                <div className="animate-pulse">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <span className="text-sm font-bold">ONLY 2 SPOTS LEFT THIS MONTH</span>
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                  <div className="w-2 h-2 bg-red-500/50 rounded-full"></div>
-                  <div className="w-2 h-2 bg-red-500/20 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-primary text-sm font-bold uppercase tracking-wider">Limited Time Offer</span>
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-            </div>
-            
-            <h3 className="ds-heading-2-sm text-white mb-4">
-              Your growth plan for <span className="gold-text">£699</span>
-            </h3>
-
-            <p className="text-white/70 mb-6 max-w-2xl">
-              One transparent price. Zero surprises.
-            </p>
-            
-            <CTAButton
-              className="px-8 py-3 text-black font-bold rounded-xl hover:scale-105 transform transition-all duration-300 text-base shadow-lg hover:shadow-primary/30 border border-primary"
-              eventLabel="limited_time_cta"
+            <p
+              className="reveal ds-lede text-muted mt-6 max-w-2xl mx-auto"
+              style={{ "--rv-delay": "180ms" }}
             >
-              🚀 Secure Your Spot Now
-            </CTAButton>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Why Not Competitors */}
-      <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface reveal">
-        <Container size="main">
-          <div className="text-center mb-12">
-            <h2 className="ds-heading-2-sm text-white mb-4">
-              Why Not <span className="text-red-400">Fiverr, Wix, or Upwork?</span>
-            </h2>
-            <p className="text-white/70">Here's what you get with us vs. the alternatives</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-surface-muted/50 border border-red-500/20 rounded-xl p-6 text-center">
-              <div className="text-3xl mb-3">🎭</div>
-              <h3 className="text-red-400 font-bold mb-2">Fiverr</h3>
-              <ul className="text-white/60 text-sm space-y-1">
-                <li>❌ Hit-or-miss quality</li>
-                <li>❌ No ongoing support</li>
-                <li>❌ Communication barriers</li>
-                <li>❌ Generic templates</li>
-              </ul>
-            </div>
-            
-            <div className="bg-surface-muted/50 border border-red-500/20 rounded-xl p-6 text-center">
-              <div className="text-3xl mb-3">🏗️</div>
-              <h3 className="text-red-400 font-bold mb-2">Wix/Squarespace</h3>
-              <ul className="text-white/60 text-sm space-y-1">
-                <li>❌ Limited customization</li>
-                <li>❌ No AI integration</li>
-                <li>❌ DIY = time-consuming</li>
-                <li>❌ Basic lead capture</li>
-              </ul>
-            </div>
-            
-            <div className="bg-surface-muted/50 border border-primary/30 rounded-xl p-6 text-center">
-              <div className="text-3xl mb-3">🚀</div>
-              <h3 className="text-primary font-bold mb-2">Our Business Bundle</h3>
-              <ul className="text-white/80 text-sm space-y-1">
-                <li>✅ Custom AI-powered system</li>
-                <li>✅ 7-day delivery guarantee</li>
-                <li>✅ Direct UK-based support</li>
-                <li>✅ Built for conversions</li>
-              </ul>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Growth Plan */}
-      <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface reveal">
-        <Container size="wide">
-          <div className="p-8 sm:p-12 bg-surface-muted border border-white/5 rounded-2xl">
-            {/* Badge */}
-            <div className="flex justify-center mb-6">
-              <span className="inline-flex items-center rounded-full bg-surface-muted border border-primary/50 text-primary px-4 py-2 text-sm font-bold uppercase tracking-wider">
-                🚀 Growth Plan
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h2 className="ds-heading-2 text-center text-white mb-4">
-              Want Ongoing Growth & Support?
-            </h2>
-            
-            <p className="text-center text-white/80 text-lg sm:text-xl mb-12 max-w-3xl mx-auto leading-relaxed">
-              After your launch, upgrade to the Growth Plan:
+              One managed service to help your business get found, capture enquiries,
+              reduce manual work and see what's producing results.
             </p>
-            
-            {/* Features Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {[
-                { text: "Ongoing hosting & security", icon: "🛡️" },
-                { text: "Social media posts & accounts", icon: "📱" },
-                { text: "AI chatbot & voice updates", icon: "🤖" },
-                { text: "SEO reports & ranking boosts", icon: "📊" },
-                { text: "Priority support", icon: "⚡" },
-                { text: "Monthly performance reports", icon: "📈" }
-              ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3 p-4 bg-surface-muted rounded-lg border border-white/5 hover:border-primary/30 transition-colors">
-                  <span className="text-xl mt-0.5">{item.icon}</span>
-                  <p className="text-white/90">{item.text}</p>
-                </div>
-              ))}
-            </div>
-            
-            {/* Pricing */}
-            <div className="text-center mb-8">
-              <p className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                <span className="gold-text">£199</span>/month
-              </p>
-              <p className="text-white/60 text-sm">Optional but highly recommended</p>
-            </div>
-            
-            {/* CTA */}
-            <div className="text-center">
-              <p className="text-white/70 mb-6 max-w-2xl mx-auto">
-                Stay ahead of the competition, never worry about updates or growth again.
-              </p>
-              <CTAButton
-                className="px-10 py-5 text-black font-black rounded-2xl hover:scale-105 transform transition-all duration-300 text-lg shadow-xl hover:shadow-primary/50 border-2 border-primary"
-                eventLabel="growth_plan_cta"
-              >
-                🚀 Learn More About Growth Plan
-              </CTAButton>
-              <p className="text-white/60 text-sm mt-4">
-                No long-term contracts • Cancel anytime • 14-day money-back guarantee
-              </p>
-            </div>
-          </div>
-        </Container>
-      </Section>
 
-      {/* FAQ Section */}
-      <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface reveal">
-        <Container size="main">
-          {/* Section Header */}
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-primary text-sm font-bold uppercase tracking-wider">Section 6</span>
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-            </div>
-            <h2 className="ds-heading-2 text-white mb-4">
-              Frequently Asked <span className="gold-text">Questions</span>
-            </h2>
-            <p className="text-white/70 max-w-2xl mx-auto">
-              Everything you need to know about your Business Bundle
-            </p>
-          </div>
-          
-          {/* Accordion */}
-          <div className="space-y-4">
-            {[
-              {
-                question: "How fast is delivery?",
-                answer: "Your full bundle is delivered in 7 days from our kickoff call."
-              },
-              {
-                question: "What if I need extra pages?",
-                answer: "We can add extra pages for a fixed fee. Just ask on your intro call."
-              },
-              {
-                question: "Can you run my ads too?",
-                answer: "Yes! Ask on the call for a custom quote for ongoing ads management."
-              },
-              {
-                question: "Do I keep my website if I cancel monthly?",
-                answer: "Yes - your website is 100% yours, even if you cancel the Growth Plan."
-              }
-            ].map((item, i) => (
-              <div key={i} className="group">
-                <div 
-                  className="flex items-start justify-between p-6 bg-surface-muted border border-white/5 rounded-xl cursor-pointer transition-all duration-300 hover:border-primary/30 group-hover:bg-surface-muted/70"
-                  onClick={() => toggleFAQ(i)}
-                >
-                  <h3 className="text-lg font-bold text-white pr-4">{item.question}</h3>
-                  <div className={`flex-shrink-0 ml-4 mt-1 transform transition-transform duration-300 ${openFAQ === i ? 'rotate-180' : ''}`}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M19 9L12 16L5 9" stroke="#ffb700" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                </div>
-                <div className={`overflow-hidden transition-all duration-300 ${openFAQ === i ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                  <div className="px-6 pb-6 pt-2 text-white/80">
-                    <p>{item.answer}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {/* CTA */}
-          <div className="mt-12 text-center">
-            <p className="text-white/80 mb-6">
-              Still have questions? We're here to help.
-            </p>
-            <CTAButton
-              className="px-8 py-4 text-black font-bold rounded-xl hover:scale-105 transform transition-all duration-300 text-base shadow-lg hover:shadow-primary/30 border-2 border-primary"
-              eventLabel="free_consultation_cta"
+            <p
+              className="reveal ds-lede text-muted mt-4 max-w-2xl mx-auto"
+              style={{ "--rv-delay": "240ms" }}
             >
-              📞 Book a Free Consultation
-            </CTAButton>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Booking Form */}
-      <hr aria-hidden="true" className="section-sep" />
-      <Section id="book" className="bg-surface">
-        <Container size="main">
-          {/* Section Header */}
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-primary text-sm font-bold uppercase tracking-wider">Get Started</span>
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-            </div>
-            <h2 className="ds-heading-2 text-white mb-4">
-              Book Your <span className="gold-text">Spot</span>
-            </h2>
-            <p className="text-white/70 max-w-2xl mx-auto">
-              Limited availability. Secure your bundle before the price increases.
+              No disconnected tools. No juggling multiple providers. One system, built
+              around how your business actually operates.
             </p>
-          </div>
-          
-          {/* Form Container */}
-          <div className="bg-surface-muted border border-white/5 rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 max-w-2xl mx-auto">
-            {formSubmitted ? (
-              <div className="text-center py-8">
-                <div className="text-green-400 text-6xl mb-4">✅</div>
-                <h3 className="text-2xl font-bold text-white mb-2">Form Submitted Successfully!</h3>
-                <p className="text-white/70 mb-6">Thank you for your interest in our Business Bundle. We'll get back to you within 24 hours.</p>
-                <CTAButton
-                  className="inline-block text-black font-bold py-3 px-6 rounded-lg transition-colors"
-                  eventLabel="form_success_cta"
-                >
-                  Book Your Free Strategy Call
-                </CTAButton>
-              </div>
-            ) : (
-            <form className="space-y-6" onSubmit={handleFormSubmit}>
-              {formError && (
-                <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 mb-4">
-                  <p className="text-red-400 text-sm">{formError}</p>
-                </div>
-              )}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="block text-white/80 text-sm font-medium">Name</label>
-                  <input 
-                    name="name"
-                    type="text" 
-                    className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-sm sm:text-base" 
-                    placeholder="Your name"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-white/80 text-sm font-medium">Email</label>
-                  <input 
-                    name="email"
-                    type="email" 
-                    className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-sm sm:text-base" 
-                    placeholder="you@example.com"
-                    required
-                  />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="block text-white/80 text-sm font-medium">Phone</label>
-                  <input 
-                    name="phone"
-                    type="tel" 
-                    className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-sm sm:text-base" 
-                    placeholder="+44"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-white/80 text-sm font-medium">Business Type</label>
-                  <select 
-                    name="businessType"
-                    className="w-full bg-surface border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 appearance-none"
-                    required
-                  >
-                    <option value="">Select business type</option>
-                    <option value="local">Local Service</option>
-                    <option value="ecommerce">E-commerce</option>
-                    <option value="agency">Agency</option>
-                    <option value="saas">SaaS</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <label className="block text-white/80 text-sm font-medium">How can we help you? <span className="text-white/40">(Optional)</span></label>
-                <textarea 
-                  name="message"
-                  rows="3" 
-                  className="w-full bg-surface border border-white/10 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 resize-none text-sm sm:text-base"
-                  placeholder="Tell us about your project..."
-                ></textarea>
-              </div>
-              
-              <div className="pt-2">
-                <button 
-                  type="submit" 
-                  className="group relative w-full flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 bg-primary text-black font-bold rounded-xl hover:scale-[1.02] transform transition-all duration-300 text-base sm:text-lg shadow-lg hover:shadow-primary/30 border-2 border-primary overflow-hidden"
-                >
-                  <span className="relative z-10 flex items-center gap-2">
-                    <span>🚀</span>
-                    <span>Secure My Spot</span>
-                  </span>
-                  <div className="absolute inset-0 bg-[#ff8c00] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </button>
-                <div className="mt-4 p-3 bg-surface-muted rounded-lg border border-white/5">
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                    <span className="text-primary text-xs font-bold">PRIVACY GUARANTEE</span>
-                  </div>
-                  <p className="text-center text-white/60 text-xs leading-relaxed">
-                    🔒 Your data is 100% secure • We never spam or share your information • GDPR compliant • 24-hour response guarantee
-                  </p>
-                </div>
-              </div>
-            </form>
-            )}
-          </div>
-        </Container>
-      </Section>
 
-      {/* START: Social Proof Section */}
-      <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface reveal">
-        <Container size="main">
-          {/* Testimonial Carousel */}
-          <div className="text-center mb-12">
-            <span className="inline-block bg-primary text-black font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
-              Client Success Stories
-            </span>
-            <h2 className="ds-heading-2 text-primary mb-8">
-              Real Results from Real UK Businesses
-            </h2>
-          </div>
+          </section>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
-            {[
-              {
-                quote: "Delivered our site in 7 days! Doubled our leads with AI chatbot integration.",
-                author: "Sarah M.",
-                company: "MyApproved.com",
-                rating: 5
-              },
-              {
-                quote: "Professional, efficient, and results-driven. Our conversion rate increased by 40%.",
-                author: "James K.",
-                company: "Identi Solutions",
-                rating: 5
-              },
-              {
-                quote: "The AI automation saved us 20 hours per week. ROI was immediate.",
-                author: "Lisa R.",
-                company: "Omni Digital",
-                rating: 5
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-surface-muted border-2 border-primary/20 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="flex items-center mb-4">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <span key={i} className="text-primary text-lg">★</span>
-                  ))}
-                </div>
-                <p className="text-white/90 mb-4 italic">"{testimonial.quote}"</p>
-                <div className="text-sm">
-                  <p className="text-primary font-semibold">{testimonial.author}</p>
-                  <p className="text-white/60">{testimonial.company}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Trust Badges */}
-          <div className="text-center">
-            <h3 className="text-xl font-bold text-white mb-6">Trusted & Certified</h3>
-            <div className="flex justify-center items-center gap-8 flex-wrap">
-              <div className="flex items-center gap-2 bg-surface-muted/90 border border-primary/30 rounded-lg px-4 py-2">
-                <span className="text-green-400 text-lg">🔒</span>
-                <span className="text-white text-sm font-medium">SSL Secure</span>
-              </div>
-              <div className="flex items-center gap-2 bg-surface-muted/90 border border-primary/30 rounded-lg px-4 py-2">
-                <span className="text-blue-400 text-lg">🇬🇧</span>
-                <span className="text-white text-sm font-medium">UK-Based</span>
-              </div>
-              <div className="flex items-center gap-2 bg-surface-muted/90 border border-primary/30 rounded-lg px-4 py-2">
-                <span className="text-primary text-lg">🤖</span>
-                <span className="text-white text-sm font-medium">AI Certified</span>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
-      {/* END: Social Proof Section */}
-
-      {/* START: Pricing Clarity Section */}
-      <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface text-center reveal">
-        <Container size="main">
-          <div className="max-w-3xl mx-auto">
-            <span className="inline-block bg-primary text-black font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
-              Transparent Pricing
-            </span>
-            <h2 className="ds-heading-2 text-primary mb-6">
-              No Hidden Fees. No Surprises.
-            </h2>
-            <p className="text-xl md:text-2xl text-white/90 mb-8">
-              Packages from <span className="text-primary font-bold">£750</span>. Clear, fixed pricing - no hidden fees.
-            </p>
-            <CTAButton
-              className="inline-flex items-center justify-center text-black font-bold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg border-2 border-primary"
-              eventLabel="pricing_section"
-            >
-              💰 Get My Quote
-            </CTAButton>
-          </div>
-        </Container>
-      </Section>
-      {/* END: Pricing Clarity Section */}
-
-      {/* START: Deliverables Section */}
-      <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface reveal">
-        <Container size="main">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="bg-surface-muted border-2 border-primary/20 rounded-3xl p-2 shadow-2xl">
-                <div className="bg-surface-muted rounded-2xl p-8">
-                  <div className="text-center mb-6">
-                    <span className="inline-block bg-primary text-[#222] font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-4">
-                      Bundle Explainer
-                    </span>
-                    <div className="w-full h-64 bg-surface rounded-xl flex items-center justify-center border-2 border-primary/30">
-                      <div className="text-center">
-                        <div className="text-6xl mb-4">🎬</div>
-                        <p className="text-primary font-semibold">Explainer Video Coming Soon</p>
-                        <p className="text-muted text-sm">Visual breakdown of your bundle</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <h2 className="ds-heading-2 text-primary mb-8">
-                Here's What You Get
-              </h2>
-              <ul className="space-y-4 mb-8">
-                {[
-                  "✔️ Custom Website (AI-powered)",
-                  "✔️ Chatbot & Voice Agent",
-                  "✔️ Google Business Setup",
-                  "✔️ Social Media Launch (8 posts)",
-                  "✔️ 7-Day Delivery & 14-Day Revisions",
-                  "✔️ 1-Year Hosting",
-                  "✔️ After-Launch Support"
-                ].map((item, index) => (
-                  <li key={index} className="flex items-center gap-3 text-white text-lg">
-                    <span className="text-primary text-xl">{item.split(' ')[0]}</span>
-                    <span>{item.substring(3)}</span>
-                  </li>
-                ))}
-              </ul>
-              <CTAButton
-                className="inline-flex items-center justify-center text-[#222] font-bold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg border-2 border-primary"
-                eventLabel="deliverables_secure_spot"
-              >
-                Secure My Spot →
-              </CTAButton>
-            </div>
-          </div>
-        </Container>
-      </Section>
-      {/* END: Deliverables Section */}
-
-      {/* START: FAQ SECTION */}
-      <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface reveal">
-        <Container size="main">
-          <div className="text-center mb-12">
-            <span className="inline-block bg-primary text-[#222] font-bold py-2 px-4 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
-              FAQ
-            </span>
-            <h2 className="ds-heading-2 text-primary mb-4">
-              Frequently Asked Questions
-            </h2>
-          </div>
-          <div className="max-w-4xl mx-auto space-y-4">
-            {[
-              {
-                question: "What's included in the Business Bundle?",
-                answer: "You get a full website, AI chatbot & voice agent, Google Business setup, 7-day launch, hosting, and more."
-              },
-              {
-                question: "How long does it take?",
-                answer: "The full system is delivered in 7 days, with 14-day revisions included."
-              },
-              {
-                question: "Can I make changes later?",
-                answer: "Yes – the package includes 14 days of revisions and full access for edits."
-              }
-            ].map((faq, index) => (
-              <details key={index} className="bg-surface-muted border-2 border-primary/20 hover:border-primary/40 rounded-xl transition-all duration-300 shadow-lg">
-                <summary className="cursor-pointer p-6 text-white font-semibold text-lg hover:text-primary transition-colors duration-300">
-                  {faq.question}
-                </summary>
-                <div className="px-6 pb-6 text-muted leading-relaxed">
-                  {faq.answer}
-                </div>
-              </details>
-            ))}
-          </div>
-        </Container>
-
-        {/* FAQ Schema */}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "What's included in the Business Bundle?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "You get a full website, AI chatbot & voice agent, Google Business setup, 7-day launch, hosting, and more."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How long does it take?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "The full system is delivered in 7 days, with 14-day revisions included."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Can I make changes later?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes – the package includes 14 days of revisions and full access for edits."
-                }
-              }
-            ]
-          })
-        }} />
-        
-        {/* START: Product Schema */}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": "Business Launch Bundle",
-            "description": "AI-Powered Website + Lead Generation System launched in 7 days. Includes website, chatbot, voice agent, SEO, social media, and analytics.",
-            "image": "https://www.khamareclarke.com/images/business-bundle-hero.jpg",
-            "brand": {
-              "@type": "Brand",
-              "name": "Khamare Clarke"
-            },
-            "review": {
-              "@type": "Review",
-              "reviewRating": {
-                "@type": "Rating",
-                "ratingValue": "5",
-                "bestRating": "5"
-              },
-              "author": {
-                "@type": "Person",
-                "name": "Verified UK Client"
-              }
-            },
-            "offers": {
-              "@type": "Offer",
-              "priceCurrency": "GBP",
-              "price": "699",
-              "availability": "https://schema.org/InStock"
-            }
-          })
-        }} />
-        {/* END: Product Schema */}
-      </Section>
-      {/* END: FAQ SECTION */}
-
-      {/* Lead Magnet - 7-Figure AI Playbook - Horizontal Layout */}
-      <hr aria-hidden="true" className="section-sep" />
-      <Section className="bg-surface reveal">
-        <Container size="main">
-          {/* Horizontal Container */}
-          <div className="bg-primary rounded-3xl p-1 shadow-2xl">
-            <div className="bg-surface rounded-3xl overflow-hidden">
-              <div className="grid grid-cols-1 lg:grid-cols-3 min-h-[500px]">
-                
-                {/* Left Content Section - Takes up 2/3 of width */}
-                <div className="lg:col-span-2 p-8 md:p-12 flex flex-col justify-center">
-                  <div className="max-w-2xl">
-                    <span className="inline-block bg-primary text-[#222] font-bold py-2 px-6 rounded-full text-sm uppercase tracking-wider shadow-lg mb-6">
-                      FREE DOWNLOAD
-                    </span>
-                    
-                    <h2 className="ds-heading-2 text-primary mb-6">
-                      The 7-Figure AI Playbook for UK Businesses
-                    </h2>
-                    
-                    <p className="text-white text-lg md:text-xl mb-8 leading-relaxed">
-                      Get instant access to the exact AI systems and automations that have generated over <span className="text-primary font-bold">£12,000,000+</span> in revenue for UK businesses. This comprehensive playbook reveals:
-                    </p>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                      <div className="flex items-start gap-3 text-white/90">
-                        <span className="text-primary mt-1">•</span>
-                        <span className="text-base">7 proven AI workflows that save 20+ hours/week</span>
-                      </div>
-                      <div className="flex items-start gap-3 text-white/90">
-                        <span className="text-primary mt-1">•</span>
-                        <span className="text-base">Client acquisition systems that consistently fill your pipeline</span>
-                      </div>
-                      <div className="flex items-start gap-3 text-white/90">
-                        <span className="text-primary mt-1">•</span>
-                        <span className="text-base">Revenue-boosting automations you can implement today</span>
-                      </div>
-                      <div className="flex items-start gap-3 text-white/90">
-                        <span className="text-primary mt-1">•</span>
-                        <span className="text-base">Exclusive case studies from successful UK businesses</span>
-                      </div>
-                      <div className="flex items-start gap-3 text-white/90 md:col-span-2">
-                        <span className="text-primary mt-1">•</span>
-                        <span className="text-base">Step-by-step implementation guides</span>
-                      </div>
-                    </div>
-                    
-                    <p className="text-muted text-base">
-                      Designed for operators who want plug-and-play leverage in under 10 minutes.
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Right Form Section - Takes up 1/3 of width */}
-                <div className="lg:col-span-1 bg-primary p-8 md:p-12 flex flex-col justify-center">
-                  <div className="bg-white rounded-2xl p-6 shadow-xl">
-                    <div className="text-center mb-6">
-                      <div className="text-5xl mb-4">📚</div>
-                      <h3 className="text-xl font-bold text-black mb-4">What's Inside:</h3>
-                      <div className="text-left space-y-2 text-sm text-black mb-6">
-                        <div className="flex items-center gap-2">
-                          <span className="text-green-600">✓</span>
-                          <span>50+ Page Playbook</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-green-600">✓</span>
-                          <span>12 AI Automation Templates</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-green-600">✓</span>
-                          <span>Video Walkthroughs</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-green-600">✓</span>
-                          <span>Exclusive Bonuses</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <form className="space-y-4">
-                      <input 
-                        type="text" 
-                        placeholder="Your Name" 
-                        required
-                        className="w-full rounded-lg px-4 py-3 border-2 border-gray-200 focus:border-primary focus:outline-none text-black bg-white placeholder-gray-500 font-medium transition-all duration-300" 
-                      />
-                      <input 
-                        type="email" 
-                        placeholder="Your Email" 
-                        required
-                        className="w-full rounded-lg px-4 py-3 border-2 border-gray-200 focus:border-primary focus:outline-none text-black bg-white placeholder-gray-500 font-medium transition-all duration-300" 
-                      />
-                      
-                      <CTAButton
-                        type="submit"
-                        className="w-full py-4 text-lg bg-black text-white font-bold rounded-lg hover:bg-gray-800 transition-all duration-300 shadow-lg"
-                        icon="download"
-                        eventLabel="download_playbook_business_bundle"
-                        useBookingWidget={false}
-                      >
-                        <span className="flex items-center justify-center gap-2">
-                          <span>⬇️</span>
-                          <span>Get Instant Access Now</span>
-                        </span>
-                      </CTAButton>
-                      
-                      <p className="text-center text-gray-600 text-xs leading-relaxed">
-                        🔒 100% secure. No spam. Unsubscribe anytime.
-                      </p>
-                    </form>
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Policies note */}
-      <Section className="bg-surface reveal">
-        <Container size="main" className="text-center">
-          <p className="text-white text-base font-semibold">Policies • Limited spots • Upfront clarity • Satisfaction-first</p>
-        </Container>
-      </Section>
-
-      {/* Sticky Mobile CTA */}
-      <div className="fixed bottom-0 left-0 right-0 bg-primary p-3 sm:p-4 z-40 md:hidden border-t-2 border-primary shadow-2xl transition-transform duration-300 pb-safe" id="mobile-cta">
-        <div className="flex flex-col items-center w-full">
-          <CTAButton
-            className="block w-full text-center bg-black text-white font-bold py-3 sm:py-4 rounded-xl text-base sm:text-lg shadow-lg active:scale-95 transition-transform duration-150"
-            eventLabel="mobile_sticky_cta"
+          {/* The closing call to action sits directly under the headline and intro, so the
+              page asks for the call while the offer is still on screen. */}
+          <CtaPanel
+            className="mt-20"
+            headingLevel="h2"
+            heading={<>Ready to start your <span className="gold-text">build?</span></>}
+            body="Thirty minutes on a call. Bring your questions and I will tell you what the build would involve for your business."
           >
-            🚀 Secure My £699 Spot Now
-          </CTAButton>
-          <div className="mt-1 text-center text-[11px] leading-tight text-black/80 font-semibold">
-            Designed for business owners ready to move fast with upfront pricing.
-          </div>
-        </div>
+            <CTAButton eventLabel="secure_spot_cta" caption="Free 30-minute introductory call.">
+              Book Your Free Growth Call
+            </CTAButton>
+          </CtaPanel>
+
+          <hr aria-hidden="true" className="section-sep mt-16" />
+
+          {/* FAQ. One accordion, the homepage's mechanism, fed by the same array the
+              structured data uses. This page used to render two FAQ blocks with different
+              questions AND different markup. */}
+          <section className="mt-16 text-center" aria-labelledby="faq-heading">
+            <SectionHeading id="faq-heading" align="center">
+              Common <span className="gold-text">questions</span>
+            </SectionHeading>
+
+            <div className="reveal border border-white/10 rounded-lg" style={{ "--rv-delay": "280ms" }}>
+              {BUNDLE_FAQ.map((faq, index) => (
+                <div key={faq.question} className="border-b border-white/5 last:border-b-0">
+                  <button
+                    className="w-full text-left flex justify-between items-center px-5 sm:px-6 py-4 sm:py-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    onClick={() => toggleFAQ(index)}
+                    aria-expanded={openFAQ === index}
+                  >
+                    <span className="font-semibold text-base sm:text-lg pr-4 text-white">{faq.question}</span>
+                    <span className="text-primary text-2xl flex items-center flex-shrink-0" aria-hidden="true">
+                      {openFAQ === index ? "−" : "+"}
+                    </span>
+                  </button>
+                  <div className={`overflow-hidden transition-all duration-300 ease-out ${openFAQ === index ? 'max-h-96' : 'max-h-0'}`}>
+                    <div className="px-5 sm:px-6 pb-5 text-muted leading-relaxed text-sm sm:text-base">
+                      {faq.answer}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="reveal mt-12 text-center" style={{ "--rv-delay": "380ms" }}>
+              <CTAButton eventLabel="free_consultation_cta" caption="Free 30-minute introductory call.">
+                Book Your Free Growth Call
+              </CTAButton>
+            </div>
+          </section>
+
+          <hr aria-hidden="true" className="section-sep mt-16" />
+
+          {/* Booking form. Field names, the uncontrolled inputs and the POST to /api/send
+              are unchanged: /api/send derives the stored source from `businessType`, and
+              handleFormSubmit reads e.target.<name>.value. */}
+          <section id="book" className="mt-16 text-center" aria-labelledby="book-heading">
+            <SectionHeading
+              id="book-heading"
+              align="center"
+              lede="Tell me about the business and I will come back to you on whether the service fits, and what it would take to get you started."
+            >
+              Send an <span className="gold-text">enquiry</span>
+            </SectionHeading>
+
+            <div className="bg-surface-muted border border-white/10 rounded-lg p-5 sm:p-8 max-w-2xl mx-auto">
+              {/* The site's one enquiry form (components/EnquiryForm.jsx), the same
+                  component the homepage renders. source="business-bundle" is not sent to
+                  the server: it selects whether the businessType field is included, and
+                  /api/send derives the stored source from that server-side. */}
+              <EnquiryForm
+                source="business-bundle"
+                showHeader={false}
+                submitLabel="Send Enquiry"
+                eventLabel="form_submit_cta"
+                footerText="Free 30-minute introductory call. No obligation."
+                successTitle="Thank you"
+                successBody="Your enquiry has come through and I will reply to you directly."
+              />
+            </div>
+          </section>
+
+        </Container>
+      </Section>
+
+      {/* Sticky mobile CTA. One bar per breakpoint: the old page had a mobile bar and an
+          all-breakpoint bar both pinned to bottom-0, so on a phone they stacked. */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-surface border-t border-white/10 p-3 pb-safe"
+        id="mobile-cta"
+      >
+        <CTAButton eventLabel="mobile_sticky_cta" fullWidth compact caption="Free 30-minute call.">
+          Secure Your Spot
+        </CTAButton>
       </div>
-      
+
       <style jsx global>{`
-        @keyframes bounce-horizontal {
-          0%, 100% { transform: translateX(0); }
-          50% { transform: translateX(4px); }
-        }
-        .animate-bounce-horizontal {
-          animation: bounce-horizontal 1.5s infinite;
-        }
-        
         /* Mobile safe area handling */
         .pb-safe {
           padding-bottom: max(12px, env(safe-area-inset-bottom));
         }
-        
+
         /* Ensure mobile CTA doesn't overlap with browser UI */
         @media (max-width: 768px) {
           #mobile-cta {
             bottom: env(safe-area-inset-bottom, 0px);
           }
         }
-        
-        /* Extra small screens - hide some text to prevent overflow */
-        @media (max-width: 375px) {
-          .xs\\:hidden {
-            display: none !important;
-          }
-          .xs\\:inline {
-            display: inline !important;
-          }
-        }
       `}</style>
 
-      {/* START: Sticky CTA Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-black text-white flex justify-center py-3 px-4 z-40 border-t-2 border-primary/30">
-        <CTAButton
-          className="text-black font-bold py-3 px-6 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-sm sm:text-base"
-          eventLabel="sticky_cta"
-        >
-          📞 Book Your Free Growth Call
+      {/* Sticky CTA bar, desktop only */}
+      <div className="hidden md:flex fixed bottom-0 left-0 right-0 z-40 justify-center bg-surface border-t border-white/10 py-3 px-4">
+        <CTAButton eventLabel="sticky_cta" compact caption="Free 30-minute call.">
+          Book Your Free Growth Call
         </CTAButton>
       </div>
-      {/* END: Sticky CTA Bar */}
 
-      {/* START: WhatsApp Floating Button */}
+      {/* WhatsApp floating button. Same number as the site chat widget: this page used a
+          different one, so the two disagreed about the business's own phone number. */}
       <a
-        href="https://wa.me/447366490007?text=Hi%20Khamare,%20I'm%20interested%20in%20the%20AI%20Business%20Growth%20Bundle"
+        href="https://wa.me/447473255886?text=Hi%20Khamare,%20I%27m%20interested%20in%20the%20AI%20Business%20Growth%20Bundle"
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => {
@@ -1414,15 +327,15 @@ function BusinessBundleClientContent() {
             });
           }
         }}
-        className="fixed bottom-20 right-4 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 z-50"
+        className="fixed bottom-24 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-surface-muted border border-white/10 text-primary hover:border-primary/60 transition-colors"
         title="Chat on WhatsApp"
+        aria-label="Chat on WhatsApp"
       >
-        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
         </svg>
       </a>
-      {/* END: WhatsApp Floating Button */}
-      
+
       <CookieBanner />
     </PageShell>
   );

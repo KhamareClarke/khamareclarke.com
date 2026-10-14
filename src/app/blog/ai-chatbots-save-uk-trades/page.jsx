@@ -1,6 +1,7 @@
 import React from "react";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import { Section } from "../../components/ui/Section";
 import { Container } from "../../components/ui/Container";
@@ -32,6 +33,9 @@ export default function BlogPost() {
               title="How AI Chatbots Save UK Trades 20+ Hours a Week"
               size="compact"
             />
+
+            {/* The trust strip that sits under the hero on the homepage. */}
+            <AchievementsSection />
 
             <div className="reveal text-muted text-sm mt-6 mb-6" style={{ "--rv-delay": "200ms" }}>Category: AI Automation · ROI for Local Business · August 2025</div>
 
@@ -67,8 +71,8 @@ export default function BlogPost() {
               <h3 className="text-xl font-bold mb-2 text-white">Download the Free Guide</h3>
               <p className="text-muted mb-4">7 AI Tools Every UK Business Needs in 2025</p>
               <form className="flex flex-col gap-3">
-                <input type="email" placeholder="Your Email" className="rounded-lg px-4 py-2 bg-surface border border-[#222] text-white placeholder-muted focus:outline-none focus:ring-2 focus:ring-[#ffb700]" required />
-                <button type="submit" className="bg-primary text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-[#e6a600] transition border-2 border-primary focus:outline-none focus:ring-2 focus:ring-[#ffb700]">Get the Free Guide</button>
+                <input type="email" placeholder="Your Email" className="rounded-lg px-4 py-2 bg-surface border border-[#222] text-white placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary" required />
+                <button type="submit" className="bg-primary text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-primary-hover transition border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary">Get the Free Guide</button>
               </form>
             </Card>
           </article>

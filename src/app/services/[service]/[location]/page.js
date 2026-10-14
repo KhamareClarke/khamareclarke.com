@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageShell from "../../../components/PageShell";
 import PageHero from "../../../components/ui/PageHero";
+import AchievementsSection from "../../../components/AchievementsSection";
 import SectionHeading from "../../../components/ui/SectionHeading";
 import CtaPanel from "../../../components/ui/CtaPanel";
 import { Section } from "../../../components/ui/Section";
@@ -92,7 +93,7 @@ function buildFaqSchema(service, location) {
         "name": `How long before a ${location.name} business sees results from ${service.shortTitle}?`,
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `For local campaigns targeting ${location.name}, meaningful results typically appear within 60 to 90 days. Ranking targets are agreed at the start of every engagement. On the Get Found tier, if those agreed targets are not reached within 60 days, that month's fee is refunded in full.`,
+          "text": `For local campaigns targeting ${location.name}, movement in search visibility typically becomes measurable over the first three to six months. Priorities and deliverables are agreed in writing at the start of every engagement.`,
         },
       },
     ],
@@ -155,16 +156,19 @@ export default function ServiceLocationPage({ params }) {
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-muted mb-8" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+          <Link href="/" className="hover:gold-text transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/services" className="hover:text-primary transition-colors">Services</Link>
+          <Link href="/services" className="hover:gold-text transition-colors">Services</Link>
           <span>/</span>
-          <Link href={`/services/${service.slug}`} className="hover:text-primary transition-colors">{service.shortTitle}</Link>
+          <Link href={`/services/${service.slug}`} className="hover:gold-text transition-colors">{service.shortTitle}</Link>
           <span>/</span>
           <span className="text-white">{location.name}</span>
         </nav>
 
         <PageHero eyebrow={`Serving ${location.name}`} title={<>{service.heading} <span className="gold-text">in {location.name}</span></>} size="compact" />
+
+        {/* The trust strip that sits under the hero on the homepage. */}
+        <AchievementsSection />
         <p className="reveal mt-6 text-muted text-lg mb-12 max-w-2xl leading-relaxed" style={{ "--rv-delay": "200ms" }}>
           {service.description}
         </p>
@@ -205,7 +209,7 @@ export default function ServiceLocationPage({ params }) {
                 className="reveal"
                 style={{ "--rv-delay": `${index * 110}ms` }}
               >
-                <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">{result.client}</p>
+                <p className="gold-text text-xs font-bold uppercase tracking-widest mb-3">{result.client}</p>
                 <p className="ds-numeric text-white text-4xl font-extrabold mb-2">{result.metric}</p>
                 <p className="text-muted text-sm leading-relaxed">{result.body}</p>
               </Card>
@@ -243,7 +247,9 @@ export default function ServiceLocationPage({ params }) {
                 How long before a {location.name} business sees results?
               </h3>
               <p className="text-muted leading-relaxed">
-                For local campaigns, meaningful movement typically appears within 60 to 90 days. Ranking targets are agreed at the start. On the Get Found tier, if those targets are not reached within 60 days, that month's fee is refunded in full.
+                For local campaigns, movement in search visibility typically becomes
+                measurable over the first three to six months. Priorities and deliverables
+                are agreed in writing at the start of every engagement.
               </p>
             </div>
           </div>
@@ -257,17 +263,17 @@ export default function ServiceLocationPage({ params }) {
               <li key={s.slug} className="reveal" style={{ "--rv-delay": `${Math.min(index, 6) * 90}ms` }}>
                 <Link
                   href={`/services/${s.slug}/${location.slug}`}
-                  className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm"
+                  className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm"
                 >
-                  <span className="text-primary">→</span>
+                  <span className="gold-text">→</span>
                   {s.title} in {location.name}
                 </Link>
               </li>
             ))}
           </ul>
           <div className="mt-4 pt-4 border-t border-primary/10">
-            <Link href="/services" className="text-muted hover:text-primary transition-colors text-sm flex items-center gap-2">
-              <span className="text-primary">←</span> All services
+            <Link href="/services" className="text-muted hover:gold-text transition-colors text-sm flex items-center gap-2">
+              <span className="gold-text">←</span> All services
             </Link>
           </div>
         </nav>
@@ -278,7 +284,7 @@ export default function ServiceLocationPage({ params }) {
           heading={<>Ready to talk about {service.shortTitle} in {location.name}?</>}
           body={`30 minutes. No obligation. An honest assessment of where your ${location.name} business stands and what it would take to move it.`}
         >
-          <CTAButton eventLabel={`service_${service.slug}_${location.slug}_cta`} caption="ranked or refunded in 60 days · from £495/mo">
+          <CTAButton eventLabel={`service_${service.slug}_${location.slug}_cta`} caption="Priorities and deliverables agreed in writing.">
             Book Your Free Strategy Call
           </CTAButton>
         </CtaPanel>

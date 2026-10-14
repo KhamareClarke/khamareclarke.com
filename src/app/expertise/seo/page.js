@@ -3,6 +3,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -113,6 +114,9 @@ export default function SEOSpecialistPage() {
               </>
             }
           />
+
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             SEO advice is everywhere. Someone accountable for the work, the
             rankings, and the phone calls is harder to find.
@@ -226,7 +230,7 @@ export default function SEOSpecialistPage() {
             </p>
             <ul className="space-y-3 pl-4">
               <li className="reveal flex items-start gap-3" style={{ "--rv-delay": "0ms" }}>
-                <span className="text-primary font-bold mt-1">—</span>
+                <span className="gold-text font-bold mt-1">—</span>
                 <span>
                   <strong className="text-white">Get Found</strong> — from
                   £495/mo. Google Business Profile domination, local map pack
@@ -234,7 +238,7 @@ export default function SEOSpecialistPage() {
                 </span>
               </li>
               <li className="reveal flex items-start gap-3" style={{ "--rv-delay": "90ms" }}>
-                <span className="text-primary font-bold mt-1">—</span>
+                <span className="gold-text font-bold mt-1">—</span>
                 <span>
                   <strong className="text-white">Run The Area</strong> — from
                   £1,250/mo. Full local SEO plus organic content, technical
@@ -242,7 +246,7 @@ export default function SEOSpecialistPage() {
                 </span>
               </li>
               <li className="reveal flex items-start gap-3" style={{ "--rv-delay": "180ms" }}>
-                <span className="text-primary font-bold mt-1">—</span>
+                <span className="gold-text font-bold mt-1">—</span>
                 <span>
                   <strong className="text-white">Own The Market</strong> — from
                   £2,500/mo. Full-stack SEO, AI search optimisation, programmatic
@@ -268,8 +272,7 @@ export default function SEOSpecialistPage() {
               Khamare Clarke is based in Stoke-on-Trent, Staffordshire. He
               holds a BSc in Software Engineering, a BSc in Digital Marketing,
               and is completing an MSc in Computer Science with Artificial
-              Intelligence at Keele University (due 2027). He is certified in
-              Google Ads and Google Analytics.
+              Intelligence at Keele University (due 2027).
             </p>
             <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The engineering background means he can audit and fix a site's
@@ -325,8 +328,8 @@ export default function SEOSpecialistPage() {
               { href: "/about", label: "About Khamare Clarke" },
             ].map((l, index) => (
               <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
-                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-primary">→</span> {l.label}
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">→</span> {l.label}
                 </Link>
               </li>
             ))}

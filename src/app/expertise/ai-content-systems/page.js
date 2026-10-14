@@ -3,6 +3,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -89,6 +90,9 @@ export default function AIContentSystemsPage() {
               </>
             }
           />
+
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Content volume without strategic structure produces noise: pages that do not
             rank, do not convert, and are not cited by AI models. An AI content system
@@ -135,7 +139,7 @@ export default function AIContentSystemsPage() {
               ["Structured data markup", "JSON-LD implementation across all content types: FAQPage, Article, DefinedTerm, BreadcrumbList, WebPage."],
             ].map(([title, body], index) => (
               <Card key={title} className="reveal" style={{ "--rv-delay": `${index * 110}ms` }}>
-                <p className="text-primary font-semibold text-sm mb-2">{title}</p>
+                <p className="gold-text font-semibold text-sm mb-2">{title}</p>
                 <p className="text-muted text-sm leading-relaxed">{body}</p>
               </Card>
             ))}
@@ -180,8 +184,8 @@ export default function AIContentSystemsPage() {
               { href: "/expertise/web-design-development", label: "Web design and development" },
             ].map((l, index) => (
               <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
-                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-primary">--</span> {l.label}
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">--</span> {l.label}
                 </Link>
               </li>
             ))}

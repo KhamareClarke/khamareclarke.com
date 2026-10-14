@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -81,14 +82,17 @@ export default function ServiceHubPage({ params }) {
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-muted mb-8" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+          <Link href="/" className="hover:gold-text transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/services" className="hover:text-primary transition-colors">Services</Link>
+          <Link href="/services" className="hover:gold-text transition-colors">Services</Link>
           <span>/</span>
           <span className="text-white">{service.shortTitle}</span>
         </nav>
 
         <PageHero eyebrow="Service" title={service.heading} size="compact" />
+
+        {/* The trust strip that sits under the hero on the homepage. */}
+        <AchievementsSection />
         <p className="reveal mt-6 text-muted text-lg mb-12 max-w-2xl leading-relaxed" style={{ "--rv-delay": "200ms" }}>
           {service.description}
         </p>
@@ -100,7 +104,7 @@ export default function ServiceHubPage({ params }) {
           </SectionHeading>
           <div className="space-y-4 text-muted text-lg leading-relaxed">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
-              {service.description} Every campaign is built around agreed ranking targets. If those targets are not hit within 60 days on the Get Found tier, that month's fee is refunded.
+              {service.description} Every engagement runs to priorities and deliverables agreed in writing before work begins.
             </p>
             <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The work is done personally by Khamare Clarke: BSc Software Engineering, BSc Digital Marketing, MSc Computer Science with Artificial Intelligence (Keele University, completing 2027). No account managers, no junior team members.
@@ -120,7 +124,7 @@ export default function ServiceHubPage({ params }) {
                 className="reveal"
                 style={{ "--rv-delay": `${index * 110}ms` }}
               >
-                <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">{result.client}</p>
+                <p className="gold-text text-xs font-bold uppercase tracking-widest mb-3">{result.client}</p>
                 <p className="ds-numeric text-white text-4xl font-extrabold mb-2">{result.metric}</p>
                 <p className="text-muted text-sm leading-relaxed">{result.body}</p>
               </Card>
@@ -139,7 +143,7 @@ export default function ServiceHubPage({ params }) {
               <li key={loc.slug} className="reveal" style={{ "--rv-delay": `${Math.min(index, 6) * 90}ms` }}>
                 <Link
                   href={`/services/${service.slug}/${loc.slug}`}
-                  className="block bg-surface-muted border border-primary/20 hover:border-primary/50 rounded-lg px-4 py-3 text-muted hover:text-primary text-sm transition-all duration-200"
+                  className="block bg-surface-muted border border-primary/20 hover:border-primary/50 rounded-lg px-4 py-3 text-muted hover:gold-text text-sm transition-all duration-200"
                 >
                   {service.shortTitle} in {loc.name}
                 </Link>
@@ -149,7 +153,7 @@ export default function ServiceHubPage({ params }) {
               <li key={loc.slug} className="reveal" style={{ "--rv-delay": `${Math.min(index, 6) * 90}ms` }}>
                 <Link
                   href={`/services/${service.slug}/${loc.slug}`}
-                  className="block bg-surface-muted border border-white/10 hover:border-primary/30 rounded-lg px-4 py-3 text-muted hover:text-primary text-sm transition-all duration-200"
+                  className="block bg-surface-muted border border-white/10 hover:border-primary/30 rounded-lg px-4 py-3 text-muted hover:gold-text text-sm transition-all duration-200"
                 >
                   {service.shortTitle} in {loc.name}
                 </Link>
@@ -166,9 +170,9 @@ export default function ServiceHubPage({ params }) {
               <li key={s.slug} className="reveal" style={{ "--rv-delay": `${Math.min(index, 6) * 90}ms` }}>
                 <Link
                   href={`/services/${s.slug}`}
-                  className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm"
+                  className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm"
                 >
-                  <span className="text-primary">→</span> {s.title}
+                  <span className="gold-text">→</span> {s.title}
                 </Link>
               </li>
             ))}
@@ -181,7 +185,7 @@ export default function ServiceHubPage({ params }) {
           heading={<>Ready to discuss {service.heading}?</>}
           body="30 minutes. No obligation. An honest look at where your business stands and what it would take to move it."
         >
-          <CTAButton eventLabel={`service_hub_${service.slug}_cta`} caption="ranked or refunded in 60 days · from £495/mo">
+          <CTAButton eventLabel={`service_hub_${service.slug}_cta`} caption="Priorities and deliverables agreed in writing.">
             Book Your Free Strategy Call
           </CTAButton>
         </CtaPanel>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -89,6 +90,9 @@ export default function MarketingAutomationPage() {
               </>
             }
           />
+
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Most businesses lose more leads to poor follow-up than to poor marketing.
             A new enquiry that is not responded to within minutes is a lead your competitor
@@ -132,7 +136,7 @@ export default function MarketingAutomationPage() {
               ["Lead source reporting", "Every closed deal traced back to the channel that generated it -- so marketing budget goes where it produces returns."],
             ].map(([title, body], index) => (
               <Card key={title} className="reveal" style={{ "--rv-delay": `${index * 110}ms` }}>
-                <p className="text-primary font-semibold text-sm mb-2">{title}</p>
+                <p className="gold-text font-semibold text-sm mb-2">{title}</p>
                 <p className="text-muted text-sm leading-relaxed">{body}</p>
               </Card>
             ))}
@@ -195,8 +199,8 @@ export default function MarketingAutomationPage() {
               { href: "/expertise/ai-content-systems", label: "AI content systems" },
             ].map((l, index) => (
               <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
-                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-primary">--</span> {l.label}
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">--</span> {l.label}
                 </Link>
               </li>
             ))}

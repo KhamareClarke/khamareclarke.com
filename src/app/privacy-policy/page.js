@@ -1,5 +1,6 @@
 import PageShell from "../components/PageShell";
 import PageHero from "../components/ui/PageHero";
+import AchievementsSection from "../components/AchievementsSection";
 import SectionHeading from "../components/ui/SectionHeading";
 import { Section } from "../components/ui/Section";
 import { Container } from "../components/ui/Container";
@@ -49,6 +50,9 @@ export default function PrivacyPolicyPage() {
               legal page is not a display title, so it does not take the hero scale. */}
           <PageHero eyebrow="Legal" size="compact" title="Privacy Policy" />
 
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
+
           <p className="reveal text-muted text-sm mt-6" style={{ "--rv-delay": "260ms" }}>
             Last updated: July 2025
           </p>
@@ -60,7 +64,7 @@ export default function PrivacyPolicyPage() {
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 This policy covers how Khamare Clarke (trading as an individual SEO and AI systems consultant,
                 based in Stoke-on-Trent, England) handles personal data collected through khamareclarke.com.
-                Contact: <a href="mailto:info@khamareclarke.com" className="text-primary hover:underline">info@khamareclarke.com</a>.
+                Contact: <a href="mailto:info@khamareclarke.com" className="gold-text hover:underline">info@khamareclarke.com</a>.
               </p>
             </section>
 
@@ -138,7 +142,7 @@ export default function PrivacyPolicyPage() {
               </ul>
               <p className="reveal mt-3" style={{ "--rv-delay": "280ms" }}>
                 To exercise any of these rights, email{" "}
-                <a href="mailto:info@khamareclarke.com" className="text-primary hover:underline">info@khamareclarke.com</a>.
+                <a href="mailto:info@khamareclarke.com" className="gold-text hover:underline">info@khamareclarke.com</a>.
                 Requests will be responded to within 30 days.
               </p>
             </section>
@@ -163,7 +167,7 @@ export default function PrivacyPolicyPage() {
               <SectionHeading size="small" id="privacy-contact">Contact</SectionHeading>
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
                 For any privacy-related question or request:{" "}
-                <a href="mailto:info@khamareclarke.com" className="text-primary hover:underline">info@khamareclarke.com</a>
+                <a href="mailto:info@khamareclarke.com" className="gold-text hover:underline">info@khamareclarke.com</a>
               </p>
               <p className="reveal mt-2" style={{ "--rv-delay": "280ms" }}>
                 You also have the right to lodge a complaint with the Information Commissioner&apos;s Office (ICO)

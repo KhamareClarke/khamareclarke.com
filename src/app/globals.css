@@ -100,7 +100,29 @@
      is the one place that must keep covering `.gold-text`. */
 }
 
-.gold-text {
+/* THE ONE WAY TO COLOUR TEXT GOLD. This is the homepage's own convention and the site
+   now follows it everywhere: the homepage uses .gold-text 17 times for gold text and
+   `text-primary` only 3 times, and all three of those are things .gold-text would break
+   or that are not text at all — an inline SVG on currentColor (see the note below), a
+   +/− toggle glyph, and one stray label.
+
+   The distinction matters because they look different. `text-primary` paints flat
+   #ffb700; this paints the animated gradient that sweeps like the preloader's canvas.
+   Sub-pages were using flat #ffb700 for headings, links and labels while the homepage
+   shimmered, which is exactly the "old yellow, not in sync" problem.
+
+   NOT FOR ICONS. `color: transparent` plus `background-clip: text` removes the glyph
+   fill, so an <svg fill="currentColor"> — or a react-icons component — disappears
+   entirely. Icons keep `text-primary`: a gradient is imperceptible on a 16px glyph
+   anyway, so nothing is lost by it.
+
+   The hover and group-hover selectors below exist so Tailwind-style variant names work
+   in the markup. Tailwind cannot generate a variant of a hand-written class, and an
+   unknown utility is simply ignored rather than erroring, so `.hover\:gold-text:hover`
+   is written out here by hand. Without these, `hover:gold-text` silently does nothing. */
+.gold-text,
+.hover\:gold-text:hover,
+.group:hover .group-hover\:gold-text {
   background-image: var(--gold-gradient);
   background-size: 220% 100%;
   background-position: 0% 50%;
@@ -108,6 +130,10 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  /* `color` is transparent above, and text-decoration-color defaults to currentColor,
+     so a gold-text link with `hover:underline` would draw an invisible underline. The
+     homepage never underlines a gold-text, so setting this changes nothing there. */
+  text-decoration-color: #ffb700;
   animation: gold-wave 5.7s linear infinite;
 }
 

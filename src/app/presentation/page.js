@@ -31,7 +31,7 @@ import { QrPanel, SlideVisual, TitleBackdrop } from './visuals';
 /* Speaker script — verbatim, one entry per slide (4–5 and 6–8 share a script). */
 const NOTES = {
   title:
-    "My name is Khamare Clarke. I'm an AI scientist and Master's student in Computer Science with Artificial Intelligence at Keele University. Today I want to cut through some of the panic around this technology, and show you what actually happens when AI gets used properly in a small business — not the theory, the real thing.",
+    "My name is Khamare Clarke. I'm an AI implementation specialist and Master's student in Computer Science with Artificial Intelligence at Keele University. Today I want to cut through some of the panic around this technology, and show you what actually happens when AI gets used properly in a small business — not the theory, the real thing.",
   foundations:
     "AI's not new, by the way. People think it dropped out of nowhere last year — it didn't. Alan Turing laid the groundwork back in 1950. It just sat in research labs for decades. What's changed is speed — small businesses using this properly are seeing real productivity gains right now. It's not a toy anymore, it's becoming a survival tool.",
   reframe:
@@ -54,7 +54,7 @@ const SLIDES = [
     kind: 'title',
     title: 'Khamare Clarke',
     lines: [
-      'AI Scientist & MSc Candidate, Keele University',
+      'MSc Candidate, Keele University',
       'AI Implementation Specialist',
     ],
     notes: NOTES.title,

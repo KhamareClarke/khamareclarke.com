@@ -3,6 +3,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -12,14 +13,14 @@ import CTAButton from "../../components/CTAButton";
 import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../../lib/schema";
 
 export const metadata = {
-  title: "Rank Number One on Google UK | Khamare Clarke | Stoke-on-Trent",
+  title: "Google Ranking & SEO Services UK | Khamare Clarke | Stoke-on-Trent",
   description:
-    "Rank number one on Google for searches that produce revenue. Not vanity keywords -- commercial queries with buyer intent. UK businesses, all industries. Based in Stoke-on-Trent with a ranked-or-refunded guarantee.",
+    "SEO focused on improving visibility for commercially valuable searches. Priorities, deliverables and progress agreed in writing. Based in Stoke-on-Trent.",
   alternates: { canonical: "https://khamareclarke.com/expertise/google-ranking" },
   openGraph: {
-    title: "Rank Number One on Google UK | Khamare Clarke",
+    title: "Google Ranking & SEO Services UK | Khamare Clarke",
     description:
-      "Rank number one on Google for searches that produce revenue. Not vanity keywords -- commercial queries with buyer intent.",
+      "SEO focused on improving visibility for commercially valuable searches. Priorities, deliverables and progress agreed in writing.",
     url: "https://khamareclarke.com/expertise/google-ranking",
     siteName: "Khamare Clarke",
     locale: "en_GB",
@@ -33,15 +34,15 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "How long does it take to rank number one on Google?",
+      name: "How long does SEO take to show results?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "The honest answer depends on the competitiveness of the keyword and the current state of the site. For a local service business targeting a town-level or borough-level keyword with low to medium competition -- 'plumber Stoke-on-Trent', 'accountant Leeds', 'solicitor Manchester' -- a new or improved site with the right technical foundation can reach the top five within 90 days and top three within six months. For more competitive regional or national terms, the timeline is longer: 6 to 18 months depending on the gap between your current authority and the competition. The ranked-or-refunded guarantee applies to agreed target keywords on agreed timelines.",
+        text: "The honest answer depends on the competitiveness of the keyword and the current state of the site. For a local service business targeting a town-level or borough-level keyword with low to medium competition -- 'plumber Stoke-on-Trent', 'accountant Leeds', 'solicitor Manchester' -- a new or improved site with the right technical foundation can reach the top five within 90 days and top three within six months. For more competitive regional or national terms, the timeline is longer: 6 to 18 months depending on the gap between your current authority and the competition. The priorities, deliverables and progress for a campaign are agreed in writing before work begins, and reported monthly.",
       },
     },
     {
       "@type": "Question",
-      name: "What does ranking number one on Google actually mean for revenue?",
+      name: "What does better Google visibility mean for revenue?",
       acceptedAnswer: {
         "@type": "Answer",
         text: "Position one on Google captures approximately 27-30% of all clicks for a given search query. Position two captures around 15%. Position three captures around 11%. Below position five, click-through rates drop sharply. For a local service business, ranking first for 'service + town' queries means a significant proportion of everyone searching for that service in that area sees and clicks through to the business first. The commercial impact depends on the search volume and conversion rate, but for most UK service businesses, a first-place ranking for a core commercial keyword is worth tens of thousands of pounds in annual revenue.",
@@ -57,10 +58,10 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "What is the ranked-or-refunded guarantee?",
+      name: "How do you measure SEO progress?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "The ranked-or-refunded guarantee means that on all retainer tiers, agreed target search terms come with a ranking guarantee: if those specific terms are not ranked to the agreed position within the agreed timeframe, the retainer continues without charge until they are. The target keywords and positions are agreed in writing before work begins, so there is no ambiguity about what the guarantee covers. This guarantee is not offered by most agencies because most agencies do not have enough confidence in their own technical work to back it commercially.",
+        text: "We agree the search priorities and work to be delivered before starting. Each month, you'll see what's been completed, how your search visibility is changing and what we're working on next. Rankings can fluctuate, so the focus is on measurable progress rather than promises of a particular position.",
       },
     },
   ],
@@ -84,21 +85,24 @@ export default function GoogleRankingPage() {
             size="compact"
             title={
               <>
-                Rank Number One on Google{" "}
-                <span className="gold-text">| The Outcome, Not the Process</span>
+                Get Found on Google.{" "}
+                <span className="gold-text">Win More Business.</span>
               </>
             }
           />
+
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
-            Business owners do not search for SEO. They search for a way to appear first
-            when their customers are looking for what they sell. This page is about that
-            outcome: the first position in Google results for searches that produce revenue
-            -- with a ranked-or-refunded guarantee on agreed target terms.
+            Business owners do not search for SEO. They search for a way to appear when
+            their customers are looking for what they sell. This page is about that
+            outcome: visibility in Google results for searches that produce revenue.
+            Priorities, deliverables and progress are agreed in writing.
           </p>
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What <span className="gold-text">ranking number one</span> actually changes
+            What <span className="gold-text">better Google visibility</span> means for your business.
           </SectionHeading>
           <div className="space-y-4 text-muted text-lg leading-relaxed">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -121,7 +125,7 @@ export default function GoogleRankingPage() {
 
         <section className="mt-12" aria-labelledby="how-ranking-works">
           <SectionHeading id="how-ranking-works">
-            What producing a <span className="gold-text">first-place ranking</span> requires
+            What producing <span className="gold-text">strong Google visibility</span> requires
           </SectionHeading>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
@@ -133,7 +137,7 @@ export default function GoogleRankingPage() {
               ["Structured data", "JSON-LD markup (FAQPage, LocalBusiness, Service, BreadcrumbList) that gives Google explicit signals about page content and entity relationships."],
             ].map(([title, body], index) => (
               <Card key={title} className="reveal" style={{ "--rv-delay": `${index * 110}ms` }}>
-                <p className="text-primary font-semibold text-sm mb-2">{title}</p>
+                <p className="gold-text font-semibold text-sm mb-2">{title}</p>
                 <p className="text-muted text-sm leading-relaxed">{body}</p>
               </Card>
             ))}
@@ -157,10 +161,9 @@ export default function GoogleRankingPage() {
             <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               For more competitive regional or national terms, the timeline is longer:
               typically 6 to 18 months depending on the gap between the site's current
-              authority and the sites holding the top positions. The ranked-or-refunded
-              guarantee applies to agreed target keywords on agreed timelines -- agreed
-              before work begins, in writing, with no ambiguity about what is being
-              guaranteed.
+              authority and the sites holding the top positions. Priorities, deliverables
+              and progress are agreed in writing before work begins, so there is no
+              ambiguity about what is being worked towards.
             </p>
           </div>
         </section>
@@ -194,12 +197,12 @@ export default function GoogleRankingPage() {
           </SectionHeading>
           <div className="grid sm:grid-cols-2 gap-6">
             <Card className="reveal" style={{ "--rv-delay": "0ms" }}>
-              <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Upgrade Roofing Solutions</p>
+              <p className="gold-text text-xs font-bold uppercase tracking-widest mb-3">Upgrade Roofing Solutions</p>
               <p className="ds-numeric text-white text-4xl font-extrabold mb-2">538%</p>
               <p className="text-muted text-sm leading-relaxed">Growth in Google Business Profile interactions in 90 days. More than 30 qualified inbound calls in the first two weeks.</p>
             </Card>
             <Card className="reveal" style={{ "--rv-delay": "110ms" }}>
-              <p className="text-primary text-xs font-bold uppercase tracking-widest mb-3">City Plaza Abu Dhabi</p>
+              <p className="gold-text text-xs font-bold uppercase tracking-widest mb-3">City Plaza Abu Dhabi</p>
               <p className="ds-numeric text-white text-4xl font-extrabold mb-2">5X</p>
               <p className="text-muted text-sm leading-relaxed">Lead volume within 60 days, scaling to approximately 20 qualified enquiries per day at peak.</p>
             </Card>
@@ -218,8 +221,8 @@ export default function GoogleRankingPage() {
               { href: "/expertise/digital-marketing", label: "Digital marketing" },
             ].map((l, index) => (
               <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
-                <Link href={l.href} className="text-muted hover:text-primary transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-primary">--</span> {l.label}
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">--</span> {l.label}
                 </Link>
               </li>
             ))}
@@ -235,7 +238,7 @@ export default function GoogleRankingPage() {
           }
           body="Book a free 30-minute call. We will look at your current rankings, identify the highest-value keywords you are not holding, and give you an honest picture of what closing that gap requires."
         >
-          <CTAButton eventLabel="expertise_google_ranking_cta" caption="Ranked-or-refunded guarantee on agreed terms.">
+          <CTAButton eventLabel="expertise_google_ranking_cta" caption="Priorities and deliverables agreed in writing.">
             Book Your Free Strategy Call
           </CTAButton>
         </CtaPanel>

@@ -3,6 +3,7 @@ import ProjectsSection from "../components/ProjectsSection";
 import TestimonialsSection from "../components/TestimonialsSection";
 import CTAButton from "../components/CTAButton";
 import PageHero from "../components/ui/PageHero";
+import AchievementsSection from "../components/AchievementsSection";
 import SectionHeading from "../components/ui/SectionHeading";
 import CtaPanel from "../components/ui/CtaPanel";
 import { Section } from "../components/ui/Section";
@@ -58,6 +59,9 @@ export default function CaseStudiesContent() {
           lede="Documented results from real UK businesses. SEO, AI search, and lead response, ranked by outcome."
         />
 
+        {/* The trust strip that sits under the hero on the homepage. */}
+        <AchievementsSection />
+
         {/* Stats Overview */}
         <div className="grid md:grid-cols-4 gap-6 mt-16 mb-24">
           {stats.map((stat, index) => (
@@ -66,7 +70,7 @@ export default function CaseStudiesContent() {
               className="reveal text-center"
               style={{ "--rv-delay": `${index * 110}ms` }}
             >
-              <div className="ds-numeric text-4xl font-black text-primary mb-2">
+              <div className="ds-numeric text-4xl font-black gold-text mb-2">
                 {stat.number}
               </div>
               <div className="text-muted">{stat.label}</div>
@@ -92,7 +96,7 @@ export default function CaseStudiesContent() {
                 className="reveal text-center"
                 style={{ "--rv-delay": `${index * 110}ms` }}
               >
-                <h3 className="text-xl font-bold mb-3 text-primary">{item.industry}</h3>
+                <h3 className="text-xl font-bold mb-3 gold-text">{item.industry}</h3>
                 <p className="text-muted">{item.result}</p>
               </Card>
             ))}

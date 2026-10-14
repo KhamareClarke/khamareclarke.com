@@ -3,7 +3,49 @@ import React from "react";
 import Image from "next/image";
 import BookingButton from './BookingButton';
 
-const HeroSection = () => {
+/*
+ * The page hero. The homepage and /services both render THIS component, so the two heroes
+ * cannot drift apart.
+ *
+ * Every default below is the homepage's own value, which means `<HeroSection />` — how the
+ * homepage calls it, with no props at all — reproduces the homepage hero exactly. /services
+ * overrides the words and the analytics label, and inherits the entire design: the gold-ruled
+ * eyebrow, the display h1, the gold line beneath it, the lede, the crimson CTA and the
+ * portrait.
+ *
+ * Only text, the CTA's analytics label and the image are parameters. No layout is: the
+ * spacing, the two-column grid, the type scale and the reveal delays are fixed, so an
+ * override can never knock the hero out of shape.
+ */
+const DEFAULTS = {
+  eyebrow: "AI Implementation Specialist",
+  title: (
+    <>
+      Khamare <span className="gold-text">Clarke</span>
+    </>
+  ),
+  subtitle: "MSc Computer Science & AI",
+  lede: "Practical AI implementation for SMEs, built for scale, security and compliance.",
+  ctaLabel: "Book a Consultation",
+  ctaCaption: "30 minutes. An honest look at where AI fits.",
+  eventLabel: "hero_book_consultation",
+  imageSrc: "/images/hero-image.png",
+  imageAlt: "Khamare Clarke, AI Specialist for SMEs",
+};
+
+const HeroSection = (overrides = {}) => {
+  const {
+    eyebrow,
+    title,
+    subtitle,
+    lede,
+    ctaLabel,
+    ctaCaption,
+    eventLabel,
+    imageSrc,
+    imageAlt,
+  } = { ...DEFAULTS, ...overrides };
+
   // Top spacing comes from `.page-top` on the Section wrapper in page.js, which applies
   // the fixed navbar's measured height plus 24px. The hero must not add top padding of
   // its own or the two would compound.
@@ -28,32 +70,32 @@ const HeroSection = () => {
             <div className="reveal reveal-blur flex items-center gap-4 mb-5 h-4 flex-center-mobile" style={{ "--rv-delay": "60ms" }}>
               <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
               <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-                AI Implementation Specialist
+                {eyebrow}
               </p>
               <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
             </div>
 
             <h1 className="reveal reveal-blur font-black leading-none tracking-tight text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl" style={{ "--rv-delay": "180ms", "--rv-blur": "18px" }}>
-              Khamare <span className="gold-text">Clarke</span>
+              {title}
             </h1>
 
             <p className="reveal reveal-blur text-sm sm:text-base font-semibold tracking-[0.1em] uppercase gold-text leading-none m-0 -mt-4" style={{ "--rv-delay": "340ms" }}>
-              MSc Computer Science &amp; AI
+              {subtitle}
             </p>
 
             <p className="reveal reveal-blur mt-4 sm:mt-6 text-xl lg:text-2xl max-w-3xl text-muted leading-relaxed" style={{ "--rv-delay": "460ms" }}>
-              Practical AI implementation for SMEs, built for scale, security and compliance.
+              {lede}
             </p>
 
             <div className="reveal mt-5 sm:mt-7" style={{ "--rv-delay": "600ms" }}>
               <BookingButton
                 className="inline-flex items-center justify-center bg-crimson hover:bg-crimson hover:brightness-110 text-white font-black rounded-lg transition-all duration-200 text-lg lg:text-xl px-10 py-5 lg:px-12 lg:py-6 border-2 border-[#ff3b3b] shadow-[0_0_30px_-4px_rgba(255,30,30,0.6)]"
-                trackingLabel="hero_book_consultation"
+                trackingLabel={eventLabel}
               >
-                <span>Book a Consultation</span>
+                <span>{ctaLabel}</span>
               </BookingButton>
               <p className="gold-text mt-3 text-base sm:text-lg font-semibold leading-snug [text-wrap:balance]">
-                30 minutes. An honest look at where AI fits.
+                {ctaCaption}
               </p>
             </div>
           </div>
@@ -67,8 +109,8 @@ const HeroSection = () => {
             style={{ "--rv-delay": "320ms", "--rv-blur": "16px" }}
           >
             <Image
-              src="/images/hero-image.png"
-              alt="Khamare Clarke, AI Specialist for SMEs"
+              src={imageSrc}
+              alt={imageAlt}
               className="w-full h-full object-cover"
               width={550}
               height={550}

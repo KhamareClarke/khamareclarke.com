@@ -109,10 +109,10 @@ export const SERVICES = [
   },
   {
     slug: 'google-ranking',
-    title: 'Rank Number One on Google',
+    title: 'Google Ranking & SEO Services',
     shortTitle: 'Google Ranking',
-    heading: 'Rank Number One on Google',
-    description: 'First-position Google rankings for commercial keywords, with a ranked-or-refunded guarantee on agreed target terms.',
+    heading: 'Google Ranking & SEO Services',
+    description: 'SEO focused on improving visibility for commercially valuable searches, with priorities, deliverables and progress agreed in writing.',
     icon: '🥇',
     expertiseSlug: 'google-ranking',
   },

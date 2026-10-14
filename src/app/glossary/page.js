@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PageShell from "../components/PageShell";
 import PageHero from "../components/ui/PageHero";
+import AchievementsSection from "../components/AchievementsSection";
 import SectionHeading from "../components/ui/SectionHeading";
 import CtaPanel from "../components/ui/CtaPanel";
 import { Section } from "../components/ui/Section";
@@ -82,6 +83,9 @@ export default function GlossaryHubPage() {
           }
           size="compact"
         />
+
+        {/* The trust strip that sits under the hero on the homepage. */}
+        <AchievementsSection />
         <p className="reveal mt-6 text-muted text-lg mb-12 max-w-2xl leading-relaxed" style={{ "--rv-delay": "200ms" }}>
           Plain-English definitions of every term a UK business owner, marketer, or
           fellow professional might encounter. Each page gives you the citable definition
@@ -105,7 +109,7 @@ export default function GlossaryHubPage() {
                     className="group flex flex-col h-full hover:border-primary/30 transition-colors reveal"
                     style={{ "--rv-delay": `${Math.min(index, 6) * 110}ms` }}
                   >
-                    <span className="text-white font-semibold text-sm group-hover:text-primary transition-colors">
+                    <span className="text-white font-semibold text-sm group-hover:gold-text transition-colors">
                       {term.abbr ? `${term.title} (${term.abbr})` : term.title}
                     </span>
                     <span className="text-muted text-xs mt-0.5 line-clamp-1">

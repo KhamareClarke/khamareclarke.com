@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PageShell from "../components/PageShell";
 import PageHero from "../components/ui/PageHero";
+import AchievementsSection from "../components/AchievementsSection";
 import SectionHeading from "../components/ui/SectionHeading";
 import CtaPanel from "../components/ui/CtaPanel";
 import { Section } from "../components/ui/Section";
@@ -28,11 +29,17 @@ export const metadata = {
 /* The location chips and the service links inside a location card are the same idea
    twice, so they are one class string each rather than two near-identical ones. The
    fill and border come from the homepage's card vocabulary (surface-muted, white/10);
-   the previous gradient fill was a second card colour the rest of the site did not use. */
+   the previous gradient fill was a second card colour the rest of the site did not use.
+
+   The service links are gold-text, so their hover CANNOT be a colour change: gold-text
+   paints with the background image clipped to the glyphs and sets the text fill
+   transparent, and that transparent fill wins over `color` no matter how specific the
+   hover rule is. The affordance is an underline instead, which is visible because
+   globals.css gives .gold-text a text-decoration-color of #ffb700. */
 const chipClass =
-  "block bg-surface-muted border border-white/10 hover:border-primary/40 rounded-lg px-4 py-3 text-muted hover:text-primary text-sm transition-colors";
+  "block bg-surface-muted border border-white/10 hover:border-primary/40 rounded-lg px-4 py-3 text-muted hover:gold-text text-sm transition-colors";
 const serviceLinkClass =
-  "text-primary hover:text-primary-hover text-xs transition-colors flex items-center gap-1";
+  "gold-text hover:underline text-xs transition-colors flex items-center gap-1";
 
 export default function LocationsPage() {
   return (
@@ -56,6 +63,9 @@ export default function LocationsPage() {
             }
             lede="Based in Stoke-on-Trent, Staffordshire. Serving businesses across England and the whole of the United Kingdom remotely. In-person available across Staffordshire, Cheshire, the West Midlands, and Greater Manchester."
           />
+
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
 
           <hr aria-hidden="true" className="section-sep mt-16" />
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import PageShell from "../components/PageShell";
 import PageHero from "../components/ui/PageHero";
+import AchievementsSection from "../components/AchievementsSection";
 import SectionHeading from "../components/ui/SectionHeading";
 import CtaPanel from "../components/ui/CtaPanel";
 import { Section } from "../components/ui/Section";
@@ -75,7 +76,6 @@ const credentials = [
   { strong: "BSc Software Engineering", rest: "" },
   { strong: "BSc Digital Marketing", rest: "" },
   { strong: "Level 4 Diploma in Cyber Security", rest: "" },
-  { strong: null, rest: "Certified Google Ads and Google Analytics" },
 ];
 
 const expertiseLinks = [
@@ -109,6 +109,9 @@ export default function AboutPage() {
       <Section className="mt-0 pb-ds-4 page-top">
         <Container size="narrow">
           <PageHero eyebrow="About" title="Khamare Clarke" />
+
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection />
 
           <hr aria-hidden="true" className="section-sep mt-16" />
 
@@ -221,7 +224,7 @@ export default function AboutPage() {
                   className="reveal flex items-start gap-3"
                   style={{ "--rv-delay": `${index * 90}ms` }}
                 >
-                  <span className="mt-1 text-primary font-bold" aria-hidden="true">—</span>
+                  <span className="mt-1 gold-text font-bold" aria-hidden="true">—</span>
                   <span>
                     {item.strong ? (
                       <strong className="text-white">{item.strong}</strong>
@@ -284,9 +287,9 @@ export default function AboutPage() {
                 <li key={link.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
                   <Link
                     href={link.href}
-                    className="flex items-center gap-2 text-muted hover:text-primary transition-colors text-base"
+                    className="flex items-center gap-2 text-muted hover:gold-text transition-colors text-base"
                   >
-                    <span className="text-primary" aria-hidden="true">→</span>
+                    <span className="gold-text" aria-hidden="true">→</span>
                     {link.label}
                   </Link>
                 </li>
@@ -295,9 +298,9 @@ export default function AboutPage() {
             <div className="mt-4">
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors text-sm"
+                className="inline-flex items-center gap-2 text-muted hover:gold-text transition-colors text-sm"
               >
-                <span className="text-primary" aria-hidden="true">←</span> Back to homepage
+                <span className="gold-text" aria-hidden="true">←</span> Back to homepage
               </Link>
             </div>
           </section>

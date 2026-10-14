@@ -1,5 +1,5 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import Script from 'next/script'
 import PerformanceOptimizer from './components/PerformanceOptimizer'
 import AccessibilityEnhancer from './components/AccessibilityEnhancer'
@@ -11,16 +11,34 @@ import MotionProvider from './components/MotionProvider'
 // import CinematicLayer from './components/CinematicLayer'
 import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from '../lib/schema'
 
-// Self-hosted by next/font at build time — no runtime request to Google. `variable`
-// publishes the family as a CSS custom property so Tailwind's `font-sans` (and
-// therefore its Preflight `html` rule) resolve to the same face as the body class,
-// instead of silently falling back to the system stack.
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+// The same Inter, the same file, bundled from inside the repo.
+//
+// This was `Inter({ subsets: ['latin'] })` from `next/font/google`, which downloads the
+// woff2 from fonts.gstatic.com at BUILD time. When that fetch failed — which it did,
+// transiently — the build either failed outright or, worse, emitted @font-face rules
+// pointing at files that were never written. The site then rendered in a system fallback
+// font with no error visible on the page. The homepage and /services were both affected.
+//
+// `./fonts/Inter-latin-variable.woff2` is the exact latin subset file Google serves for
+// this family, at `font-weight: 100 900`, so the rendering is identical: the variable
+// axis still drives every weight from 400 to 900. Nothing renders differently; the build
+// simply no longer needs the network.
+//
+// `variable` publishes the family as a CSS custom property so Tailwind's `font-sans` (and
+// therefore its Preflight `html` rule) resolve to the same face as the body class, instead
+// of silently falling back to the system stack.
+const inter = localFont({
+  src: './fonts/Inter-latin-variable.woff2',
+  weight: '100 900',
+  style: 'normal',
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 export const metadata = {
   title: "Khamare Clarke | AI Implementation Specialist",
   description: "Khamare Clarke is an AI Implementation Specialist based in Stoke-on-Trent, Staffordshire. He implements AI across search, web, content, marketing, and automation for UK businesses, with documented results including a 538% Google Business Profile interaction increase for Upgrade Roofing Solutions and a 5X lead increase for City Plaza Abu Dhabi.",
-  keywords: 'AI implementation, AI implementation specialist, AI adoption, AI readiness, AI integration strategy, AI transformation, digital marketing, digital marketing consultant, web design, UX design, custom application development, content strategy, AI content systems, content automation, Google ranking, rank number one on Google, search visibility, SEO, local SEO, AI search optimisation, AEO, GEO, Google Business Profile, AI receptionist, Google Ads API, programmatic SEO, Staffordshire, web design, digital marketing, marketing automation, AI consultant UK',
+  keywords: 'AI implementation, AI implementation specialist, AI adoption, AI readiness, AI integration strategy, AI transformation, digital marketing, digital marketing consultant, web design, UX design, custom application development, content strategy, AI content systems, content automation, Google ranking, search visibility, SEO, local SEO, AI search optimisation, AEO, GEO, Google Business Profile, AI receptionist, Google Ads API, programmatic SEO, Staffordshire, web design, digital marketing, marketing automation, AI consultant UK',
   verification: {
     google: 'FOZp3AiubuzQwsGbpopu8OBTtmjxt17FtQ2Lup2ERM4'
   },

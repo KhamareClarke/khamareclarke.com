@@ -2,6 +2,7 @@
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
 import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
@@ -65,7 +66,7 @@ export default function TestYourselfChatgptSeo() {
         <Container size="narrow">
           <article className="text-white">
             <div className="mb-6">
-              <Link href="/blog" className="text-primary text-sm font-semibold hover:underline">
+              <Link href="/blog" className="gold-text text-sm font-semibold hover:underline">
                 &larr; Back to Resource Hub
               </Link>
             </div>
@@ -76,9 +77,12 @@ export default function TestYourselfChatgptSeo() {
               size="compact"
             />
 
+            {/* The trust strip that sits under the hero on the homepage. */}
+            <AchievementsSection />
+
             <p className="text-muted text-sm mt-6 mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               By{" "}
-              <Link href="/about" className="text-primary hover:underline">
+              <Link href="/about" className="gold-text hover:underline">
                 Khamare Clarke
               </Link>{" "}
               &middot; August 2025 &middot; 8 min read
@@ -89,7 +93,7 @@ export default function TestYourselfChatgptSeo() {
               Go to ChatGPT. Type:
             </p>
 
-            <div className="bg-[#1a1a1a] border border-primary/30 rounded-xl p-6 mb-8 font-mono text-primary">
+            <div className="bg-[#1a1a1a] border border-primary/30 rounded-xl p-6 mb-8 font-mono gold-text">
               &ldquo;Who are the best [your service] companies in [your city]?&rdquo;
             </div>
 
@@ -112,7 +116,7 @@ export default function TestYourselfChatgptSeo() {
               Step-by-step: how to <span className="gold-text">run the test properly</span>
             </SectionHeading>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Step 1: Set up three tabs
             </h3>
 
@@ -140,7 +144,7 @@ export default function TestYourselfChatgptSeo() {
               </li>
             </ul>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Step 2: Run the right queries
             </h3>
 
@@ -162,7 +166,7 @@ export default function TestYourselfChatgptSeo() {
               Full AI visibility means appearing consistently across query variants, across platforms.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Step 3: Note who appears and where their citations come from
             </h3>
 
@@ -258,13 +262,13 @@ export default function TestYourselfChatgptSeo() {
 
             <p className="text-muted leading-relaxed mb-6 reveal" style={{ "--rv-delay": "200ms" }}>
               This is where the technical discipline of{" "}
-              <Link href="/blog/seo-didnt-die-it-expanded" className="text-primary hover:underline">
+              <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                 Generative Engine Optimisation (GEO)
               </Link>{" "}
               sits. GEO is not a single tactic. It is a combination of:
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Entity consistency across the web
             </h3>
 
@@ -275,7 +279,7 @@ export default function TestYourselfChatgptSeo() {
               is in Stoke and which is in Derby. Entity confusion means citation frequency drops.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Structured data implementation
             </h3>
 
@@ -292,7 +296,7 @@ export default function TestYourselfChatgptSeo() {
               has it. In a competitive local market, that gap translates directly to citation frequency.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Citation in authoritative content
             </h3>
 
@@ -310,7 +314,7 @@ export default function TestYourselfChatgptSeo() {
               that has always mattered for Google rankings and now matters for AI visibility too.
             </p>
 
-            <h3 className="reveal text-xl font-semibold text-primary mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
+            <h3 className="reveal text-xl font-semibold gold-text mb-3 mt-8" style={{ "--rv-delay": "120ms" }}>
               Content that directly answers generative queries
             </h3>
 
@@ -388,17 +392,17 @@ export default function TestYourselfChatgptSeo() {
               <p className="text-muted text-sm mb-4 reveal" style={{ "--rv-delay": "360ms" }}>Related reading:</p>
               <ul className="space-y-2 text-sm">
                 <li className="reveal" style={{ "--rv-delay": "0ms" }}>
-                  <Link href="/blog/seo-didnt-die-it-expanded" className="text-primary hover:underline">
+                  <Link href="/blog/seo-didnt-die-it-expanded" className="gold-text hover:underline">
                     They Told You SEO Was Dead. It Didn&apos;t Die &mdash; It Expanded.
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "90ms" }}>
-                  <Link href="/blog/ai-agent-standard-as-phone-number" className="text-primary hover:underline">
+                  <Link href="/blog/ai-agent-standard-as-phone-number" className="gold-text hover:underline">
                     Within Five Years, an AI Agent Will Be as Standard as a Phone Number.
                   </Link>
                 </li>
                 <li className="reveal" style={{ "--rv-delay": "180ms" }}>
-                  <Link href="/blog/wordpress-real-ceiling" className="text-primary hover:underline">
+                  <Link href="/blog/wordpress-real-ceiling" className="gold-text hover:underline">
                     The Real Ceiling on Your WordPress Site
                   </Link>
                 </li>

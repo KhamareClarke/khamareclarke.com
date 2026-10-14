@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import PageShell from "../components/PageShell";
 import PageHero from "../components/ui/PageHero";
+import AchievementsSection from "../components/AchievementsSection";
 import { Section } from "../components/ui/Section";
 import { Container } from "../components/ui/Container";
 import Card from "../components/ui/Card";
@@ -77,10 +78,13 @@ export default function BlogHome() {
         <Container size="main" className="flex flex-col md:flex-row flex-wrap gap-ds-4">
         {/* Main content */}
         <PageHero title="Resource Hub" className="w-full" />
+
+        {/* The trust strip that sits under the hero on the homepage. */}
+        <AchievementsSection />
         <div className="flex-1">
           <div className="flex gap-2 mb-8 flex-wrap">
             {categories.map(cat => (
-              <button key={cat} className="px-4 py-2 rounded-full bg-[#181818] border border-[#222] text-primary font-semibold hover:bg-[#222] transition text-sm mb-2">
+              <button key={cat} className="px-4 py-2 rounded-full bg-[#181818] border border-[#222] gold-text font-semibold hover:bg-[#222] transition text-sm mb-2">
                 {cat}
               </button>
             ))}
@@ -90,10 +94,10 @@ export default function BlogHome() {
               <Card key={article.slug} as={Link} href={`/blog/${article.slug}`} className="reveal group block overflow-hidden !p-0 hover:scale-[1.02] transition" style={{ "--rv-delay": `${index * 110}ms` }}>
                 <img src={article.image} alt={article.title} className="w-full h-48 object-cover group-hover:opacity-90" />
                 <div className="p-6">
-                  <span className="text-xs font-bold text-primary uppercase mb-2 block">{article.category}</span>
-                  <h2 className="text-2xl font-bold mb-2 text-white group-hover:text-primary">{article.title}</h2>
+                  <span className="text-xs font-bold gold-text uppercase mb-2 block">{article.category}</span>
+                  <h2 className="text-2xl font-bold mb-2 text-white group-hover:gold-text">{article.title}</h2>
                   <p className="text-muted mb-4">{article.excerpt}</p>
-                  <span className="inline-block text-primary font-semibold">Read More →</span>
+                  <span className="inline-block gold-text font-semibold">Read More →</span>
                 </div>
               </Card>
             ))}
@@ -103,10 +107,10 @@ export default function BlogHome() {
         <aside className="w-full md:w-80 flex-shrink-0">
           <Card className="sticky top-24 mb-8 reveal" style={{ "--rv-delay": "200ms" }}>
             <h3 className="text-xl font-bold mb-2 text-white">Want More ROI?</h3>
-            <p className="text-muted mb-4">Get my free guide: <span className="text-primary font-semibold">"7 AI Tools Every UK Business Needs in 2025"</span></p>
+            <p className="text-muted mb-4">Get my free guide: <span className="gold-text font-semibold">"7 AI Tools Every UK Business Needs in 2025"</span></p>
             <form className="flex flex-col gap-3">
-              <input type="email" placeholder="Your Email" className="rounded-lg px-4 py-2 bg-surface border border-[#222] text-white placeholder-muted focus:outline-none focus:ring-2 focus:ring-[#ffb700]" required />
-              <button type="submit" className="bg-primary text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-[#e6a600] transition border-2 border-primary focus:outline-none focus:ring-2 focus:ring-[#ffb700]">Get the Free Guide</button>
+              <input type="email" placeholder="Your Email" className="rounded-lg px-4 py-2 bg-surface border border-[#222] text-white placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary" required />
+              <button type="submit" className="bg-primary text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-primary-hover transition border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary">Get the Free Guide</button>
               <div className="text-center text-xs text-white/70">
                 Designed for teams who want proven frameworks — not generic advice.
               </div>
@@ -115,7 +119,7 @@ export default function BlogHome() {
           <Card className="reveal" style={{ "--rv-delay": "310ms" }}>
             <h4 className="text-lg font-semibold mb-2 text-white">Book a Free Strategy Call</h4>
             <p className="text-muted mb-4">See how AI and automation can grow your UK business.</p>
-            <a href="#contact" className="inline-block bg-primary text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-[#e6a600] transition border-2 border-primary focus:outline-none focus:ring-2 focus:ring-[#ffb700]">Book Now</a>
+            <a href="#contact" className="inline-block bg-primary text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-primary-hover transition border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary">Book Now</a>
             <div className="mt-2 text-center text-xs text-white/70">
               Designed for businesses ready to simplify operations and scale intelligently.
             </div>

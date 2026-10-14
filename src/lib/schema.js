@@ -60,7 +60,6 @@ export const PERSON_SCHEMA = {
     "AI content systems",
     "content automation",
     "Google ranking",
-    "rank number one on Google",
     "search visibility",
     "search engine optimisation (SEO)",
     "local SEO",
@@ -183,15 +182,15 @@ export const PROFESSIONAL_SERVICE_SCHEMA = {
   "areaServed": { "@type": "Country", "name": "United Kingdom", "sameAs": "https://www.wikidata.org/wiki/Q145" },
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
-    "name": "SEO and AI Services",
+    "name": "Managed business systems, consultancy and bespoke software",
     "itemListElement": [
       {
         "@type": "Offer",
-        "name": "Get Found",
-        "description": "The full AI system for a one-person business: AI receptionist, CRM, SEO, Google Business Profile, and monthly reporting.",
+        "name": "Managed Business Systems",
+        "description": "One managed service covering website development, technical and local SEO, Google Business Profile optimisation, AI search visibility, enquiry capture, CRM integration, follow-up automation, workflow automation and reporting.",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "495",
+          "price": "999",
           "priceCurrency": "GBP",
           "unitText": "month",
           "priceType": "https://schema.org/MinimumAdvertisedPrice"
@@ -199,27 +198,21 @@ export const PROFESSIONAL_SERVICE_SCHEMA = {
       },
       {
         "@type": "Offer",
-        "name": "Run The Area",
-        "description": "Get Found at 2x hours plus a new website, service and area pages, and email campaigns.",
+        "name": "Business Systems & AI Consultancy",
+        "description": "A paid 60-minute advisory session, including a concise written action summary.",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "1250",
+          "price": "250",
           "priceCurrency": "GBP",
-          "unitText": "month",
+          "unitText": "session",
           "priceType": "https://schema.org/MinimumAdvertisedPrice"
         }
       },
       {
         "@type": "Offer",
-        "name": "Own The Market",
-        "description": "Maximum firepower: 4x hours, Google Ads via the Ads API, custom apps and integrations, quarterly strategy session.",
-        "priceSpecification": {
-          "@type": "UnitPriceSpecification",
-          "price": "2500",
-          "priceCurrency": "GBP",
-          "unitText": "month",
-          "priceType": "https://schema.org/MinimumAdvertisedPrice"
-        }
+        "name": "Bespoke Software",
+        "description": "Scoped and quoted individually, based on what the build requires.",
+        "availability": "https://schema.org/InStock"
       }
     ]
   },

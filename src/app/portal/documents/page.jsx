@@ -116,7 +116,7 @@ export default function DocumentsPage() {
                         <td className="px-6 py-4 text-right">
                           <button
                             onClick={() => handleDownload(d.id)}
-                            className="px-3 py-1.5 text-sm bg-[#ffb700] text-[#0a0a0a] font-semibold rounded-lg hover:bg-[#e6a600] transition"
+                            className="px-3 py-1.5 text-sm bg-primary text-[#0a0a0a] font-semibold rounded-lg hover:bg-primary-hover transition"
                           >
                             Download
                           </button>
