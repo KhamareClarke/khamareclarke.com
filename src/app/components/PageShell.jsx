@@ -42,19 +42,27 @@ import EnquirySection from "./EnquirySection";
  */
 export default function PageShell({ children, schema, stickyCta = false, showEnquiryForm = true, className = "" }) {
   return (
-    /* A <div>, not a <main>. `layout.js` already renders the page's one and only
-       <main id="main-content">, and it wraps this shell — so a <main> here nested
-       a second main landmark inside the first, which the HTML spec forbids and
-       which broke landmark navigation. The classes are unchanged, so the flex
-       envelope is byte-for-byte the same. */
+    /* The nav and footer sit OUTSIDE <main>, and <main> holds only page content.
+       Previously the whole envelope was a <main>, so the nav was its first child
+       and the "skip to main content" link (targeting #main-content) landed on the
+       nav it exists to skip. The flex container and its classes are unchanged, so
+       the sticky footer, the reveal staggering and the fixed chrome all behave
+       exactly as before; the only thing that moved is which element is called
+       <main>. */
     <div className={`flex min-h-screen flex-col bg-surface ${className}`.trim()}>
-      {schema}
       <ScrollProgress />
       <Navbar />
-      {children}
-      {showEnquiryForm ? <EnquirySection /> : null}
+      {/* tabIndex={-1} so the skip link actually moves focus here. Without it the
+          browser only sets the URL fragment, focus stays on the body, and the
+          next Tab returns to the top of the page — the link would look correct
+          and do nothing. -1 keeps main out of the tab order. */}
+      <main id="main-content" tabIndex={-1}>
+        {schema}
+        {children}
+        {showEnquiryForm ? <EnquirySection /> : null}
+        {stickyCta ? <StickyCTABar /> : null}
+      </main>
       <Footer />
-      {stickyCta ? <StickyCTABar /> : null}
     </div>
   );
 }

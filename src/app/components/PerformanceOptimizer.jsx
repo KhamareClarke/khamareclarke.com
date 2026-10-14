@@ -73,7 +73,12 @@ const PerformanceOptimizer = () => {
 
     // Prefetch critical resources
     const prefetchResources = () => {
-      const criticalPages = ['/about', '/services', '/contact'];
+      // '/contact' was in this list and there is no such route — it is not in
+      // src/app, not in next.config.js redirects, and not a file in public/, so
+      // every page load fired a prefetch that came back 404. The site takes
+      // enquiries through the on-page form and points its CTAs at booking, so
+      // there is nothing to prefetch. Re-add only if a /contact route is built.
+      const criticalPages = ['/about', '/services'];
       criticalPages.forEach(page => {
         const link = document.createElement('link');
         link.rel = 'prefetch';

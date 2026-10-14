@@ -252,9 +252,17 @@ export default function RootLayout({ children }) {
         <PerformanceOptimizer />
         <AccessibilityEnhancer />
 
-        <main id="main-content">
+        {/* Not a <main>. Every route already renders its own, and this wrapper
+            sat *outside* it — so the page had two main landmarks, one nested in
+            the other, which the HTML spec forbids. Worse, the site nav is the
+            first thing inside the page's main, so the "skip to main content"
+            link (which targets #main-content) landed on the nav it is meant to
+            skip. The page's own <main> now carries that id and holds only
+            content. AccessibilityEnhancer assigns #main-content to the first
+            <main> if a route ever ships without one. */}
+        <div>
           <MotionProvider>{children}</MotionProvider>
-        </main>
+        </div>
 
         {/* Decorative film layer: colour grade, vignette, grain. DISABLED on
             Master Clarke's instruction so the black is one flat black across the
