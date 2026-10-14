@@ -11,6 +11,37 @@ import CTAButton from "../components/CTAButton";
 
 import { GLOSSARY_TERMS, GLOSSARY_FAMILIES } from "../../lib/glossary-data";
 
+/* Preview the citable definition without cutting a word in half.
+ *
+ * `line-clamp-2` clips at the end of the second line box and appends its own
+ * ellipsis, which lands mid-word whenever that line happens to fill up — the
+ * rendered page read "…online presence to appear i…" and "…architecture, and
+ * serv…". The clamp stays as the safety net, but the string handed to it ends on
+ * a word boundary with our own ellipsis, so the visible cut always falls between
+ * words.
+ *
+ * The budget is set by the NARROWEST rendered preview box, not the widest, or the
+ * clamp would start cutting again on small screens. Measured capacity for two
+ * lines at 16px/26px: 60 characters at 375px, 62 at 768px, 76 at 1440px. 56
+ * leaves headroom for wide glyphs and the ellipsis inside the 60-character floor.
+ *
+ * Display only. No definition text is changed. */
+const PREVIEW_CHARS = 56;
+
+const previewDefinition = (definition) => {
+  const firstSentence = definition.split(".")[0].trim();
+
+  if (firstSentence.length <= PREVIEW_CHARS) {
+    return `${firstSentence}.`;
+  }
+
+  const clipped = firstSentence.slice(0, PREVIEW_CHARS);
+  const lastSpace = clipped.lastIndexOf(" ");
+  const safe = lastSpace > 0 ? clipped.slice(0, lastSpace) : clipped;
+
+  return `${safe.replace(/[,;:]$/, "")}…`;
+};
+
 export const metadata = {
   title: "SEO and AI Glossary | Khamare Clarke",
   description:
@@ -111,7 +142,7 @@ export default function GlossaryHubPage() {
                       {term.abbr ? `${term.title} (${term.abbr})` : term.title}
                     </span>
                     <span className="text-muted ds-body mt-1 line-clamp-2">
-                      {term.definition.split(".")[0]}.
+                      {previewDefinition(term.definition)}
                     </span>
                   </Card>
                 </li>

@@ -29,3 +29,48 @@ Tokens are imported in `src/app/globals.css`. Tailwind theme extends: `max-w-con
 3. **Footer** (Section as="footer" + Container)
 
 **Do not change:** backend logic, API routes, auth, routing, or file structure. Only layout, spacing, typography, and UI styling.
+
+## Advisory quality-control skills
+
+Three third-party skills are available as **advisory** review tools. They are
+installed in Skyscraper at `~/.config/skyscraper/agents/slop-skills/`:
+
+| Skill | Role |
+|---|---|
+| `no-ai-slop-writing` | Reviews prose for AI writing patterns |
+| `unslop-ui-review` | Reviews UI for generic/template "tells" |
+| `no-slop-design` | Design workflow + `slop_lint.py` source scan |
+
+**They are advisory. They do not govern this site.**
+
+### Order of authority
+
+1. `BUILD-STANDARD.md`
+2. This file, `src/app/design-tokens.css` and `tailwind.config.js`
+3. `ANTI-AI-DESIGN.md`
+4. `ANTI-AI-COPY.md`
+5. …then the advisory skills
+
+Where a skill and a project standard disagree, **the project standard wins.**
+
+### Standing resolutions
+
+These conflicts are recorded so they are not re-litigated on every run:
+
+| Skill says | This project | Resolution |
+|---|---|---|
+| Don't ship Inter / Geist | Inter is the system face | **Inter stays.** |
+| No gradient-clipped text | Gold gradient text is the brand signature | **Gold gradient text stays.** |
+| `no-slop-design` requires `design/brief.md` + DTCG `tokens/` and `build_tokens.py` | This project governs via `tailwind.config.js` + `design-tokens.css` | **This project's token model stays.** The skill's record-keeping is not adopted as governance. |
+| Flags `neon-on-black` / ambient glow | `.section-sep` glow is a dated, client-approved exception | **The exception stands** (`BUILD-STANDARD.md` §6.2). |
+
+### Where the skills do bind
+
+The skills bind where they **agree** with this project's standards — emoji as
+interface icons, radius discipline, em dashes, focus visibility, contrast, mobile
+overflow, word-safe truncation. A finding in that overlap is a genuine defect.
+
+A skill recommendation that would change an approved brand decision is reported
+to Master Clarke as a **proposal** and never applied automatically.
+
+Full detail: `~/.config/skyscraper/agents/slop-skills/README.md`

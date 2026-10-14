@@ -42,7 +42,12 @@ import EnquirySection from "./EnquirySection";
  */
 export default function PageShell({ children, schema, stickyCta = false, showEnquiryForm = true, className = "" }) {
   return (
-    <main className={`flex min-h-screen flex-col bg-surface ${className}`.trim()}>
+    /* A <div>, not a <main>. `layout.js` already renders the page's one and only
+       <main id="main-content">, and it wraps this shell — so a <main> here nested
+       a second main landmark inside the first, which the HTML spec forbids and
+       which broke landmark navigation. The classes are unchanged, so the flex
+       envelope is byte-for-byte the same. */
+    <div className={`flex min-h-screen flex-col bg-surface ${className}`.trim()}>
       {schema}
       <ScrollProgress />
       <Navbar />
@@ -50,6 +55,6 @@ export default function PageShell({ children, schema, stickyCta = false, showEnq
       {showEnquiryForm ? <EnquirySection /> : null}
       <Footer />
       {stickyCta ? <StickyCTABar /> : null}
-    </main>
+    </div>
   );
 }

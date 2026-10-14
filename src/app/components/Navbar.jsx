@@ -50,6 +50,18 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  /* Escape closes the mobile menu. Without this the only way out was a second
+     click on the toggle, so a keyboard user who opened the menu was stuck with
+     it until they found that button again. */
+  React.useEffect(() => {
+    if (!navbarOpen) return;
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setNavbarOpen(false);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [navbarOpen]);
+
   return (
     <nav className="fixed w-full top-0 left-0 right-0 z-20 bg-surface shadow-ds-md">
       <NavbarWrapper className="flex flex-wrap items-center justify-between lg:py-4 py-2">
@@ -70,21 +82,22 @@ const Navbar = () => {
             the hamburger covers everything below it. Above 1024px the content fits on one
             row with 120px to spare, so nothing wraps at any width. */}
         <div className="mobile-menu block lg:hidden">
-          {!navbarOpen ? (
-            <button
-              onClick={() => setNavbarOpen(true)}
-              className="flex items-center px-3 py-2 border rounded border-slate-200 text-slate-200 hover:text-white hover:border-white"
-            >
-              <Bars3Icon className="h-5 w-5" />
-            </button>
-          ) : (
-            <button
-              onClick={() => setNavbarOpen(false)}
-              className="flex items-center px-3 py-2 border rounded border-slate-200 text-slate-200 hover:text-white hover:border-white"
-            >
-              <XMarkIcon className="h-5 w-5" />
-            </button>
-          )}
+          {/* One control, not two. Swapping between two separate buttons meant the
+              element was replaced on every toggle, so `aria-expanded` had nowhere
+              stable to live and assistive tech lost the open/closed state. The
+              accessible name used to be supplied at runtime by AccessibilityEnhancer,
+              which fabricates aria-label="Button" for any unnamed <button> — a name
+              that tells a screen-reader user nothing. It is named here instead. */}
+          <button
+            type="button"
+            onClick={() => setNavbarOpen((open) => !open)}
+            aria-label={navbarOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={navbarOpen}
+            aria-controls="mobile-menu"
+            className="flex items-center px-3 py-2 border rounded border-slate-200 text-slate-200 hover:text-white hover:border-white"
+          >
+            {navbarOpen ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
+          </button>
         </div>
         <div className="menu hidden lg:block lg:w-auto" id="navbar">
           <ul className="flex items-center space-x-6 text-sm lg:text-base font-semibold uppercase tracking-wide">
