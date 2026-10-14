@@ -84,7 +84,7 @@ function buildFaqSchema(service, location) {
         "name": `How much does ${service.title} cost for a ${location.name} business?`,
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `Services start from £495 per month on the Get Found tier, rising to £1,250/mo for Run The Area and £2,500/mo for Own The Market. Pricing depends on the scope, competition level in ${location.name}, and the volume of work required. A free 30-minute strategy call gives an accurate picture for your specific situation.`,
+          "text": `Pricing depends on the scope of the work, the competition level in ${location.name}, and the volume of work required. A free 30-minute strategy call gives an accurate picture for your specific situation.`,
         },
       },
       {
@@ -235,7 +235,7 @@ export default function ServiceLocationPage({ params }) {
                 How much does {service.shortTitle} cost in {location.name}?
               </h3>
               <p className="text-muted leading-relaxed">
-                Services start from £495 per month on the Get Found tier. Run The Area starts at £1,250/mo and Own The Market at £2,500/mo. A 30-minute strategy call gives an accurate picture for your specific situation in {location.name}.
+                Pricing depends on the scope of the work, the competition level in {location.name}, and the volume of work required. A 30-minute strategy call gives an accurate picture for your specific situation in {location.name}.
               </p>
             </div>
 

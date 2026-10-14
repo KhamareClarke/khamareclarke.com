@@ -68,7 +68,7 @@ const faqSchema = {
       name: "What does AI implementation cost?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Implementation is delivered across three retainer tiers. The Get Found tier (from £495 per month, rolling monthly) covers AI receptionist, CRM, SEO, and Google Business Profile management. The Run The Area tier (from £1,250 per month) adds a new website, programmatic service and location pages, and email campaigns. The Own The Market tier (from £2,500 per month) adds Google Ads via the Ads API, custom AI applications, and quarterly strategy sessions. Priorities and deliverables are agreed in writing before work begins.",
+        text: "Pricing depends on the scope of the work and what needs building. Priorities and deliverables are agreed in writing before work begins, and a free 30-minute introductory call gives an accurate picture for your specific situation.",
       },
     },
   ],

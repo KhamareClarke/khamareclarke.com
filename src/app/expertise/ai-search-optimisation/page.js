@@ -78,7 +78,7 @@ const faqSchema = {
       name: "How much does AI search optimisation cost?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "AI search optimisation is included in Khamare Clarke's Run The Area (from £1,250/mo) and Own The Market (from £2,500/mo) retainers. For businesses that already have traditional SEO handled and want to focus specifically on AI search visibility, a scoped project can be discussed. Book a free strategy call to get an accurate assessment for your specific situation.",
+        text: "For businesses that already have traditional SEO handled and want to focus specifically on AI search visibility, a scoped project can be discussed. Book a free strategy call to get an accurate assessment for your specific situation.",
       },
     },
   ],
@@ -254,13 +254,8 @@ export default function AISearchOptimisationPage() {
           </SectionHeading>
           <div className="space-y-4 text-muted text-lg leading-relaxed">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
-              AI search optimisation is included in the{" "}
-              <strong className="text-white">Run The Area</strong> (from
-              £1,250/mo) and{" "}
-              <strong className="text-white">Own The Market</strong> (from
-              £2,500/mo) retainers. Both tiers cover Google rankings and AI
-              search visibility simultaneously, because separating the two
-              produces worse results for both.
+              Google rankings and AI search visibility are handled together,
+              because separating the two produces worse results for both.
             </p>
             <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               For businesses that already have traditional SEO handled and want

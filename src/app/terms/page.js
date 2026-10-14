@@ -61,12 +61,18 @@ export default function TermsPage() {
 
             <section aria-labelledby="terms-payment">
               <SectionHeading size="small" id="terms-payment">Contract terms and payment</SectionHeading>
+              {/* The clause that stood here set payment terms for the Get Found, Run The Area and
+                  Own The Market packages: rolling monthly, or a six-month initial term. Those
+                  packages are obsolete, so the clause described nothing that is still sold and
+                  has been removed at the client's instruction.
+
+                  NOTE FOR WHOEVER READS THIS NEXT: this page now states no billing basis for the
+                  Managed Business Systems service. That is a gap, not a decision — a replacement
+                  sentence needs the client's own wording, because contractual payment terms are
+                  not something to be drafted by assumption. */}
               <p className="reveal" style={{ "--rv-delay": "200ms" }}>
-                <strong className="text-white">Get Found</strong> packages operate on a rolling monthly basis
-                from day one. <strong className="text-white">Run The Area</strong> and{" "}
-                <strong className="text-white">Own The Market</strong> packages have a six-month initial term,
-                after which they continue on a rolling monthly basis. Prices shown on this site are starting
-                prices; the exact figure for your engagement is confirmed in your quote.
+                Prices shown on this site are starting prices; the exact figure for your engagement is
+                confirmed in your quote.
               </p>
               <p className="reveal mt-3" style={{ "--rv-delay": "280ms" }}>
                 Payment terms, invoicing schedules, and cancellation conditions are set out in the individual

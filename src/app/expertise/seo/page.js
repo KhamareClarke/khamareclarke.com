@@ -68,7 +68,7 @@ const faqSchema = {
       name: "How much does SEO cost in the UK?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Khamare Clarke's SEO services start from £495 per month for the Get Found package, rising to £1,250/mo for Run The Area and £2,500/mo for Own The Market. Pricing reflects scope, competition level, and the volume of technical and content work required.",
+        text: "Pricing depends on the scope of the work, the competition in your market, and the volume of technical and content work required. A free 30-minute strategy call gives an accurate picture for your specific situation.",
       },
     },
     {
@@ -220,38 +220,10 @@ export default function SEOSpecialistPage() {
           </SectionHeading>
           <div className="space-y-4 text-muted text-lg leading-relaxed">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
-              Khamare Clarke's SEO retainers run at three tiers:
-            </p>
-            <ul className="space-y-3 pl-4">
-              <li className="reveal flex items-start gap-3" style={{ "--rv-delay": "0ms" }}>
-                <span className="gold-text font-bold mt-1">—</span>
-                <span>
-                  <strong className="text-white">Get Found</strong> — from
-                  £495/mo. Google Business Profile domination, local map pack
-                  visibility, citation clean-up.
-                </span>
-              </li>
-              <li className="reveal flex items-start gap-3" style={{ "--rv-delay": "90ms" }}>
-                <span className="gold-text font-bold mt-1">—</span>
-                <span>
-                  <strong className="text-white">Run The Area</strong> — from
-                  £1,250/mo. Full local SEO plus organic content, technical
-                  fixes, and competitor gap analysis.
-                </span>
-              </li>
-              <li className="reveal flex items-start gap-3" style={{ "--rv-delay": "180ms" }}>
-                <span className="gold-text font-bold mt-1">—</span>
-                <span>
-                  <strong className="text-white">Own The Market</strong> — from
-                  £2,500/mo. Full-stack SEO, AI search optimisation, programmatic
-                  content, and AI lead systems working together.
-                </span>
-              </li>
-            </ul>
-            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
-              UK SEO agencies typically charge £1,000–£5,000/mo for
-              multi-person account teams. A specialist at £495–£2,500/mo with
-              direct accountability is a different proposition.
+              Pricing depends on the scope of the work, the competition in your
+              market, and the volume of technical and content work required. A
+              free 30-minute strategy call gives an accurate picture for your
+              specific situation.
             </p>
           </div>
         </section>

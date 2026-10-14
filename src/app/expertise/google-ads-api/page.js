@@ -70,7 +70,7 @@ const faqSchema = {
       name: "How much does Ads API management cost?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Ads API management is included in Khamare Clarke's Own The Market retainer (from £2,500/mo), which covers SEO, AI search optimisation, and paid search engineering together. For businesses that want Ads API management as a standalone service, scoped project work can be discussed based on account size and complexity. Book a strategy call to discuss your current account and what automation would achieve.",
+        text: "Ads API management covers SEO, AI search optimisation, and paid search engineering together. For businesses that want Ads API management as a standalone service, scoped project work can be discussed based on account size and complexity. Book a strategy call to discuss your current account and what automation would achieve.",
       },
     },
   ],
@@ -221,11 +221,9 @@ export default function GoogleAdsAPIPage() {
           </SectionHeading>
           <div className="space-y-4 text-muted text-lg leading-relaxed">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
-              Ads API management is included in the{" "}
-              <strong className="text-white">Own The Market</strong> retainer
-              (from £2,500/mo), which brings together SEO, AI search
-              optimisation, and paid search engineering as a single integrated
-              system. When SEO and paid search are managed by the same person
+              Ads API management brings together SEO, AI search optimisation,
+              and paid search engineering as a single integrated system. When
+              SEO and paid search are managed by the same person
               working from the same data, keyword and audience decisions do not
               contradict each other.
             </p>
