@@ -66,6 +66,14 @@ export default function GlossaryHubPage() {
       <Section className="mt-0 pb-ds-4 page-top">
         <Container size="narrow">
 
+        {/* Hero at the site's hero scale, not the compact one. The page was passing
+            size="compact" (a 44px title) while the family headings below rendered at 60px, so
+            "SEO" outranked the page's own name. PageHero's own notes reserve the compact size
+            for long keyword-led titles; "SEO and AI Glossary" is four words and belongs at the
+            hero scale, which is what the homepage uses.
+
+            The lede is passed into the hero rather than sitting after the trust strip, so the
+            order matches the homepage: eyebrow, title, lede, then the badges and the CTA. */}
         <PageHero
           eyebrow="Glossary"
           title={
@@ -73,26 +81,20 @@ export default function GlossaryHubPage() {
               SEO and AI <span className="gold-text">Glossary</span>
             </>
           }
-          size="compact"
+          lede="Plain-English definitions of every term a UK business owner, marketer, or fellow professional might encounter. Each page gives you the citable definition in the first two sentences, then explains why it matters and how it is applied in practice."
         />
 
         {/* The trust strip that sits under the hero on the homepage. */}
         <AchievementsSection />
-        <p className="reveal mt-6 text-muted text-lg mb-12 max-w-2xl leading-relaxed" style={{ "--rv-delay": "200ms" }}>
-          Plain-English definitions of every term a UK business owner, marketer, or
-          fellow professional might encounter. Each page gives you the citable definition
-          in the first two sentences, then explains why it matters and how it is applied
-          in practice.
-        </p>
 
         {termsByFamily.map((family) => (
-          <section key={family.id} className="mb-14" aria-labelledby={`family-${family.id}`}>
+          <section key={family.id} className="mb-16" aria-labelledby={`family-${family.id}`}>
             <SectionHeading id={`family-${family.id}`}>{family.label}</SectionHeading>
             {family.description && (
-              <p className="reveal text-muted text-sm -mt-6 mb-6" style={{ "--rv-delay": "200ms" }}>{family.description}</p>
+              <p className="reveal ds-body text-muted mb-6" style={{ "--rv-delay": "200ms" }}>{family.description}</p>
             )}
 
-            <ul className="grid sm:grid-cols-2 gap-3">
+            <ul className="grid sm:grid-cols-2 gap-4">
               {family.terms.map((term, index) => (
                 <li key={term.slug}>
                   <Card
@@ -101,10 +103,14 @@ export default function GlossaryHubPage() {
                     className="group flex flex-col h-full hover:border-primary/30 transition-colors reveal"
                     style={{ "--rv-delay": `${Math.min(index, 6) * 110}ms` }}
                   >
-                    <span className="text-white font-semibold text-sm group-hover:gold-text transition-colors">
+                    {/* Title and preview at the sizes the rest of the site uses for card copy:
+                        18px bold for the title and 16px for the body. They were 14px and 12px,
+                        and the preview was clamped to a single line, so every definition was
+                        cut off mid-sentence on a page with room to spare. Two lines now. */}
+                    <span className="text-white font-bold text-lg tracking-[-0.01em] group-hover:gold-text transition-colors">
                       {term.abbr ? `${term.title} (${term.abbr})` : term.title}
                     </span>
-                    <span className="text-muted text-xs mt-0.5 line-clamp-1">
+                    <span className="text-muted ds-body mt-1 line-clamp-2">
                       {term.definition.split(".")[0]}.
                     </span>
                   </Card>
