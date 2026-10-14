@@ -237,6 +237,22 @@ The same averaging, applied to layout. The result is a Tailwind starter with a g
 
 **Ambient glow.** Radial background blurs, glowing border rings, neon vignettes, soft multi-layered drop shadows. These exist to mask a lack of structural substance.
 
+> **Recorded exception — the section divider.** `.section-sep` in `globals.css` is a gold
+> hairline carrying a faint glow: a light-leak gradient plus `box-shadow: 0 0 20px 0
+> rgba(255,183,0,.09)`. It is defined twice — flat at line 357, the glowing override at line
+> 2194, which wins. The client reviewed this against the rule above on 2026-10-14 and
+> **approved the glow as it stands**. The divider is not to be changed.
+>
+> The scope of the exception is exactly this: one hairline, at 9% opacity, used to separate
+> major sections on the five marketing pages that carry dividers. It is not a licence for
+> glow elsewhere. A radial background blur, a glowing border ring on a card, a neon vignette
+> or a multi-layered drop shadow is still banned by the rule above, and the reason the rule
+> gives — that these mask a lack of structural substance — still holds. What distinguishes
+> this divider is that the structure is present: it is a real one-pixel rule doing a real job
+> of segmenting the page, and the glow is a finish on top of it rather than a substitute for
+> it. If a future section is separated only by a glow and has no line, that is the pattern the
+> rule bans.
+
 **Glassmorphism.** Frosted translucent panels floating over a gradient. `backdrop-blur` on cards.
 
 **The three card row.** Three cards across, each with a circled icon above a heading above two lines. The problem is not three cards. It is every section being three cards.

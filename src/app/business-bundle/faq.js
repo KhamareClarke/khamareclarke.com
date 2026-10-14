@@ -11,8 +11,12 @@
  * that the client owns the site, content and domain. None of those are approved
  * commitments for the £999/month managed service — the delivery, revision, hosting,
  * ownership and cancellation terms are still to be decided. They are therefore not
- * asserted here. Advertising is now described the same way the page's exclusions
- * section describes it.
+ * asserted here.
+ *
+ * ADVERTISING, updated: the "What costs extra?" answer now states that Google and Meta Ads
+ * management is part of the monthly managed service and that only advertising spend is paid
+ * separately. It previously said advertising spend and third-party costs were separate,
+ * which under a heading about extra costs read as though advertising work itself cost more.
  */
 export const BUNDLE_FAQ = [
   {
@@ -22,8 +26,14 @@ export const BUNDLE_FAQ = [
   },
   {
     question: "What costs extra?",
+    // The client's wording, verbatim. It replaces an answer that said only
+    // that bespoke work and advertising spend were separate, which sat under a heading about
+    // extra costs while the offer card said Ads management runs inside the system — a reader
+    // could reasonably have concluded that advertising work cost more. Ads management is now
+    // stated as included, and only spend is separate. Do not reword: this answer is the one
+    // that draws the line, and it feeds both the visible accordion and the FAQPage schema.
     answer:
-      "Bespoke software projects are scoped and quoted separately. Advertising spend and third-party costs are agreed separately.",
+      "Google and Meta Ads management is part of the £999/month managed service. Advertising spend is paid separately. Bespoke software projects and third-party costs are scoped and agreed separately.",
   },
   {
     question: "Who does the work?",
