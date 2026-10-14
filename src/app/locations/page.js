@@ -9,7 +9,6 @@ import { Container } from "../components/ui/Container";
 import Card from "../components/ui/Card";
 import CTAButton from "../components/CTAButton";
 import { TIER_1_LOCATIONS, TIER_2_LOCATIONS, TIER_3_LOCATIONS, SERVICES } from "../../lib/services-data";
-import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../lib/schema";
 
 // Metadata untouched — a design change must never move a page's search identity.
 export const metadata = {
@@ -46,8 +45,6 @@ export default function LocationsPage() {
     <PageShell
       schema={
         <>
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }} />
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }} />
         </>
       }
     >

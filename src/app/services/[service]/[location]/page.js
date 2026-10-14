@@ -10,7 +10,6 @@ import { Container } from "../../../components/ui/Container";
 import Card from "../../../components/ui/Card";
 import CTAButton from "../../../components/CTAButton";
 import { SERVICES, ALL_LOCATIONS } from "../../../../lib/services-data";
-import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../../../lib/schema";
 
 export async function generateStaticParams() {
   return SERVICES.flatMap(service =>
@@ -144,8 +143,6 @@ export default function ServiceLocationPage({ params }) {
     <PageShell
       schema={
         <>
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }} />
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }} />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         </>

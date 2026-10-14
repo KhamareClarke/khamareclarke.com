@@ -44,6 +44,32 @@ export const OFFER_PILLARS = [
   },
 ];
 
+/*
+ * The offer as structured data describes it.
+ *
+ * Read by lib/schema.js (the ProfessionalService offer catalogue) and by
+ * app/business-bundle/layout.js (that page's Service node). Both used to carry their own copy
+ * of a nine-deliverable sentence, and the two had drifted from the card.
+ *
+ * This is the four pillars' own wording, in the pillars' order, and nothing else. It
+ * deliberately does not claim website development, custom applications or complex
+ * integrations as included in the monthly fee: pillar 01 says "website infrastructure", and
+ * pillar 03 says "agreed integrations", which is a scoped commitment rather than an open one.
+ * A bespoke build belongs to the separate offer in the same catalogue.
+ *
+ * COMPLIANCE NOTE: pillar 01 names Google Business Profile optimisation. That is kept because
+ * removing it would narrow what the fee is advertised as covering, which is a commercial
+ * decision rather than a tidy-up. Google Ads is deliberately absent here — it is a capability
+ * of the business, listed in the ProfessionalService serviceType and the Person knowsAbout,
+ * not part of this monthly offer.
+ */
+export const OFFER_SCHEMA_DESCRIPTION =
+  "One managed service across four areas. Get found: website infrastructure, technical and " +
+  "local SEO, Google Business Profile optimisation and AI search visibility. Capture " +
+  "enquiries: enquiry capture, CRM connections and follow-up automation. Connect operations: " +
+  "agreed integrations and workflows that reduce repetitive work. Manage and improve: " +
+  "monitoring, maintenance, reporting and continuous improvement within scope.";
+
 export const OFFER_ASSURANCE = [
   {
     label: "Security",

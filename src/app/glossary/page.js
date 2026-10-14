@@ -8,7 +8,7 @@ import { Section } from "../components/ui/Section";
 import { Container } from "../components/ui/Container";
 import Card from "../components/ui/Card";
 import CTAButton from "../components/CTAButton";
-import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../lib/schema";
+
 import { GLOSSARY_TERMS, GLOSSARY_FAMILIES } from "../../lib/glossary-data";
 
 export const metadata = {
@@ -56,14 +56,6 @@ export default function GlossaryHubPage() {
     <PageShell
       schema={
         <>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }}
-          />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSetSchema) }}

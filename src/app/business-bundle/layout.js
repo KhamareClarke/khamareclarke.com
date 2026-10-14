@@ -1,4 +1,5 @@
 import { BUNDLE_FAQ } from "./faq";
+import { OFFER_SCHEMA_DESCRIPTION } from "../../lib/offer-data";
 
 export const metadata = {
   title: "Managed Business Systems | £999 per Month | Khamare Clarke",
@@ -93,7 +94,9 @@ export default function BusinessBundleLayout({ children }) {
             "@context": "https://schema.org",
             "@type": "Service",
             "name": "Managed Business Systems",
-            "description": "One managed service covering website development, technical and local SEO, Google Business Profile optimisation, AI search visibility, enquiry capture, CRM integration, follow-up automation, workflow automation and reporting.",
+            // The same string lib/schema.js uses for the offer catalogue, from lib/offer-data.js.
+            // It used to be a second, independently worded description of the same service.
+            "description": OFFER_SCHEMA_DESCRIPTION,
             "provider": {
               "@type": "Organization",
               "name": "Khamare Clarke"

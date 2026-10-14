@@ -10,7 +10,6 @@ import { Section } from "../../components/ui/Section";
 import { Container } from "../../components/ui/Container";
 import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
-import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../../lib/schema";
 
 export const metadata = {
   title: "CRM and Marketing Automation UK | Khamare Clarke | Stoke-on-Trent",
@@ -72,8 +71,6 @@ export default function MarketingAutomationPage() {
     <PageShell
       schema={
         <>
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }} />
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }} />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         </>
       }

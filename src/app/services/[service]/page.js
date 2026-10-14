@@ -10,7 +10,6 @@ import { Container } from "../../components/ui/Container";
 import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
 import { SERVICES, TIER_1_LOCATIONS, ALL_LOCATIONS } from "../../../lib/services-data";
-import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../../lib/schema";
 
 export async function generateStaticParams() {
   return SERVICES.map(service => ({ service: service.slug }));
@@ -71,8 +70,6 @@ export default function ServiceHubPage({ params }) {
     <PageShell
       schema={
         <>
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }} />
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }} />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
         </>
       }

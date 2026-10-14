@@ -1,6 +1,5 @@
 import PageShell from "../components/PageShell";
 import CaseStudiesContent from "./CaseStudiesContent";
-import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../lib/schema";
 
 export const metadata = {
   title: "Case Studies | SEO and AI Results for UK Businesses | Khamare Clarke",
@@ -58,14 +57,6 @@ export default function CaseStudiesPage() {
     <PageShell
       schema={
         <>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }}
-          />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudiesSchema) }}

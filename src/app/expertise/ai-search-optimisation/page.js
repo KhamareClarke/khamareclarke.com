@@ -10,7 +10,6 @@ import { Section } from "../../components/ui/Section";
 import { Container } from "../../components/ui/Container";
 import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
-import { PERSON_SCHEMA } from "../../../lib/schema";
 
 export const metadata = {
   title: "AEO and GEO Specialist UK | AI Search Optimisation | Khamare Clarke",
@@ -29,7 +28,6 @@ export const metadata = {
     type: "article",
   },
 };
-
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -91,10 +89,6 @@ export default function AISearchOptimisationPage() {
     <PageShell
       schema={
         <>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-          />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

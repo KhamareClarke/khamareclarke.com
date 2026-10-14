@@ -1,6 +1,7 @@
 // Canonical entity schema — must be byte-identical on every page.
 // Import PERSON_SCHEMA and PROFESSIONAL_SERVICE_SCHEMA; never define them inline elsewhere.
 // Updated with AI Implementation Specialist vocabulary mappings
+import { OFFER_SCHEMA_DESCRIPTION } from "./offer-data";
 
 export const PERSON_SCHEMA = {
   "@context": "https://schema.org",
@@ -187,13 +188,25 @@ export const PROFESSIONAL_SERVICE_SCHEMA = {
       {
         "@type": "Offer",
         "name": "Managed Business Systems",
-        "description": "One managed service covering website development, technical and local SEO, Google Business Profile optimisation, AI search visibility, enquiry capture, CRM integration, follow-up automation, workflow automation and reporting.",
+        // The four pillars' own wording, shared with business-bundle/layout.js so the two
+        // cannot drift. See lib/offer-data.js for why it reads as it does.
+        "description": OFFER_SCHEMA_DESCRIPTION,
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
           "price": "999",
           "priceCurrency": "GBP",
+          // unitText is the human-readable period; billingDuration is the same period in the
+          // machine-readable form schema.org expects for a recurring price. Both describe one
+          // month. The priceType that used to sit here was removed: it was the US
+          // dealer-advertising floor, which says nothing true about a published UK price.
+          // The consultancy entry below still carries it, deliberately — that entry is out of
+          // scope by instruction.
           "unitText": "month",
-          "priceType": "https://schema.org/MinimumAdvertisedPrice"
+          "billingDuration": {
+            "@type": "QuantitativeValue",
+            "value": 1,
+            "unitCode": "MON"
+          }
         }
       },
       {

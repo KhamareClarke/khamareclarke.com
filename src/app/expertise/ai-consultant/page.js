@@ -10,7 +10,6 @@ import { Section } from "../../components/ui/Section";
 import { Container } from "../../components/ui/Container";
 import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
-import { PERSON_SCHEMA } from "../../../lib/schema";
 
 export const metadata = {
   title: "AI Consultant UK | Khamare Clarke | Stoke-on-Trent",
@@ -80,10 +79,6 @@ export default function AIConsultantPage() {
     <PageShell
       schema={
         <>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-          />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

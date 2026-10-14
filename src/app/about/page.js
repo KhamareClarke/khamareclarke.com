@@ -10,7 +10,6 @@ import { Section } from "../components/ui/Section";
 import { Container } from "../components/ui/Container";
 import Card from "../components/ui/Card";
 import CTAButton from "../components/CTAButton";
-import { PERSON_SCHEMA } from "../../lib/schema";
 
 // Metadata is untouched by this migration — title, description, canonical and OG all
 // stay exactly as they were. A design change must never move a page's search identity.
@@ -91,10 +90,6 @@ export default function AboutPage() {
     <PageShell
       schema={
         <>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-          />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaLD) }}

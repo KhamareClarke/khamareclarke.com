@@ -8,7 +8,7 @@ import CtaPanel from "../../components/ui/CtaPanel";
 import { Section } from "../../components/ui/Section";
 import { Container } from "../../components/ui/Container";
 import CTAButton from "../../components/CTAButton";
-import { PERSON_SCHEMA } from "../../../lib/schema";
+
 import { GLOSSARY_TERMS, GLOSSARY_BY_SLUG } from "../../../lib/glossary-data";
 
 export function generateStaticParams() {
@@ -78,10 +78,6 @@ export default function GlossaryTermPage({ params }) {
     <PageShell
       schema={
         <>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-          />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSchema) }}
