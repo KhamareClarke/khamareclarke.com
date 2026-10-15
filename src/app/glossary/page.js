@@ -143,9 +143,8 @@ export default function GlossaryHubPage() {
             </p>
 
             <p className="reveal reveal-blur mt-4 sm:mt-6 text-xl lg:text-2xl max-w-3xl text-muted leading-relaxed" style={{ "--rv-delay": "460ms" }}>
-              Plain-English definitions of every term a UK business owner, marketer, or fellow
-              professional might encounter. Each page gives you the citable definition in the
-              first two sentences, then explains why it matters and how it is applied in practice.
+                            These are the words that come up when somebody sells you SEO or AI. Each
+              entry says what the term means and what it changes for a UK business.
             </p>
 
             <div className="reveal mt-5 sm:mt-7" style={{ "--rv-delay": "600ms" }}>
