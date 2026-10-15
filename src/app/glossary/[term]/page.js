@@ -45,6 +45,41 @@ export function generateMetadata({ params }) {
   };
 }
 
+/**
+ * Render a heading half white and half gold, split at the word boundary nearest the
+ * character midpoint. Used on every heading on these pages — the hero, the two body
+ * sections, each FAQ question and the closing panel — because the client asked for the
+ * 50/50 treatment on all of them, not only the hero.
+ *
+ * The heading's text is unchanged: this only wraps the trailing words in the existing
+ * gold gradient class. A single-word heading stays entirely white rather than rendering an
+ * empty gold span.
+ */
+function goldHalves(text) {
+  const str = String(text);
+  const words = str.split(" ");
+  if (words.length === 1) return <>{str}</>;
+
+  let splitAt = 1;
+  let bestDiff = Infinity;
+  let counted = 0;
+  for (let i = 0; i < words.length - 1; i++) {
+    counted += words[i].length + 1;
+    const diff = Math.abs(counted - str.length / 2);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      splitAt = i + 1;
+    }
+  }
+
+  return (
+    <>
+      {words.slice(0, splitAt).join(" ")}{" "}
+      <span className="gold-text">{words.slice(splitAt).join(" ")}</span>
+    </>
+  );
+}
+
 export default function GlossaryTermPage({ params }) {
   const term = GLOSSARY_BY_SLUG[params.term];
   if (!term) return notFound();
@@ -186,7 +221,7 @@ export default function GlossaryTermPage({ params }) {
         {/* Why it matters */}
         <section className="mt-4" aria-labelledby="why-matters">
           <SectionHeading id="why-matters">
-            Why {term.title.toLowerCase()} matters for UK businesses
+            {goldHalves(`Why ${term.title.toLowerCase()} matters for UK businesses`)}
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             {term.whyItMatters.map((para, i) => (
@@ -200,7 +235,7 @@ export default function GlossaryTermPage({ params }) {
 
         <section className="mt-6" aria-labelledby="how-applied">
           <SectionHeading id="how-applied">
-            How Khamare Clarke applies {term.title.toLowerCase()}
+            {goldHalves(`How Khamare Clarke applies ${term.title.toLowerCase()}`)}
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             {term.howKhamareApplies.map((para, i) => (
@@ -217,7 +252,7 @@ export default function GlossaryTermPage({ params }) {
             <hr aria-hidden="true" className="section-sep mt-6" />
 
             <section className="mt-6" aria-labelledby={`faq-${i}`}>
-              <SectionHeading id={`faq-${i}`}>{item.q}</SectionHeading>
+              <SectionHeading id={`faq-${i}`}>{goldHalves(item.q)}</SectionHeading>
               <p className="reveal text-muted ds-body-lg" style={{ "--rv-delay": "200ms" }}>{item.a}</p>
             </section>
           </Fragment>
@@ -267,7 +302,7 @@ export default function GlossaryTermPage({ params }) {
         {/* CTA */}
         <CtaPanel headingLevel="h2"
           className="mt-16"
-          heading={<>Apply {displayTitle} to your business</>}
+          heading={goldHalves(`Apply ${displayTitle} to your business`)}
           body="Book a free 30-minute strategy call. No obligation, no sales team. You will get an honest assessment of where your business stands and what this would change."
         >
           <CTAButton
