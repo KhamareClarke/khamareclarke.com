@@ -119,7 +119,7 @@ export default function ProgrammaticSEOPage() {
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What is <span className="gold-text">programmatic SEO</span>?
+            What is <span className="gold-text">programmatic SEO?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -145,7 +145,7 @@ export default function ProgrammaticSEOPage() {
 
         <section className="mt-12" aria-labelledby="q2">
           <SectionHeading id="q2">
-            When does <span className="gold-text">programmatic SEO</span> make sense for a business?
+            When does programmatic SEO <span className="gold-text">make sense for a business?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -172,7 +172,7 @@ export default function ProgrammaticSEOPage() {
 
         <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
-            What is the difference between a <span className="gold-text">programmatic page</span> and a doorway page?
+            What is the difference between a <span className="gold-text">programmatic page and a doorway page?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -200,7 +200,7 @@ export default function ProgrammaticSEOPage() {
 
         <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
-            How does an engineer approach <span className="gold-text">programmatic SEO</span> differently?
+            How does an engineer approach <span className="gold-text">programmatic SEO differently?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -229,7 +229,7 @@ export default function ProgrammaticSEOPage() {
 
         <section className="mt-12" aria-labelledby="q5">
           <SectionHeading id="q5">
-            What <span className="gold-text">results</span> can programmatic SEO deliver?
+            What results can <span className="gold-text">programmatic SEO deliver?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>

@@ -126,7 +126,7 @@ export default function AISearchOptimisationPage() {
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What is <span className="gold-text">answer engine optimisation (AEO)</span>?
+            What is answer engine <span className="gold-text">optimisation (AEO)?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -153,7 +153,7 @@ export default function AISearchOptimisationPage() {
 
         <section className="mt-12" aria-labelledby="q2">
           <SectionHeading id="q2">
-            What is <span className="gold-text">generative engine optimisation (GEO)</span>?
+            What is generative <span className="gold-text">engine optimisation (GEO)?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -180,7 +180,7 @@ export default function AISearchOptimisationPage() {
 
         <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
-            How do <span className="gold-text">ChatGPT, Gemini, and Perplexity</span> decide which businesses to cite?
+            How do ChatGPT, Gemini, and Perplexity decide <span className="gold-text">which businesses to cite?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -210,7 +210,7 @@ export default function AISearchOptimisationPage() {
 
         <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
-            What is the difference between <span className="gold-text">SEO and GEO</span>?
+            What is the difference <span className="gold-text">between SEO and GEO?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -238,7 +238,7 @@ export default function AISearchOptimisationPage() {
 
         <section className="mt-12" aria-labelledby="q5">
           <SectionHeading id="q5">
-            How do you optimise for <span className="gold-text">AI Overviews</span> in Google Search?
+            How do you optimise <span className="gold-text">for AI Overviews in Google Search?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -266,7 +266,7 @@ export default function AISearchOptimisationPage() {
 
         <section className="mt-12" aria-labelledby="q6">
           <SectionHeading id="q6">
-            How much does <span className="gold-text">AI search optimisation</span> cost?
+            How much does AI search <span className="gold-text">optimisation cost?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -288,7 +288,7 @@ export default function AISearchOptimisationPage() {
 
         <section className="mt-12" aria-labelledby="synonyms-ai-search">
           <SectionHeading id="synonyms-ai-search">
-            <span className="gold-text">AEO specialist</span>, GEO consultant, AI visibility expert: different names for the same emerging discipline
+            AEO specialist, GEO consultant, AI visibility expert: <span className="gold-text">different names for the same emerging discipline</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>

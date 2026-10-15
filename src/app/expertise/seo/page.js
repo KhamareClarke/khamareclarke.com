@@ -125,7 +125,7 @@ export default function SEOSpecialistPage() {
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What does an <span className="gold-text">SEO specialist</span> do?
+            What does an <span className="gold-text">SEO specialist do?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -151,7 +151,7 @@ export default function SEOSpecialistPage() {
 
         <section className="mt-12" aria-labelledby="q2">
           <SectionHeading id="q2">
-            How is an SEO specialist different from an <span className="gold-text">SEO agency</span>?
+            How is an SEO specialist <span className="gold-text">different from an SEO agency?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -176,7 +176,7 @@ export default function SEOSpecialistPage() {
 
         <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
-            How long does SEO take to <span className="gold-text">show results</span>?
+            How long does SEO take <span className="gold-text">to show results?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -203,7 +203,7 @@ export default function SEOSpecialistPage() {
 
         <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
-            What does <span className="gold-text">local SEO</span> involve?
+            What does <span className="gold-text">local SEO involve?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -230,7 +230,7 @@ export default function SEOSpecialistPage() {
 
         <section className="mt-12" aria-labelledby="q5">
           <SectionHeading id="q5">
-            How much does <span className="gold-text">SEO cost</span> in the UK?
+            How much does SEO <span className="gold-text">cost in the UK?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -247,7 +247,7 @@ export default function SEOSpecialistPage() {
 
         <section className="mt-12" aria-labelledby="q6">
           <SectionHeading id="q6">
-            Who is <span className="gold-text">Khamare Clarke</span> and why does his background matter for SEO?
+            Who is Khamare Clarke and why does <span className="gold-text">his background matter for SEO?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -280,7 +280,7 @@ export default function SEOSpecialistPage() {
 
         <section className="mt-12" aria-labelledby="synonyms">
           <SectionHeading id="synonyms">
-            <span className="gold-text">SEO consultant</span>, SEO expert, SEO freelancer: what these terms mean in practice
+            SEO consultant, SEO expert, SEO freelancer: <span className="gold-text">what these terms mean in practice</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>

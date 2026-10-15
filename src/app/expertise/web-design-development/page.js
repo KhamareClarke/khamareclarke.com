@@ -129,7 +129,7 @@ export default function WebDesignDevelopmentPage() {
 
         <section className="mt-12" aria-labelledby="q2">
           <SectionHeading id="q2">
-            Why <span className="gold-text">web design matters</span> for SEO
+            Why web design <span className="gold-text">matters for SEO</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -175,7 +175,7 @@ export default function WebDesignDevelopmentPage() {
 
         <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
-            What all builds have in <span className="gold-text">common</span>
+            What all builds <span className="gold-text">have in common</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>

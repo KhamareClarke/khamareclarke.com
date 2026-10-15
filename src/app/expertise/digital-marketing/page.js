@@ -106,7 +106,7 @@ export default function DigitalMarketingPage() {
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What a <span className="gold-text">digital marketing consultant</span> does
+            What a digital <span className="gold-text">marketing consultant does</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -157,7 +157,7 @@ export default function DigitalMarketingPage() {
 
         <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
-            How <span className="gold-text">AI changes digital marketing</span>
+            How AI changes <span className="gold-text">digital marketing</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>

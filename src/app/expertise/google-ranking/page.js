@@ -105,7 +105,7 @@ export default function GoogleRankingPage() {
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What <span className="gold-text">better Google visibility</span> means for your business.
+            What better Google visibility <span className="gold-text">means for your business.</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -130,7 +130,7 @@ export default function GoogleRankingPage() {
 
         <section className="mt-12" aria-labelledby="how-ranking-works">
           <SectionHeading id="how-ranking-works">
-            What producing <span className="gold-text">strong Google visibility</span> requires
+            What producing strong <span className="gold-text">Google visibility requires</span>
           </SectionHeading>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
@@ -179,7 +179,7 @@ export default function GoogleRankingPage() {
 
         <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
-            Google ranking and <span className="gold-text">AI search</span>
+            Google ranking <span className="gold-text">and AI search</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>

@@ -120,7 +120,7 @@ export default function GoogleAdsAPIPage() {
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What is the <span className="gold-text">Google Ads API</span>?
+            What is the <span className="gold-text">Google Ads API?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -146,7 +146,7 @@ export default function GoogleAdsAPIPage() {
 
         <section className="mt-12" aria-labelledby="q2">
           <SectionHeading id="q2">
-            Why does running ads through the API <span className="gold-text">produce better results</span>?
+            Why does running ads through <span className="gold-text">the API produce better results?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -174,7 +174,7 @@ export default function GoogleAdsAPIPage() {
 
         <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
-            How does <span className="gold-text">ads engineering</span> differ from a standard agency?
+            How does ads engineering differ <span className="gold-text">from a standard agency?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -203,7 +203,7 @@ export default function GoogleAdsAPIPage() {
 
         <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
-            What campaigns benefit most from the <span className="gold-text">Ads API</span>?
+            What campaigns benefit most <span className="gold-text">from the Ads API?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -231,7 +231,7 @@ export default function GoogleAdsAPIPage() {
 
         <section className="mt-12" aria-labelledby="q5">
           <SectionHeading id="q5">
-            How much does <span className="gold-text">Ads API management</span> cost?
+            How much does Ads <span className="gold-text">API management cost?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>

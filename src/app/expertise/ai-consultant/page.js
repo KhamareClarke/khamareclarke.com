@@ -115,7 +115,7 @@ export default function AIConsultantPage() {
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What does an <span className="gold-text">AI consultant</span> do?
+            What does an AI <span className="gold-text">consultant do?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -141,7 +141,7 @@ export default function AIConsultantPage() {
 
         <section className="mt-12" aria-labelledby="q2">
           <SectionHeading id="q2">
-            What is the difference between an AI consultant and an <span className="gold-text">AI specialist</span>?
+            What is the difference between an <span className="gold-text">AI consultant and an AI specialist?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -165,7 +165,7 @@ export default function AIConsultantPage() {
 
         <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
-            What is an <span className="gold-text">AI strategy consultant</span>?
+            What is an AI <span className="gold-text">strategy consultant?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -190,7 +190,7 @@ export default function AIConsultantPage() {
 
         <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
-            How is an artificial intelligence consultant different from a <span className="gold-text">digital marketing consultant</span>?
+            How is an artificial intelligence consultant different <span className="gold-text">from a digital marketing consultant?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -215,7 +215,7 @@ export default function AIConsultantPage() {
 
         <section className="mt-12" aria-labelledby="q5">
           <SectionHeading id="q5">
-            What does <span className="gold-text">Khamare Clarke</span> offer as an AI adviser?
+            What does Khamare Clarke offer <span className="gold-text">as an AI adviser?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -244,7 +244,7 @@ export default function AIConsultantPage() {
 
         <section className="mt-12" aria-labelledby="synonyms-consultant">
           <SectionHeading id="synonyms-consultant">
-            <span className="gold-text">AI expert</span>, AI adviser, AI specialist: what these terms mean in practice
+            AI expert, AI adviser, AI specialist: <span className="gold-text">what these terms mean in practice</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>

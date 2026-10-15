@@ -105,7 +105,7 @@ export default function MarketingAutomationPage() {
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What <span className="gold-text">marketing automation</span> actually does
+            What marketing <span className="gold-text">automation actually does</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -152,7 +152,7 @@ export default function MarketingAutomationPage() {
 
         <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
-            Why most <span className="gold-text">CRM implementations</span> fail
+            Why most CRM <span className="gold-text">implementations fail</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -177,7 +177,7 @@ export default function MarketingAutomationPage() {
 
         <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
-            How it connects to the <span className="gold-text">wider system</span>
+            How it connects <span className="gold-text">to the wider system</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>

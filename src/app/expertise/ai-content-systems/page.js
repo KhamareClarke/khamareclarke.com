@@ -106,7 +106,7 @@ export default function AIContentSystemsPage() {
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What an <span className="gold-text">AI content system</span> is
+            What an AI <span className="gold-text">content system is</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -155,7 +155,7 @@ export default function AIContentSystemsPage() {
 
         <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
-            Content and <span className="gold-text">AI search visibility</span>
+            Content and AI <span className="gold-text">search visibility</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>

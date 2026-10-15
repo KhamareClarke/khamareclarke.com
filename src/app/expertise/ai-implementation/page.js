@@ -116,7 +116,7 @@ export default function AIImplementationPage() {
 
         <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
-            What is <span className="gold-text">AI implementation</span>?
+            What is AI <span className="gold-text">implementation?</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -141,7 +141,7 @@ export default function AIImplementationPage() {
 
         <section className="mt-12" aria-labelledby="q2">
           <SectionHeading id="q2">
-            What an <span className="gold-text">AI implementation specialist</span> does
+            What an AI implementation <span className="gold-text">specialist does</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -170,7 +170,7 @@ export default function AIImplementationPage() {
 
         <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
-            The <span className="gold-text">five-stage implementation method</span>
+            The five-stage <span className="gold-text">implementation method</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <ol className="space-y-6 list-none">
@@ -197,7 +197,7 @@ export default function AIImplementationPage() {
 
         <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
-            How <span className="gold-text">AI implementation</span> is different from AI consultancy
+            How AI implementation is different <span className="gold-text">from AI consultancy</span>
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
@@ -223,7 +223,7 @@ export default function AIImplementationPage() {
 
         <section className="mt-12" aria-labelledby="q5">
           <SectionHeading id="q5">
-            What <span className="gold-text">AI implementation</span> covers across your business
+            What AI implementation <span className="gold-text">covers across your business</span>
           </SectionHeading>
           <div className="grid sm:grid-cols-2 gap-4 mt-2">
             {[
