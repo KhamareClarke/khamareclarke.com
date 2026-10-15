@@ -1,10 +1,15 @@
 // src/app/expertise/ai-consultant/page.js
 
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import Link from "next/link";
+import PageShell from "../../components/PageShell";
+import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
+import SectionHeading from "../../components/ui/SectionHeading";
+import CtaPanel from "../../components/ui/CtaPanel";
+import { Section } from "../../components/ui/Section";
+import { Container } from "../../components/ui/Container";
+import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
-import { PERSON_SCHEMA } from "../../../lib/schema";
 
 export const metadata = {
   title: "AI Consultant UK | Khamare Clarke | Stoke-on-Trent",
@@ -71,44 +76,43 @@ const faqSchema = {
 
 export default function AIConsultantPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+    <PageShell
+      schema={
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          />
+        </>
+      }
+    >
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
+          <PageHero
+            eyebrow="Expertise"
+            size="feature"
+            title={
+              <>
+                AI Consultant{" "}
+                <span className="gold-text">| Practical AI Adoption for UK Businesses</span>
+              </>
+            }
+          />
 
-      <Navbar />
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
-
-        <div className="flex items-center gap-4 mb-8 h-4">
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-            Expertise
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection dense />
+          <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
+            Most AI consultants explain the technology. The part UK businesses need is
+            someone who can connect it to revenue: which system to build first, how it
+            integrates with what already exists, and what it will measurably change.
           </p>
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-        </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
-          AI Consultant{" "}
-          <span className="gold-text">| Practical AI Adoption for UK Businesses</span>
-        </h1>
-        <p className="text-[#ADB7BE] text-lg mb-16 max-w-2xl">
-          Most AI consultants explain the technology. The part UK businesses need is
-          someone who can connect it to revenue: which system to build first, how it
-          integrates with what already exists, and what it will measurably change.
-        </p>
-
-        <section className="mt-12" aria-labelledby="q1">
-          <h2 id="q1" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What does an AI consultant do?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q1">
+          <SectionHeading id="q1">
+            What does an <span className="gold-text">AI consultant</span> do?
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI consultant helps businesses identify where artificial intelligence
               can be applied practically, selects the right tools and approaches, and
               either builds the systems or oversees their implementation. For most small
@@ -116,7 +120,7 @@ export default function AIConsultantPage() {
               for repetitive back-office processes, and AI search optimisation so the
               business appears in ChatGPT, Gemini, and Perplexity answers.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The emphasis is on outcomes connected to revenue, not on technology for
               its own sake. A business does not need a sophisticated machine learning
               pipeline; it needs a system that captures leads at 11pm, follows up
@@ -127,19 +131,19 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q2">
-          <h2 id="q2" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What is the difference between an AI consultant and an AI specialist?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q2">
+          <SectionHeading id="q2">
+            What is the difference between an AI consultant and an <span className="gold-text">AI specialist</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI specialist typically refers to someone with deep technical knowledge
               in a narrow area: computer vision, natural language processing, or machine
               learning model training. An AI consultant applies that knowledge strategically
               across a business context: which processes to automate, which tools to use,
               and what the integration looks like when it meets real operational constraints.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The distinction matters because most businesses need someone who can
               connect the technology to the business outcome. A technically capable
               person who cannot explain the return on investment or who builds something
@@ -149,19 +153,19 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q3">
-          <h2 id="q3" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What is an AI strategy consultant?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q3">
+          <SectionHeading id="q3">
+            What is an <span className="gold-text">AI strategy consultant</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               An AI strategy consultant helps a business develop a coherent plan for
               adopting AI: what to automate, in what order, with what tools, and at what
               cost. This includes assessing current workflow gaps, identifying the
               highest-leverage AI applications, and building a roadmap that does not
               require overhauling everything at once.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               For most UK trades and professional services businesses, the strategy starts
               with front-of-funnel automation (lead capture, qualification, follow-up)
               because that is where the largest number of opportunities currently fall
@@ -172,19 +176,19 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q4">
-          <h2 id="q4" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How is an artificial intelligence consultant different from a digital marketing consultant?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q4">
+          <SectionHeading id="q4">
+            How is an artificial intelligence consultant different from a <span className="gold-text">digital marketing consultant</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               A digital marketing consultant focuses on channels: SEO, paid ads, social
               media, email. An artificial intelligence consultant focuses on the systems
               behind those channels: the agent that responds to enquiries, the automation
               that follows up leads, the AI search optimisation that makes the business
               appear in generative AI answers.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               These two disciplines are converging. A business that has both working
               together -- AI handling operations while SEO and AI search drive visibility
               -- has a structural advantage over businesses that treat them separately.
@@ -195,12 +199,12 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q5">
-          <h2 id="q5" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What does Khamare Clarke offer as an AI adviser?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q5">
+          <SectionHeading id="q5">
+            What does <span className="gold-text">Khamare Clarke</span> offer as an AI adviser?
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               The AI advisory work covers four connected areas. First, AI agent design
               and deployment: receptionists that respond to enquiries in seconds, lead
               qualification systems, and automated follow-up sequences. Second, AI search
@@ -211,7 +215,7 @@ export default function AIConsultantPage() {
               through without manual work. Fourth, strategic advisory: advising on which
               AI tools to adopt, which to avoid, and in what sequence to build.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               The MSc in Computer Science with Artificial Intelligence at Keele University
               (completing 2027) and the BSc in Software Engineering ground this work in
               how these systems actually behave. The practical application is informed by
@@ -222,12 +226,12 @@ export default function AIConsultantPage() {
         </section>
 
         {/* AI expert / advisor synonym section */}
-        <section className="mt-12" aria-labelledby="synonyms-consultant">
-          <h2 id="synonyms-consultant" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            AI expert, AI adviser, AI specialist: what these terms mean in practice
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="synonyms-consultant">
+          <SectionHeading id="synonyms-consultant">
+            <span className="gold-text">AI expert</span>, AI adviser, AI specialist: what these terms mean in practice
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Businesses searching for an AI expert, AI adviser, or AI specialist are
               typically looking for someone who can tell them what to build, help them
               build it, and be accountable for the outcome. The labels differ slightly:
@@ -236,7 +240,7 @@ export default function AIConsultantPage() {
               capability. In practice, a small or medium business needs all three from
               the same person.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               An artificial intelligence consultant serving a UK SME is not primarily
               a researcher or an academic. The work is applied: deploy a system that
               responds to enquiries overnight, connect it to the CRM, make the business
@@ -247,7 +251,7 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related expertise">
+        <Card as="nav" aria-label="Related expertise" className="reveal mt-16" style={{ "--rv-delay": "200ms" }}>
           <p className="text-white font-bold mb-4">Related expertise</p>
           <ul className="space-y-2">
             {[
@@ -256,32 +260,31 @@ export default function AIConsultantPage() {
               { href: "/expertise/seo", label: "SEO specialist" },
               { href: "/expertise/programmatic-seo", label: "Programmatic SEO" },
               { href: "/about", label: "About Khamare Clarke" },
-            ].map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-[#ffb700]">--</span> {l.label}
+            ].map((l, index) => (
+              <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">--</span> {l.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </nav>
+        </Card>
 
-        <div className="mt-12 bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-10 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Ready to talk about AI adoption for your business?
-          </h2>
-          <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
-            Book a free 30-minute strategy call. We will look at your current
-            operations, identify where AI would have the most immediate impact,
-            and give you an honest picture of what implementation involves.
-          </p>
+        <CtaPanel headingLevel="h2"
+          className="mt-16"
+          heading={
+            <>
+              Ready to talk about <span className="gold-text">AI adoption</span> for your business?
+            </>
+          }
+          body="Book a free 30-minute strategy call. We will look at your current operations, identify where AI would have the most immediate impact, and give you an honest picture of what implementation involves."
+        >
           <CTAButton eventLabel="expertise_ai_consultant_cta" caption="The question you can't get answered. Straight, once.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
-        </div>
-      </div>
-
-      <Footer />
-    </main>
+        </CtaPanel>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }

@@ -1,10 +1,15 @@
 // src/app/expertise/google-ads-api/page.js
 
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import Link from "next/link";
+import PageShell from "../../components/PageShell";
+import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
+import SectionHeading from "../../components/ui/SectionHeading";
+import CtaPanel from "../../components/ui/CtaPanel";
+import { Section } from "../../components/ui/Section";
+import { Container } from "../../components/ui/Container";
+import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
-import { PERSON_SCHEMA } from "../../../lib/schema";
 
 export const metadata = {
   title: "Google Ads API Specialist UK | Khamare Clarke",
@@ -23,7 +28,6 @@ export const metadata = {
     type: "article",
   },
 };
-
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -66,7 +70,7 @@ const faqSchema = {
       name: "How much does Ads API management cost?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Ads API management is included in Khamare Clarke's Own The Market retainer (from £2,500/mo), which covers SEO, AI search optimisation, and paid search engineering together. For businesses that want Ads API management as a standalone service, scoped project work can be discussed based on account size and complexity. Book a strategy call to discuss your current account and what automation would achieve.",
+        text: "Ads API management covers SEO, AI search optimisation, and paid search engineering together. For businesses that want Ads API management as a standalone service, scoped project work can be discussed based on account size and complexity. Book a strategy call to discuss your current account and what automation would achieve.",
       },
     },
   ],
@@ -74,47 +78,46 @@ const faqSchema = {
 
 export default function GoogleAdsAPIPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+    <PageShell
+      schema={
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          />
+        </>
+      }
+    >
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
+          <PageHero
+            eyebrow="Expertise"
+            size="feature"
+            title={
+              <>
+                Google Ads via the Ads API{" "}
+                <span className="gold-text">
+                  — What Ads Engineering Actually Means
+                </span>
+              </>
+            }
+          />
 
-      <Navbar />
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
-
-        <div className="flex items-center gap-4 mb-8 h-4">
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-            Expertise
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection dense />
+          <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
+            Most agencies manage Google Ads through a dashboard. Ads engineering
+            means writing the code that manages it automatically, at a speed and
+            precision no manual process can match.
           </p>
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-        </div>
-
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
-          Google Ads via the Ads API{" "}
-          <span className="gold-text">
-            — What Ads Engineering Actually Means
-          </span>
-        </h1>
-        <p className="text-[#ADB7BE] text-lg mb-16 max-w-2xl">
-          Most agencies manage Google Ads through a dashboard. Ads engineering
-          means writing the code that manages it automatically, at a speed and
-          precision no manual process can match.
-        </p>
 
         {/* Q1 */}
-        <section className="mt-12" aria-labelledby="q1">
-          <h2 id="q1" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What is the Google Ads API?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q1">
+          <SectionHeading id="q1">
+            What is the <span className="gold-text">Google Ads API</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               The Google Ads API is the programmatic interface that allows
               developers to manage Google Ads accounts directly through code,
               rather than through the standard web dashboard. It provides access
@@ -123,7 +126,7 @@ export default function GoogleAdsAPIPage() {
               addressable through API calls that can be automated, scheduled,
               and integrated with other data sources.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               Google built the API for agencies and large advertisers who manage
               too much volume to operate manually. In practice, it is
               underused — most agencies do not have engineers on the team. That
@@ -133,12 +136,12 @@ export default function GoogleAdsAPIPage() {
         </section>
 
         {/* Q2 */}
-        <section className="mt-12" aria-labelledby="q2">
-          <h2 id="q2" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            Why does running ads through the API produce better results?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q2">
+          <SectionHeading id="q2">
+            Why does running ads through the API <span className="gold-text">produce better results</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               The API removes the bottleneck of manual campaign management.
               Changes that would take hours to implement manually across
               multiple campaigns — adjusting bids by device and time of day,
@@ -146,7 +149,7 @@ export default function GoogleAdsAPIPage() {
               A/B testing — can be executed in seconds through code, running
               on a schedule or triggered by real-time data.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               More importantly, the API allows custom bidding logic that the
               standard interface cannot replicate. Bids can be adjusted based
               on business-specific signals: CRM data showing which customer
@@ -159,19 +162,19 @@ export default function GoogleAdsAPIPage() {
         </section>
 
         {/* Q3 */}
-        <section className="mt-12" aria-labelledby="q3">
-          <h2 id="q3" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How does ads engineering differ from a standard agency?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q3">
+          <SectionHeading id="q3">
+            How does <span className="gold-text">ads engineering</span> differ from a standard agency?
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               A standard agency manages campaigns through the Google Ads
               interface. Changes are made manually, during business hours, by
               an account manager who is juggling several other accounts at the
               same time. The feedback loop between seeing a performance issue
               and fixing it is measured in days.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               Ads engineering means writing code that manages those campaigns
               automatically: dynamic keyword insertion drawn from a live product
               or service feed, bid modifiers calculated from conversion data at
@@ -186,19 +189,19 @@ export default function GoogleAdsAPIPage() {
         </section>
 
         {/* Q4 */}
-        <section className="mt-12" aria-labelledby="q4">
-          <h2 id="q4" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What campaigns benefit most from the Ads API?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q4">
+          <SectionHeading id="q4">
+            What campaigns benefit most from the <span className="gold-text">Ads API</span>?
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Any campaign with a large and frequently-changing keyword set
               benefits from API management: e-commerce with broad product
               ranges, property and recruitment, local services across multiple
               geographic areas, and any business running simultaneous campaigns
               across multiple markets or product lines.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               Lead generation campaigns benefit particularly from API
               integration because conversion data — who became a customer, at
               what value, from which keyword — can feed back into the bidding
@@ -212,21 +215,19 @@ export default function GoogleAdsAPIPage() {
         </section>
 
         {/* Q5 */}
-        <section className="mt-12" aria-labelledby="q5">
-          <h2 id="q5" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How much does Ads API management cost?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
-              Ads API management is included in the{" "}
-              <strong className="text-white">Own The Market</strong> retainer
-              (from £2,500/mo), which brings together SEO, AI search
-              optimisation, and paid search engineering as a single integrated
-              system. When SEO and paid search are managed by the same person
+        <section className="mt-24" aria-labelledby="q5">
+          <SectionHeading id="q5">
+            How much does <span className="gold-text">Ads API management</span> cost?
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
+              Ads API management brings together SEO, AI search optimisation,
+              and paid search engineering as a single integrated system. When
+              SEO and paid search are managed by the same person
               working from the same data, keyword and audience decisions do not
               contradict each other.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               For businesses that want Ads API management as a standalone
               service — for example, an existing client of a full-service agency
               that wants better technical execution on the ads side — scoped
@@ -239,7 +240,7 @@ export default function GoogleAdsAPIPage() {
         </section>
 
         {/* Internal links */}
-        <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related expertise">
+        <Card as="nav" aria-label="Related expertise" className="reveal mt-16" style={{ "--rv-delay": "200ms" }}>
           <p className="text-white font-bold mb-4">Related expertise</p>
           <ul className="space-y-2">
             {[
@@ -248,33 +249,32 @@ export default function GoogleAdsAPIPage() {
               { href: "/expertise/programmatic-seo", label: "Programmatic SEO" },
               { href: "/expertise/ai-agents", label: "AI agents for UK businesses" },
               { href: "/about", label: "About Khamare Clarke" },
-            ].map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-[#ffb700]">→</span> {l.label}
+            ].map((l, index) => (
+              <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">→</span> {l.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </nav>
+        </Card>
 
         {/* CTA */}
-        <div className="mt-12 bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-10 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Want better performance from your Google Ads spend?
-          </h2>
-          <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
-            Book a free 30-minute strategy call. Bring your current account
-            and spend data. We will identify where the inefficiencies are and
-            what API-level automation would change.
-          </p>
+        <CtaPanel headingLevel="h2"
+          className="mt-16"
+          heading={
+            <>
+              Want better performance from your <span className="gold-text">Google Ads spend?</span>
+            </>
+          }
+          body="Book a free 30-minute strategy call. Bring your current account and spend data. We will identify where the inefficiencies are and what API-level automation would change."
+        >
           <CTAButton eventLabel="expertise_google_ads_cta" caption="The ad account, and what's being wasted.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
-        </div>
-      </div>
-
-      <Footer />
-    </main>
+        </CtaPanel>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }

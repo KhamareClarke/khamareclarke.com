@@ -72,7 +72,7 @@ const ProjectCard = ({ imgUrl, title, description, gitUrl, previewUrl }) => {
       
       {/* Content Section - Bottom */}
       <div className="p-6">
-        <h5 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-2 text-[#ffb700] group-hover:text-[#ff8c00] transition-colors duration-300">{title}</h5>
+        <h5 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-2 text-primary group-hover:text-primary-hover transition-colors duration-300">{title}</h5>
         <p className="text-[#ADB7BE] text-base line-clamp-3">{description}</p>
       </div>
     </div>

@@ -1,10 +1,15 @@
 // src/app/expertise/marketing-automation/page.js
 
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import Link from "next/link";
+import PageShell from "../../components/PageShell";
+import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
+import SectionHeading from "../../components/ui/SectionHeading";
+import CtaPanel from "../../components/ui/CtaPanel";
+import { Section } from "../../components/ui/Section";
+import { Container } from "../../components/ui/Container";
+import Card from "../../components/ui/Card";
 import CTAButton from "../../components/CTAButton";
-import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../../lib/schema";
 
 export const metadata = {
   title: "CRM and Marketing Automation UK | Khamare Clarke | Stoke-on-Trent",
@@ -63,47 +68,48 @@ const faqSchema = {
 
 export default function MarketingAutomationPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+    <PageShell
+      schema={
+        <>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        </>
+      }
+    >
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
+          <PageHero
+            eyebrow="Expertise"
+            size="feature"
+            title={
+              <>
+                CRM and Marketing Automation{" "}
+                <span className="gold-text">| Every Lead Followed Up, Automatically</span>
+              </>
+            }
+          />
 
-      <Navbar />
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
-
-        <div className="flex items-center gap-4 mb-8 h-4">
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-            Expertise
+          {/* The trust strip that sits under the hero on the homepage. */}
+          <AchievementsSection dense />
+          <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
+            Most businesses lose more leads to poor follow-up than to poor marketing.
+            A new enquiry that is not responded to within minutes is a lead your competitor
+            will close. CRM and marketing automation means every enquiry is captured,
+            responded to, and followed up -- without requiring a person to remember to do it.
           </p>
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-        </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
-          CRM and Marketing Automation{" "}
-          <span className="gold-text">| Every Lead Followed Up, Automatically</span>
-        </h1>
-        <p className="text-[#ADB7BE] text-lg mb-16 max-w-2xl">
-          Most businesses lose more leads to poor follow-up than to poor marketing.
-          A new enquiry that is not responded to within minutes is a lead your competitor
-          will close. CRM and marketing automation means every enquiry is captured,
-          responded to, and followed up -- without requiring a person to remember to do it.
-        </p>
-
-        <section className="mt-12" aria-labelledby="q1">
-          <h2 id="q1" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What marketing automation actually does
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q1">
+          <SectionHeading id="q1">
+            What <span className="gold-text">marketing automation</span> actually does
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Marketing automation performs the follow-up, qualification, and nurturing
               work that would otherwise require manual effort or simply not happen.
               The moment a prospect submits a form, sends an email, or messages through
               any channel, the system responds -- immediately, correctly, and consistently.
               It does not have off-days. It does not forget.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               For most UK businesses, the single highest-return automation is the
               immediate lead response: a message that acknowledges the enquiry, sets
               expectations, and asks a qualifying question -- sent within two minutes of
@@ -113,10 +119,10 @@ export default function MarketingAutomationPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="what-is-covered">
-          <h2 id="what-is-covered" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            What the system covers
-          </h2>
+        <section className="mt-24" aria-labelledby="what-is-covered">
+          <SectionHeading id="what-is-covered">
+            What the <span className="gold-text">system covers</span>
+          </SectionHeading>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
               ["Lead capture and routing", "Every enquiry from every channel -- web form, phone, email, social -- captured in one place and routed to the right person or sequence automatically."],
@@ -125,28 +131,28 @@ export default function MarketingAutomationPage() {
               ["Email campaigns", "Campaigns to past customers and warm contacts: re-engagement, seasonal offers, referral requests -- built once, runs continuously."],
               ["Booking and appointment flow", "Automated confirmations, reminders, and no-show follow-up that reduce wasted appointment slots."],
               ["Lead source reporting", "Every closed deal traced back to the channel that generated it -- so marketing budget goes where it produces returns."],
-            ].map(([title, body]) => (
-              <div key={title} className="bg-[#1a1a1a] border border-[#ffb700]/20 rounded-xl p-5">
-                <p className="text-[#ffb700] font-semibold text-sm mb-2">{title}</p>
-                <p className="text-[#ADB7BE] text-sm leading-relaxed">{body}</p>
-              </div>
+            ].map(([title, body], index) => (
+              <Card key={title} className="reveal" style={{ "--rv-delay": `${index * 110}ms` }}>
+                <p className="gold-text font-semibold text-sm mb-2">{title}</p>
+                <p className="text-muted text-sm leading-relaxed">{body}</p>
+              </Card>
             ))}
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q3">
-          <h2 id="q3" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            Why most CRM implementations fail
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q3">
+          <SectionHeading id="q3">
+            Why most <span className="gold-text">CRM implementations</span> fail
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               Most CRM implementations fail because the system is installed but not
               configured for the business's actual workflow. The team is not trained to
               use it consistently. No one builds the automations that make it valuable.
               The result is a database that accumulates data no one looks at, and
               follow-up that still happens manually -- or does not happen at all.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               Implementation here means building the system around what the business
               actually does: how enquiries arrive, what information needs to be
               captured, what happens next at each stage, and how the result is reported
@@ -157,19 +163,19 @@ export default function MarketingAutomationPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q4">
-          <h2 id="q4" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-            How it connects to the wider system
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
+        <section className="mt-24" aria-labelledby="q4">
+          <SectionHeading id="q4">
+            How it connects to the <span className="gold-text">wider system</span>
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
               CRM and marketing automation works best as part of a joined-up system.
               The website generates enquiries that land in the CRM. The AI receptionist
               responds and qualifies leads before a human is needed. Email campaigns
               convert past customers into repeat work. Google Ads and SEO drive the
               volume that the automation converts.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               Standalone, a well-built automation system still produces a measurable
               improvement: fewer cold leads, faster response times, more consistent
               follow-up. As part of a broader implementation, it compounds the return
@@ -178,7 +184,7 @@ export default function MarketingAutomationPage() {
           </div>
         </section>
 
-        <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related expertise">
+        <Card as="nav" aria-label="Related expertise" className="reveal mt-16" style={{ "--rv-delay": "200ms" }}>
           <p className="text-white font-bold mb-4">Related expertise</p>
           <ul className="space-y-2">
             {[
@@ -188,32 +194,31 @@ export default function MarketingAutomationPage() {
               { href: "/expertise/seo", label: "SEO specialist" },
               { href: "/expertise/google-ads-api", label: "Google Ads API" },
               { href: "/expertise/ai-content-systems", label: "AI content systems" },
-            ].map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm">
-                  <span className="text-[#ffb700]">--</span> {l.label}
+            ].map((l, index) => (
+              <li key={l.href} className="reveal" style={{ "--rv-delay": `${index * 90}ms` }}>
+                <Link href={l.href} className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm">
+                  <span className="gold-text">--</span> {l.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </nav>
+        </Card>
 
-        <div className="mt-12 bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-10 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Ready to stop losing leads to slow follow-up?
-          </h2>
-          <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
-            Book a free 30-minute call. We will map your current lead flow,
-            identify where enquiries are being lost, and build a system that
-            closes that gap automatically.
-          </p>
+        <CtaPanel headingLevel="h2"
+          className="mt-16"
+          heading={
+            <>
+              Ready to stop losing leads to <span className="gold-text">slow follow-up?</span>
+            </>
+          }
+          body="Book a free 30-minute call. We will map your current lead flow, identify where enquiries are being lost, and build a system that closes that gap automatically."
+        >
           <CTAButton eventLabel="expertise_marketing_automation_cta" caption="What keeps slipping through, and where it goes.">
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
-        </div>
-      </div>
-
-      <Footer />
-    </main>
+        </CtaPanel>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }

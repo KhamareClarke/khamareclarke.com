@@ -69,7 +69,7 @@ export default function LoginPage() {
   const isAdmin = mode === 'admin';
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a] px-4">
+    <main id="main-content" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a] px-4">
       <Section className="py-ds-6">
         <Container size="narrow">
           <motion.div
@@ -146,7 +146,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 px-4 bg-[#ffb700] text-[#0a0a0a] font-bold rounded-lg hover:bg-[#e6a600] transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 px-4 bg-primary text-[#0a0a0a] font-bold rounded-lg hover:bg-primary-hover transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading
                     ? 'Signing in...'

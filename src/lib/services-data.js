@@ -109,10 +109,10 @@ export const SERVICES = [
   },
   {
     slug: 'google-ranking',
-    title: 'Rank Number One on Google',
+    title: 'Google Ranking & SEO Services',
     shortTitle: 'Google Ranking',
-    heading: 'Rank Number One on Google',
-    description: 'First-position Google rankings for commercial keywords, with a ranked-or-refunded guarantee on agreed target terms.',
+    heading: 'Google Ranking & SEO Services',
+    description: 'SEO focused on improving visibility for commercially valuable searches, with priorities, deliverables and progress agreed in writing.',
     icon: '🥇',
     expertiseSlug: 'google-ranking',
   },
@@ -126,7 +126,7 @@ export const TIER_1_LOCATIONS = [
     county: 'Staffordshire',
     tier: 1,
     intro: 'Stoke-on-Trent is the base. Every campaign, build, and system runs from here. That means local knowledge is real, response times are fast, and I can meet in person.',
-    localNote: 'The Potteries economy runs on trades, manufacturing, retail, and services — all industries where appearing first on Google and in AI search converts directly to enquiries.',
+    localNote: 'The Potteries economy runs on trades, manufacturing, retail, and services, all industries where appearing first on Google and in AI search converts directly to enquiries.',
   },
   {
     slug: 'stafford',

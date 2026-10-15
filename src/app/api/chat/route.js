@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 const knowledgeBase = {
   // Services
   'services': {
-    keywords: ['services', 'what do you do', 'offer', 'provide', 'capabilities', 'what services', 'your services'],
+    keywords: ['services', 'what do you do', 'what do you offer', 'provide', 'capabilities', 'what services', 'your services'],
     response: `I help businesses grow through AI automation, web development, and digital marketing.
 
 I specialize in:
@@ -27,7 +27,9 @@ I typically automate things like:
 - Data entry and processing
 - Social media and email marketing
 
-Most of my clients save 20-40 hours per week and see a 99% reduction in errors. It's pretty amazing what's possible when you let AI handle the routine stuff.
+Most of that work is repetitive by nature, which is what makes it worth automating.
+
+What changes depends on the business, so I don't quote savings figures here. On a call I'll tell you plainly what is worth automating in yours, and what is not worth the effort.
 
 Would you like to know more about how this could work for your business?`
   },
@@ -51,24 +53,20 @@ Would you like to know more about how this could work for your business?`
 • Performance optimization
 
 **What You Get:**
-• Lightning-fast loading times
-• SEO-optimized for better rankings
+• Fast loading times
+• Built to be found in search, including AI assistants
 • Mobile-first responsive design
-• Analytics and tracking integration
-• Ongoing support and maintenance
+• Analytics and conversion tracking
+• Hosting, security and ongoing maintenance within the managed service
 
-**Results:**
-• 40% faster page load times
-• 25% increase in user engagement
-• 60% improvement in conversion rates
-• 100% mobile compatibility
+I don't publish percentage improvements here. Where I have documented results, they are on the site with the client named.
 
-All projects include comprehensive testing, optimization, and ongoing support. Ready to discuss your web development needs?`
+Ready to discuss your web development needs?`
   },
 
   'digital marketing': {
     keywords: ['digital marketing', 'marketing', 'seo', 'lead generation', 'social media', 'growth'],
-    response: `I drive real business growth through strategic digital marketing that delivers measurable ROI:
+    response: `I work on the parts of marketing that can be measured: search visibility, enquiries, and where they come from:
 
 **My Marketing Services:**
 • **Lead Generation**: Proven strategies to attract qualified prospects
@@ -78,18 +76,13 @@ All projects include comprehensive testing, optimization, and ongoing support. R
 • **Content Marketing**: Valuable content that builds authority
 • **Paid Advertising**: Strategic PPC and social media ads
 
-**The Results I Deliver:**
-• 2-3x increase in qualified leads within 90 days
-• 40% improvement in conversion rates
-• 50% reduction in cost per acquisition
-• 200% increase in organic traffic
-• 300% improvement in social media engagement
-
 **My Approach:**
-1. **Strategy**: Data-driven marketing plans
-2. **Implementation**: Expert execution across channels
-3. **Optimization**: Continuous testing and improvement
-4. **Reporting**: Clear ROI tracking and insights
+1. **Strategy**: Plans built on what your numbers already show
+2. **Implementation**: The work done, not a slide deck
+3. **Optimisation**: Continuous testing and adjustment
+4. **Reporting**: A monthly report covering enquiries, response times and search visibility
+
+I don't publish lead or traffic percentages here. Results depend on the market and the starting point, and I would rather show you documented work than a headline figure.
 
 **Industries I've Helped:**
 • E-commerce and retail
@@ -103,69 +96,66 @@ Ready to see how strategic digital marketing can transform your business growth?
 
   // Pricing and Investment
   'pricing': {
-    keywords: ['pricing', 'cost', 'price', 'how much', 'budget', 'investment', 'rates'],
-    response: `Pricing really depends on what you need and the scope of your project. I try to keep things flexible so it works for different budgets.
+    keywords: ['pricing', 'cost', 'price', 'how much', 'budget', 'investment', 'rates', 'worth', 'value for money'],
+    response: `Pricing is straightforward. There are three things, and only one of them varies:
 
-Here's a rough idea of what things cost:
-- Web development: £2,500 to £15,000+ depending on complexity
-- AI automation: £1,500 to £8,000+ based on what you want to automate
-- Digital marketing: £1,000 to £5,000 per month for ongoing campaigns
-- Full business transformation: £5,000 to £25,000+ for comprehensive solutions
+- **Managed Business Systems**: £999 per month. One integrated service covering the build and the ongoing management.
+- **Paid Consultancy**: £250 per session, including a concise written action summary.
+- **Bespoke Software**: individually quoted, because the scope varies.
 
-The best way to get accurate pricing is through a free 30-minute discovery call where we can discuss your specific needs. Would you like to book one?`
+Bespoke software is the only separately quoted piece. It is not part of the £999 monthly service.
+
+For an accurate answer on your own situation, the best step is a free 30-minute introductory call. Would you like to book one?`
   },
 
   'business bundle': {
     keywords: ['business bundle', 'bundle', 'package', 'what\'s included', 'comprehensive', 'full service', 'whats included', 'included in', 'bundle include'],
-    response: `The business bundle is my most comprehensive offering - it's designed for businesses that want to transform everything at once.
+    response: `The Business Bundle is the £999 per month managed service — the same service described on the homepage.
 
-Here's what's included in the business bundle:
-- Complete AI automation setup (chatbots, workflows, data processing)
-- Custom website or web application development
-- Digital marketing strategy and implementation
-- Analytics and reporting dashboard
-- 3 months of ongoing support and optimization
-- Monthly strategy calls and performance reviews
-- Training for your team on new systems
+What it covers:
+- A bespoke website, built or rebuilt
+- An AI chatbot, plus an AI voice receptionist or WhatsApp agent
+- Your Google Business Profile and local SEO
+- Enquiry capture through to your CRM, with automated follow-up and booking
+- Analytics and a monthly report
+- Hosting, security and ongoing management
 
-The bundle typically ranges from £5,000 to £25,000+ depending on the complexity and scope. It's designed to give you maximum ROI by integrating everything together.
+Bespoke software is not included. Applications and custom builds are scoped and quoted separately.
 
-Would you like to discuss what this could look like for your specific business?`
+Would you like to discuss what this would look like for your business?`
   },
 
   'custom quote': {
-    keywords: ['custom quote', 'personalized quote', 'specific quote', 'tailored pricing', 'individual quote'],
-    response: `Absolutely! I'd be happy to create a custom quote for your specific needs.
+    keywords: ['custom quote', 'personalized quote', 'specific quote', 'tailored pricing', 'individual quote', 'bespoke', 'bespoke software', 'custom software', 'custom development', 'software quote', 'quoted', 'custom app', 'custom web app'],
+    response: `Bespoke software is quoted individually, because the scope varies from one build to the next.
 
-To give you an accurate quote, I'll need to understand:
-- What specific services you're interested in
-- The scope and complexity of your project
-- Your timeline and budget range
-- Any existing systems or tools you're using
-- Your main business goals and challenges
+To give you an accurate figure, I'd need to understand:
+- What the software needs to do
+- How it fits with the systems you already run
+- Who will use it, and how often
+- When you need it
 
-The best way to do this is through a free 30-minute discovery call where we can discuss your needs in detail. After that, I'll send you a personalized proposal with:
-- Detailed breakdown of services
-- Timeline and milestones
-- Investment options
-- Expected results and ROI
+To be clear about the distinction: the managed service is £999 per month and priced separately. Anything that needs building beyond that service is quoted on its own.
 
-Would you like to request a custom quote now? I can send you a detailed proposal within 24 hours.`
+The best first step is a free 30-minute introductory call. Would you like to book one?`
   },
 
   'payment plans': {
     keywords: ['payment plans', 'installments', 'monthly payments', 'financing', 'payment options', 'split payments', 'do you offer payment', 'payment schedule', 'pay monthly'],
-    response: `Yes, I do offer flexible payment plans to make things easier for my clients.
+    response: `The managed service is one monthly fee of £999, billed monthly. There are no separate invoices for the individual pieces of the system.
 
-Here are the payment options I typically offer:
-- 50% upfront, 50% on completion (for smaller projects)
-- 3-month payment plan (33% upfront, then monthly)
-- 6-month payment plan (20% upfront, then monthly)
-- Custom payment schedules based on project milestones
+I don't publish other payment structures here. Anything outside the standard monthly arrangement is agreed in writing before work starts.
 
-For larger projects like the business bundle, I'm happy to work out a payment plan that fits your cash flow. The goal is to make it work for your business without causing financial stress.
+Would you like to book a free 30-minute introductory call to go through it?`
+  },
 
-I can discuss specific payment options during our consultation call. What kind of payment schedule would work best for your situation?`
+  'discounts': {
+    keywords: ['discount', 'cheaper', 'reduce the price', 'knock off', 'any deals', 'special price'],
+    response: `There are no discounts published. The managed service is £999 per month, and the advisory session is £250.
+
+If the price is the barrier, say so on the call. I would rather tell you honestly whether it is worth doing at all than invent a special price here.
+
+Would you like to book a free 30-minute introductory call?`
   },
 
   'integration': {
@@ -216,37 +206,30 @@ Primary success metrics:
 - Customer satisfaction (response times, accuracy)
 
 Specific measurements I track:
-- Response time improvements (from hours to minutes)
-- Task completion rates (99%+ accuracy)
-- Customer engagement increases
-- Lead conversion improvements
-- Employee productivity gains
+- Response times on enquiries
+- Task completion, and where things stall
+- Enquiry-to-conversation rates
+- Team time released from repetitive work
 
-I provide detailed monthly reports showing exactly how the automation is performing and where we can optimize further. Most clients see measurable improvements within the first 30 days.
+I provide a monthly report showing how the system is performing and where it needs adjusting. What that adds up to depends on the business, so I don't put a figure on it here.
 
-What specific metrics matter most to your business? I can focus on tracking those.`
+What specific metrics matter most to your business? I can tell you what is worth measuring.`
   },
 
   'integration timeline': {
     keywords: ['how long does integration take', 'integration timeline', 'integration duration', 'how long integration', 'how long take', 'integration time', 'how long', 'timeline integration'],
-    response: `Integration timeline depends on the complexity of your existing systems and what we're connecting, but here's what you can expect:
+    response: `It depends entirely on what needs connecting, so I won't put week counts on it here. Anyone quoting a fixed integration timeline before seeing your systems is guessing.
 
-Typical integration timelines:
-- Simple integrations (single platform): 1-2 weeks
-- Medium complexity (2-3 systems): 2-4 weeks  
-- Complex integrations (multiple systems): 4-8 weeks
-- Full business transformation: 8-12 weeks
+What drives it:
+- How many systems are involved
+- How clean the data is
+- What has to be built rather than connected
+- How much testing the business needs
+- Team training
 
-Factors that affect timeline:
-- Number of systems to integrate
-- Data complexity and volume
-- Custom requirements
-- Testing and optimization needs
-- Team training requirements
+I start by assessing what you already run, and only then do I commit to a date. Most integrations happen without interrupting the day-to-day.
 
-I always start with a quick assessment to give you an accurate timeline. The good news is that most integrations can be done without disrupting your current operations.
-
-What systems are you looking to integrate? I can give you a more specific timeline.`
+What systems are you looking to integrate?`
   },
 
   'workflow disruption': {
@@ -264,9 +247,9 @@ My approach to minimize disruption:
 What you can expect:
 - Your current systems keep running during integration
 - New automation works alongside existing processes
-- Gradual rollout with training at each step
-- 24/7 support during the transition period
-- Quick fixes if anything doesn't work as expected
+- A gradual rollout, with training at each step
+- Support by phone and email during business hours while it goes in
+- Problems fixed properly rather than worked around
 
 The goal is to make your life easier, not more complicated. Most clients find their workflow actually improves because they're spending less time on repetitive tasks.
 
@@ -275,29 +258,13 @@ What's your biggest concern about the transition? I can address it specifically.
 
   'examples': {
     keywords: ['show me examples', 'examples', 'case studies', 'show examples', 'can you show', 'examples of work'],
-    response: `Absolutely! I'd be happy to show you some examples of my work. Here are a few case studies:
+    response: `I have documented results for work across roofing, legal, logistics, dental, automotive and real estate. Each one names the client, and I can take you through any of them.
 
-E-commerce Success Story:
-- Client: Online fashion retailer
-- Challenge: Manual order processing and customer service
-- Solution: AI chatbot + automated order management
-- Results: 200% increase in sales, 50% reduction in customer service time
+I don't publish percentage figures in chat. A number without the context behind it is not evidence, and I would rather show you the systems themselves.
 
-Professional Services Example:
-- Client: Law firm with 15 attorneys
-- Challenge: Client intake and document processing
-- Solution: Automated client onboarding + document management
-- Results: 60% time savings, 99% accuracy in document processing
+The best way to see whether this applies to your business is a free 30-minute introductory call, where we can look at the examples closest to your situation.
 
-Healthcare Practice:
-- Client: Medical practice with 3 locations
-- Challenge: Appointment scheduling and patient communication
-- Solution: AI scheduling system + automated patient reminders
-- Results: 40% reduction in no-shows, 80% time savings on scheduling
-
-I can provide more detailed case studies during our consultation call, including specific metrics and before/after comparisons.
-
-Would you like to see examples relevant to your industry?`
+Would you like to book one?`
   },
 
   'reporting frequency': {
@@ -305,90 +272,66 @@ Would you like to see examples relevant to your industry?`
     response: `I provide regular reporting to keep you informed about progress and results:
 
 Reporting schedule:
-- Weekly progress updates during implementation
-- Monthly performance reports once live
-- Quarterly strategy reviews
-- Annual business impact assessment
+- Updates as the build progresses
+- A monthly report once live
+- Anything urgent raised as soon as I see it, rather than saved for the report
 
-What you get in each report:
-- Key performance metrics and improvements
-- Time and cost savings achieved
-- Any issues or challenges and how they're being addressed
-- Recommendations for further optimization
-- Next steps and upcoming milestones
+What the monthly report covers:
+- Enquiries received, and how quickly they were answered
+- Search visibility
+- What has been changed or fixed that month
+- What I recommend doing next
 
-I also provide real-time dashboards where you can see live metrics and performance data. You'll have 24/7 access to see how your automation is performing.
+You also have a live dashboard, available whenever you want to look at it. Human support runs in business hours.
 
-The frequency can be adjusted based on your preferences - some clients prefer more frequent updates, others prefer monthly summaries.
+The schedule can flex to suit you, though most clients settle on monthly.
 
-What reporting frequency would work best for you?`
+What reporting would be most useful to you?`
   },
 
   // Process and Timeline
   'process': {
     keywords: ['process', 'how it works', 'timeline', 'steps', 'workflow', 'methodology'],
-    response: `Here's my proven process for delivering exceptional results:
+    response: `Here's how the work runs:
 
-**Phase 1: Discovery & Strategy (Week 1)**
-• Free consultation to understand your goals
-• Comprehensive business analysis
-• Custom strategy development
-• Clear roadmap with milestones
+**1. Assessment**
+• I look at what you already run: website, CRM, inbox, phone, and the spreadsheets holding it together
+• We agree what is worth fixing first, and what is not worth touching
 
-**Phase 2: Planning & Design (Week 2)**
-• Detailed project planning
-• Design and architecture decisions
-• Resource allocation and timeline
-• Client approval and sign-off
+**2. Build**
+• The build goes in stage by stage
+• You see it as it comes together, rather than all at the end
 
-**Phase 3: Implementation (Weeks 3-8)**
-• Expert execution with regular updates
-• Weekly progress reports
-• Client feedback integration
-• Quality assurance and testing
+**3. Handover**
+• Documentation in plain English
+• Your team trained on how it works
+• A 45-minute handover call
 
-**Phase 4: Launch & Optimization (Weeks 9-12)**
-• System deployment and go-live
-• Performance monitoring
-• Initial optimization
-• Training and handover
+**4. Ongoing management**
+• Hosting, security and monitoring
+• Google Business Profile and local SEO upkeep
+• CRM and follow-up tuning
+• A monthly report on enquiries, response times and search visibility
 
-**Phase 5: Ongoing Support (Ongoing)**
-• Continuous monitoring and optimization
-• Regular performance reviews
-• Strategic adjustments
-• Long-term growth planning
+I don't promise result dates. I commit to delivery dates once I've seen your systems. Anything before that is a guess.
 
-**Timeline Expectations:**
-• Initial results: 30 days
-• Full optimization: 90 days
-• Maximum ROI: 6 months
-
-**Communication:**
-• Weekly progress updates
-• 24-hour response time
-• Direct access to me
-• Monthly strategy reviews
-
-Ready to start your transformation journey?`
+Ready to get started?`
   },
 
   // Experience and Credentials
   'experience': {
     keywords: ['experience', 'background', 'qualifications', 'portfolio', 'clients', 'credentials', 'show me your experience', 'your experience', 'tell me about your experience'],
-    response: `I'm Khamare Clarke, an AI Business Growth Specialist with extensive experience transforming businesses:
+    response: `I'm Khamare Clarke, an AI Implementation Specialist.
 
 My Background:
-- 5+ Years in AI automation and digital transformation
-- 100+ Projects successfully delivered across various industries
-- UK Specialized with deep understanding of UK business landscape
-- Full-Stack Expertise in end-to-end solutions from strategy to implementation
+- Twelve years in software engineering, artificial intelligence and machine learning
+- Worked as an AI Solution Architect and a Google Cloud Engineer
+- MSc in Computer Science and AI at Keele University, finishing in 2027
+- Based in Stoke-on-Trent, working with businesses across the UK
 
-Proven Results:
-- 2-3x average ROI for clients
-- 40% average efficiency improvement
-- 99% client satisfaction rate
-- 200% average lead generation increase
+What I do: I build and connect the systems a business runs on. Website, search visibility, enquiry handling, CRM, automation and reporting. Then I document it and hand it over, so the team can run it without me.
+
+On results: I don't publish headline percentages here. Where I have documented results, they are on the site with the client named, and I can walk you through any of them on a call.
 
 Industries I've Helped:
 - E-commerce and retail
@@ -399,10 +342,10 @@ Industries I've Helped:
 - Manufacturing and distribution
 
 My Approach:
-- Data-driven decision making
-- Custom solutions, not one-size-fits-all
-- Focus on measurable business outcomes
-- Long-term partnership mindset
+- Decisions based on what your numbers show
+- Built for your business, not a template
+- Measurable outcomes, or I'll say so
+- A working relationship, not a one-off handover
 
 Certifications & Skills:
 - AI and Machine Learning
@@ -411,29 +354,26 @@ Certifications & Skills:
 - Business Process Optimization
 - Project Management
 
-Client Testimonials:
-"Khamare transformed our business operations. We've saved 30 hours per week and increased revenue by 150%." - Sarah M., E-commerce Owner
-
-Ready to see how I can help your business achieve similar results?`
+Would you like to book a free 30-minute introductory call?`
   },
 
   // Contact and Getting Started
   'contact': {
     keywords: ['contact', 'get in touch', 'book', 'call', 'meeting', 'consultation', 'start', 'get started', 'how can i get started'],
-    response: `Great! I'd love to help you get started. Here's how we can connect:
+    response: `Good. Here's how we connect:
 
 Phone: +44 7473 255 886
 Email: info@khamareclarke.com
 LinkedIn: linkedin.com/in/khamareclarke
 
-The best way to start is with a free 30-minute strategy session where we can discuss your goals and see how I can help.
+The best way to start is a free 30-minute introductory call. It's a conversation about your business, not a pitch.
 
 Here's what typically happens:
-1. We have a free consultation to understand your needs
-2. I create a custom strategy tailored to your business
-3. I send you a detailed proposal with timeline and pricing
-4. We implement the solution together
-5. You see measurable growth in your business
+1. We have the introductory call and I learn how the business runs
+2. I tell you whether the managed service fits, and what it would involve
+3. If it does, I send a proposal covering the scope and the price
+4. We agree a start date and the build begins
+5. After handover, management continues month to month
 
 Sound good? Would you like to book a call?`
   },
@@ -463,26 +403,13 @@ Ready to schedule?`
 
   'timeline': {
     keywords: ['how quickly', 'timeline', 'how long', 'when can we start', 'duration', 'speed'],
-    response: `Timeline depends on what you need, but here's what I typically see:
+    response: `It depends on what needs doing, and I would rather give you a real answer than a generic one.
 
-Quick wins (1-2 weeks):
-- Basic AI automation setup
-- Simple chatbot deployment
-- Easy workflow automation
+What I can tell you: the assessment comes first. I look at your systems, then commit to dates based on what I find. I don't publish a standard timeline, because a business with five systems and a business with one need different things.
 
-Standard projects (2-4 weeks):
-- Website development
-- Digital marketing setup
-- Business process automation
+Nothing starts until you have seen the plan and agreed it.
 
-Complex projects (4-8 weeks):
-- Full business transformation
-- Custom app development
-- Advanced AI integration
-
-The good news is we can start immediately with a free consultation. I can usually fit in a strategy session this week, and we can often get some quick wins rolling by next week.
-
-What kind of timeline are you thinking?`
+The first step is a free 30-minute introductory call. Would you like to book one?`
   },
 
   'availability': {
@@ -498,38 +425,23 @@ For consultations, I prefer:
 - Afternoon slots: 2 PM - 5 PM
 - Evening slots: 6 PM - 7 PM (though these are limited)
 
-You can book through my online calendar, give me a call directly, send an email, or message me on LinkedIn - whatever works best for you.
-
-I can usually fit people in within 24-48 hours, sometimes even same day if it's urgent.
+You can book through my online calendar, call directly, send an email, or message me on LinkedIn. The calendar shows what is actually free, so that is the quickest route.
 
 What works best for your schedule?`
   },
 
   'success rate': {
     keywords: ['success rate', 'results', 'achievements', 'track record', 'performance'],
-    response: `I'm proud of the results I've been able to deliver for my clients. Here are some of the numbers:
+    response: `I keep published claims to what I can evidence.
 
-Success metrics:
-- 95% client satisfaction rate
-- 40% average efficiency improvement
-- 60% reduction in manual tasks
-- 3x ROI within 6 months
+Rather than quote percentages here, the honest answer is that results depend on the business, the market and the starting point. I would rather show you documented work than a headline figure.
 
-Key achievements:
-- 50+ successful projects completed
-- Over £2M in client savings generated
-- 99% project completion rate
-- 5-star average rating from clients
+What I can do instead:
+- Walk you through systems I have built, with the client named
+- Tell you plainly whether the managed service fits your situation
+- Say so if it doesn't
 
-Some specific client results:
-- E-commerce clients: 200% sales increase on average
-- Service businesses: 50% time savings
-- Marketing campaigns: 300% lead generation improvement
-- Operations: 80% process automation
-
-I've had clients tell me things like "Khamare transformed our business in 3 months" and "Best investment we ever made." It's really rewarding to see the impact.
-
-Would you like to see some specific case studies?`
+Would you like to book a free 30-minute introductory call?`
   },
 
   // Default responses
@@ -723,10 +635,13 @@ function detectUserIntent(message, context) {
   if (messageLower.includes('payment plan') || messageLower.includes('installment') || messageLower.includes('monthly payment')) {
     return { category: 'payment plans', confidence: 0.9, type: 'inquiry' };
   }
+  if (messageLower.includes('discount') || messageLower.includes('cheaper') || messageLower.includes('reduce the price') || messageLower.includes('any deals')) {
+    return { category: 'discounts', confidence: 0.9, type: 'objection' };
+  }
   if (messageLower.includes('business bundle') || messageLower.includes('what\'s included') || messageLower.includes('bundle')) {
     return { category: 'business bundle', confidence: 0.9, type: 'inquiry' };
   }
-  if (messageLower.includes('custom quote') || messageLower.includes('personalized quote') || messageLower.includes('specific quote')) {
+  if (messageLower.includes('custom quote') || messageLower.includes('personalized quote') || messageLower.includes('specific quote') || messageLower.includes('bespoke') || messageLower.includes('custom software') || messageLower.includes('custom development') || messageLower.includes('custom app') || messageLower.includes('custom web app')) {
     return { category: 'custom quote', confidence: 0.9, type: 'inquiry' };
   }
   if (messageLower.includes('price') || messageLower.includes('cost') || messageLower.includes('budget') || messageLower.includes('how much')) {
@@ -834,7 +749,7 @@ function addContextualEnhancements(response, context, intent, sentiment, urgency
   
   // Add urgency-based enhancements
   if (urgency === 'high') {
-    enhanced += '\n\nI can prioritize your project and get started within 24-48 hours if it\'s urgent.';
+    enhanced += '\n\nIf it is urgent, say so on the call and I will tell you honestly what can be moved forward and what cannot.';
   }
   
   // Add sentiment-based enhancements
@@ -848,7 +763,7 @@ function addContextualEnhancements(response, context, intent, sentiment, urgency
   if (intent.type === 'action') {
     enhanced += '\n\nPerfect! Let\'s get you started immediately.';
   } else if (intent.type === 'credibility') {
-    enhanced += '\n\nHere are the specific results I\'ve delivered for clients:';
+    enhanced += '\n\nHere is what I can tell you about how I work:';
   }
   
   return enhanced;
@@ -874,7 +789,7 @@ function addSmartCTAs(response, intent, urgency, conversationLength) {
   let enhanced = response;
   
   if (intent.type === 'action' || urgency === 'high') {
-    enhanced += '\n\nReady to book your free call? I can usually fit you in within 24-48 hours.';
+    enhanced += '\n\nReady to book your free 30-minute introductory call? The calendar shows what is available.';
   } else if (conversationLength >= 3) {
     enhanced += '\n\nReady to move forward? Book a free consultation to discuss your specific needs.';
   } else {
@@ -888,8 +803,8 @@ function generateIntelligentSuggestions(category, message, intent, conversationL
   // Always return the same general suggestions
   return [
     "What's included in the business bundle?",
-    "Do you offer payment plans?",
-    "Can I get a custom quote?"
+    "How does the monthly service work?",
+    "Can I get bespoke software quoted?"
   ];
 }
 
@@ -919,23 +834,23 @@ function getNextBestAction(intent, conversationLength) {
 function generateFollowUpSuggestions(category, message) {
   const suggestions = {
     'services': [
-      "How much does web development cost?",
+      "How much does the service cost?",
       "Can you show me examples of your work?",
       "What's your process for AI automation?"
     ],
     'pricing': [
       "What's included in the business bundle?",
-      "Do you offer payment plans?",
+      "How does the monthly service work?",
       "Can I get a custom quote?"
     ],
     'business bundle': [
       "Can I get a custom quote?",
-      "Do you offer payment plans?",
+      "How does the monthly service work?",
       "How quickly can we get started?"
     ],
     'custom quote': [
       "What's included in the business bundle?",
-      "Do you offer payment plans?",
+      "How does the monthly service work?",
       "How quickly can we get started?"
     ],
     'payment plans': [
@@ -961,7 +876,7 @@ function generateFollowUpSuggestions(category, message) {
     'timeline': [
       "What should I prepare for the consultation?",
       "What's your availability like?",
-      "Can we start this week?"
+      "What happens after the introductory call?"
     ],
     'availability': [
       "What should I prepare for the consultation?",

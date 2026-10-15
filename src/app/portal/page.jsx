@@ -48,7 +48,7 @@ export default async function PortalDashboardPage() {
   const company = profile?.company;
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
+    <main id="main-content" className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a]">
       <PortalHeader email={user.email} fullName={profile?.full_name} />
 
       <Section>

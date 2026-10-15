@@ -1,6 +1,7 @@
 // Canonical entity schema — must be byte-identical on every page.
 // Import PERSON_SCHEMA and PROFESSIONAL_SERVICE_SCHEMA; never define them inline elsewhere.
 // Updated with AI Implementation Specialist vocabulary mappings
+import { OFFER_SCHEMA_DESCRIPTION } from "./offer-data";
 
 export const PERSON_SCHEMA = {
   "@context": "https://schema.org",
@@ -60,7 +61,6 @@ export const PERSON_SCHEMA = {
     "AI content systems",
     "content automation",
     "Google ranking",
-    "rank number one on Google",
     "search visibility",
     "search engine optimisation (SEO)",
     "local SEO",
@@ -183,43 +183,49 @@ export const PROFESSIONAL_SERVICE_SCHEMA = {
   "areaServed": { "@type": "Country", "name": "United Kingdom", "sameAs": "https://www.wikidata.org/wiki/Q145" },
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
-    "name": "SEO and AI Services",
+    "name": "Managed business systems, consultancy and bespoke software",
     "itemListElement": [
       {
         "@type": "Offer",
-        "name": "Get Found",
-        "description": "The full AI system for a one-person business: AI receptionist, CRM, SEO, Google Business Profile, and monthly reporting.",
+        "name": "Managed Business Systems",
+        // The four pillars' own wording, shared with business-bundle/layout.js so the two
+        // cannot drift. See lib/offer-data.js for why it reads as it does.
+        "description": OFFER_SCHEMA_DESCRIPTION,
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "495",
+          "price": "999",
           "priceCurrency": "GBP",
+          // unitText is the human-readable period; billingDuration is the same period in the
+          // machine-readable form schema.org expects for a recurring price. Both describe one
+          // month. The priceType that used to sit here was removed: it was the US
+          // dealer-advertising floor, which says nothing true about a published UK price.
+          // The consultancy entry below still carries it, deliberately — that entry is out of
+          // scope by instruction.
           "unitText": "month",
+          "billingDuration": {
+            "@type": "QuantitativeValue",
+            "value": 1,
+            "unitCode": "MON"
+          }
+        }
+      },
+      {
+        "@type": "Offer",
+        "name": "Business Systems & AI Consultancy",
+        "description": "A paid 60-minute advisory session, including a concise written action summary.",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "250",
+          "priceCurrency": "GBP",
+          "unitText": "session",
           "priceType": "https://schema.org/MinimumAdvertisedPrice"
         }
       },
       {
         "@type": "Offer",
-        "name": "Run The Area",
-        "description": "Get Found at 2x hours plus a new website, service and area pages, and email campaigns.",
-        "priceSpecification": {
-          "@type": "UnitPriceSpecification",
-          "price": "1250",
-          "priceCurrency": "GBP",
-          "unitText": "month",
-          "priceType": "https://schema.org/MinimumAdvertisedPrice"
-        }
-      },
-      {
-        "@type": "Offer",
-        "name": "Own The Market",
-        "description": "Maximum firepower: 4x hours, Google Ads via the Ads API, custom apps and integrations, quarterly strategy session.",
-        "priceSpecification": {
-          "@type": "UnitPriceSpecification",
-          "price": "2500",
-          "priceCurrency": "GBP",
-          "unitText": "month",
-          "priceType": "https://schema.org/MinimumAdvertisedPrice"
-        }
+        "name": "Bespoke Software",
+        "description": "Scoped and quoted individually, based on what the build requires.",
+        "availability": "https://schema.org/InStock"
       }
     ]
   },

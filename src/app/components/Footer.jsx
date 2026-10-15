@@ -73,7 +73,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div className="reveal" style={{ "--rv-delay": "110ms" }}>
-            <h3 className="gold-text font-bold mb-4 text-lg">Quick Links</h3>
+            <h3 className="ds-subheading-18 gold-text mb-4">Quick Links</h3>
             <div className="flex flex-wrap text-white gap-x-2 gap-y-1 text-sm">
               <a href="/" className="hover:text-[#ffb700] transition-colors">Home</a>
               <span>·</span>

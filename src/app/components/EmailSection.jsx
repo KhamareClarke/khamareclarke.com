@@ -1,60 +1,20 @@
 'use client';
 
-import React, { useState, useCallback } from "react";
-import Image from "next/image";
-import CTAButton from "./CTAButton";
+import React from "react";
+import EnquiryForm from "./EnquiryForm";
 
-const trackEvent = (category, action, label) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', action, {
-      event_category: category,
-      event_label: label
-    });
-  }
-};
-
+/**
+ * The homepage's enquiry section.
+ *
+ * The form itself now lives in components/EnquiryForm.jsx, which is shared with
+ * /business-bundle. This component renders it with no props, so every default in
+ * EnquiryForm applies and the homepage's markup is unchanged — with one deliberate
+ * exception: the submit control is now a real `<button type="submit">` rather than the
+ * booking-widget anchor it used to be, which is what made the form functional again.
+ *
+ * The section, its heading, its lede and the card wrapper are untouched.
+ */
 const EmailSection = () => {
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
-
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-    const data = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      phone: formData.get('phone') || '',
-      subject: formData.get('subject'),
-      message: formData.get('message'),
-    };
-
-    trackEvent('contact', 'submit_consultation', 'consultation_form');
-
-    try {
-      const response = await fetch('/api/send', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        setEmailSubmitted(true);
-        form.reset();
-        trackEvent('contact', 'consultation_success', 'consultation_form_success');
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Failed to send message');
-      }
-    } catch (error) {
-      console.error('Form submission error:', error);
-      trackEvent('contact', 'consultation_error', 'consultation_form_error');
-      alert(`Failed to send request: ${error.message}`);
-    }
-  }, []);
-
   return (
     <section id="contact" className="py-16 md:py-20 lg:py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -73,105 +33,7 @@ const EmailSection = () => {
 
           {/* Right: Contact Form */}
           <div className="bg-surface-muted border border-white/10 rounded-lg p-8">
-            {emailSubmitted ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-primary/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-bold text-white mb-2">Request sent</h3>
-                <p className="text-[#ADB7BE]">I'll get back to you within 24 hours with next steps.</p>
-              </div>
-            ) : (
-              <>
-                <div className="mb-6">
-                  <div className="flex justify-center mb-4">
-                    <Image
-                      src="/images/contactimage.png.png"
-                      alt="Khamare Clarke"
-                      width={80}
-                      height={80}
-                      className="object-cover rounded-lg border border-white/10"
-                      priority
-                    />
-                  </div>
-                  <h3 className="reveal text-lg font-bold text-white mb-2 text-center">Book a Consultation</h3>
-                  <p className="reveal text-[#ADB7BE] text-base text-center">Fill out the form below to share details of your operation.</p>
-                </div>
-
-                <form className="reveal space-y-4" style={{ "--rv-delay": "200ms" }} onSubmit={handleSubmit}>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <input
-                        name="name"
-                        type="text"
-                        id="name"
-                        required
-                        aria-label="Your Name"
-                        className="w-full px-4 py-3 text-gray-100 bg-surface border border-white/10 rounded-lg focus:border-primary focus:outline-none transition-colors placeholder-[#ADB7BE]"
-                        placeholder="Your Name"
-                      />
-                    </div>
-                    <div>
-                      <input
-                        name="email"
-                        type="email"
-                        id="email"
-                        required
-                        aria-label="Your Email Address"
-                        className="w-full px-4 py-3 text-gray-100 bg-surface border border-white/10 rounded-lg focus:border-primary focus:outline-none transition-colors placeholder-[#ADB7BE]"
-                        placeholder="you@email.com"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <input
-                        name="phone"
-                        type="tel"
-                        id="phone"
-                        aria-label="Your Phone Number (Optional)"
-                        className="w-full px-4 py-3 text-gray-100 bg-surface border border-white/10 rounded-lg focus:border-primary focus:outline-none transition-colors placeholder-[#ADB7BE]"
-                        placeholder="Phone (optional)"
-                      />
-                    </div>
-                    <div>
-                      <input
-                        name="subject"
-                        type="text"
-                        id="subject"
-                        required
-                        aria-label="Nature of the Enquiry"
-                        className="w-full px-4 py-3 text-gray-100 bg-surface border border-white/10 rounded-lg focus:border-primary focus:outline-none transition-colors placeholder-[#ADB7BE]"
-                        placeholder="Nature of the enquiry"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <textarea
-                      name="message"
-                      id="message"
-                      rows="4"
-                      required
-                      aria-label="Where the organisation is under pressure"
-                      className="w-full px-4 py-3 text-gray-100 bg-surface border border-white/10 rounded-lg focus:border-primary focus:outline-none transition-colors placeholder-[#ADB7BE] resize-none"
-                      placeholder="Tell me where the organisation is under pressure."
-                    />
-                  </div>
-
-                  <CTAButton type="submit" fullWidth eventLabel="contact_submit_form">
-                    Send Request
-                  </CTAButton>
-
-                  <div className="text-center pt-2">
-                    <p className="gold-text text-lg">No obligation. Free audit.</p>
-                  </div>
-                </form>
-              </>
-            )}
+            <EnquiryForm />
           </div>
 
         </div>

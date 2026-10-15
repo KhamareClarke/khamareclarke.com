@@ -64,7 +64,7 @@ export default function OnboardingForm({ userId = null, endpoint = '/api/onboard
   const isLastStep = step === STEPS.length - 1;
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a] px-4 py-12">
+    <main id="main-content" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a] px-4 py-12">
       <Section className="py-ds-6">
         <Container size="narrow">
       <motion.div

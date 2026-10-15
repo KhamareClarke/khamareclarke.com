@@ -1,10 +1,15 @@
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
-import CTAButton from "../../../components/CTAButton";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import PageShell from "../../../components/PageShell";
+import PageHero from "../../../components/ui/PageHero";
+import AchievementsSection from "../../../components/AchievementsSection";
+import SectionHeading from "../../../components/ui/SectionHeading";
+import CtaPanel from "../../../components/ui/CtaPanel";
+import { Section } from "../../../components/ui/Section";
+import { Container } from "../../../components/ui/Container";
+import Card from "../../../components/ui/Card";
+import CTAButton from "../../../components/CTAButton";
 import { SERVICES, ALL_LOCATIONS } from "../../../../lib/services-data";
-import { PERSON_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../../../../lib/schema";
 
 export async function generateStaticParams() {
   return SERVICES.flatMap(service =>
@@ -79,7 +84,7 @@ function buildFaqSchema(service, location) {
         "name": `How much does ${service.title} cost for a ${location.name} business?`,
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `Services start from £495 per month on the Get Found tier, rising to £1,250/mo for Run The Area and £2,500/mo for Own The Market. Pricing depends on the scope, competition level in ${location.name}, and the volume of work required. A free 30-minute strategy call gives an accurate picture for your specific situation.`,
+          "text": `Pricing depends on the scope of the work, the competition level in ${location.name}, and the volume of work required. A free 30-minute strategy call gives an accurate picture for your specific situation.`,
         },
       },
       {
@@ -87,7 +92,7 @@ function buildFaqSchema(service, location) {
         "name": `How long before a ${location.name} business sees results from ${service.shortTitle}?`,
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `For local campaigns targeting ${location.name}, meaningful results typically appear within 60 to 90 days. Ranking targets are agreed at the start of every engagement. On the Get Found tier, if those agreed targets are not reached within 60 days, that month's fee is refunded in full.`,
+          "text": `For local campaigns targeting ${location.name}, movement in search visibility typically becomes measurable over the first three to six months. Priorities and deliverables are agreed in writing at the start of every engagement.`,
         },
       },
     ],
@@ -98,7 +103,7 @@ function getLocationIntro(service, location) {
   if (location.intro) {
     return location.intro;
   }
-  return `${location.name} businesses operating in ${location.region} face consistent local search competition. Appearing at the top of Google for your service in ${location.name} is achievable — but it requires the right technical foundation, accurate Google Business Profile management, and content that Google and AI engines trust.`;
+  return `${location.name} businesses operating in ${location.region} face consistent local search competition. Appearing at the top of Google for your service in ${location.name} is achievable, but it requires the right technical foundation, accurate Google Business Profile management, and content that Google and AI engines trust.`;
 }
 
 function getLocalNote(service, location) {
@@ -107,6 +112,19 @@ function getLocalNote(service, location) {
   }
   return `${location.name} is served from Stoke-on-Trent. All campaigns, builds, and systems run directly from there. Most work is delivered remotely, with in-person visits available for clients where that matters.`;
 }
+
+const documentedResults = [
+  {
+    client: "Upgrade Roofing Solutions",
+    metric: "538%",
+    body: "Growth in Google Business Profile interactions in 90 days. Over 30 qualified inbound calls in the first two weeks.",
+  },
+  {
+    client: "City Plaza Abu Dhabi",
+    metric: "5X",
+    body: "Lead volume within 60 days, scaling to approximately 20 qualified enquiries per day at peak.",
+  },
+];
 
 export default function ServiceLocationPage({ params }) {
   const service = SERVICES.find(s => s.slug === params.service);
@@ -122,166 +140,154 @@ export default function ServiceLocationPage({ params }) {
   const relatedServices = SERVICES.filter(s => s.slug !== service.slug).slice(0, 4);
 
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFESSIONAL_SERVICE_SCHEMA) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-
-      <Navbar />
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
+    <PageShell
+      schema={
+        <>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        </>
+      }
+    >
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
 
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs text-[#ADB7BE] mb-8" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-[#ffb700] transition-colors">Home</Link>
+        <nav className="flex items-center gap-2 text-xs text-muted mb-8" aria-label="Breadcrumb">
+          <Link href="/" className="hover:gold-text transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/services" className="hover:text-[#ffb700] transition-colors">Services</Link>
+          <Link href="/services" className="hover:gold-text transition-colors">Services</Link>
           <span>/</span>
-          <Link href={`/services/${service.slug}`} className="hover:text-[#ffb700] transition-colors">{service.shortTitle}</Link>
+          <Link href={`/services/${service.slug}`} className="hover:gold-text transition-colors">{service.shortTitle}</Link>
           <span>/</span>
           <span className="text-white">{location.name}</span>
         </nav>
 
-        <div className="flex items-center gap-4 mb-8 h-4">
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-            Serving {location.name}
-          </p>
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-        </div>
+        <PageHero eyebrow={`Serving ${location.name}`} title={<>{service.heading} <span className="gold-text">in {location.name}</span></>} size="feature" />
 
-        {/* H1 */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
-          {service.heading}{" "}
-          <span className="gold-text">in {location.name}</span>
-        </h1>
-        <p className="text-[#ADB7BE] text-lg mb-12 max-w-2xl leading-relaxed">
+        {/* The trust strip that sits under the hero on the homepage. */}
+        <AchievementsSection dense />
+        <p className="reveal mt-6 text-muted text-lg mb-12 max-w-2xl leading-relaxed" style={{ "--rv-delay": "200ms" }}>
           {service.description}
         </p>
 
         {/* Location intro */}
         <section aria-labelledby="location-context">
-          <h2 id="location-context" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
+          <SectionHeading id="location-context">
             {service.shortTitle} in {location.name} — the context
-          </h2>
-          <p className="text-[#ADB7BE] text-lg leading-relaxed mb-4">{intro}</p>
-          <p className="text-[#ADB7BE] text-lg leading-relaxed">{localNote}</p>
+          </SectionHeading>
+          <p className="reveal text-muted ds-body-lg mb-4" style={{ "--rv-delay": "200ms" }}>{intro}</p>
+          <p className="reveal text-muted ds-body-lg" style={{ "--rv-delay": "280ms" }}>{localNote}</p>
         </section>
 
         {/* What this service involves */}
-        <section className="mt-12" aria-labelledby="service-scope">
-          <h2 id="service-scope" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
+        <section className="mt-24" aria-labelledby="service-scope">
+          <SectionHeading id="service-scope">
             What does {service.heading} involve for a {location.name} business?
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
-            <p>
-              Every engagement starts with an audit: what is the current state of the site, the Google Business Profile (where applicable), the local citations, and the structured data? The audit identifies the highest-leverage actions — the fixes that produce the fastest ranking movement — and those go first.
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
+            <p className="reveal" style={{ "--rv-delay": "200ms" }}>
+              Every engagement starts with an audit: what is the current state of the site, the Google Business Profile (where applicable), the local citations, and the structured data? The audit identifies the highest-leverage actions and puts those first: the fixes that produce the fastest ranking movement.
             </p>
-            <p>
+            <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               For {location.name} businesses, that typically means technical fixes that are suppressing rankings right now, followed by content and authority work that compounds over time. The campaign is built around agreed targets, not a general promise of "better rankings".
             </p>
           </div>
         </section>
 
         {/* Documented results */}
-        <section className="mt-12" aria-labelledby="results">
-          <h2 id="results" className="text-2xl sm:text-3xl font-bold text-white mb-6 border-l-4 border-[#ffb700] pl-4">
-            Documented results from live campaigns
-          </h2>
+        <section className="mt-24" aria-labelledby="results">
+          <SectionHeading id="results">
+            Documented <span className="gold-text">results</span> from live campaigns
+          </SectionHeading>
           <div className="grid sm:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 p-6">
-              <p className="text-[#ffb700] text-xs font-bold uppercase tracking-widest mb-3">Upgrade Roofing Solutions</p>
-              <p className="text-white text-4xl font-extrabold mb-2">538%</p>
-              <p className="text-[#ADB7BE] text-sm leading-relaxed">
-                Growth in Google Business Profile interactions in 90 days. Over 30 qualified inbound calls in the first two weeks.
-              </p>
-            </div>
-            <div className="bg-gradient-to-br from-[#181818] via-[#0A0A0A] to-black rounded-2xl border-2 border-[#ffb700]/30 p-6">
-              <p className="text-[#ffb700] text-xs font-bold uppercase tracking-widest mb-3">City Plaza Abu Dhabi</p>
-              <p className="text-white text-4xl font-extrabold mb-2">5X</p>
-              <p className="text-[#ADB7BE] text-sm leading-relaxed">
-                Lead volume within 60 days, scaling to approximately 20 qualified enquiries per day at peak.
-              </p>
-            </div>
+            {documentedResults.map((result, index) => (
+              <Card
+                key={result.client}
+                className="reveal"
+                style={{ "--rv-delay": `${index * 110}ms` }}
+              >
+                <p className="gold-text text-xs font-bold uppercase tracking-widest mb-3">{result.client}</p>
+                <p className="ds-numeric text-white text-4xl font-extrabold mb-2">{result.metric}</p>
+                <p className="text-muted text-sm leading-relaxed">{result.body}</p>
+              </Card>
+            ))}
           </div>
         </section>
 
         {/* FAQ */}
-        <section className="mt-12 space-y-8" aria-labelledby="faq">
-          <h2 id="faq" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
+        <section className="mt-24" aria-labelledby="faq">
+          <SectionHeading id="faq">
             Common questions from {location.name} businesses
-          </h2>
+          </SectionHeading>
 
           <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-bold text-white mb-3">
+            <div className="reveal" style={{ "--rv-delay": "200ms" }}>
+              <h3 className="ds-subheading-18 text-white mb-3">
                 Does Khamare Clarke offer {service.shortTitle} in {location.name}?
               </h3>
-              <p className="text-[#ADB7BE] leading-relaxed">
+              <p className="text-muted ds-body">
                 Yes. {service.heading} services are available to businesses in {location.name} and the wider {location.region} area. Most work is delivered remotely with no loss of quality. For {location.name} clients where an in-person meeting would help, that can be arranged.
               </p>
             </div>
 
-            <div>
-              <h3 className="text-lg font-bold text-white mb-3">
+            <div className="reveal" style={{ "--rv-delay": "280ms" }}>
+              <h3 className="ds-subheading-18 text-white mb-3">
                 How much does {service.shortTitle} cost in {location.name}?
               </h3>
-              <p className="text-[#ADB7BE] leading-relaxed">
-                Services start from £495 per month on the Get Found tier. Run The Area starts at £1,250/mo and Own The Market at £2,500/mo. A 30-minute strategy call gives an accurate picture for your specific situation in {location.name}.
+              <p className="text-muted ds-body">
+                Pricing depends on the scope of the work, the competition level in {location.name}, and the volume of work required. A 30-minute strategy call gives an accurate picture for your specific situation in {location.name}.
               </p>
             </div>
 
-            <div>
-              <h3 className="text-lg font-bold text-white mb-3">
+            <div className="reveal" style={{ "--rv-delay": "360ms" }}>
+              <h3 className="ds-subheading-18 text-white mb-3">
                 How long before a {location.name} business sees results?
               </h3>
-              <p className="text-[#ADB7BE] leading-relaxed">
-                For local campaigns, meaningful movement typically appears within 60 to 90 days. Ranking targets are agreed at the start. On the Get Found tier, if those targets are not reached within 60 days, that month's fee is refunded in full.
+              <p className="text-muted ds-body">
+                For local campaigns, movement in search visibility typically becomes
+                measurable over the first three to six months. Priorities and deliverables
+                are agreed in writing at the start of every engagement.
               </p>
             </div>
           </div>
         </section>
 
         {/* Related services */}
-        <nav className="mt-16 bg-gradient-to-br from-[#181818]/80 to-[#232323]/90 border border-[#ffb700]/20 rounded-2xl p-8" aria-label="Related services">
+        <nav className="mt-16 bg-surface-muted border border-primary/20 rounded-lg p-8" aria-label="Related services">
           <p className="text-white font-bold mb-4">Other services for {location.name} businesses</p>
           <ul className="space-y-2">
-            {relatedServices.map(s => (
-              <li key={s.slug}>
+            {relatedServices.map((s, index) => (
+              <li key={s.slug} className="reveal" style={{ "--rv-delay": `${Math.min(index, 6) * 90}ms` }}>
                 <Link
                   href={`/services/${s.slug}/${location.slug}`}
-                  className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm"
+                  className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm"
                 >
-                  <span className="text-[#ffb700]">→</span>
+                  <span className="gold-text">→</span>
                   {s.title} in {location.name}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="mt-4 pt-4 border-t border-[#ffb700]/10">
-            <Link href="/services" className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors text-sm flex items-center gap-2">
-              <span className="text-[#ffb700]">←</span> All services
+          <div className="mt-4 pt-4 border-t border-primary/10">
+            <Link href="/services" className="text-muted hover:gold-text transition-colors text-sm flex items-center gap-2">
+              <span className="gold-text">←</span> All services
             </Link>
           </div>
         </nav>
 
         {/* CTA */}
-        <div className="mt-12 bg-gradient-to-br from-[#181818]/80 to-[#232323]/90 border border-[#ffb700]/30 rounded-2xl p-10 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Ready to talk about {service.shortTitle} in {location.name}?
-          </h2>
-          <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
-            30 minutes. No obligation. An honest assessment of where your {location.name} business stands and what it would take to move it.
-          </p>
-          <CTAButton eventLabel={`service_${service.slug}_${location.slug}_cta`} caption="ranked or refunded in 60 days · from £495/mo">
-            Book Your Free Strategy Call
+        <CtaPanel headingLevel="h2"
+          className="mt-16"
+          heading={<>Ready to talk about {service.shortTitle} in {location.name}?</>}
+          body={`30 minutes. No obligation. An honest assessment of where your ${location.name} business stands and what it would take to move it.`}
+        >
+          <CTAButton eventLabel={`service_${service.slug}_${location.slug}_cta`} caption="Priorities and deliverables agreed in writing.">
+            Book a Consultation
           </CTAButton>
-        </div>
+        </CtaPanel>
 
-      </div>
-
-      <Footer />
-    </main>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }

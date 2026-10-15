@@ -505,9 +505,9 @@ export default function EmpireDashboardPage() {
   };
 
 
-  if (!authReady) return <main className="min-h-screen p-6 bg-[#0a0a0a] text-white"><Section><Container><p>Loading Empire...</p></Container></Section></main>;
-  if (loading) return <main className="min-h-screen p-6 bg-[#0a0a0a] text-white"><Section><Container><p>Loading Empire...</p></Container></Section></main>;
-  if (error) return <main className="min-h-screen p-6 bg-[#0a0a0a] text-red-400"><Section><Container><p>Error: {error}</p></Container></Section></main>;
+  if (!authReady) return <main id="main-content" className="min-h-screen p-6 bg-[#0a0a0a] text-white"><Section><Container><p>Loading Empire...</p></Container></Section></main>;
+  if (loading) return <main id="main-content" className="min-h-screen p-6 bg-[#0a0a0a] text-white"><Section><Container><p>Loading Empire...</p></Container></Section></main>;
+  if (error) return <main id="main-content" className="min-h-screen p-6 bg-[#0a0a0a] text-red-400"><Section><Container><p>Error: {error}</p></Container></Section></main>;
 
   const fleetList = fleetAnalysis.length ? fleetAnalysis : DASHBOARD_PROJECT_IDS.map((id) => ({ project_id: id, status: 'pending', summary: null, error_message: null, updated_at: null }));
   const doneCount = fleetList.filter((p) => p.status === 'done').length;
@@ -522,7 +522,7 @@ export default function EmpireDashboardPage() {
   const successList = fleetList.filter((p) => p.status === 'done');
 
   return (
-    <main className="min-h-screen p-6 bg-[#0a0a0a] text-white">
+    <main id="main-content" className="min-h-screen p-6 bg-[#0a0a0a] text-white">
       <Section>
         <Container size="wide">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8">

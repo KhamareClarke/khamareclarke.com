@@ -52,6 +52,29 @@
   --letter-spacing-h2: -0.028em;
   --line-height-h2: 1.06;
 
+  /* Secondary-page hero. `--font-size-h1` caps at 128px, which is right for a
+     two-word display name and wrong for a keyword-led title; `--font-size-h2-sm`
+     caps at 44px, which is too small to carry a hero. These two sit between them
+     so an expertise, location or glossary-term page can open with presence
+     without the homepage ceiling. Both are single fluid clamps — they scale
+     continuously with the viewport, with no breakpoint jumps.
+
+       h1-md  expertise + location   "SEO Specialist in Stoke-on-Trent"      36 → 80
+       h1-sm  glossary terms         "AI Integration Strategy: Connecting…"  32 → 56
+
+     The term tier is deliberately the smaller of the two because glossary titles
+     run far longer: the longest is 81 characters against 47 for the longest
+     location heading, so the same ceiling would break it over four lines. */
+  --font-size-h1-md: clamp(2.25rem, 1.1rem + 4.2vw, 5rem);      /*  36 →  80 */
+  --font-weight-h1-md: 900;
+  --letter-spacing-h1-md: -0.032em;
+  --line-height-h1-md: 1.04;
+
+  --font-size-h1-sm: clamp(2rem, 1.2rem + 2.75vw, 3.5rem);      /*  32 →  56 */
+  --font-weight-h1-sm: 900;
+  --letter-spacing-h1-sm: -0.028em;
+  --line-height-h1-sm: 1.06;
+
   /* Subhead. Fills the gap between a section heading and a card title. */
   --font-size-h2-sm: clamp(1.625rem, 1.2rem + 1.7vw, 2.75rem);  /*  26 →  44 */
   --font-weight-h2-sm: 700;
@@ -73,6 +96,11 @@
   --font-size-body-sm: 0.875rem;
   --font-weight-body: 400;
   --line-height-body: 1.6;
+  /* Prose line-height. 1.625 is Tailwind's leading-relaxed, which every content page was
+     already using by hand, so the reading classes below can adopt a token without moving a
+     single line of type. */
+  --line-height-prose: 1.625;
+  --font-size-body-lg: 1.125rem;
 
   /* Interface text. Applied by .ds-ui / .ds-nav, and by the button and nav styles. */
   --font-weight-ui: 600;
@@ -85,8 +113,14 @@
   --measure-body: 64ch;
   --tracking-eyebrow: 0.18em;
 
-  --section-padding-y: var(--space-6);
-  --section-padding-y-lg: 80px;
+  /* Section rhythm. These describe what the six homepage section components already render as
+     Tailwind `py-16 md:py-20 lg:py-24` — 64 / 80 / 96. The old values here (64 and a flat 80)
+     described something the site had stopped doing, so the tokens now match reality. Change the
+     rhythm in both places or neither: see AchievementsSection, ProjectsSection, PricingSection,
+     BlogSlider, FAQSection and EmailSection. */
+  --section-padding-y: 64px;
+  --section-padding-y-md: 80px;
+  --section-padding-y-lg: 96px;
 
   /* ─── Border radius ─── */
   --radius-default: 12px;
@@ -119,6 +153,21 @@
   font-weight: var(--font-weight-h1);
   letter-spacing: var(--letter-spacing-h1);
   line-height: var(--line-height-h1);
+  text-wrap: balance;
+}
+/* Secondary-page hero tiers — see the token comment above for which page uses which. */
+.ds-heading-1-md {
+  font-size: var(--font-size-h1-md);
+  font-weight: var(--font-weight-h1-md);
+  letter-spacing: var(--letter-spacing-h1-md);
+  line-height: var(--line-height-h1-md);
+  text-wrap: balance;
+}
+.ds-heading-1-sm {
+  font-size: var(--font-size-h1-sm);
+  font-weight: var(--font-weight-h1-sm);
+  letter-spacing: var(--letter-spacing-h1-sm);
+  line-height: var(--line-height-h1-sm);
   text-wrap: balance;
 }
 .ds-heading-2 {
@@ -156,12 +205,64 @@
 .ds-nav {
   font-weight: var(--font-weight-nav);
 }
+/* Body, long-form reading. Used by the blog posts.
+   Line-height and measure are set to what those pages already rendered — Tailwind's
+   leading-relaxed, and the global `p { max-inline-size: 65ch }` in globals.css — so adopting
+   this class is a token change and not a visual one. */
 .ds-body {
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-body);
-  line-height: var(--line-height-body);
-  max-inline-size: var(--measure-body);
+  line-height: var(--line-height-prose);
   text-wrap: pretty;
+}
+
+/* Body, technical reading: the expertise, glossary, service and location pages. 18px, which is
+   what those pages already rendered as Tailwind `text-lg`, so adoption changes nothing on
+   screen. DELIBERATELY NO MEASURE: those paragraphs sit in a <div>, not a <p>, so they bypass
+   the global 65ch paragraph cap and run the full 848px narrow column. Giving this class a
+   max-inline-size would narrow twelve expertise pages by roughly 250px. */
+.ds-body-lg {
+  font-size: var(--font-size-body-lg);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-prose);
+  text-wrap: pretty;
+}
+
+/* The 18px sub-heading. Captures, to the pixel, a treatment that was written three different
+   ways in four places: `text-lg font-bold text-white` on /locations and the location template
+   (~900 instances), `text-white font-bold text-lg tracking-[-0.01em]` on the offer card's
+   pillars, and `gold-text font-bold mb-4 text-lg` in the footer. All three computed to 18px,
+   weight 700, line-height 28px — Tailwind's text-lg metrics — so this token states those and
+   nothing else. It sets NO colour: the same metrics appear white and gold, so callers keep
+   `text-white` or add `gold-text`. Adopting it is appearance-identical; the before/after
+   heading fingerprint is the proof.
+
+   THE OTHER HEADING TREATMENTS ARE DELIBERATE AND ARE NOT TO BE UNIFIED. Measured, in full,
+   so nobody has to rediscover them. Sizes and line-heights are written as words here on
+   purpose: the audit script reads numeric fractions in comments as claims.
+     20px, weight 600, line-height 26px, gold  — blog subheadings, `.ds-subheading gold-text`
+     20px, weight 700, line-height 28px, gold  — /case-studies industry cards
+     18px, weight 800, line-height 24.75px, white — case-study card titles, leading-snug
+     18px, weight 700, line-height 28px, white — /locations, location template, offer pillars
+     18px, weight 700, line-height 28px, gold  — footer Quick Links
+   The client's instruction was explicit: preserve all six heading treatments, and do not
+   unify headings to gold 20px.
+.ds-subheading-18 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+}
+
+/* Section subheading inside a content page. This is the treatment the blog posts already used
+   in 29 places — gold, 20px, semibold — promoted to a token so the pages that had improvised
+   their own (white, bold, 18px) can share it. */
+.ds-subheading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  /* Type only. The gold is applied by the existing .gold-text class, which is a gradient
+     clipped to the text — there is no colour token for it, so this class must not invent one.
+     Callers write: className="ds-subheading gold-text" */
 }
 .ds-body-sm {
   font-size: var(--font-size-body-sm);

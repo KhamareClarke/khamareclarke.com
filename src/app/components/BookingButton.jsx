@@ -63,7 +63,7 @@ const BookingButton = ({
         variant="default"
         className={className}
         onClick={handleClick}
-        aria-label="Book a free strategy call with Khamare Clarke"
+        aria-label="Book a consultation with Khamare Clarke"
       >
         <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
           {children}
@@ -80,7 +80,7 @@ const BookingButton = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-6 pt-5 pb-3 border-b border-[#ffb700]/20">
-              <h2 className="text-lg font-bold text-white">Book Your Free Strategy Call</h2>
+              <h2 className="ds-subheading-18 text-white">Book a Consultation</h2>
               <button
                 onClick={closeModal}
                 className="text-[#ADB7BE] hover:text-white transition-colors p-1 rounded"

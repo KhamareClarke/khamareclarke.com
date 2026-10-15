@@ -31,14 +31,14 @@ export default function DashboardHome() {
 
   if (status === 'denied') {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-[#0a0a0a] text-[#ADB7BE]">
+      <main id="main-content" className="min-h-screen flex items-center justify-center bg-[#0a0a0a] text-[#ADB7BE]">
         Admin access required.
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#030712]">
+    <main id="main-content" className="min-h-screen flex items-center justify-center bg-[#030712]">
       <p className="text-sky-300/80 text-sm tracking-widest uppercase animate-pulse">Starting JARVIS…</p>
     </main>
   );

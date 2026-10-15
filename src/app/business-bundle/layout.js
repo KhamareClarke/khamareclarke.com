@@ -1,8 +1,10 @@
+import { BUNDLE_FAQ } from "./faq";
+import { OFFER_SCHEMA_DESCRIPTION } from "../../lib/offer-data";
+
 export const metadata = {
-  title: "AI Business Growth Bundle | Khamare Clarke",
+  title: "Managed Business Systems | £999 per Month | Khamare Clarke",
   description:
-    "Accelerate business growth with AI-powered websites, ads, and CRM. Book a free consultation today.",
-  keywords: "AI website builder, business automation, lead generation, chatbot, UK web developer, custom website, AI employee, business bundle, conversion optimization",
+    "One managed service for UK businesses: website, local SEO, AI search visibility, enquiry capture, CRM and workflow automation. £999 per month.",
   alternates: { canonical: "/business-bundle" },
   robots: {
     index: true,
@@ -16,17 +18,19 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: "Business Bundle £699 | AI-Powered Website + Lead Generation",
+    title: "Managed Business Systems | £999 per Month | Khamare Clarke",
     description:
-      "Complete AI-powered business system delivered in 7 days. Custom website, lead capture, chatbot automation, and analytics. Limited spots available.",
+      "One managed service for UK businesses: website, local SEO, AI search visibility, enquiry capture, CRM and workflow automation. £999 per month.",
     url: "https://khamareclarke.com/business-bundle",
     siteName: "Khamare Clarke",
+    // The site default. This page previously pointed at three business-bundle images that
+    // do not exist on disk, so every social share of it rendered a broken card.
     images: [
       {
-        url: "https://khamareclarke.com/images/business-bundle-og.jpg",
+        url: "/images/about-image.png",
         width: 1200,
         height: 630,
-        alt: "Business Bundle - AI-Powered Website and Lead Generation System",
+        alt: "Khamare Clarke | AI Implementation Specialist",
       },
     ],
     locale: "en_GB",
@@ -34,17 +38,18 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Business Bundle £699 | AI-Powered Website + Lead Generation",
-    description: "Complete AI-powered business system delivered in 7 days. Custom website, lead capture, chatbot automation, and analytics.",
+    title: "Managed Business Systems | £999 per Month | Khamare Clarke",
+    description:
+      "One managed service for UK businesses: website, local SEO, AI search visibility, enquiry capture, CRM and workflow automation. £999 per month.",
     creator: "@khamareclarke",
-    images: ["https://khamareclarke.com/images/business-bundle-twitter.jpg"],
+    images: ["/images/about-image.png"],
   },
   other: {
-    "price:amount": "699",
+    "price:amount": "999",
     "price:currency": "GBP",
-    "product:availability": "limited",
-    "business:contact_data:locality": "London",
-    "business:contact_data:region": "England",
+    "product:availability": "instock",
+    "business:contact_data:locality": "Stoke-on-Trent",
+    "business:contact_data:region": "Staffordshire",
     "business:contact_data:country_name": "United Kingdom",
   },
 };
@@ -52,6 +57,9 @@ export const metadata = {
 export default function BusinessBundleLayout({ children }) {
   return (
     <>
+      {/* Organization. The contactPoint carries the number the footer already publishes
+          (tel:+447473255886). The previous value here was +44-7123-456789, a
+          placeholder-shaped number that was being published into structured data. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -69,21 +77,26 @@ export default function BusinessBundleLayout({ children }) {
             "areaServed": "GB",
             "contactPoint": {
               "@type": "ContactPoint",
-              "telephone": "+44-7123-456789",
+              "telephone": "+44-7473-255886",
               "contactType": "customer service",
               "availableLanguage": "English"
             }
           })
         }}
       />
+
+      {/* Service. One service at one price, matching the page and the metadata.
+          No priceValidUntil: that is a date, and no offer deadline has been approved. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Service",
-            "name": "AI Business Growth Bundle",
-            "description": "Done-for-you websites, ads, and AI systems that deliver predictable growth for UK businesses",
+            "name": "Managed Business Systems",
+            // The same string lib/schema.js uses for the offer catalogue, from lib/offer-data.js.
+            // It used to be a second, independently worded description of the same service.
+            "description": OFFER_SCHEMA_DESCRIPTION,
             "provider": {
               "@type": "Organization",
               "name": "Khamare Clarke"
@@ -93,46 +106,33 @@ export default function BusinessBundleLayout({ children }) {
             "offers": {
               "@type": "Offer",
               "priceCurrency": "GBP",
-              "price": "750",
-              "priceValidUntil": "2025-12-31",
+              "price": "999",
               "availability": "https://schema.org/InStock",
               "url": "https://khamareclarke.com/business-bundle"
             }
           })
         }}
       />
+
+      {/* FAQPage, built from the same array the visible accordion renders.
+          This page used to emit TWO conflicting FAQPage blocks (one here, one inline in
+          page.js) with different questions, plus a Product block carrying a 5-star
+          Review by an author named "Verified UK Client" — a fabricated rating published
+          to Google, which the claims standard bans outright. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "What's included in the Business Bundle?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "The Business Bundle includes a custom AI-powered website, AI chatbot and voice agent, Google Business Profile setup, social media launch with 8 posts, 1 year hosting, 7-day delivery guarantee, and 30 days after-launch support."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How fast will I see leads?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "We guarantee leads within 30 days of launch, or we work free until you do. Most clients see qualified leads within the first 2 weeks after going live."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Is it completely done for me?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes, this is a 100% done-for-you service. We handle design, development, content creation, AI integration, and setup. You simply provide your business information and approve the final result."
-                }
+            "mainEntity": BUNDLE_FAQ.map((faq) => ({
+              "@type": "Question",
+              "name": faq.question,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.answer
               }
-            ]
+            }))
           })
         }}
       />

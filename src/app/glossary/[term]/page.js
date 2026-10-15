@@ -1,9 +1,14 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import PageShell from "../../components/PageShell";
+import PageHero from "../../components/ui/PageHero";
+import AchievementsSection from "../../components/AchievementsSection";
+import SectionHeading from "../../components/ui/SectionHeading";
+import CtaPanel from "../../components/ui/CtaPanel";
+import { Section } from "../../components/ui/Section";
+import { Container } from "../../components/ui/Container";
 import CTAButton from "../../components/CTAButton";
-import { PERSON_SCHEMA } from "../../../lib/schema";
+
 import { GLOSSARY_TERMS, GLOSSARY_BY_SLUG } from "../../../lib/glossary-data";
 
 export function generateStaticParams() {
@@ -70,67 +75,59 @@ export default function GlossaryTermPage({ params }) {
   const displayTitle = term.abbr ? `${term.title} (${term.abbr})` : term.title;
 
   return (
-    <main className="flex min-h-screen flex-col bg-[#0a0a0a]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+    <PageShell
+      schema={
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          />
+        </>
+      }
+    >
+      <Section className="mt-0 pb-ds-4 page-top">
+        <Container size="narrow">
 
-      <Navbar />
-
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-8 pb-24 page-top">
-
-        <nav className="flex items-center gap-2 text-xs text-[#ADB7BE] mb-8" aria-label="Breadcrumb">
-          <Link href="/glossary" className="hover:text-[#ffb700] transition-colors">Glossary</Link>
+        <nav className="flex items-center gap-2 text-xs text-muted mb-8" aria-label="Breadcrumb">
+          <Link href="/glossary" className="hover:gold-text transition-colors">Glossary</Link>
           <span>/</span>
           <span className="text-white">{term.title}</span>
         </nav>
 
-        <div className="flex items-center gap-4 mb-8 h-4">
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-r from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase gold-text leading-none whitespace-nowrap">
-            {term.badge}
-          </p>
-          <span className="h-[2px] w-10 shrink-0 bg-gradient-to-l from-transparent to-primary -translate-y-[7px]" aria-hidden="true" />
-        </div>
+        <PageHero eyebrow={term.badge} title={term.h1} size="term" />
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-          {term.h1}
-        </h1>
+        {/* The trust strip that sits under the hero on the homepage. */}
+        <AchievementsSection dense />
 
         {/* Citable definition block */}
-        <div className="bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-6 mb-12">
-          <p className="text-white text-lg leading-relaxed font-medium">{term.definition}</p>
+        <div className="reveal mt-6 bg-surface-muted border border-primary/30 rounded-lg p-6 mb-12" style={{ "--rv-delay": "200ms" }}>
+          <p className="text-white ds-body-lg font-medium">{term.definition}</p>
         </div>
 
         {/* Why it matters */}
         <section className="mt-8" aria-labelledby="why-matters">
-          <h2 id="why-matters" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
+          <SectionHeading id="why-matters">
             Why {term.title.toLowerCase()} matters for UK businesses
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
             {term.whyItMatters.map((para, i) => (
-              <p key={i}>{para}</p>
+              <p key={i} className="reveal" style={{ "--rv-delay": `${200 + i * 80}ms` }}>{para}</p>
             ))}
           </div>
         </section>
 
         {/* How Khamare applies it */}
         <section className="mt-12" aria-labelledby="how-applied">
-          <h2 id="how-applied" className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
+          <SectionHeading id="how-applied">
             How Khamare Clarke applies {term.title.toLowerCase()}
-          </h2>
-          <div className="space-y-4 text-[#ADB7BE] text-lg leading-relaxed">
+          </SectionHeading>
+          <div className="space-y-4 text-muted ds-body-lg">
             {term.howKhamareApplies.map((para, i) => (
-              <p key={i}>{para}</p>
+              <p key={i} className="reveal" style={{ "--rv-delay": `${200 + i * 80}ms` }}>{para}</p>
             ))}
           </div>
         </section>
@@ -138,70 +135,63 @@ export default function GlossaryTermPage({ params }) {
         {/* FAQ sections */}
         {term.faq.map((item, i) => (
           <section key={i} className="mt-12" aria-labelledby={`faq-${i}`}>
-            <h2 id={`faq-${i}`} className="text-2xl sm:text-3xl font-bold text-white mb-5 border-l-4 border-[#ffb700] pl-4">
-              {item.q}
-            </h2>
-            <p className="text-[#ADB7BE] text-lg leading-relaxed">{item.a}</p>
+            <SectionHeading id={`faq-${i}`}>{item.q}</SectionHeading>
+            <p className="reveal text-muted ds-body-lg" style={{ "--rv-delay": "200ms" }}>{item.a}</p>
           </section>
         ))}
 
         {/* Related terms + expertise link */}
-        <nav className="mt-16 bg-[#1a1a1a] border border-white/10 rounded-2xl p-8" aria-label="Related terms">
+        <nav className="mt-16 bg-surface-muted border border-white/10 rounded-lg p-8" aria-label="Related terms">
           <p className="text-white font-bold mb-4">Related terms</p>
           <ul className="space-y-2">
-            {relatedTermObjects.map((related) => (
-              <li key={related.slug}>
+            {relatedTermObjects.map((related, index) => (
+              <li key={related.slug} className="reveal" style={{ "--rv-delay": `${Math.min(index, 6) * 90}ms` }}>
                 <Link
                   href={`/glossary/${related.slug}`}
-                  className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm"
+                  className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm"
                 >
-                  <span className="text-[#ffb700]">→</span>{" "}
+                  <span className="gold-text">→</span>{" "}
                   {related.abbr ? `${related.title} (${related.abbr})` : related.title}
                 </Link>
               </li>
             ))}
             {term.expertisePage && (
-              <li>
+              <li className="reveal" style={{ "--rv-delay": "200ms" }}>
                 <Link
                   href={term.expertisePage}
-                  className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm"
+                  className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm"
                 >
-                  <span className="text-[#ffb700]">→</span> Related expertise
+                  <span className="gold-text">→</span> Related expertise
                 </Link>
               </li>
             )}
-            <li>
+            <li className="reveal" style={{ "--rv-delay": "280ms" }}>
               <Link
                 href="/glossary"
-                className="text-[#ADB7BE] hover:text-[#ffb700] transition-colors flex items-center gap-2 text-sm"
+                className="text-muted hover:gold-text transition-colors flex items-center gap-2 text-sm"
               >
-                <span className="text-[#ffb700]">→</span> Back to full glossary
+                <span className="gold-text">→</span> Back to full glossary
               </Link>
             </li>
           </ul>
         </nav>
 
         {/* CTA */}
-        <div className="mt-12 bg-[#1a1a1a] border border-[#ffb700]/30 rounded-2xl p-10 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            Apply {displayTitle} to your business
-          </h2>
-          <p className="text-[#ADB7BE] mb-8 max-w-xl mx-auto">
-            Book a free 30-minute strategy call. No obligation, no sales team.
-            You will get an honest assessment of where your business stands
-            and what this would change.
-          </p>
+        <CtaPanel headingLevel="h2"
+          className="mt-16"
+          heading={<>Apply {displayTitle} to your business</>}
+          body="Book a free 30-minute strategy call. No obligation, no sales team. You will get an honest assessment of where your business stands and what this would change."
+        >
           <CTAButton
             eventLabel={`glossary_${term.slug}_cta`}
             caption="How this applies to your business."
           >
-            Book Your Free Strategy Call
+            Book a Consultation
           </CTAButton>
-        </div>
+        </CtaPanel>
 
-      </div>
-
-      <Footer />
-    </main>
+        </Container>
+      </Section>
+    </PageShell>
   );
 }

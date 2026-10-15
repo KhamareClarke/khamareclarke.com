@@ -51,34 +51,78 @@
    Each gradient is made wider than its element and swept by background-position.
    Same animation name, same duration, no delay => they stay in sync.
    The real palette is unchanged (#ffb700 / #ffd54f / #f9e27d / #fff1a8).
-   Killed automatically by the prefers-reduced-motion block further down. */
+   Killed automatically by the prefers-reduced-motion block further down.
+
+   -220% is one full cycle of travel, not an arbitrary distance. Sampled every 25%
+   through the sweep, the gold runs amber (blue channel 41) up to warm white (blue 160)
+   and back to amber (41) over roughly 200% of movement, so a 220% pass finishes close to
+   where it started and the bright band is continuous across the loop point instead of
+   jumping back. Checked that the text cannot blank at any point in the range: glyph
+   coverage holds at 33.7% from -220% all the way through to +100%. */
 @keyframes gold-wave {
   0%   { background-position: 0% 50%; }
   100% { background-position: -220% 50%; }
 }
-/* 5.7s is the canvas wave's period, 2*PI/0.0011 ms, so the fallback runs at the same
-   rate as the real thing rather than the 14s it used to. */
+/* 5.7s is the canvas wave's period, 2*PI/0.0011 ms, so the sweep completes one cycle in
+   the time the preloader's gradient takes to rock once. THIS IS THE ONE NUMBER TO CHANGE
+   if the shimmer reads too fast. It ran at 14s when it was last seen working, and the
+   14s was chosen because 6s was called too fast — 5.7s is the preloader-parity value, so
+   if it feels brisk, put it back to 14s rather than touching anything else. */
 
-/* All gold gradients read ONE shared angle from --gold-angle, which a single
-   requestAnimationFrame loop in MotionProvider advances using the preloader canvas's
-   own sine. Driving them from one clock is the only way to guarantee they stay in phase:
-   a CSS keyframe animation cannot be re-phased once it has started, and rAF timestamps
-   share one time origin, so the gradients and the canvas are reading the same clock
-   rather than being synchronised after the fact. The keyframe above is kept as the
-   no-JS fallback. */
-.gold-text,
-.gold-rule,
+/* THE TEXT RUNS THE SWEEP. DO NOT ADD `.gold-text` TO THIS LIST — that is exactly what
+   killed the animation once already.
+
+   --gold-angle only rotates the gradient's DIRECTION, and the gradient is stretched over
+   a 220%-wide box, so the colours landing on the letters barely move. Measured across a
+   whole cycle, the largest change on any gold pixel was 18/255 with a median of 0: no
+   visible motion at all, even though the angle was swinging the whole time. The angle is
+   the preloader's rhythm, not the shimmer.
+
+   What carries the shimmer is the background-position sweep above, dragging a bright band
+   through the letters. `.gold-text` declares the sweep AND reads --gold-angle, so it has
+   both: visible motion from the sweep, preloader rhythm from the angle.
+
+   `.gold-rule` is the reading-progress hairline across the top of every page. It runs the
+   same sweep, so the gold travels along the fill as you read. Its own gradient is a fixed
+   90deg rather than var(--gold-angle) on purpose: the element is 2px tall, so a gradient
+   angle is meaningless on it and a horizontal one is what a hairline wants.
+
+   `.gold-chip` is the one still held at animation: none, so only the shared angle moves
+   it. Left that way on purpose; it can take the same treatment if wanted. */
 .gold-chip {
   animation: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* No loop runs, so --gold-angle never changes and the gold rests at 125deg. Nothing
-     to neutralise here — but if that resting value is ever changed, change the fallback
-     in --gold-gradient with it. */
+  /* No loop runs, so --gold-angle never changes and the gold rests at 125deg. The text's
+     sweep is stopped by the blanket reduced-motion rule further down, which zeroes every
+     animation's duration and iteration count. If that blanket rule is ever narrowed, this
+     is the one place that must keep covering `.gold-text`. */
 }
 
-.gold-text {
+/* THE ONE WAY TO COLOUR TEXT GOLD. This is the homepage's own convention and the site
+   now follows it everywhere: the homepage uses .gold-text 17 times for gold text and
+   `text-primary` only 3 times, and all three of those are things .gold-text would break
+   or that are not text at all — an inline SVG on currentColor (see the note below), a
+   +/− toggle glyph, and one stray label.
+
+   The distinction matters because they look different. `text-primary` paints flat
+   #ffb700; this paints the animated gradient that sweeps like the preloader's canvas.
+   Sub-pages were using flat #ffb700 for headings, links and labels while the homepage
+   shimmered, which is exactly the "old yellow, not in sync" problem.
+
+   NOT FOR ICONS. `color: transparent` plus `background-clip: text` removes the glyph
+   fill, so an <svg fill="currentColor"> — or a react-icons component — disappears
+   entirely. Icons keep `text-primary`: a gradient is imperceptible on a 16px glyph
+   anyway, so nothing is lost by it.
+
+   The hover and group-hover selectors below exist so Tailwind-style variant names work
+   in the markup. Tailwind cannot generate a variant of a hand-written class, and an
+   unknown utility is simply ignored rather than erroring, so `.hover\:gold-text:hover`
+   is written out here by hand. Without these, `hover:gold-text` silently does nothing. */
+.gold-text,
+.hover\:gold-text:hover,
+.group:hover .group-hover\:gold-text {
   background-image: var(--gold-gradient);
   background-size: 220% 100%;
   background-position: 0% 50%;
@@ -86,9 +130,20 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  /* `color` is transparent above, and text-decoration-color defaults to currentColor,
+     so a gold-text link with `hover:underline` would draw an invisible underline. The
+     homepage never underlines a gold-text, so setting this changes nothing there. */
+  text-decoration-color: #ffb700;
   animation: gold-wave 5.7s linear infinite;
 }
 
+/* The faded ends are safe, which is not obvious: the sweep carries the low-alpha 0%/100%
+   stops through the visible window, so the bar could have dimmed to nothing mid-cycle.
+   Measured it does not — sampled every 25% through the sweep, the bar stays lit across
+   its whole width at every phase, with the green channel travelling between 81 (deep
+   amber) and 201 (bright gold). The highlight reads as a band moving along the fill
+   rather than the bar blinking. If the stops here are ever made more transparent, re-run
+   that check rather than assuming it still holds. */
 .gold-rule {
   background-image: linear-gradient(
     90deg,
@@ -1986,9 +2041,13 @@ html.jarvis-presentation .jarvis-drawer .rounded-lg {
   }
 }
 
-/* Animated gold gradient as a BACKGROUND. For elements that are not text (category
-   chips), where background-clip:text would hide them. Same keyframe and timing as
-   .gold-text, so it stays in phase with every other gold element on the page. */
+/* Gold gradient as a BACKGROUND, for elements that are not text (category chips), where
+   background-clip:text would hide them. Gradients here start and end on the same #ffb700,
+   so the sweep loops seamlessly.
+
+   The `animation` declared below is inert: `.gold-chip` is held at animation: none near
+   the top of this file, so only the shared --gold-angle moves the chips. That is the
+   deliberate exception, not an oversight — see the note there before changing it. */
 .gold-chip {
   background-image: linear-gradient(
     100deg,
