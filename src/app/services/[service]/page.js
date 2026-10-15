@@ -86,10 +86,18 @@ export default function ServiceHubPage({ params }) {
           <span className="text-white">{service.shortTitle}</span>
         </nav>
 
-        <PageHero eyebrow="Service" title={service.heading} size="compact" />
+        {/* `feature`, not `compact`. A service heading is a keyword phrase, not a
+            sentence: too long for the homepage's 128px display cap, but at the
+            44px subhead size the hero read as a caption. `feature` is the tier
+            already used by Expertise and Location, so these pages and the
+            location pages beneath them in the same URL branch now agree. */}
+        <PageHero eyebrow="Service" title={service.heading} size="feature" />
 
-        {/* The trust strip that sits under the hero on the homepage. */}
-        <AchievementsSection />
+        {/* The trust strip that sits under the hero on the homepage.
+            `dense` here for the same reason as Expertise and Location: under a
+            heading rather than a display panel, the roomy band's 96px of end
+            padding read as a hollow panel below the title. */}
+        <AchievementsSection dense />
         <p className="reveal mt-6 text-muted text-lg mb-12 max-w-2xl leading-relaxed" style={{ "--rv-delay": "200ms" }}>
           {service.description}
         </p>
