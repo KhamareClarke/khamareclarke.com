@@ -202,6 +202,22 @@ boasts        bolstered      vibrant       meticulous
 - Contractions are fine. Copy without them reads stiff
 - Name the fear, not the feature. People buy to avoid something
 - Left-align body copy. Centre headings only
+
+> **Recorded exception — centred body copy on the glossary pages.** On the glossary hub
+> and the 72 glossary term pages the body copy is centred, at the client's instruction
+> (2026-10-15). The definition, the "why it matters" section, the "how it is applied"
+> section, the FAQ and the related-terms list all centre; the headings were already
+> centred, as this rule requires.
+>
+> The scope is exactly those pages. This is not a licence for centred body copy
+> elsewhere: on every other page the rule above stands, and a page carrying centred
+> paragraphs for any reason other than a client instruction is still a fault.
+>
+> The rule above exists for a reason and the reason still holds — centred paragraphs are
+> harder to read, because the reader's eye has no fixed left edge to return to. The client
+> weighed that against the look and chose the look. If a future glossary entry runs long
+> enough that the centring becomes a genuine reading problem, that is the trade to raise,
+> not a rule to quietly reapply.
 - Button subtext is four words maximum. It renders under a button on a phone
 - Use the vocabulary of the trade or sector. Domain-specific language a model would not reach for is the strongest signal a person wrote it
 

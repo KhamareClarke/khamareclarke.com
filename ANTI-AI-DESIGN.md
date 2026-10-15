@@ -135,6 +135,10 @@ The deepest tell, and the one the others come from. Every section the same heigh
 
 **Left-align body copy.** Centre headings and heroes only.
 
+> **Recorded exception, glossary pages only.** The hub and the 72 glossary term pages
+> centre their body copy at the client's instruction. See BUILD-STANDARD.md section 5.3
+> for the scope and for why the rule above still stands everywhere else.
+
 **Real photographs where they exist.** Ask for them in discovery.
 
 **Generated imagery only when directed.** A written prompt style held constant across the whole set, otherwise the images look like they came from four different sites.
