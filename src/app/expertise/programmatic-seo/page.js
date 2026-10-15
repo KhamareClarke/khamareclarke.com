@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
-import PageHero from "../../components/ui/PageHero";
+import PageHeroSplit from "../../components/ui/PageHeroSplit";
+import AboutSection from "../../components/AboutSection";
 import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
@@ -89,8 +90,8 @@ export default function ProgrammaticSEOPage() {
       }
     >
       <Section className="mt-0 pb-ds-4 page-top">
-        <Container size="narrow">
-          <PageHero
+        <Container size="main">
+          <PageHeroSplit
             eyebrow="Expertise"
             size="feature"
             title={
@@ -100,6 +101,9 @@ export default function ProgrammaticSEOPage() {
               </>
             }
           />
+        </Container>
+
+        <Container size="narrow" className="text-center [&_p]:mx-auto">
 
           {/* The trust strip that sits under the hero on the homepage. */}
           <AchievementsSection dense />
@@ -111,7 +115,9 @@ export default function ProgrammaticSEOPage() {
           </p>
 
         {/* Q1 */}
-        <section className="mt-24" aria-labelledby="q1">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
             What is <span className="gold-text">programmatic SEO</span>?
           </SectionHeading>
@@ -135,7 +141,9 @@ export default function ProgrammaticSEOPage() {
         </section>
 
         {/* Q2 */}
-        <section className="mt-24" aria-labelledby="q2">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q2">
           <SectionHeading id="q2">
             When does <span className="gold-text">programmatic SEO</span> make sense for a business?
           </SectionHeading>
@@ -160,7 +168,9 @@ export default function ProgrammaticSEOPage() {
         </section>
 
         {/* Q3 */}
-        <section className="mt-24" aria-labelledby="q3">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
             What is the difference between a <span className="gold-text">programmatic page</span> and a doorway page?
           </SectionHeading>
@@ -186,7 +196,9 @@ export default function ProgrammaticSEOPage() {
         </section>
 
         {/* Q4 */}
-        <section className="mt-24" aria-labelledby="q4">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
             How does an engineer approach <span className="gold-text">programmatic SEO</span> differently?
           </SectionHeading>
@@ -213,7 +225,9 @@ export default function ProgrammaticSEOPage() {
         </section>
 
         {/* Q5 */}
-        <section className="mt-24" aria-labelledby="q5">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q5">
           <SectionHeading id="q5">
             What <span className="gold-text">results</span> can programmatic SEO deliver?
           </SectionHeading>
@@ -255,6 +269,11 @@ export default function ProgrammaticSEOPage() {
             ))}
           </ul>
         </Card>
+
+        {/* The founder block. Placed here rather than under the hero: the
+            hero already carries his portrait, and the same face again a screen
+            later reads as a mistake. `showCta={false}` because CtaPanel follows. */}
+        <AboutSection className="mt-16" showCta={false} />
 
         {/* CTA */}
         <CtaPanel headingLevel="h2"

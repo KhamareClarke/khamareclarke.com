@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
-import PageHero from "../../components/ui/PageHero";
+import PageHeroSplit from "../../components/ui/PageHeroSplit";
+import AboutSection from "../../components/AboutSection";
 import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
@@ -87,8 +88,8 @@ export default function AIConsultantPage() {
       }
     >
       <Section className="mt-0 pb-ds-4 page-top">
-        <Container size="narrow">
-          <PageHero
+        <Container size="main">
+          <PageHeroSplit
             eyebrow="Expertise"
             size="feature"
             title={
@@ -98,6 +99,9 @@ export default function AIConsultantPage() {
               </>
             }
           />
+        </Container>
+
+        <Container size="narrow" className="text-center [&_p]:mx-auto">
 
           {/* The trust strip that sits under the hero on the homepage. */}
           <AchievementsSection dense />
@@ -107,7 +111,9 @@ export default function AIConsultantPage() {
             integrates with what already exists, and what it will measurably change.
           </p>
 
-        <section className="mt-24" aria-labelledby="q1">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
             What does an <span className="gold-text">AI consultant</span> do?
           </SectionHeading>
@@ -131,7 +137,9 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-24" aria-labelledby="q2">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q2">
           <SectionHeading id="q2">
             What is the difference between an AI consultant and an <span className="gold-text">AI specialist</span>?
           </SectionHeading>
@@ -153,7 +161,9 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-24" aria-labelledby="q3">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
             What is an <span className="gold-text">AI strategy consultant</span>?
           </SectionHeading>
@@ -176,7 +186,9 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-24" aria-labelledby="q4">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
             How is an artificial intelligence consultant different from a <span className="gold-text">digital marketing consultant</span>?
           </SectionHeading>
@@ -199,7 +211,9 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-24" aria-labelledby="q5">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q5">
           <SectionHeading id="q5">
             What does <span className="gold-text">Khamare Clarke</span> offer as an AI adviser?
           </SectionHeading>
@@ -226,7 +240,9 @@ export default function AIConsultantPage() {
         </section>
 
         {/* AI expert / advisor synonym section */}
-        <section className="mt-24" aria-labelledby="synonyms-consultant">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="synonyms-consultant">
           <SectionHeading id="synonyms-consultant">
             <span className="gold-text">AI expert</span>, AI adviser, AI specialist: what these terms mean in practice
           </SectionHeading>
@@ -269,6 +285,11 @@ export default function AIConsultantPage() {
             ))}
           </ul>
         </Card>
+
+        {/* The founder block. Placed here rather than under the hero: the
+            hero already carries his portrait, and the same face again a screen
+            later reads as a mistake. `showCta={false}` because CtaPanel follows. */}
+        <AboutSection className="mt-16" showCta={false} />
 
         <CtaPanel headingLevel="h2"
           className="mt-16"

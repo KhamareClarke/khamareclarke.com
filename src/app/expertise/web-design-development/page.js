@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import PageShell from "../../components/PageShell";
-import PageHero from "../../components/ui/PageHero";
+import PageHeroSplit from "../../components/ui/PageHeroSplit";
+import AboutSection from "../../components/AboutSection";
 import AchievementsSection from "../../components/AchievementsSection";
 import SectionHeading from "../../components/ui/SectionHeading";
 import CtaPanel from "../../components/ui/CtaPanel";
@@ -76,8 +77,8 @@ export default function WebDesignDevelopmentPage() {
       }
     >
       <Section className="mt-0 pb-ds-4 page-top">
-        <Container size="narrow">
-          <PageHero
+        <Container size="main">
+          <PageHeroSplit
             eyebrow="Expertise"
             size="feature"
             title={
@@ -87,6 +88,9 @@ export default function WebDesignDevelopmentPage() {
               </>
             }
           />
+        </Container>
+
+        <Container size="narrow" className="text-center [&_p]:mx-auto">
 
           {/* The trust strip that sits under the hero on the homepage. */}
           <AchievementsSection dense />
@@ -97,7 +101,9 @@ export default function WebDesignDevelopmentPage() {
             performance and conversion as the joint objective.
           </p>
 
-        <section className="mt-24" aria-labelledby="q1">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q1">
           <SectionHeading id="q1">
             Conversion-focused <span className="gold-text">web design</span>
           </SectionHeading>
@@ -119,7 +125,9 @@ export default function WebDesignDevelopmentPage() {
           </div>
         </section>
 
-        <section className="mt-24" aria-labelledby="q2">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q2">
           <SectionHeading id="q2">
             Why <span className="gold-text">web design matters</span> for SEO
           </SectionHeading>
@@ -142,7 +150,9 @@ export default function WebDesignDevelopmentPage() {
           </div>
         </section>
 
-        <section className="mt-24" aria-labelledby="q3">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q3">
           <SectionHeading id="q3">
             Types of <span className="gold-text">web projects</span>
           </SectionHeading>
@@ -161,7 +171,9 @@ export default function WebDesignDevelopmentPage() {
           </div>
         </section>
 
-        <section className="mt-24" aria-labelledby="q4">
+        <hr aria-hidden="true" className="section-sep mt-12" />
+
+        <section className="mt-12" aria-labelledby="q4">
           <SectionHeading id="q4">
             What all builds have in <span className="gold-text">common</span>
           </SectionHeading>
@@ -201,6 +213,11 @@ export default function WebDesignDevelopmentPage() {
             ))}
           </ul>
         </Card>
+
+        {/* The founder block. Placed here rather than under the hero: the
+            hero already carries his portrait, and the same face again a screen
+            later reads as a mistake. `showCta={false}` because CtaPanel follows. */}
+        <AboutSection className="mt-16" showCta={false} />
 
         <CtaPanel headingLevel="h2"
           className="mt-16"
