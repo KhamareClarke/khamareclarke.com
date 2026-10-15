@@ -107,7 +107,7 @@ export default function AiAgentStandardAsPhoneNumber() {
             <p className="text-muted ds-body mb-10 reveal" style={{ "--rv-delay": "200ms" }}>
               AI agents are the third iteration of this adoption curve. The main difference is that
               the curve is compressing. What took websites fifteen years and Google profiles ten years
-              is happening in AI agents in three to five. If you are reading this in 2025 and you have
+              is happening in AI agents in three to five. If you are reading this in 2026 and you have
               not seriously evaluated what an AI agent would do for your business, you are at the
               beginning of the gap, not the middle.
             </p>

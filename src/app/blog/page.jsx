@@ -107,7 +107,7 @@ export default function BlogHome() {
         <aside className="w-full md:w-80 flex-shrink-0">
           <Card className="sticky top-24 mb-8 reveal" style={{ "--rv-delay": "200ms" }}>
             <h3 className="text-xl font-bold mb-2 text-white">Want More ROI?</h3>
-            <p className="text-muted mb-4">Get my free guide: <span className="gold-text font-semibold">"7 AI Tools Every UK Business Needs in 2025"</span></p>
+            <p className="text-muted mb-4">Get my free guide: <span className="gold-text font-semibold">"7 AI Tools Every UK Business Needs in 2026"</span></p>
             <form className="flex flex-col gap-3">
               <input type="email" placeholder="Your Email" className="rounded-lg px-4 py-2 bg-surface border border-[#222] text-white placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary" required />
               <button type="submit" className="bg-primary text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-primary-hover transition border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary">Get the Free Guide</button>

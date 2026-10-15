@@ -69,7 +69,7 @@ export default function BlogPost() {
 
             <Card className="reveal mb-8" style={{ "--rv-delay": "200ms" }}>
               <h3 className="text-xl font-bold mb-2 text-white">Download the Free Guide</h3>
-              <p className="text-muted mb-4">7 AI Tools Every UK Business Needs in 2025</p>
+              <p className="text-muted mb-4">7 AI Tools Every UK Business Needs in 2026</p>
               <form className="flex flex-col gap-3">
                 <input type="email" placeholder="Your Email" className="rounded-lg px-4 py-2 bg-surface border border-[#222] text-white placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary" required />
                 <button type="submit" className="bg-primary text-[#222] font-bold py-2 px-6 rounded-lg shadow hover:bg-primary-hover transition border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary">Get the Free Guide</button>
