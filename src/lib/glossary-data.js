@@ -16,7 +16,7 @@ export const GLOSSARY_TERMS = [
     family: "seo",
     badge: "SEO",
     metaTitle: "What is Search Engine Optimisation? | Khamare Clarke",
-    metaDescription: "Plain-English definition of search engine optimisation (SEO): what it is, why it matters for UK businesses, and how it works in practice.",
+    metaDescription: "What search engine optimisation (SEO) is: what it is, why it matters for UK businesses, and how it works in practice.",
     h1: "Search Engine Optimisation: What It Is and Why It Matters",
     definition: "Search engine optimisation (SEO) is the practice of improving a website so it appears higher in unpaid search results on engines like Google. It works by making a site more relevant, authoritative, and technically accessible to both search engine crawlers and the people using them.",
     whyItMatters: [

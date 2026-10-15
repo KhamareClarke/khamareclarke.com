@@ -46,12 +46,12 @@ const previewDefinition = (definition) => {
 export const metadata = {
   title: "SEO and AI Glossary | Khamare Clarke",
   description:
-    "Plain-English definitions of SEO, AI search, AI systems, and digital marketing terms. Every definition written for UK businesses by Khamare Clarke, an AI Implementation Specialist with an MSc in Computer Science with AI.",
+    "Definitions of the search and AI terms UK businesses come across, covering SEO, AI search, automation, chatbots and lead response. Written by Khamare Clarke.",
   alternates: { canonical: "https://khamareclarke.com/glossary" },
   openGraph: {
     title: "SEO and AI Glossary | Khamare Clarke",
     description:
-      "Plain-English definitions of SEO, AI search, AI systems, and marketing terms. Written for UK businesses by an AI Implementation Specialist.",
+      "Definitions of the search and AI terms UK businesses come across, covering SEO, AI search, automation and lead response.",
     url: "https://khamareclarke.com/glossary",
     siteName: "Khamare Clarke",
     locale: "en_GB",
@@ -73,7 +73,7 @@ const definedTermSetSchema = {
   "@id": "https://khamareclarke.com/glossary#termset",
   "name": "Khamare Clarke Digital Marketing and AI Glossary",
   "description":
-    "Plain-English definitions of SEO, AI search, AI systems, and digital marketing terms for UK businesses.",
+    "Definitions of the search and AI terms UK businesses come across.",
   "url": "https://khamareclarke.com/glossary",
   "author": { "@type": "Person", "@id": "https://khamareclarke.com/#person" },
 };
