@@ -20,24 +20,41 @@ import { Badge } from "./Badge";
  * long keyword-led phrase. Both values below are existing tokens in design-tokens.css;
  * nothing new was invented for this.
  *
+ *   size="home"    the homepage h1's own classes   48 → 128px — EXACT homepage hero size
  *   size="hero"    ds-heading-1      up to 128px — SHORT display titles
- *   size="feature" ds-heading-1-md   36 → 80px   — EXPERTISE and LOCATION titles
- *   size="term"    ds-heading-1-sm   32 → 56px   — GLOSSARY TERM titles
+ *   size="feature" ds-heading-1-md   36 → 80px   — EVERY secondary page
  *   size="compact" ds-heading-2-sm   up to  44px — LONG keyword-led titles
  *
- * `feature` and `term` were added because the two original sizes left a gap: a
- * page title that is a keyword phrase is too long for the homepage's 128px cap
- * but too important to sit at the 44px subhead size, which made a secondary hero
- * read as a caption over an empty band. `term` is the smaller of the two because
- * glossary titles run much longer — 81 characters against 47 for the longest
- * location heading.
+ * `home` exists because the homepage h1 does not use a token at all — it hardcodes
+ * `text-5xl … xl:text-9xl`. Nothing fluid reaches 128px at a normal desktop width:
+ * `ds-heading-1` is 111.36px at 1440 against the homepage's 128px. So the only way
+ * to be genuinely identical at every breakpoint is to reuse the same classes, and
+ * that is what this is. It is a deliberate exception to the fluid tiers below, and
+ * the one place the site has two mechanisms for one job.
+ *
+ * The glossary term pages use it. MEASURED COST, accepted knowingly: across their
+ * 72 headings, none fits in three lines at this size, 57 of 72 reach five lines or
+ * more, and the longest — "Google Business Profile Optimisation: Turning a Listing
+ * Into a Local Lead Machine" — runs to nine. The homepage h1 is "Khamare Clarke",
+ * fifteen characters; these are forty-seven to eighty-one.
+ *
+ * `feature` was added because the two original sizes left a gap: a page title that
+ * is a keyword phrase is too long for the homepage's 128px cap but too important to
+ * sit at the 44px subhead size, which made a secondary hero read as a caption over
+ * an empty band.
+ *
+ * There was briefly a fourth, smaller tier (`term`, capping at 56px) for the
+ * glossary, whose titles run to 81 characters against 47 for the longest location
+ * heading. It was removed because it made the hero shrink when a reader clicked
+ * through from the glossary hub — 111px on the index, 56px on the term — which
+ * read as a downgrade. Every secondary page is on `feature` now, and the longest
+ * glossary title takes five lines instead of three.
  *
  * The rule, so this stays consistent as pages are migrated rather than becoming a
  * per-page whim: if the h1 is roughly a name or a two-to-three word phrase, it is
- * `hero` (/about — "Khamare Clarke"). If it is an expertise or location title
- * ("SEO Specialist in Stoke-on-Trent"), it is `feature`. If it is a glossary
- * definition title, it is `term`. Only `compact` remains for the shorter
- * keyword-led headings.
+ * `hero` (/about — "Khamare Clarke"). Everything else on a secondary page —
+ * expertise, location, service, glossary term — is `feature`. `compact` remains
+ * only for the shortest keyword-led headings.
  *
  * Left-aligned rather than centred on mobile, unlike the homepage hero. The homepage
  * hero is a display panel; these are prose pages, where a centred paragraph has no
@@ -50,9 +67,9 @@ import { Badge } from "./Badge";
  * @param {'hero'|'feature'|'term'|'compact'} [size='hero']
  */
 const titleSizes = {
+  home: "font-black leading-none tracking-tight text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl",
   hero: "ds-heading-1 text-white",
   feature: "ds-heading-1-md text-white",
-  term: "ds-heading-1-sm text-white",
   compact: "ds-heading-2-sm text-white",
 };
 

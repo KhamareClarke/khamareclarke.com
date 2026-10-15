@@ -54,26 +54,22 @@
 
   /* Secondary-page hero. `--font-size-h1` caps at 128px, which is right for a
      two-word display name and wrong for a keyword-led title; `--font-size-h2-sm`
-     caps at 44px, which is too small to carry a hero. These two sit between them
-     so an expertise, location or glossary-term page can open with presence
-     without the homepage ceiling. Both are single fluid clamps — they scale
-     continuously with the viewport, with no breakpoint jumps.
+     caps at 44px, which is too small to carry a hero. This sits between them so
+     an expertise, location, service or glossary-term page can open with presence
+     without the homepage ceiling. A single fluid clamp — it scales continuously
+     with the viewport, with no breakpoint jumps.
 
-       h1-md  expertise + location   "SEO Specialist in Stoke-on-Trent"      36 → 80
-       h1-sm  glossary terms         "AI Integration Strategy: Connecting…"  32 → 56
+       "SEO Specialist in Stoke-on-Trent"      36 → 80
+       "AI Integration Strategy: Connecting…"  the same tier; it takes five lines
 
-     The term tier is deliberately the smaller of the two because glossary titles
-     run far longer: the longest is 81 characters against 47 for the longest
-     location heading, so the same ceiling would break it over four lines. */
+     A second, smaller tier (h1-sm, capping at 56px) existed briefly for the
+     glossary, whose titles are the longest on the site. It was removed: a reader
+     clicking through from the glossary hub saw the hero shrink from 111px to
+     56px, which read as a downgrade. Every secondary page is on this one tier. */
   --font-size-h1-md: clamp(2.25rem, 1.1rem + 4.2vw, 5rem);      /*  36 →  80 */
   --font-weight-h1-md: 900;
   --letter-spacing-h1-md: -0.032em;
   --line-height-h1-md: 1.04;
-
-  --font-size-h1-sm: clamp(2rem, 1.2rem + 2.75vw, 3.5rem);      /*  32 →  56 */
-  --font-weight-h1-sm: 900;
-  --letter-spacing-h1-sm: -0.028em;
-  --line-height-h1-sm: 1.06;
 
   /* Subhead. Fills the gap between a section heading and a card title. */
   --font-size-h2-sm: clamp(1.625rem, 1.2rem + 1.7vw, 2.75rem);  /*  26 →  44 */
@@ -139,6 +135,14 @@
   --container-narrow: 896px;
   --container-content: 768px;
 
+  /* The content width of a secondary-page hero, pinned.
+     `--container-narrow` is 896px, and its 24px padding either side leaves 848px
+     for content — which is the measure `--font-size-h1-md` was tuned against.
+     When a hero gained a portrait beside it (PageHeroSplit),
+     that column had to be pinned rather than left to a proportional split, or the
+     headline would have narrowed and the longest titles taken an extra line. */
+  --measure-hero: 848px;
+
   --container-padding-x: var(--space-2);
   --container-padding-x-sm: 24px;
 }
@@ -161,13 +165,6 @@
   font-weight: var(--font-weight-h1-md);
   letter-spacing: var(--letter-spacing-h1-md);
   line-height: var(--line-height-h1-md);
-  text-wrap: balance;
-}
-.ds-heading-1-sm {
-  font-size: var(--font-size-h1-sm);
-  font-weight: var(--font-weight-h1-sm);
-  letter-spacing: var(--letter-spacing-h1-sm);
-  line-height: var(--line-height-h1-sm);
   text-wrap: balance;
 }
 .ds-heading-2 {

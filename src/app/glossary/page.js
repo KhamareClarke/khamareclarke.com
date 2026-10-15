@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import PageShell from "../components/PageShell";
 import PageHero from "../components/ui/PageHero";
 import AchievementsSection from "../components/AchievementsSection";
@@ -95,7 +96,12 @@ export default function GlossaryHubPage() {
       }
     >
       <Section className="mt-0 pb-ds-4 page-top">
-        <Container size="narrow">
+        {/* The wider container, because the hero now carries a portrait. The homepage's hero
+            splits twelve columns into eight of text and four of portrait, and that needs the
+            wider track: at the narrow width the title would break over three lines. The body
+            below shares this container, so the hero text and the family headings stay on the
+            same left edge — which is the rule the whole site follows. */}
+        <Container size="main">
 
         {/* Hero at the site's hero scale, not the compact one. The page was passing
             size="compact" (a 44px title) while the family headings below rendered at 60px, so
@@ -105,15 +111,67 @@ export default function GlossaryHubPage() {
 
             The lede is passed into the hero rather than sitting after the trust strip, so the
             order matches the homepage: eyebrow, title, lede, then the badges and the CTA. */}
-        <PageHero
-          eyebrow="Glossary"
-          title={
-            <>
-              SEO and AI <span className="gold-text">Glossary</span>
-            </>
-          }
-          lede="Plain-English definitions of every term a UK business owner, marketer, or fellow professional might encounter. Each page gives you the citable definition in the first two sentences, then explains why it matters and how it is applied in practice."
-        />
+        {/* The portrait sits beside the text on the same twelve-column split the homepage hero
+        uses — eight columns of text, four of portrait, both centred in their track — so the
+        two heroes are the same composition rather than two different openings. The image is
+        the homepage's own, at its own reveal delay, with the same treatment (cover, full
+        height of the row). Below 1024px the portrait drops beneath the text, as it does on
+        the homepage, rather than squeezing the title. */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-8 items-center">
+          <div className="lg:col-span-8">
+            {/* PageHero supplies the eyebrow and the title. The three lines below it — the gold
+                credential line, the lede and the CTA with its caption — are rendered here with
+                the homepage hero's own class strings, because PageHero stops at the lede and the
+                client asked for this hero to carry the button and the homepage's structure:
+                title, gold line, lede, CTA. The delays match the homepage's own stagger
+                (340 / 460 / 600ms) so the reveal marches in the same order.
+
+                NOTE: PageHero.jsx is held uncommitted by another session and its notes list this
+                page among the sixteen they will not touch, so this stays in this file rather
+                than going into the shared component, where it would edit over their work. */}
+            <PageHero
+              eyebrow="Glossary"
+              title={
+                <>
+                  SEO and AI <span className="gold-text">Glossary</span>
+                </>
+              }
+            />
+
+            <p className="reveal reveal-blur text-sm sm:text-base font-semibold tracking-[0.1em] uppercase gold-text leading-none m-0 -mt-4" style={{ "--rv-delay": "340ms" }}>
+              MSc Computer Science &amp; AI
+            </p>
+
+            <p className="reveal reveal-blur mt-4 sm:mt-6 text-xl lg:text-2xl max-w-3xl text-muted leading-relaxed" style={{ "--rv-delay": "460ms" }}>
+              Plain-English definitions of every term a UK business owner, marketer, or fellow
+              professional might encounter. Each page gives you the citable definition in the
+              first two sentences, then explains why it matters and how it is applied in practice.
+            </p>
+
+            <div className="reveal mt-5 sm:mt-7" style={{ "--rv-delay": "600ms" }}>
+              <CTAButton
+                eventLabel="glossary_hero_cta"
+                caption="30 minutes. An honest look at where AI fits."
+              >
+                Book a Consultation
+              </CTAButton>
+            </div>
+          </div>
+
+          <div
+            className="relative isolate reveal-img reveal-blur lg:col-span-4 self-stretch"
+            style={{ "--rv-delay": "320ms", "--rv-blur": "16px" }}
+          >
+            <Image
+              src="/images/hero-image.png"
+              alt="Khamare Clarke, AI Implementation Specialist"
+              className="w-full h-full object-cover"
+              width={550}
+              height={550}
+              priority
+            />
+          </div>
+        </div>
 
         {/* The trust strip that sits under the hero on the homepage. */}
         <AchievementsSection />
