@@ -142,15 +142,6 @@ export default function GlossaryHubPage() {
               MSc Computer Science &amp; AI
             </p>
 
-            {/* A lede that speaks to the reader's situation, not about the page. An earlier
-                version described what the glossary is, which no visitor arrives wanting to
-                read. This one says why the words matter to someone being quoted for the work,
-                which is the reason a business owner opens a glossary at all. */}
-            <p className="reveal reveal-blur mt-4 sm:mt-6 text-xl lg:text-2xl max-w-3xl text-muted leading-relaxed" style={{ "--rv-delay": "460ms" }}>
-              Most SEO and AI work is quoted in words you did not choose. Knowing them is what
-              lets you question the quote.
-            </p>
-
             <div className="reveal mt-5 sm:mt-7" style={{ "--rv-delay": "600ms" }}>
               <CTAButton
                 eventLabel="glossary_hero_cta"
