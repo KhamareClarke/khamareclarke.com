@@ -100,7 +100,7 @@ export default function AISearchOptimisationPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 AI Search Optimisation{" "}
@@ -110,7 +110,7 @@ export default function AISearchOptimisationPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Your customers are searching on ChatGPT, Gemini, and Perplexity as
             well as Google. If your business is not showing up there, a growing
@@ -118,7 +118,7 @@ export default function AISearchOptimisationPage() {
           </p>
 
         {/* Q1 */}
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             What is <span className="gold-text">answer engine optimisation (AEO)</span>?
           </SectionHeading>
@@ -143,7 +143,7 @@ export default function AISearchOptimisationPage() {
         </section>
 
         {/* Q2 */}
-        <section className="mt-12" aria-labelledby="q2">
+        <section className="mt-24" aria-labelledby="q2">
           <SectionHeading id="q2">
             What is <span className="gold-text">generative engine optimisation (GEO)</span>?
           </SectionHeading>
@@ -168,7 +168,7 @@ export default function AISearchOptimisationPage() {
         </section>
 
         {/* Q3 */}
-        <section className="mt-12" aria-labelledby="q3">
+        <section className="mt-24" aria-labelledby="q3">
           <SectionHeading id="q3">
             How do <span className="gold-text">ChatGPT, Gemini, and Perplexity</span> decide which businesses to cite?
           </SectionHeading>
@@ -196,7 +196,7 @@ export default function AISearchOptimisationPage() {
         </section>
 
         {/* Q4 */}
-        <section className="mt-12" aria-labelledby="q4">
+        <section className="mt-24" aria-labelledby="q4">
           <SectionHeading id="q4">
             What is the difference between <span className="gold-text">SEO and GEO</span>?
           </SectionHeading>
@@ -222,7 +222,7 @@ export default function AISearchOptimisationPage() {
         </section>
 
         {/* Q5 */}
-        <section className="mt-12" aria-labelledby="q5">
+        <section className="mt-24" aria-labelledby="q5">
           <SectionHeading id="q5">
             How do you optimise for <span className="gold-text">AI Overviews</span> in Google Search?
           </SectionHeading>
@@ -248,7 +248,7 @@ export default function AISearchOptimisationPage() {
         </section>
 
         {/* Q6 */}
-        <section className="mt-12" aria-labelledby="q6">
+        <section className="mt-24" aria-labelledby="q6">
           <SectionHeading id="q6">
             How much does <span className="gold-text">AI search optimisation</span> cost?
           </SectionHeading>
@@ -268,7 +268,7 @@ export default function AISearchOptimisationPage() {
         </section>
 
         {/* Synonym coverage */}
-        <section className="mt-12" aria-labelledby="synonyms-ai-search">
+        <section className="mt-24" aria-labelledby="synonyms-ai-search">
           <SectionHeading id="synonyms-ai-search">
             <span className="gold-text">AEO specialist</span>, GEO consultant, AI visibility expert: different names for the same emerging discipline
           </SectionHeading>

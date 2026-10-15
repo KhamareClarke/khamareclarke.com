@@ -103,7 +103,7 @@ function getLocationIntro(service, location) {
   if (location.intro) {
     return location.intro;
   }
-  return `${location.name} businesses operating in ${location.region} face consistent local search competition. Appearing at the top of Google for your service in ${location.name} is achievable — but it requires the right technical foundation, accurate Google Business Profile management, and content that Google and AI engines trust.`;
+  return `${location.name} businesses operating in ${location.region} face consistent local search competition. Appearing at the top of Google for your service in ${location.name} is achievable, but it requires the right technical foundation, accurate Google Business Profile management, and content that Google and AI engines trust.`;
 }
 
 function getLocalNote(service, location) {
@@ -162,10 +162,10 @@ export default function ServiceLocationPage({ params }) {
           <span className="text-white">{location.name}</span>
         </nav>
 
-        <PageHero eyebrow={`Serving ${location.name}`} title={<>{service.heading} <span className="gold-text">in {location.name}</span></>} size="compact" />
+        <PageHero eyebrow={`Serving ${location.name}`} title={<>{service.heading} <span className="gold-text">in {location.name}</span></>} size="feature" />
 
         {/* The trust strip that sits under the hero on the homepage. */}
-        <AchievementsSection />
+        <AchievementsSection dense />
         <p className="reveal mt-6 text-muted text-lg mb-12 max-w-2xl leading-relaxed" style={{ "--rv-delay": "200ms" }}>
           {service.description}
         </p>
@@ -180,13 +180,13 @@ export default function ServiceLocationPage({ params }) {
         </section>
 
         {/* What this service involves */}
-        <section className="mt-12" aria-labelledby="service-scope">
+        <section className="mt-24" aria-labelledby="service-scope">
           <SectionHeading id="service-scope">
             What does {service.heading} involve for a {location.name} business?
           </SectionHeading>
           <div className="space-y-4 text-muted ds-body-lg">
             <p className="reveal" style={{ "--rv-delay": "200ms" }}>
-              Every engagement starts with an audit: what is the current state of the site, the Google Business Profile (where applicable), the local citations, and the structured data? The audit identifies the highest-leverage actions — the fixes that produce the fastest ranking movement — and those go first.
+              Every engagement starts with an audit: what is the current state of the site, the Google Business Profile (where applicable), the local citations, and the structured data? The audit identifies the highest-leverage actions and puts those first: the fixes that produce the fastest ranking movement.
             </p>
             <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               For {location.name} businesses, that typically means technical fixes that are suppressing rankings right now, followed by content and authority work that compounds over time. The campaign is built around agreed targets, not a general promise of "better rankings".
@@ -195,7 +195,7 @@ export default function ServiceLocationPage({ params }) {
         </section>
 
         {/* Documented results */}
-        <section className="mt-12" aria-labelledby="results">
+        <section className="mt-24" aria-labelledby="results">
           <SectionHeading id="results">
             Documented <span className="gold-text">results</span> from live campaigns
           </SectionHeading>
@@ -215,7 +215,7 @@ export default function ServiceLocationPage({ params }) {
         </section>
 
         {/* FAQ */}
-        <section className="mt-12" aria-labelledby="faq">
+        <section className="mt-24" aria-labelledby="faq">
           <SectionHeading id="faq">
             Common questions from {location.name} businesses
           </SectionHeading>

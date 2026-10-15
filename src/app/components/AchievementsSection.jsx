@@ -16,9 +16,19 @@ const badges = [
   },
 ];
 
-const AchievementsSection = () => {
+/**
+ * The trust badges, the consultation CTA and the credential line.
+ *
+ * `dense` tightens the band's vertical padding for pages whose hero is a title
+ * rather than a display panel. On those pages the band sits just under a heading
+ * instead of under a full hero, and at the roomy padding it read as a hollow
+ * panel below the title — 479px tall on the location template, 96px of it
+ * padding at each end. Off by default, because the homepage and /services use
+ * the roomy spacing and must not move.
+ */
+const AchievementsSection = ({ dense = false }) => {
   return (
-    <div className="py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 relative">
+    <div className={`${dense ? "py-16 md:py-12 lg:py-10" : "py-16 md:py-20 lg:py-24"} px-4 sm:px-6 lg:px-8 relative`}>
       {/* Badges */}
       <div className="max-w-7xl mx-auto mb-10">
         <div className="flex flex-wrap items-center justify-center gap-6">

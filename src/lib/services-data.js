@@ -126,7 +126,7 @@ export const TIER_1_LOCATIONS = [
     county: 'Staffordshire',
     tier: 1,
     intro: 'Stoke-on-Trent is the base. Every campaign, build, and system runs from here. That means local knowledge is real, response times are fast, and I can meet in person.',
-    localNote: 'The Potteries economy runs on trades, manufacturing, retail, and services — all industries where appearing first on Google and in AI search converts directly to enquiries.',
+    localNote: 'The Potteries economy runs on trades, manufacturing, retail, and services, all industries where appearing first on Google and in AI search converts directly to enquiries.',
   },
   {
     slug: 'stafford',

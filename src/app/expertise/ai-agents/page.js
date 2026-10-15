@@ -92,7 +92,7 @@ export default function AIAgentsPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 AI Agents for UK Businesses{" "}
@@ -102,7 +102,7 @@ export default function AIAgentsPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Every enquiry that goes unanswered for more than a few minutes is a
             lead that is comparing you to the next result. An AI agent responds
@@ -110,7 +110,7 @@ export default function AIAgentsPage() {
           </p>
 
         {/* Q1 */}
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             What is an <span className="gold-text">AI receptionist</span>?
           </SectionHeading>
@@ -135,7 +135,7 @@ export default function AIAgentsPage() {
         </section>
 
         {/* Q2 */}
-        <section className="mt-12" aria-labelledby="q2">
+        <section className="mt-24" aria-labelledby="q2">
           <SectionHeading id="q2">
             What does an <span className="gold-text">AI agent</span> actually do for a trades business?
           </SectionHeading>
@@ -165,7 +165,7 @@ export default function AIAgentsPage() {
         </section>
 
         {/* Q3 */}
-        <section className="mt-12" aria-labelledby="q3">
+        <section className="mt-24" aria-labelledby="q3">
           <SectionHeading id="q3">
             How quickly can an <span className="gold-text">AI agent respond</span> to enquiries?
           </SectionHeading>
@@ -191,7 +191,7 @@ export default function AIAgentsPage() {
         </section>
 
         {/* Q4 */}
-        <section className="mt-12" aria-labelledby="q4">
+        <section className="mt-24" aria-labelledby="q4">
           <SectionHeading id="q4">
             How does an AI agent <span className="gold-text">integrate with existing systems</span>?
           </SectionHeading>
@@ -216,7 +216,7 @@ export default function AIAgentsPage() {
         </section>
 
         {/* Q5 */}
-        <section className="mt-12" aria-labelledby="q5">
+        <section className="mt-24" aria-labelledby="q5">
           <SectionHeading id="q5">
             What is the <span className="gold-text">return on investment</span> for an AI receptionist?
           </SectionHeading>
@@ -243,7 +243,7 @@ export default function AIAgentsPage() {
         </section>
 
         {/* Synonym coverage */}
-        <section className="mt-12" aria-labelledby="synonyms-agents">
+        <section className="mt-24" aria-labelledby="synonyms-agents">
           <SectionHeading id="synonyms-agents">
             <span className="gold-text">AI systems engineer</span>, automation engineer, AI developer, AI architect: the same discipline with different labels
           </SectionHeading>

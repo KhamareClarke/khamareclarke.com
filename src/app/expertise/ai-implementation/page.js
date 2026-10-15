@@ -90,7 +90,7 @@ export default function AIImplementationPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 AI Implementation{" "}
@@ -100,7 +100,7 @@ export default function AIImplementationPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Strategy without implementation is just documentation. The work here is
             identifying the highest-leverage AI applications for your business, building
@@ -108,7 +108,7 @@ export default function AIImplementationPage() {
             and the results documented.
           </p>
 
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             What is <span className="gold-text">AI implementation</span>?
           </SectionHeading>
@@ -131,7 +131,7 @@ export default function AIImplementationPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q2">
+        <section className="mt-24" aria-labelledby="q2">
           <SectionHeading id="q2">
             What an <span className="gold-text">AI implementation specialist</span> does
           </SectionHeading>
@@ -158,7 +158,7 @@ export default function AIImplementationPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q3">
+        <section className="mt-24" aria-labelledby="q3">
           <SectionHeading id="q3">
             The <span className="gold-text">five-stage implementation method</span>
           </SectionHeading>
@@ -183,7 +183,7 @@ export default function AIImplementationPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q4">
+        <section className="mt-24" aria-labelledby="q4">
           <SectionHeading id="q4">
             How <span className="gold-text">AI implementation</span> is different from AI consultancy
           </SectionHeading>
@@ -207,7 +207,7 @@ export default function AIImplementationPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q5">
+        <section className="mt-24" aria-labelledby="q5">
           <SectionHeading id="q5">
             What <span className="gold-text">AI implementation</span> covers across your business
           </SectionHeading>
@@ -228,7 +228,7 @@ export default function AIImplementationPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="results-heading">
+        <section className="mt-24" aria-labelledby="results-heading">
           <SectionHeading id="results-heading">
             Documented <span className="gold-text">results</span>
           </SectionHeading>

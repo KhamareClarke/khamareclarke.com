@@ -79,7 +79,7 @@ export default function WebDesignDevelopmentPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 Web Design and Development{" "}
@@ -89,7 +89,7 @@ export default function WebDesignDevelopmentPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             A themed template does not rank. A site designed in a vacuum does not
             convert. Web design and development here are the same discipline: the visual
@@ -97,7 +97,7 @@ export default function WebDesignDevelopmentPage() {
             performance and conversion as the joint objective.
           </p>
 
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             Conversion-focused <span className="gold-text">web design</span>
           </SectionHeading>
@@ -119,7 +119,7 @@ export default function WebDesignDevelopmentPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q2">
+        <section className="mt-24" aria-labelledby="q2">
           <SectionHeading id="q2">
             Why <span className="gold-text">web design matters</span> for SEO
           </SectionHeading>
@@ -142,7 +142,7 @@ export default function WebDesignDevelopmentPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q3">
+        <section className="mt-24" aria-labelledby="q3">
           <SectionHeading id="q3">
             Types of <span className="gold-text">web projects</span>
           </SectionHeading>
@@ -161,7 +161,7 @@ export default function WebDesignDevelopmentPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q4">
+        <section className="mt-24" aria-labelledby="q4">
           <SectionHeading id="q4">
             What all builds have in <span className="gold-text">common</span>
           </SectionHeading>

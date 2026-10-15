@@ -90,7 +90,7 @@ export default function AIConsultantPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 AI Consultant{" "}
@@ -100,14 +100,14 @@ export default function AIConsultantPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Most AI consultants explain the technology. The part UK businesses need is
             someone who can connect it to revenue: which system to build first, how it
             integrates with what already exists, and what it will measurably change.
           </p>
 
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             What does an <span className="gold-text">AI consultant</span> do?
           </SectionHeading>
@@ -131,7 +131,7 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q2">
+        <section className="mt-24" aria-labelledby="q2">
           <SectionHeading id="q2">
             What is the difference between an AI consultant and an <span className="gold-text">AI specialist</span>?
           </SectionHeading>
@@ -153,7 +153,7 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q3">
+        <section className="mt-24" aria-labelledby="q3">
           <SectionHeading id="q3">
             What is an <span className="gold-text">AI strategy consultant</span>?
           </SectionHeading>
@@ -176,7 +176,7 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q4">
+        <section className="mt-24" aria-labelledby="q4">
           <SectionHeading id="q4">
             How is an artificial intelligence consultant different from a <span className="gold-text">digital marketing consultant</span>?
           </SectionHeading>
@@ -199,7 +199,7 @@ export default function AIConsultantPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q5">
+        <section className="mt-24" aria-labelledby="q5">
           <SectionHeading id="q5">
             What does <span className="gold-text">Khamare Clarke</span> offer as an AI adviser?
           </SectionHeading>
@@ -226,7 +226,7 @@ export default function AIConsultantPage() {
         </section>
 
         {/* AI expert / advisor synonym section */}
-        <section className="mt-12" aria-labelledby="synonyms-consultant">
+        <section className="mt-24" aria-labelledby="synonyms-consultant">
           <SectionHeading id="synonyms-consultant">
             <span className="gold-text">AI expert</span>, AI adviser, AI specialist: what these terms mean in practice
           </SectionHeading>

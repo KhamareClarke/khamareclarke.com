@@ -98,7 +98,7 @@ export default function SEOSpecialistPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 SEO Specialist{" "}
@@ -110,14 +110,14 @@ export default function SEOSpecialistPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             SEO advice is everywhere. Someone accountable for the work, the
             rankings, and the phone calls is harder to find.
           </p>
 
         {/* Q1 */}
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             What does an <span className="gold-text">SEO specialist</span> do?
           </SectionHeading>
@@ -134,14 +134,14 @@ export default function SEOSpecialistPage() {
               The work is continuous, not a one-off project. Search algorithms
               update, competitors invest, and what worked twelve months ago may
               no longer be sufficient. A specialist monitors, adjusts, and
-              reports — ideally in plain language, not a dashboard full of
+              reports, ideally in plain language, not a dashboard full of
               metrics that do not connect to revenue.
             </p>
           </div>
         </section>
 
         {/* Q2 */}
-        <section className="mt-12" aria-labelledby="q2">
+        <section className="mt-24" aria-labelledby="q2">
           <SectionHeading id="q2">
             How is an SEO specialist different from an <span className="gold-text">SEO agency</span>?
           </SectionHeading>
@@ -155,8 +155,8 @@ export default function SEOSpecialistPage() {
             </p>
             <p className="reveal" style={{ "--rv-delay": "280ms" }}>
               Agencies also tend to separate SEO from development. If a
-              technical issue is found — a slow page, a crawl block, a broken
-              structured data implementation — it goes on a list for another
+              technical issue is found, whether a slow page, a crawl block, a broken
+              structured data implementation, it goes on a list for another
               team. A specialist with an engineering background fixes it
               directly. That removes weeks from the feedback loop.
             </p>
@@ -164,7 +164,7 @@ export default function SEOSpecialistPage() {
         </section>
 
         {/* Q3 */}
-        <section className="mt-12" aria-labelledby="q3">
+        <section className="mt-24" aria-labelledby="q3">
           <SectionHeading id="q3">
             How long does SEO take to <span className="gold-text">show results</span>?
           </SectionHeading>
@@ -174,7 +174,7 @@ export default function SEOSpecialistPage() {
               appear within weeks. Upgrade Roofing Solutions saw a 538% increase
               in Google Business Profile interactions within 90 days, with over
               30 qualified inbound calls in the first two weeks. That is not
-              typical — it reflects a strong starting position, fast technical
+              typical. It reflects a strong starting position, fast technical
               improvements, and a well-managed local campaign.
             </p>
             <p className="reveal" style={{ "--rv-delay": "280ms" }}>
@@ -189,7 +189,7 @@ export default function SEOSpecialistPage() {
         </section>
 
         {/* Q4 */}
-        <section className="mt-12" aria-labelledby="q4">
+        <section className="mt-24" aria-labelledby="q4">
           <SectionHeading id="q4">
             What does <span className="gold-text">local SEO</span> involve?
           </SectionHeading>
@@ -214,7 +214,7 @@ export default function SEOSpecialistPage() {
         </section>
 
         {/* Q5 */}
-        <section className="mt-12" aria-labelledby="q5">
+        <section className="mt-24" aria-labelledby="q5">
           <SectionHeading id="q5">
             How much does <span className="gold-text">SEO cost</span> in the UK?
           </SectionHeading>
@@ -229,7 +229,7 @@ export default function SEOSpecialistPage() {
         </section>
 
         {/* Q6 */}
-        <section className="mt-12" aria-labelledby="q6">
+        <section className="mt-24" aria-labelledby="q6">
           <SectionHeading id="q6">
             Who is <span className="gold-text">Khamare Clarke</span> and why does his background matter for SEO?
           </SectionHeading>
@@ -245,14 +245,14 @@ export default function SEOSpecialistPage() {
               technical foundation without relying on a separate developer team.
               The marketing background means strategy is built around
               conversions, not just rankings. The AI training means he
-              understands how language models are built — which informs how he
+              understands how language models are built, which informs how he
               writes and structures content for both Google and AI answer
               engines like ChatGPT, Gemini, and Perplexity.
             </p>
             <p className="reveal" style={{ "--rv-delay": "360ms" }}>
-              Documented results: Upgrade Roofing Solutions — 538% Google
+              Documented results: Upgrade Roofing Solutions, 538% Google
               Business Profile interaction growth in 90 days, 30+ qualified
-              calls in the first two weeks. City Plaza Abu Dhabi — 5X leads
+              calls in the first two weeks. City Plaza Abu Dhabi, 5X leads
               within 60 days, scaling to approximately 20 qualified enquiries
               per day.
             </p>
@@ -260,7 +260,7 @@ export default function SEOSpecialistPage() {
         </section>
 
         {/* Synonym coverage */}
-        <section className="mt-12" aria-labelledby="synonyms">
+        <section className="mt-24" aria-labelledby="synonyms">
           <SectionHeading id="synonyms">
             <span className="gold-text">SEO consultant</span>, SEO expert, SEO freelancer: what these terms mean in practice
           </SectionHeading>
@@ -287,7 +287,7 @@ export default function SEOSpecialistPage() {
           <p className="text-white font-bold mb-4">Related expertise</p>
           <ul className="space-y-2">
             {[
-              { href: "/expertise/ai-search-optimisation", label: "AI search optimisation — AEO and GEO" },
+              { href: "/expertise/ai-search-optimisation", label: "AI search optimisation (AEO and GEO)" },
               { href: "/expertise/programmatic-seo", label: "Programmatic SEO" },
               { href: "/expertise/ai-agents", label: "AI agents for UK businesses" },
               { href: "/expertise/google-ads-api", label: "Google Ads API" },

@@ -79,7 +79,7 @@ export default function MarketingAutomationPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 CRM and Marketing Automation{" "}
@@ -89,7 +89,7 @@ export default function MarketingAutomationPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Most businesses lose more leads to poor follow-up than to poor marketing.
             A new enquiry that is not responded to within minutes is a lead your competitor
@@ -97,7 +97,7 @@ export default function MarketingAutomationPage() {
             responded to, and followed up -- without requiring a person to remember to do it.
           </p>
 
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             What <span className="gold-text">marketing automation</span> actually does
           </SectionHeading>
@@ -119,7 +119,7 @@ export default function MarketingAutomationPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="what-is-covered">
+        <section className="mt-24" aria-labelledby="what-is-covered">
           <SectionHeading id="what-is-covered">
             What the <span className="gold-text">system covers</span>
           </SectionHeading>
@@ -140,7 +140,7 @@ export default function MarketingAutomationPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q3">
+        <section className="mt-24" aria-labelledby="q3">
           <SectionHeading id="q3">
             Why most <span className="gold-text">CRM implementations</span> fail
           </SectionHeading>
@@ -163,7 +163,7 @@ export default function MarketingAutomationPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q4">
+        <section className="mt-24" aria-labelledby="q4">
           <SectionHeading id="q4">
             How it connects to the <span className="gold-text">wider system</span>
           </SectionHeading>

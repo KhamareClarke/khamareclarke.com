@@ -98,10 +98,10 @@ export default function GlossaryTermPage({ params }) {
           <span className="text-white">{term.title}</span>
         </nav>
 
-        <PageHero eyebrow={term.badge} title={term.h1} size="compact" />
+        <PageHero eyebrow={term.badge} title={term.h1} size="term" />
 
         {/* The trust strip that sits under the hero on the homepage. */}
-        <AchievementsSection />
+        <AchievementsSection dense />
 
         {/* Citable definition block */}
         <div className="reveal mt-6 bg-surface-muted border border-primary/30 rounded-lg p-6 mb-12" style={{ "--rv-delay": "200ms" }}>

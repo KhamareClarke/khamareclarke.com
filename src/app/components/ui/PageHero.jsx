@@ -21,13 +21,23 @@ import { Badge } from "./Badge";
  * nothing new was invented for this.
  *
  *   size="hero"    ds-heading-1      up to 128px — SHORT display titles
+ *   size="feature" ds-heading-1-md   36 → 80px   — EXPERTISE and LOCATION titles
+ *   size="term"    ds-heading-1-sm   32 → 56px   — GLOSSARY TERM titles
  *   size="compact" ds-heading-2-sm   up to  44px — LONG keyword-led titles
+ *
+ * `feature` and `term` were added because the two original sizes left a gap: a
+ * page title that is a keyword phrase is too long for the homepage's 128px cap
+ * but too important to sit at the 44px subhead size, which made a secondary hero
+ * read as a caption over an empty band. `term` is the smaller of the two because
+ * glossary titles run much longer — 81 characters against 47 for the longest
+ * location heading.
  *
  * The rule, so this stays consistent as pages are migrated rather than becoming a
  * per-page whim: if the h1 is roughly a name or a two-to-three word phrase, it is
- * `hero` (/about — "Khamare Clarke"). If it is a sentence-like keyword phrase, it is
- * `compact` (/services/[service]/[location] — "AI Implementation Specialist in
- * Stoke-on-Trent"), because a 128px cap would turn a long title into a wall.
+ * `hero` (/about — "Khamare Clarke"). If it is an expertise or location title
+ * ("SEO Specialist in Stoke-on-Trent"), it is `feature`. If it is a glossary
+ * definition title, it is `term`. Only `compact` remains for the shorter
+ * keyword-led headings.
  *
  * Left-aligned rather than centred on mobile, unlike the homepage hero. The homepage
  * hero is a display panel; these are prose pages, where a centred paragraph has no
@@ -37,10 +47,12 @@ import { Badge } from "./Badge";
  * @param {string} eyebrow - gold label above the title
  * @param {React.ReactNode} title - the h1
  * @param {React.ReactNode} [lede] - introductory paragraph
- * @param {'hero'|'compact'} [size='hero']
+ * @param {'hero'|'feature'|'term'|'compact'} [size='hero']
  */
 const titleSizes = {
   hero: "ds-heading-1 text-white",
+  feature: "ds-heading-1-md text-white",
+  term: "ds-heading-1-sm text-white",
   compact: "ds-heading-2-sm text-white",
 };
 

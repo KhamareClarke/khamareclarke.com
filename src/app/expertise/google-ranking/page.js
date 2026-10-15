@@ -79,7 +79,7 @@ export default function GoogleRankingPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 Get Found on Google.{" "}
@@ -89,7 +89,7 @@ export default function GoogleRankingPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Business owners do not search for SEO. They search for a way to appear when
             their customers are looking for what they sell. This page is about that
@@ -97,7 +97,7 @@ export default function GoogleRankingPage() {
             Priorities, deliverables and progress are agreed in writing.
           </p>
 
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             What <span className="gold-text">better Google visibility</span> means for your business.
           </SectionHeading>
@@ -120,7 +120,7 @@ export default function GoogleRankingPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="how-ranking-works">
+        <section className="mt-24" aria-labelledby="how-ranking-works">
           <SectionHeading id="how-ranking-works">
             What producing <span className="gold-text">strong Google visibility</span> requires
           </SectionHeading>
@@ -141,7 +141,7 @@ export default function GoogleRankingPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="timeline">
+        <section className="mt-24" aria-labelledby="timeline">
           <SectionHeading id="timeline">
             Realistic <span className="gold-text">timelines</span>
           </SectionHeading>
@@ -165,7 +165,7 @@ export default function GoogleRankingPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q3">
+        <section className="mt-24" aria-labelledby="q3">
           <SectionHeading id="q3">
             Google ranking and <span className="gold-text">AI search</span>
           </SectionHeading>
@@ -188,7 +188,7 @@ export default function GoogleRankingPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="results-heading">
+        <section className="mt-24" aria-labelledby="results-heading">
           <SectionHeading id="results-heading">
             Documented <span className="gold-text">results</span>
           </SectionHeading>

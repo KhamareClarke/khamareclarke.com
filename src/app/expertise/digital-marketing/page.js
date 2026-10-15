@@ -79,7 +79,7 @@ export default function DigitalMarketingPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 Digital Marketing{" "}
@@ -89,7 +89,7 @@ export default function DigitalMarketingPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Digital marketing works when the channels compound each other. SEO builds the
             organic base. Paid search adds volume. Email and CRM automation converts leads
@@ -98,7 +98,7 @@ export default function DigitalMarketingPage() {
             single-channel agency retainer.
           </p>
 
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             What a <span className="gold-text">digital marketing consultant</span> does
           </SectionHeading>
@@ -124,7 +124,7 @@ export default function DigitalMarketingPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="channels-heading">
+        <section className="mt-24" aria-labelledby="channels-heading">
           <SectionHeading id="channels-heading">
             Channels <span className="gold-text">covered</span>
           </SectionHeading>
@@ -145,7 +145,7 @@ export default function DigitalMarketingPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q3">
+        <section className="mt-24" aria-labelledby="q3">
           <SectionHeading id="q3">
             How <span className="gold-text">AI changes digital marketing</span>
           </SectionHeading>
@@ -168,7 +168,7 @@ export default function DigitalMarketingPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="results-heading">
+        <section className="mt-24" aria-labelledby="results-heading">
           <SectionHeading id="results-heading">
             Documented <span className="gold-text">results</span>
           </SectionHeading>

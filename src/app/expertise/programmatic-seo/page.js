@@ -92,7 +92,7 @@ export default function ProgrammaticSEOPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 Programmatic SEO{" "}
@@ -102,7 +102,7 @@ export default function ProgrammaticSEOPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             When there are hundreds of keywords worth owning and no time to write
             each page by hand, programmatic SEO is the answer. Provided it is
@@ -111,7 +111,7 @@ export default function ProgrammaticSEOPage() {
           </p>
 
         {/* Q1 */}
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             What is <span className="gold-text">programmatic SEO</span>?
           </SectionHeading>
@@ -135,7 +135,7 @@ export default function ProgrammaticSEOPage() {
         </section>
 
         {/* Q2 */}
-        <section className="mt-12" aria-labelledby="q2">
+        <section className="mt-24" aria-labelledby="q2">
           <SectionHeading id="q2">
             When does <span className="gold-text">programmatic SEO</span> make sense for a business?
           </SectionHeading>
@@ -160,7 +160,7 @@ export default function ProgrammaticSEOPage() {
         </section>
 
         {/* Q3 */}
-        <section className="mt-12" aria-labelledby="q3">
+        <section className="mt-24" aria-labelledby="q3">
           <SectionHeading id="q3">
             What is the difference between a <span className="gold-text">programmatic page</span> and a doorway page?
           </SectionHeading>
@@ -186,7 +186,7 @@ export default function ProgrammaticSEOPage() {
         </section>
 
         {/* Q4 */}
-        <section className="mt-12" aria-labelledby="q4">
+        <section className="mt-24" aria-labelledby="q4">
           <SectionHeading id="q4">
             How does an engineer approach <span className="gold-text">programmatic SEO</span> differently?
           </SectionHeading>
@@ -213,7 +213,7 @@ export default function ProgrammaticSEOPage() {
         </section>
 
         {/* Q5 */}
-        <section className="mt-12" aria-labelledby="q5">
+        <section className="mt-24" aria-labelledby="q5">
           <SectionHeading id="q5">
             What <span className="gold-text">results</span> can programmatic SEO deliver?
           </SectionHeading>

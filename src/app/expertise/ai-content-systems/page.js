@@ -79,7 +79,7 @@ export default function AIContentSystemsPage() {
         <Container size="narrow">
           <PageHero
             eyebrow="Expertise"
-            size="compact"
+            size="feature"
             title={
               <>
                 AI Content Systems{" "}
@@ -89,7 +89,7 @@ export default function AIContentSystemsPage() {
           />
 
           {/* The trust strip that sits under the hero on the homepage. */}
-          <AchievementsSection />
+          <AchievementsSection dense />
           <p className="reveal text-muted text-lg mb-16 max-w-2xl" style={{ "--rv-delay": "200ms" }}>
             Content volume without strategic structure produces noise: pages that do not
             rank, do not convert, and are not cited by AI models. An AI content system
@@ -98,7 +98,7 @@ export default function AIContentSystemsPage() {
             page for both Google and AI search visibility.
           </p>
 
-        <section className="mt-12" aria-labelledby="q1">
+        <section className="mt-24" aria-labelledby="q1">
           <SectionHeading id="q1">
             What an <span className="gold-text">AI content system</span> is
           </SectionHeading>
@@ -122,7 +122,7 @@ export default function AIContentSystemsPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="content-types">
+        <section className="mt-24" aria-labelledby="content-types">
           <SectionHeading id="content-types">
             Content <span className="gold-text">types produced</span>
           </SectionHeading>
@@ -143,7 +143,7 @@ export default function AIContentSystemsPage() {
           </div>
         </section>
 
-        <section className="mt-12" aria-labelledby="q4">
+        <section className="mt-24" aria-labelledby="q4">
           <SectionHeading id="q4">
             Content and <span className="gold-text">AI search visibility</span>
           </SectionHeading>
