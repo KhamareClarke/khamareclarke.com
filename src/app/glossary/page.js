@@ -142,11 +142,6 @@ export default function GlossaryHubPage() {
               MSc Computer Science &amp; AI
             </p>
 
-            <p className="reveal reveal-blur mt-4 sm:mt-6 text-xl lg:text-2xl max-w-3xl text-muted leading-relaxed" style={{ "--rv-delay": "460ms" }}>
-                            These are the words that come up when somebody sells you SEO or AI. Each
-              entry says what the term means and what it changes for a UK business.
-            </p>
-
             <div className="reveal mt-5 sm:mt-7" style={{ "--rv-delay": "600ms" }}>
               <CTAButton
                 eventLabel="glossary_hero_cta"
